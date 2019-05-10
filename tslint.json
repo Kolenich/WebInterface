@@ -1,0 +1,27 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint-config-airbnb"
+  ],
+  "rules": {
+    "import-name": [
+      false,
+      {
+        "app": "App",
+        "config": "getConfig",
+        "document": "Document",
+        "error": "Error",
+        "head": "Head",
+        "link": "Link",
+        "router": "Router"
+      }
+    ],
+    "no-trailing-whitespace": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case"
+    ]
+  }
+}
