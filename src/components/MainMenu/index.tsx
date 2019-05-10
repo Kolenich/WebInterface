@@ -10,19 +10,19 @@ interface State {
 }
 
 class MainMenu extends Component<Props, State> {
-	constructor(props: Props) {
-		super(props);
-		this.state = {}
-	}
+  constructor(props: Props) {
+    super(props);
+    this.state = {};
+  }
 
-	public render(): ReactNode {
-		const { classes } = this.props;
-		return (
-			<div>
-				Привет
-			</div>
-		);
-	}
+  public render(): ReactNode {
+    const { classes } = this.props;
+    return (
+      <div>
+        Привет
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(MainMenu);
