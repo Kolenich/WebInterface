@@ -1,4 +1,4 @@
-FROM node:10.15-alpine AS build
+FROM node:12.2.0-alpine AS build
 
 COPY . /app
 
