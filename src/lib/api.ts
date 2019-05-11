@@ -1,8 +1,9 @@
 import { session } from './session';
 import { AxiosResponse, AxiosPromise, AxiosError } from 'axios';
+import { Table } from './types';
 
 export default {
-  getContent<dataType>(table: string, sendData?: dataType): AxiosPromise<dataType> {
+  getContent<dataType>(table: Table, sendData?: dataType): AxiosPromise<dataType> {
     return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
       let data = sendData;
       if (!sendData) data = {} as dataType;

@@ -7,7 +7,16 @@ export interface Employee {
   age: number;
   date_of_birth: Date;
   registration_date: Date;
+  attachment: Attachment | null;
   organization: number | null;
+  sex: 'male' | 'female';
+}
+
+export interface Attachment {
+  file: string;
+  file_name: string;
+  file_mime: string;
+  file_size: number;
 }
 
 export interface Organization {
@@ -22,3 +31,5 @@ export interface Organization {
   okved_name: string;
   employees: Employee[];
 }
+
+export type Table = 'employees' | 'organizations';
