@@ -1,4 +1,4 @@
-import session from './session';
+import { session } from './session';
 import { AxiosResponse, AxiosPromise, AxiosError } from 'axios';
 
 export default {
