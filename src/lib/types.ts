@@ -1,3 +1,6 @@
+import { ComponentState, ReactElement } from 'react';
+import EditingForm from '../components/EmployeeTable/EditEmployee';
+
 export interface Employee {
   id?: number;
   first_name: string;
@@ -10,7 +13,30 @@ export interface Employee {
   registration_date: Date;
   attachment: Attachment | null;
   organization: number | null;
-  sex: 'male' | 'female';
+  sex: Sex;
+
+  [index: string]: string | number | undefined | null | Date | Attachment | boolean;
+}
+
+export type Sex = 'male' | 'female' | '';
+
+export interface EmployeeLabels {
+  first_name: string;
+  last_name: string;
+  middle_name: string;
+  phone: string;
+  email: string;
+  date_of_birth: string;
+  sex: string;
+
+  [index: string]: string;
+}
+
+export interface SexLabels {
+  male: string;
+  female: string;
+
+  [index: string]: string;
 }
 
 export interface Attachment {
@@ -34,3 +60,9 @@ export interface Organization {
 }
 
 export type Table = 'employees' | 'organizations';
+
+export interface EditEmployeeProps {
+  open: boolean;
+  onClose: () => ComponentState;
+  form: ReactElement<typeof EditingForm>;
+}

@@ -3,7 +3,7 @@ import { WithStyles } from '@material-ui/core';
 import { styles } from './styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import api from '../../lib/api';
-import { Employee } from '../../lib/types';
+import { EditEmployeeProps, Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { dateOptions, sexLabel } from '../../lib/utils';
 import columnSettings from '../MainMenu/columnSettings';
@@ -39,8 +39,10 @@ import {
   pagingPanelMessages, tableHeaderRowMessage,
   tableMessages,
 } from '../../lib/translate';
+import EditEmployee from './EditEmployee';
 import Fab from '@material-ui/core/Fab';
 import Add from '@material-ui/icons/Add';
+import Dialog from '@material-ui/core/Dialog';
 
 interface Props extends WithStyles<typeof styles> {
 }
@@ -69,12 +71,12 @@ interface TableRows {
   sex: string;
 }
 
-const newEmployee: Employee = {
+export const newEmployee: Employee = {
   id: -1,
   first_name: '',
   last_name: '',
   email: '',
-  sex: 'male',
+  sex: '',
   middle_name: null,
   phone: null,
   attachment: null,
@@ -83,6 +85,13 @@ const newEmployee: Employee = {
   date_of_birth: new Date(),
   registration_date: new Date(),
 };
+
+// Компонент модального окна
+const EditingFormModal = (props: EditEmployeeProps): ReactElement<ReactNode> => (
+  <Dialog open={props.open} onClose={props.onClose} scroll="body">
+    {props.form}
+  </Dialog>
+);
 
 class EmployeeTable extends Component<Props, State> {
   constructor(props: Props) {
@@ -115,7 +124,8 @@ class EmployeeTable extends Component<Props, State> {
   AddButton = (): ReactElement<ReactNode> => {
     const { classes } = this.props;
     return (
-      <Fab color="primary" className={classes.addIcon}>
+      <Fab color="primary" className={classes.addIcon}
+           onClick={this.openEditWindow(-1, true, newEmployee)}>
         <Add/>
       </Fab>
     );
@@ -138,8 +148,12 @@ class EmployeeTable extends Component<Props, State> {
 
   private openEditWindow =
     (rowId: number, addEmployee: boolean, rowData: Employee) => (): ComponentState => {
-      this.setState({ rowId, addEmployee, rowData }, () => console.log(this.state.rowData));
+      this.setState({ rowId, addEmployee, rowData });
     }
+
+  private closeEditWindow = (): ComponentState => {
+    this.setState({ addEmployee: false });
+  }
 
   // Метод для обработки изменения числа строк на странице
   private changePageSize = (defaultPageSize: number): ComponentState => {
@@ -182,6 +196,8 @@ class EmployeeTable extends Component<Props, State> {
       defaultColumnWidths,
       pageSizes,
       defaultPageSize,
+      addEmployee,
+      rowData,
     } = this.state;
     return (
       <Paper>
@@ -207,6 +223,8 @@ class EmployeeTable extends Component<Props, State> {
           <GroupingPanel messages={groupByMessages}/>
           <PagingPanel pageSizes={pageSizes} messages={pagingPanelMessages}/>
         </Grid>
+        <EditingFormModal open={addEmployee} onClose={this.closeEditWindow}
+                          form={<EditEmployee employee={rowData}/>}/>
         <this.AddButton/>
       </Paper>
     );
