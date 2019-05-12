@@ -155,6 +155,13 @@ class EmployeeTable extends Component<Props, State> {
     this.setState({ addEmployee: false });
   }
 
+  private updateTable = (newEmployee: Employee) => {
+    const { employees } = this.state;
+    employees.push(newEmployee);
+    const rows: TableRows[] = this.formTableData(employees);
+    this.setState({ employees, rows });
+  }
+
   // Метод для обработки изменения числа строк на странице
   private changePageSize = (defaultPageSize: number): ComponentState => {
     this.setState({ defaultPageSize });
@@ -170,10 +177,10 @@ class EmployeeTable extends Component<Props, State> {
   private formTableData = (employees: Employee[]): TableRows[] => {
     const rows: TableRows[] = [];
     // eslint-disable-next-line
-    employees.map((employee: Employee, index: number): void => {
-      const fullName: string = employee.middle_name
-        ? `${employee.last_name} ${employee.first_name} ${employee.middle_name}`
-        : `${employee.last_name} ${employee.first_name}`;
+    employees.map((employee: Employee): void => {
+      const fullName: string = employee.middle_name ?
+        `${employee.last_name} ${employee.first_name} ${employee.middle_name}` :
+        `${employee.last_name} ${employee.first_name}`;
       const registrationDate: string =
         new Date(employee.registration_date).toLocaleDateString('ru', dateOptions);
       const phone: string = employee.phone !== null ? employee.phone : 'Не указан';
@@ -182,7 +189,7 @@ class EmployeeTable extends Component<Props, State> {
       const dateOfBirth: string =
         new Date(employee.date_of_birth).toLocaleDateString('ru', dateOptions);
       const sex: string = sexLabel[employee.sex];
-      const id: number = index + 1;
+      const id: number = employee.id ? employee.id : 0;
       rows.push({ id, fullName, registrationDate, phone, email, age, dateOfBirth, sex });
     });
     return rows;
@@ -223,8 +230,17 @@ class EmployeeTable extends Component<Props, State> {
           <GroupingPanel messages={groupByMessages}/>
           <PagingPanel pageSizes={pageSizes} messages={pagingPanelMessages}/>
         </Grid>
-        <EditingFormModal open={addEmployee} onClose={this.closeEditWindow}
-                          form={<EditEmployee employee={rowData}/>}/>
+        <EditingFormModal
+          open={addEmployee}
+          onClose={this.closeEditWindow}
+          form={
+            <EditEmployee
+              employee={rowData}
+              closeForm={this.closeEditWindow}
+              updateTable={this.updateTable}
+            />
+          }
+        />
         <this.AddButton/>
       </Paper>
     );

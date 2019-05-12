@@ -1,5 +1,6 @@
 import { ComponentState, ReactElement } from 'react';
 import EditingForm from '../components/EmployeeTable/EditEmployee';
+import { ButtonProps } from '@material-ui/core/Button';
 
 export interface Employee {
   id?: number;
@@ -9,7 +10,7 @@ export interface Employee {
   phone: string | null;
   age: number;
   email: string;
-  date_of_birth: Date;
+  date_of_birth: Date | string;
   registration_date: Date;
   attachment: Attachment | null;
   organization: number | null;
@@ -65,4 +66,15 @@ export interface EditEmployeeProps {
   open: boolean;
   onClose: () => ComponentState;
   form: ReactElement<typeof EditingForm>;
+}
+
+// Тип иконок для основной кнопки
+export type PrimaryButtonIcon = 'save' | 'add' | 'confirm' | 'update' | 'edit';
+
+// Тип иконок для вторичной кнопки
+export type SecondaryButtonIcon = 'delete' | 'cancel'
+
+export interface CustomButtonProps extends ButtonProps {
+  text: string;
+  icon?: PrimaryButtonIcon | SecondaryButtonIcon;
 }
