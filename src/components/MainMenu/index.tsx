@@ -1,6 +1,5 @@
-import React, { ChangeEvent, Component, ComponentState, FormEvent, ReactNode } from 'react';
+import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
 import { WithStyles } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -14,7 +13,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import api from '../../lib/api';
 import { Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
-import { dateOptions, Locales } from '../../lib/utils';
+import { Locales } from '../../lib/utils';
+import EmployeeTable from '../EmployeeTable';
 
 interface Props extends WithStyles<typeof styles> {
 }
@@ -27,13 +27,14 @@ interface State {
 }
 
 class MainMenu extends Component<Props, State> {
+
   constructor(props: Props) {
     super(props);
     this.state = {
       employees: [],
       locale: 'ru',
       value: 0,
-      labelWidth: 0,
+      labelWidth: 40,
     };
   }
 
@@ -48,9 +49,8 @@ class MainMenu extends Component<Props, State> {
       });
   }
 
-  private handleSelectChange = (event: FormEvent<HTMLSelectElement>): ComponentState => {
-    const locale: Locales = event.currentTarget.value as Locales;
-    console.log(event.currentTarget)
+  private handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): ComponentState => {
+    const locale: Locales = event.target.value as Locales;
     this.setState({ locale });
   }
 
@@ -58,15 +58,11 @@ class MainMenu extends Component<Props, State> {
     this.setState({ value });
   }
 
-  handleChangeIndex = (value: number) => {
-    this.setState({ value });
-  }
-
   public render(): ReactNode {
-    const { employees, locale, value, labelWidth } = this.state;
+    const { locale, value, labelWidth } = this.state;
     const { classes } = this.props;
     return (
-      <Paper classes={{ root: classes.paperRoot }}>
+      <>
         <AppBar position="static" color="default">
           <Tabs
             value={value}
@@ -77,28 +73,24 @@ class MainMenu extends Component<Props, State> {
             scrollButtons="auto"
             centered
           >
-            {employees.map((employee: Employee) => (
-              <Tab key={employee.id} label={`${employee.last_name} ${employee.first_name}`}/>
-            ))}
+            <Tab label="Сотрудники"/>
+            <Tab label="Организации"/>
           </Tabs>
         </AppBar>
-        <div>
-          {employees.length &&
-          new Date(employees[value].date_of_birth).toLocaleDateString(locale, dateOptions)}
-        </div>
+        {value === 0 && <EmployeeTable/>}
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel htmlFor="locale">Язык</InputLabel>
           <Select
             value={locale}
             onChange={this.handleSelectChange}
-            input={<OutlinedInput labelWidth={labelWidth} name="locale" id="locale"/>}
+            input={<OutlinedInput labelWidth={labelWidth}/>}
           >
             <MenuItem value="ru">Русский</MenuItem>
             <MenuItem value="en-US">English</MenuItem>
             <MenuItem value="fr">French</MenuItem>
           </Select>
         </FormControl>
-      </Paper>
+      </>
     );
   }
 }

@@ -5,6 +5,7 @@ export interface Employee {
   middle_name: string | null;
   phone: string | null;
   age: number;
+  email: string;
   date_of_birth: Date;
   registration_date: Date;
   attachment: Attachment | null;

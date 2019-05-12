@@ -6,7 +6,6 @@ export const styles = (theme: Theme) => createStyles({
   paperRoot: {
     textAlign: 'center',
     backgroundColor: theme.palette.background.paper,
-    height: 1000,
   },
   typographyRoot: {
     padding: theme.spacing.unit,
@@ -15,6 +14,6 @@ export const styles = (theme: Theme) => createStyles({
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    width: 120,
   },
 });
