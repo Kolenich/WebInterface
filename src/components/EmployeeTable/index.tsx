@@ -1,5 +1,5 @@
-import React, { Component, ComponentState, ReactElement, ReactNode } from 'react';
-import { WithStyles } from '@material-ui/core';
+import React, { ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
+import { WithStyles, Paper, Fab, Dialog } from '@material-ui/core';
 import { styles } from './styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import api from '../../lib/api';
@@ -7,7 +7,6 @@ import { EditEmployeeProps, Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { dateOptions, sexLabel } from '../../lib/utils';
 import columnSettings from '../MainMenu/columnSettings';
-import Paper from '@material-ui/core/Paper';
 import {
   Column,
   TableColumnWidthInfo,
@@ -40,9 +39,7 @@ import {
   tableMessages,
 } from '../../lib/translate';
 import EditEmployee from './EditEmployee';
-import Fab from '@material-ui/core/Fab';
-import Add from '@material-ui/icons/Add';
-import Dialog from '@material-ui/core/Dialog';
+import { Add } from '@material-ui/icons';
 
 interface Props extends WithStyles<typeof styles> {
 }
@@ -50,7 +47,6 @@ interface Props extends WithStyles<typeof styles> {
 interface State {
   employees: Employee[];
   rows: TableRows[];
-  rowData: Employee;
   rowId: number;
   columns: Column[];
   defaultOrder: string[];
@@ -71,29 +67,14 @@ interface TableRows {
   sex: string;
 }
 
-export const newEmployee: Employee = {
-  id: -1,
-  first_name: '',
-  last_name: '',
-  email: '',
-  sex: '',
-  middle_name: null,
-  phone: null,
-  attachment: null,
-  age: 0,
-  organization: null,
-  date_of_birth: new Date(),
-  registration_date: new Date(),
-};
-
 // Компонент модального окна
 const EditingFormModal = (props: EditEmployeeProps): ReactElement<ReactNode> => (
-  <Dialog open={props.open} onClose={props.onClose} scroll="body">
+  <Dialog open={props.open} onClose={props.onClose} scroll="paper">
     {props.form}
   </Dialog>
 );
 
-class EmployeeTable extends Component<Props, State> {
+class EmployeeTable extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -104,7 +85,6 @@ class EmployeeTable extends Component<Props, State> {
       defaultPageSize: 10,
       rowId: 0,
       addEmployee: false,
-      rowData: newEmployee,
     };
   }
 
@@ -125,7 +105,7 @@ class EmployeeTable extends Component<Props, State> {
     const { classes } = this.props;
     return (
       <Fab color="primary" className={classes.addIcon}
-           onClick={this.openEditWindow(-1, true, newEmployee)}>
+           onClick={this.openEditWindow(-1, true)}>
         <Add/>
       </Fab>
     );
@@ -133,31 +113,34 @@ class EmployeeTable extends Component<Props, State> {
 
   // Компонент строки в таблице
   TableRow = (props: Table.DataRowProps): ReactElement<ReactNode> => {
-    const { employees } = this.state;
     const { classes } = this.props;
     const rowId: number = props.row.id;
     const addEmployee: boolean = true;
-    const rowData: Employee = this.getRowDataById(employees, rowId);
     return (
       <Table.Row
         {...props}
         className={classes.rowCursor}
-        onClick={this.openEditWindow(rowId, addEmployee, rowData)}
+        onClick={this.openEditWindow(rowId, addEmployee)}
       />);
   }
 
   private openEditWindow =
-    (rowId: number, addEmployee: boolean, rowData: Employee) => (): ComponentState => {
-      this.setState({ rowId, addEmployee, rowData });
+    (rowId: number, addEmployee: boolean) => (): ComponentState => {
+      this.setState({ rowId, addEmployee });
     }
 
   private closeEditWindow = (): ComponentState => {
     this.setState({ addEmployee: false });
   }
 
-  private updateTable = (newEmployee: Employee) => {
+  private updateTable = (data: Employee) => {
     const { employees } = this.state;
-    employees.push(newEmployee);
+    const employee: Employee | undefined = employees.find(x => x.id === data.id);
+    if (employee) {
+      employees[employees.indexOf(employee)] = data;
+    } else {
+      employees.push(data);
+    }
     const rows: TableRows[] = this.formTableData(employees);
     this.setState({ employees, rows });
   }
@@ -165,13 +148,6 @@ class EmployeeTable extends Component<Props, State> {
   // Метод для обработки изменения числа строк на странице
   private changePageSize = (defaultPageSize: number): ComponentState => {
     this.setState({ defaultPageSize });
-  }
-
-  // Метод для получения данных о сотруднике по id
-  private getRowDataById = (data: Employee[], id: number): Employee => {
-    const rowData: Employee | undefined = data.find(x => x.id === id);
-    if (rowData) return rowData;
-    return newEmployee;
   }
 
   private formTableData = (employees: Employee[]): TableRows[] => {
@@ -204,7 +180,7 @@ class EmployeeTable extends Component<Props, State> {
       pageSizes,
       defaultPageSize,
       addEmployee,
-      rowData,
+      rowId,
     } = this.state;
     return (
       <Paper>
@@ -235,7 +211,7 @@ class EmployeeTable extends Component<Props, State> {
           onClose={this.closeEditWindow}
           form={
             <EditEmployee
-              employee={rowData}
+              id={rowId}
               closeForm={this.closeEditWindow}
               updateTable={this.updateTable}
             />

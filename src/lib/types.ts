@@ -11,12 +11,12 @@ export interface Employee {
   age: number;
   email: string;
   date_of_birth: Date | string;
-  registration_date: Date;
+  registration_date: Date | string;
   attachment: Attachment | null;
   organization: number | null;
   sex: Sex;
 
-  [index: string]: string | number | undefined | null | Date | Attachment | boolean;
+  [index: string]: string | number | undefined | null | Attachment | boolean | Date | Employee;
 }
 
 export type Sex = 'male' | 'female' | '';
@@ -72,7 +72,7 @@ export interface EditEmployeeProps {
 export type PrimaryButtonIcon = 'save' | 'add' | 'confirm' | 'update' | 'edit';
 
 // Тип иконок для вторичной кнопки
-export type SecondaryButtonIcon = 'delete' | 'cancel'
+export type SecondaryButtonIcon = 'delete' | 'cancel';
 
 export interface CustomButtonProps extends ButtonProps {
   text: string;

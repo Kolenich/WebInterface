@@ -10,10 +10,11 @@ export const styles = (theme: Theme) => createStyles({
   },
   datePicker: {
     marginLeft: 10,
+    width: '100%',
   },
   formControl: {
     margin: theme.spacing.unit,
-    width: 120,
+    width: '100%',
   },
   button: {
     margin: theme.spacing.unit,

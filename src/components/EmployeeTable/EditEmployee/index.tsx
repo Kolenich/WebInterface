@@ -1,42 +1,50 @@
 import React, { ChangeEvent, ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
-import { WithStyles } from '@material-ui/core';
+import {
+  WithStyles,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Grid,
+  TextField,
+  InputLabel,
+  Select,
+  OutlinedInput,
+  MenuItem,
+  FormControl,
+  Dialog,
+  Typography,
+  Table,
+  TableHead,
+  TableRow,
+} from '@material-ui/core';
 import { styles } from './styles';
-import withStyles from '@material-ui/core/styles/withStyles';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 import { CustomButtonProps, Employee, Sex } from '../../../lib/types';
-import { newEmployee } from '../index';
-import Grid, { GridSize, GridSpacing } from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import { GridSize, GridSpacing } from '@material-ui/core/Grid';
 import { employeeLabel } from '../../../lib/utils';
-import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import { MuiPickersUtilsProvider, InlineDatePicker } from 'material-ui-pickers';
 import * as MomentUtils from '@date-io/moment';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import 'moment/locale/ru';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import { Validation, validationMessages, validationMethods } from '../../../lib/validation';
-import { Add, Cancel, CheckCircle, Delete, Done, Save, Update } from '@material-ui/icons';
+import { Add, Cancel, CheckCircle, Delete, Done, Save, Update, Error } from '@material-ui/icons';
 import api from '../../../lib/api';
 import { AxiosError, AxiosResponse } from 'axios';
-import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
+import TableCell from '@material-ui/core/TableCell';
+import TableBody from '@material-ui/core/TableBody';
 
 interface Props extends WithStyles<typeof styles> {
-  employee: Employee;
+  id: number;
   closeForm: () => ComponentState;
   updateTable: (newEmployee: Employee) => ComponentState;
 }
 
 interface State extends Employee {
-  successWindowOpen: boolean;
-  statusMessage: string;
+  successWindow: boolean;
+  errorWindow: boolean;
+  statusMessage: Employee | string;
 }
 
 interface InputFieldProps {
@@ -49,21 +57,7 @@ interface InputFieldProps {
 // Переменная, отвечающая за расстояние между TextField'ми
 const spacing: GridSpacing = 16;
 
-// Список ключей для удаления из объекта при создании записи
-const redundantKeys: string[] = [
-  'id',
-  'age',
-  'attachment',
-  'registration_date',
-  'organization',
-  'successWindowOpen',
-  'statusMessage',
-];
-
 // Сообщения статусов
-const NOT_FOUND: string = 'Совпадений не найдено';
-const SERVER_ERROR: string = 'Ошибка на сервере, попробуйте позже';
-const NO_ORG_DATA: string = 'Заполните данные об организации';
 const UPDATE_SUCCESS: string = 'Обновление прошло успешно!';
 const SAVE_SUCCESS: string = 'Сохранение прошло успешно!';
 
@@ -71,20 +65,36 @@ class EditEmployee extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      ...newEmployee,
-      successWindowOpen: false,
+      first_name: '',
+      last_name: '',
+      email: '',
+      sex: '',
+      middle_name: null,
+      phone: null,
+      attachment: null,
+      age: 0,
+      organization: null,
+      date_of_birth: '',
+      registration_date: '',
+      successWindow: false,
+      errorWindow: false,
       statusMessage: '',
     };
   }
 
   public componentDidMount(): ComponentState {
-    const { employee } = this.props;
-    this.setState({ ...employee });
+    const { id } = this.props;
+    api.getContent<Employee[]>('employees')
+      .then(((response: AxiosResponse<Employee[]>) => {
+        const employee: Employee | undefined = response.data.find(x => x.id === id);
+        if (employee) this.setState({ ...employee });
+      }))
+      .catch();
   }
 
   InputField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const employee: Employee = this.state;
+    const employee = this.state;
     const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
       '';
@@ -96,7 +106,6 @@ class EditEmployee extends PureComponent<Props, State> {
       }
       if (!valid) helperText = validationMessages[props.validationType];
     }
-
     return (
       <Grid item xs={props.xs}>
         <TextField
@@ -119,20 +128,23 @@ class EditEmployee extends PureComponent<Props, State> {
 
   DateField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const employee: Employee = this.state;
+    const employee = this.state;
     const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
-      '';
+      String(new Date());
     return (
       <Grid item xs={props.xs}>
         <MuiPickersUtilsProvider utils={MomentUtils.default} locale={'ru'} moment={moment}>
-          <DatePicker
+          <InlineDatePicker
             className={classes.datePicker}
             margin="normal"
             variant="outlined"
             label={employeeLabel[props.fieldName]}
             value={value}
             onChange={this.handleDateChange(props.fieldName)}
+            format="DD.MM.YYYY"
+            keyboard
+            disableFuture
           />
         </MuiPickersUtilsProvider>
       </Grid>
@@ -166,7 +178,7 @@ class EditEmployee extends PureComponent<Props, State> {
 
   PrimaryButton = (buttonProps: CustomButtonProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const { last_name, first_name, email, sex } = this.state;
+    const { first_name, last_name, email, sex } = this.state;
     const disabled: boolean =
       validationMethods.cyrillic(first_name) &&
       validationMethods.cyrillic(last_name) &&
@@ -211,27 +223,46 @@ class EditEmployee extends PureComponent<Props, State> {
     );
   }
 
-  SuccessModal = (): ReactElement<ReactNode> => {
-    const { successWindowOpen, statusMessage } = this.state;
-    const { classes, closeForm } = this.props;
+  StatusModal = (): ReactElement<ReactNode> => {
+    const { successWindow, errorWindow, statusMessage } = this.state;
+    const { classes } = this.props;
     return (
-      <Dialog open={successWindowOpen} scroll="body">
+      <Dialog open={successWindow || errorWindow} scroll="paper">
         <DialogTitle disableTypography>
+          {successWindow &&
           <Typography variant="h5" className={classes.message}>
-            <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
-            Успешно
-          </Typography>
+              <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
+              Успешно
+          </Typography>}
+          {errorWindow &&
+          <Typography variant="h5" className={classes.message}>
+              <Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
+              Ошибка
+          </Typography>}
         </DialogTitle>
         <DialogContent>
-          {statusMessage}
+          {typeof statusMessage !== 'string' && errorWindow &&
+          <Table>
+              <TableHead>
+                  <TableRow>
+                      <TableCell>Название поля</TableCell>
+                      <TableCell>Текст ошибки</TableCell>
+                  </TableRow>
+              </TableHead>
+              <TableBody>
+                {Object.keys(statusMessage).map((key: keyof Employee) => (
+                  <TableRow key={key}>
+                    <TableCell>{employeeLabel[key]}</TableCell>
+                    <TableCell>{statusMessage[key]}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+          </Table>}
         </DialogContent>
         <DialogActions>
           <this.PrimaryButton
             text="Ок"
-            onClick={() => {
-              this.setState({ successWindowOpen: false });
-              closeForm();
-            }}
+            onClick={this.closeStatusModal}
             icon="confirm"
           />
         </DialogActions>
@@ -239,61 +270,68 @@ class EditEmployee extends PureComponent<Props, State> {
     );
   }
 
+  private closeStatusModal = (): ComponentState => {
+    const { closeForm } = this.props;
+    const { successWindow } = this.state;
+    this.setState({ successWindow: false, errorWindow: false });
+    if (successWindow) closeForm();
+  }
+
   private handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): ComponentState => {
     const sex: Sex = event.target.value as Sex;
     this.setState({ sex });
   }
 
-  private handleDateChange = (name: keyof Employee) => (date: Date): ComponentState => {
+  private handleDateChange = (name: keyof State) => (moment: Moment): ComponentState => {
+    const date: string = moment.format('YYYY-MM-DD');
     this.setState({ [name]: date });
   }
 
   private handleAttributeChange =
-    (name: keyof Employee) => (event: ChangeEvent<HTMLInputElement>): ComponentState => {
+    (name: keyof State) => (event: ChangeEvent<HTMLInputElement>): ComponentState => {
       this.setState({ [name]: event.target.value });
     }
 
-  private getFormattedDate = (date: Date | string): string => {
-    const year: string = String(new Date(date).getFullYear());
-    let month: string = (1 + new Date(date).getMonth()).toString();
-    month = month.length > 1 ? month : `0${month}`;
-    let day = new Date(date).getDate().toString();
-    day = day.length > 1 ? day : `0${day}`;
-    return `${year}-${month}-${day}`;
-  }
-
-  private submitForm = (employee: Employee) => (): ComponentState => {
+  private submitForm = (): ComponentState => {
     const { updateTable } = this.props;
-    if (employee.id !== -1) {
-
-    } else {
-      redundantKeys.forEach(key => delete employee[key]);
-      employee.date_of_birth = this.getFormattedDate(employee.date_of_birth);
-      let id: number = 0;
-      if (employee.id) id = employee.id;
-      api.sendContent<Employee>('employees', employee, id)
+    const employee = this.state;
+    if (employee.id) {
+      api.sendContent<Employee>('employees', employee, employee.id, 'patch')
         .then((response: AxiosResponse<Employee>) => {
-          this.setState({ successWindowOpen: true, statusMessage: SAVE_SUCCESS });
           const newEmployee: Employee = response.data;
           updateTable(newEmployee);
+          this.setState({ successWindow: true, statusMessage: UPDATE_SUCCESS });
         })
         .catch((error: AxiosError) => {
-          if (error.response) console.log(error.response);
+          if (error.response) {
+            this.setState({ errorWindow: true, statusMessage: error.response.data });
+          }
+        });
+    } else {
+      api.sendContent<Employee>('employees', employee)
+        .then((response: AxiosResponse<Employee>) => {
+          const newEmployee: Employee = response.data;
+          updateTable(newEmployee);
+          this.setState({ successWindow: true, statusMessage: SAVE_SUCCESS });
+        })
+        .catch((error: AxiosError) => {
+          if (error.response) {
+            this.setState({ errorWindow: true, statusMessage: error.response.data });
+          }
         });
     }
   }
 
   public render(): ReactNode {
-    const { employee } = this.props;
-    const form = this.state;
-    const title: string = employee.id !== -1 ?
+    const { id, closeForm } = this.props;
+    const title: string = id !== -1 ?
       'Редактировать сотрудника' :
       'Зарегистрировать сотрудника';
     return (
       <>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-          <this.SuccessModal/>
+          <this.StatusModal/>
           <Grid container spacing={spacing}>
             <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic"/>
             <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic"/>
@@ -309,10 +347,11 @@ class EditEmployee extends PureComponent<Props, State> {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <this.PrimaryButton text={employee.id !== -1 ? 'Обновить' : 'Создать'}
-                              icon={employee.id !== -1 ? 'update' : 'add'}
-                              onClick={this.submitForm(form)}/>
-          <this.SecondaryButton text="Отмена" icon="cancel"/>
+          <this.PrimaryButton text={id !== -1 ? 'Обновить' : 'Создать'}
+                              icon={id !== -1 ? 'update' : 'add'}
+                              onClick={this.submitForm}/>
+          <this.SecondaryButton text="Отмена" icon="cancel"
+                                onClick={closeForm}/>
         </DialogActions>
       </>
     );
