@@ -14,9 +14,6 @@ import {
   FormControl,
   Dialog,
   Typography,
-  Table,
-  TableHead,
-  TableRow,
 } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
@@ -32,13 +29,12 @@ import { Add, Cancel, CheckCircle, Delete, Done, Save, Update, Error } from '@ma
 import api from '../../../lib/api';
 import { AxiosError, AxiosResponse } from 'axios';
 import classNames from 'classnames';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
 
 interface Props extends WithStyles<typeof styles> {
   id: number;
   closeForm: () => ComponentState;
   updateTable: (newEmployee: Employee) => ComponentState;
+  deleteRecord: (id: number) => ComponentState;
 }
 
 interface State extends Employee {
@@ -60,6 +56,8 @@ const spacing: GridSpacing = 16;
 // Сообщения статусов
 const UPDATE_SUCCESS: string = 'Обновление прошло успешно!';
 const SAVE_SUCCESS: string = 'Сохранение прошло успешно!';
+const DELETE_SUCCESS: string = 'Удаление прошло успешно';
+const SERVER_ERROR: string = 'Ошибка на сервере';
 
 class EditEmployee extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -94,7 +92,7 @@ class EditEmployee extends PureComponent<Props, State> {
 
   InputField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const employee = this.state;
+    const employee = { ...this.state };
     const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
       '';
@@ -128,7 +126,7 @@ class EditEmployee extends PureComponent<Props, State> {
 
   DateField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const employee = this.state;
+    const employee = { ...this.state };
     const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
       String(new Date());
@@ -153,13 +151,13 @@ class EditEmployee extends PureComponent<Props, State> {
 
   SelectField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const employee = this.state;
+    const employee = { ...this.state };
     const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
       '';
     return (
       <Grid item xs={props.xs}>
-        <FormControl variant="outlined" className={classes.formControl}>
+        <FormControl variant="outlined" className={classes.formControl} required={props.required}>
           <InputLabel htmlFor="sex">Пол</InputLabel>
           <Select
             value={value}
@@ -241,23 +239,7 @@ class EditEmployee extends PureComponent<Props, State> {
           </Typography>}
         </DialogTitle>
         <DialogContent>
-          {typeof statusMessage !== 'string' && errorWindow &&
-          <Table>
-              <TableHead>
-                  <TableRow>
-                      <TableCell>Название поля</TableCell>
-                      <TableCell>Текст ошибки</TableCell>
-                  </TableRow>
-              </TableHead>
-              <TableBody>
-                {Object.keys(statusMessage).map((key: keyof Employee) => (
-                  <TableRow key={key}>
-                    <TableCell>{employeeLabel[key]}</TableCell>
-                    <TableCell>{statusMessage[key]}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-          </Table>}
+          {statusMessage}
         </DialogContent>
         <DialogActions>
           <this.PrimaryButton
@@ -292,9 +274,27 @@ class EditEmployee extends PureComponent<Props, State> {
       this.setState({ [name]: event.target.value });
     }
 
+  private deleteForm = (): ComponentState => {
+    const employee: Employee = { ...this.state };
+    const { deleteRecord } = this.props;
+    api.sendContent<Employee>('employees', employee, employee.id, 'delete')
+      .then(() => {
+        if (employee.id) {
+          deleteRecord(employee.id);
+          this.setState({ successWindow: true, statusMessage: DELETE_SUCCESS });
+        }
+      })
+      .catch((error: AxiosError) => {
+        if (error.response) console.log(error.response.data);
+      });
+  }
+
   private submitForm = (): ComponentState => {
     const { updateTable } = this.props;
-    const employee = this.state;
+    const employee = { ...this.state };
+    Object.keys(employee).map((field: keyof State) => {
+      if (employee[field] === '') employee[field] = null;
+    });
     if (employee.id) {
       api.sendContent<Employee>('employees', employee, employee.id, 'patch')
         .then((response: AxiosResponse<Employee>) => {
@@ -316,7 +316,8 @@ class EditEmployee extends PureComponent<Props, State> {
         })
         .catch((error: AxiosError) => {
           if (error.response) {
-            this.setState({ errorWindow: true, statusMessage: error.response.data });
+            console.log(error.response.data);
+            this.setState({ errorWindow: true, statusMessage: SERVER_ERROR });
           }
         });
     }
@@ -340,16 +341,18 @@ class EditEmployee extends PureComponent<Props, State> {
           <Grid container spacing={spacing}>
             <this.InputField xs={5} fieldName="email" required validationType="email"/>
             <this.InputField xs={4} fieldName="phone" validationType="phone"/>
-            <this.SelectField xs={3} fieldName="sex"/>
+            <this.SelectField xs={3} fieldName="sex" required/>
           </Grid>
           <Grid container spacing={spacing}>
             <this.DateField xs={4} fieldName="date_of_birth"/>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <this.PrimaryButton text={id !== -1 ? 'Обновить' : 'Создать'}
-                              icon={id !== -1 ? 'update' : 'add'}
+          <this.PrimaryButton text={id !== -1 ? 'Сохранить' : 'Создать'}
+                              icon={id !== -1 ? 'save' : 'add'}
                               onClick={this.submitForm}/>
+          {id !== -1 &&
+          <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
           <this.SecondaryButton text="Отмена" icon="cancel"
                                 onClick={closeForm}/>
         </DialogActions>

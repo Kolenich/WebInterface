@@ -1,5 +1,4 @@
-import { ComponentState, ReactElement } from 'react';
-import EditingForm from '../components/EmployeeTable/EditEmployee';
+import { ComponentState } from 'react';
 import { ButtonProps } from '@material-ui/core/Button';
 
 export interface Employee {
@@ -62,10 +61,9 @@ export interface Organization {
 
 export type Table = 'employees' | 'organizations';
 
-export interface EditEmployeeProps {
+export interface ModalProps {
   open: boolean;
   onClose: () => ComponentState;
-  form: ReactElement<typeof EditingForm>;
 }
 
 // Тип иконок для основной кнопки

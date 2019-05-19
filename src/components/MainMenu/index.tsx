@@ -1,15 +1,7 @@
 import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
-import { WithStyles } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import { WithStyles, AppBar, Tabs, Tab } from '@material-ui/core';
 import { styles } from './styles';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
 import { Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -23,7 +15,6 @@ interface State {
   employees: Employee[];
   locale: Locales;
   value: number;
-  labelWidth: number;
 }
 
 class MainMenu extends Component<Props, State> {
@@ -34,7 +25,6 @@ class MainMenu extends Component<Props, State> {
       employees: [],
       locale: 'ru',
       value: 0,
-      labelWidth: 40,
     };
   }
 
@@ -49,18 +39,12 @@ class MainMenu extends Component<Props, State> {
       });
   }
 
-  private handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): ComponentState => {
-    const locale: Locales = event.target.value as Locales;
-    this.setState({ locale });
-  }
-
   handleChange = (event: ChangeEvent<{}>, value: number) => {
     this.setState({ value });
   }
 
   public render(): ReactNode {
-    const { locale, value, labelWidth } = this.state;
-    const { classes } = this.props;
+    const { value } = this.state;
     return (
       <>
         <AppBar position="static" color="default">
@@ -78,18 +62,6 @@ class MainMenu extends Component<Props, State> {
           </Tabs>
         </AppBar>
         {value === 0 && <EmployeeTable/>}
-        <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel htmlFor="locale">Язык</InputLabel>
-          <Select
-            value={locale}
-            onChange={this.handleSelectChange}
-            input={<OutlinedInput labelWidth={labelWidth}/>}
-          >
-            <MenuItem value="ru">Русский</MenuItem>
-            <MenuItem value="en-US">English</MenuItem>
-            <MenuItem value="fr">French</MenuItem>
-          </Select>
-        </FormControl>
       </>
     );
   }

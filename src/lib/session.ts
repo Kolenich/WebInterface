@@ -1,15 +1,19 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { OutgoingHttpHeaders } from 'http';
 
-const CSRF_COOKIE_NAME: string = 'csrftoken';
-const CSRF_HEADER_NAME: string = 'X-CSRFToken';
+const xsrfCookieName: string = 'csrftoken';
+const xsrfHeaderName: string = 'X-CSRFToken';
+const baseURL: string = 'http://localhost:8000/';
+const timeout: number = 100000;
+const headers: OutgoingHttpHeaders = {
+  'Content-Type': 'application/json',
+};
+const sessionConfig: AxiosRequestConfig = {
+  baseURL,
+  xsrfCookieName,
+  xsrfHeaderName,
+  timeout,
+  headers,
+};
 
-export const session: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:8000/',
-  // baseURL: 'http://0.0.0.0/rest',
-  xsrfCookieName: CSRF_COOKIE_NAME,
-  xsrfHeaderName: CSRF_HEADER_NAME,
-  timeout: 100000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+export const session: AxiosInstance = axios.create(sessionConfig);

@@ -3,7 +3,7 @@ import { WithStyles, Paper, Fab, Dialog } from '@material-ui/core';
 import { styles } from './styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import api from '../../lib/api';
-import { EditEmployeeProps, Employee } from '../../lib/types';
+import { Employee, ModalProps } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { dateOptions, sexLabel } from '../../lib/utils';
 import columnSettings from '../MainMenu/columnSettings';
@@ -65,6 +65,10 @@ interface TableRows {
   age: number;
   dateOfBirth: string;
   sex: string;
+}
+
+interface EditEmployeeProps extends ModalProps {
+  form: ReactElement<typeof EditEmployee>;
 }
 
 // Компонент модального окна
@@ -134,7 +138,7 @@ class EmployeeTable extends PureComponent<Props, State> {
   }
 
   private updateTable = (data: Employee) => {
-    const { employees } = this.state;
+    const { employees } = { ...this.state };
     const employee: Employee | undefined = employees.find(x => x.id === data.id);
     if (employee) {
       employees[employees.indexOf(employee)] = data;
@@ -143,6 +147,16 @@ class EmployeeTable extends PureComponent<Props, State> {
     }
     const rows: TableRows[] = this.formTableData(employees);
     this.setState({ employees, rows });
+  }
+
+  private deleteRecord = (id: number): ComponentState => {
+    const { employees } = { ...this.state };
+    const employee: Employee | undefined = employees.find(x => x.id === id);
+    if (employee) {
+      employees.splice(employees.indexOf(employee), 1);
+      const rows: TableRows[] = this.formTableData(employees);
+      this.setState({ employees, rows });
+    }
   }
 
   // Метод для обработки изменения числа строк на странице
@@ -214,6 +228,7 @@ class EmployeeTable extends PureComponent<Props, State> {
               id={rowId}
               closeForm={this.closeEditWindow}
               updateTable={this.updateTable}
+              deleteRecord={this.deleteRecord}
             />
           }
         />
