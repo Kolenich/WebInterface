@@ -298,7 +298,8 @@ class EditEmployee extends PureComponent<Props, State> {
   private submitForm = (): ComponentState => {
     const { updateTable } = this.props;
     const employee = { ...this.state };
-    Object.keys(employee).map((field: keyof State) => {
+    // eslint-disable-next-line
+    Object.keys(employee).map((field: keyof State): void => {
       if (employee[field] === '') employee[field] = null;
     });
     if (employee.id) {
