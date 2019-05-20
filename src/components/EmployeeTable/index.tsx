@@ -6,7 +6,7 @@ import api from '../../lib/api';
 import { Employee, ModalProps } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { dateOptions, sexLabel } from '../../lib/utils';
-import columnSettings from '../MainMenu/columnSettings';
+import columnSettings from './columnSettings';
 import {
   Column,
   TableColumnWidthInfo,

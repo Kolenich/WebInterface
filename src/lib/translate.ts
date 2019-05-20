@@ -21,7 +21,7 @@ export const pagingPanelMessages: PagingPanel.LocalizationMessages = {
 
 export const searchPanelMessages: SearchPanel.LocalizationMessages = {
   searchPlaceholder: 'Поиск...',
-}
+};
 
 export const tableMessages: Table.LocalizationMessages = {
   noData: 'Нет данных',
