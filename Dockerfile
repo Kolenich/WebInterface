@@ -1,15 +1,19 @@
 FROM node:12.2.0-alpine AS build
 
-COPY . /app
+EXPOSE 80 443
 
 WORKDIR /app
 
-RUN npm i && npm run build
+COPY package.json /app/
+
+RUN npm i
+
+COPY . /app
+
+RUN npm run build
 
 FROM nginx:1.15-alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
 
 COPY nginx/config.nginx /etc/nginx/conf.d/default.conf
-
-EXPOSE 80 443

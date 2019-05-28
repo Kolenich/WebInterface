@@ -17,16 +17,16 @@ import {
 } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
-import { CustomButtonProps, Employee, Sex } from '../../../lib/types';
+import { CustomButtonProps, Employee, Sex } from '../../lib/types';
 import { GridSize, GridSpacing } from '@material-ui/core/Grid';
-import { employeeLabel } from '../../../lib/utils';
+import { employeeLabel } from '../../lib/utils';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
-import MomentUtils from '@date-io/moment';
-import moment, { Moment } from 'moment';
-import 'moment/locale/ru';
-import { Validation, validationMessages, validationMethods } from '../../../lib/validation';
+import DateFnsUtils from '@date-io/date-fns';
+import ruLocale from 'date-fns/locale/ru';
+import moment from 'moment';
+import { Validation, validationMessages, validationMethods } from '../../lib/validation';
 import { Add, Cancel, CheckCircle, Delete, Done, Save, Update, Error } from '@material-ui/icons';
-import api from '../../../lib/api';
+import api from '../../lib/api';
 import { AxiosError, AxiosResponse } from 'axios';
 import classNames from 'classnames';
 
@@ -54,8 +54,8 @@ interface InputFieldProps {
 const spacing: GridSpacing = 16;
 
 // Сообщения статусов
-const UPDATE_SUCCESS: string = 'Обновление прошло успешно!';
-const SAVE_SUCCESS: string = 'Сохранение прошло успешно!';
+const UPDATE_SUCCESS: string = 'Сохранение прошло успешно!';
+const SAVE_SUCCESS: string = 'Создание прошло успешно!';
 const DELETE_SUCCESS: string = 'Удаление прошло успешно';
 const SERVER_ERROR: string = 'Ошибка на сервере';
 
@@ -132,7 +132,7 @@ class EditEmployee extends PureComponent<Props, State> {
       String(new Date());
     return (
       <Grid item xs={props.xs}>
-        <MuiPickersUtilsProvider utils={MomentUtils} locale={'ru'} moment={moment}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <DatePicker
             className={classes.datePicker}
             margin="normal"
@@ -140,7 +140,7 @@ class EditEmployee extends PureComponent<Props, State> {
             label={employeeLabel[props.fieldName]}
             value={value}
             onChange={this.handleDateChange(props.fieldName)}
-            format="DD.MM.YYYY"
+            format="dd.MM.yyyy"
             keyboard
             disableFuture
             invalidDateMessage="Дата должна быть в формате ДД.ММ.ГГГГ"
@@ -270,8 +270,7 @@ class EditEmployee extends PureComponent<Props, State> {
     this.setState({ sex });
   }
 
-  private handleDateChange = (name: keyof State) => (moment: Moment): ComponentState => {
-    const date: string = moment.format('YYYY-MM-DD');
+  private handleDateChange = (name: keyof State) => (date: Date): ComponentState => {
     this.setState({ [name]: date });
   }
 
@@ -302,6 +301,7 @@ class EditEmployee extends PureComponent<Props, State> {
     Object.keys(employee).map((field: keyof State): void => {
       if (employee[field] === '') employee[field] = null;
     });
+    employee.date_of_birth = moment(employee.date_of_birth).format('YYYY-MM-DD');
     if (employee.id) {
       api.sendContent<Employee>('employees', employee, employee.id, 'patch')
         .then((response: AxiosResponse<Employee>) => {

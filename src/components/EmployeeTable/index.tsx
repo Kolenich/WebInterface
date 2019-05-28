@@ -38,7 +38,7 @@ import {
   pagingPanelMessages, tableHeaderRowMessage,
   tableMessages,
 } from '../../lib/translate';
-import EditEmployee from './EditEmployee';
+import EditEmployee from '../EmployeeForm';
 import { Add } from '@material-ui/icons';
 
 interface Props extends WithStyles<typeof styles> {
