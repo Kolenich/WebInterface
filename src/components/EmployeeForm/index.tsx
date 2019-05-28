@@ -1,6 +1,5 @@
 import React, { ChangeEvent, ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
 import {
-  WithStyles,
   DialogTitle,
   DialogContent,
   DialogActions,
@@ -18,37 +17,18 @@ import {
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import { CustomButtonProps, Employee, Sex } from '../../lib/types';
-import { GridSize, GridSpacing } from '@material-ui/core/Grid';
+import { GridSpacing } from '@material-ui/core/Grid';
 import { employeeLabel } from '../../lib/utils';
 import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
-import { Validation, validationMessages, validationMethods } from '../../lib/validation';
+import { validationMessages, validationMethods } from '../../lib/validation';
 import { Add, Cancel, CheckCircle, Delete, Done, Save, Update, Error } from '@material-ui/icons';
 import api from '../../lib/api';
 import { AxiosError, AxiosResponse } from 'axios';
 import classNames from 'classnames';
-
-interface Props extends WithStyles<typeof styles> {
-  id: number;
-  closeForm: () => ComponentState;
-  updateTable: (newEmployee: Employee) => ComponentState;
-  deleteRecord: (id: number) => ComponentState;
-}
-
-interface State extends Employee {
-  successWindow: boolean;
-  errorWindow: boolean;
-  statusMessage: Employee | string;
-}
-
-interface InputFieldProps {
-  xs: GridSize;
-  fieldName: keyof Employee;
-  required?: boolean;
-  validationType?: Validation;
-}
+import { InputFieldProps, Props, State } from './types';
 
 // Переменная, отвечающая за расстояние между TextField'ми
 const spacing: GridSpacing = 16;

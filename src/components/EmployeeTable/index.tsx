@@ -1,15 +1,13 @@
 import React, { ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
-import { WithStyles, Paper, Fab, Dialog } from '@material-ui/core';
+import { Paper, Fab, Dialog } from '@material-ui/core';
 import { styles } from './styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import api from '../../lib/api';
-import { Employee, ModalProps } from '../../lib/types';
+import { Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { dateOptions, sexLabel } from '../../lib/utils';
 import columnSettings from './columnSettings';
 import {
-  Column,
-  TableColumnWidthInfo,
   GroupingState,
   IntegratedGrouping,
   PagingState,
@@ -40,36 +38,7 @@ import {
 } from '../../lib/translate';
 import EditEmployee from '../EmployeeForm';
 import { Add } from '@material-ui/icons';
-
-interface Props extends WithStyles<typeof styles> {
-}
-
-interface State {
-  employees: Employee[];
-  rows: TableRows[];
-  rowId: number;
-  columns: Column[];
-  defaultOrder: string[];
-  defaultColumnWidths: TableColumnWidthInfo[];
-  pageSizes: number[];
-  defaultPageSize: number;
-  addEmployee: boolean;
-}
-
-interface TableRows {
-  id: number;
-  fullName: string;
-  registrationDate: string;
-  phone: string;
-  email: string;
-  age: number;
-  dateOfBirth: string;
-  sex: string;
-}
-
-interface EditEmployeeProps extends ModalProps {
-  form: ReactElement<typeof EditEmployee>;
-}
+import { EditEmployeeProps, Props, State, TableRows } from './types';
 
 // Компонент модального окна
 const EditingFormModal = (props: EditEmployeeProps): ReactElement<ReactNode> => (
