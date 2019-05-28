@@ -1,38 +1,14 @@
 import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
-import { WithStyles, AppBar, Tabs, Tab, Theme, withStyles, Paper } from '@material-ui/core';
+import { AppBar, Tabs, Tab, withStyles, Paper } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { styles } from './styles';
 import api from '../../lib/api';
 import { Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
-import { Locales } from '../../lib/utils';
 import EmployeeTable from '../EmployeeTable';
-
-interface Props extends WithStyles<typeof styles> {
-  theme: Theme;
-}
-
-interface State {
-  employees: Employee[];
-  locale: Locales;
-  value: number;
-}
-
-interface TabContainerProps {
-  children?: ReactNode;
-  dir?: string;
-}
-
-const TabContainer = ({ children, dir }: TabContainerProps) => {
-  return (
-    <Paper component="div" dir={dir} style={{ padding: 8 * 3 }}>
-      {children}
-    </Paper>
-  );
-};
+import { Props, State, TabContainerProps } from './types';
 
 class MainMenu extends Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -51,6 +27,15 @@ class MainMenu extends Component<Props, State> {
       .catch((error: AxiosError) => {
         console.log(error);
       });
+  }
+
+  TabContainer = ({ children, dir }: TabContainerProps) => {
+    const { classes } = this.props;
+    return (
+      <Paper component="div" dir={dir} className={classes.tabContainer}>
+        {children}
+      </Paper>
+    );
   }
 
   handleChange = (event: ChangeEvent<{}>, value: number) => {
@@ -85,12 +70,12 @@ class MainMenu extends Component<Props, State> {
           index={value}
           onChangeIndex={this.handleChangeIndex}
         >
-          <TabContainer dir={theme.direction}>
+          <this.TabContainer dir={theme.direction}>
             <EmployeeTable/>
-          </TabContainer>
-          <TabContainer dir={theme.direction}>
+          </this.TabContainer>
+          <this.TabContainer dir={theme.direction}>
             <EmployeeTable/>
-          </TabContainer>
+          </this.TabContainer>
         </SwipeableViews>
       </>
     );

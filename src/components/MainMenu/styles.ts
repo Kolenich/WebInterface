@@ -16,4 +16,7 @@ export const styles = (theme: Theme) => createStyles({
     margin: theme.spacing.unit,
     width: 120,
   },
+  tabContainer: {
+    padding: theme.spacing.unit,
+  },
 });
