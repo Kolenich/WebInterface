@@ -32,7 +32,7 @@ class MainMenu extends Component<Props, State> {
   TabContainer = ({ children, dir }: TabContainerProps) => {
     const { classes } = this.props;
     return (
-      <Paper component="div" dir={dir} className={classes.tabContainer}>
+      <Paper dir={dir} classes={{ root: classes.tabContainer }}>
         {children}
       </Paper>
     );

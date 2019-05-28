@@ -22,7 +22,7 @@ export default {
       let url: string = `api/${requestUrl}/${id}/`;
       if (!method) method = 'post';
       if (!data) data = {} as dataType;
-      if (!id) url = `api/${url}/`;
+      if (!id) url = `api/${requestUrl}/`;
       session({ method, data, url })
         .then((response: AxiosResponse) => resolve(response))
         .catch((error: AxiosError) => {

@@ -19,7 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { CustomButtonProps, Employee, Sex } from '../../lib/types';
 import { GridSpacing } from '@material-ui/core/Grid';
 import { employeeLabel } from '../../lib/utils';
-import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import { MuiPickersUtilsProvider, InlineDatePicker } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
@@ -114,7 +114,7 @@ class EditEmployee extends PureComponent<Props, State> {
     return (
       <Grid item xs={props.xs}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
-          <DatePicker
+          <InlineDatePicker
             className={classes.datePicker}
             margin="normal"
             variant="outlined"
@@ -127,9 +127,6 @@ class EditEmployee extends PureComponent<Props, State> {
             invalidDateMessage="Дата должна быть в формате ДД.ММ.ГГГГ"
             minDateMessage="Дата не должна быть меньше 01.01.1900"
             maxDateMessage="Дата не должна превышать сегодняшнее число"
-            showTodayButton
-            cancelLabel="Отмена"
-            todayLabel="Сегодня"
           />
         </MuiPickersUtilsProvider>
       </Grid>
