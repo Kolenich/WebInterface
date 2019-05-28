@@ -62,12 +62,13 @@ class EditEmployee extends PureComponent<Props, State> {
 
   public componentDidMount(): ComponentState {
     const { id } = this.props;
-    api.getContent<Employee[]>('employees')
-      .then(((response: AxiosResponse<Employee[]>) => {
-        const employee: Employee | undefined = response.data.find(x => x.id === id);
-        if (employee) this.setState({ ...employee });
-      }))
-      .catch();
+    if (id !== -1) {
+      api.getContent<Employee>(`employees/${id}`)
+        .then(((response: AxiosResponse<Employee>) => {
+          this.setState({ ...response.data });
+        }))
+        .catch();
+    }
   }
 
   InputField = (props: InputFieldProps): ReactElement<ReactNode> => {
@@ -149,9 +150,6 @@ class EditEmployee extends PureComponent<Props, State> {
             value={value}
             onChange={this.handleSelectChange}
             input={<OutlinedInput labelWidth={30}/>}>
-            <MenuItem value="">
-              <em>Укажите пол...</em>
-            </MenuItem>
             <MenuItem value="male">Мужской</MenuItem>
             <MenuItem value="female">Женский</MenuItem>
           </Select>

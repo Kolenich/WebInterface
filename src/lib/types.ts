@@ -59,8 +59,6 @@ export interface Organization {
   employees: Employee[];
 }
 
-export type Table = 'employees' | 'organizations';
-
 export interface ModalProps {
   open: boolean;
   onClose: () => ComponentState;
