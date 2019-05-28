@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
-import { AppBar, Tabs, Tab, withStyles, Paper } from '@material-ui/core';
+import { AppBar, Tabs, Tab, withStyles, Typography } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { styles } from './styles';
 import api from '../../lib/api';
@@ -32,9 +32,9 @@ class MainMenu extends Component<Props, State> {
   TabContainer = ({ children, dir }: TabContainerProps) => {
     const { classes } = this.props;
     return (
-      <Paper dir={dir} classes={{ root: classes.tabContainer }}>
+      <Typography component="div" dir={dir} classes={{ root: classes.tabContainer }}>
         {children}
-      </Paper>
+      </Typography>
     );
   }
 
@@ -74,7 +74,7 @@ class MainMenu extends Component<Props, State> {
             <EmployeeTable/>
           </this.TabContainer>
           <this.TabContainer dir={theme.direction}>
-            <EmployeeTable/>
+            Привет
           </this.TabContainer>
         </SwipeableViews>
       </>

@@ -146,7 +146,7 @@ class EditEmployee extends PureComponent<Props, State> {
           <Select
             value={value}
             onChange={this.handleSelectChange}
-            input={<OutlinedInput labelWidth={30}/>}>
+            input={<OutlinedInput labelWidth={30} id="sex"/>}>
             <MenuItem value="male">Мужской</MenuItem>
             <MenuItem value="female">Женский</MenuItem>
           </Select>
