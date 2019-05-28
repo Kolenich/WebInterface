@@ -1,5 +1,5 @@
 import React, { ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
-import { Paper, Fab, Dialog } from '@material-ui/core';
+import { Fab, Dialog } from '@material-ui/core';
 import { styles } from './styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import api from '../../lib/api';
@@ -166,7 +166,7 @@ class EmployeeTable extends PureComponent<Props, State> {
       rowId,
     } = this.state;
     return (
-      <Paper>
+      <>
         <Grid rows={rows} columns={columns}>
           <DragDropProvider/>
           <SortingState/>
@@ -202,7 +202,7 @@ class EmployeeTable extends PureComponent<Props, State> {
           }
         />
         <this.AddButton/>
-      </Paper>
+      </>
     );
   }
 }

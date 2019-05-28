@@ -14,6 +14,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.8.17",
     "@types/react-dom": "^16.8.4",
+    "@types/react-swipeable-views": "^0.13.0",
     "axios": "^0.18.0",
     "date-fns": "^2.0.0-alpha.27",
     "material-ui-pickers": "^2.2.4",
@@ -21,6 +22,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
+    "react-swipeable-views": "^0.13.3",
     "typescript": "^3.4.5"
   },
   "scripts": {

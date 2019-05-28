@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
-import { WithStyles, AppBar, Tabs, Tab } from '@material-ui/core';
+import { WithStyles, AppBar, Tabs, Tab, Theme, withStyles, Paper } from '@material-ui/core';
+import SwipeableViews from 'react-swipeable-views';
 import { styles } from './styles';
-import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
 import { Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
@@ -9,6 +9,7 @@ import { Locales } from '../../lib/utils';
 import EmployeeTable from '../EmployeeTable';
 
 interface Props extends WithStyles<typeof styles> {
+  theme: Theme;
 }
 
 interface State {
@@ -16,6 +17,19 @@ interface State {
   locale: Locales;
   value: number;
 }
+
+interface TabContainerProps {
+  children?: ReactNode;
+  dir?: string;
+}
+
+const TabContainer = ({ children, dir }: TabContainerProps) => {
+  return (
+    <Paper component="div" dir={dir} style={{ padding: 8 * 3 }}>
+      {children}
+    </Paper>
+  );
+};
 
 class MainMenu extends Component<Props, State> {
 
@@ -43,8 +57,13 @@ class MainMenu extends Component<Props, State> {
     this.setState({ value });
   }
 
+  handleChangeIndex = (value: number): ComponentState => {
+    this.setState({ value });
+  }
+
   public render(): ReactNode {
     const { value } = this.state;
+    const { theme } = this.props;
     return (
       <>
         <AppBar position="static" color="default">
@@ -61,7 +80,18 @@ class MainMenu extends Component<Props, State> {
             <Tab label="Организации"/>
           </Tabs>
         </AppBar>
-        {value === 0 && <EmployeeTable/>}
+        <SwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={value}
+          onChangeIndex={this.handleChangeIndex}
+        >
+          <TabContainer dir={theme.direction}>
+            <EmployeeTable/>
+          </TabContainer>
+          <TabContainer dir={theme.direction}>
+            <EmployeeTable/>
+          </TabContainer>
+        </SwipeableViews>
       </>
     );
   }
