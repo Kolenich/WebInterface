@@ -85,7 +85,7 @@ class EmployeeTable extends PureComponent<Props, State> {
   }
 
   // Компонент строки в таблице
-  TableRow = (props: Table.DataRowProps): ReactElement<ReactNode> => {
+  RowComponent = (props: Table.DataRowProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
     const rowId: number = props.row.id;
     const addEmployee: boolean = true;
@@ -142,13 +142,17 @@ class EmployeeTable extends PureComponent<Props, State> {
         `${employee.last_name} ${employee.first_name}`;
       const registrationDate: string =
         new Date(employee.registration_date).toLocaleDateString('ru', dateOptions);
-      const phone: string = employee.phone !== null ? employee.phone : 'Не указан';
+      const phone: string = employee.phone !== null ?
+        employee.phone :
+        'Не указан';
       const email: string = employee.email;
       const age: number = employee.age;
       const dateOfBirth: string =
         new Date(employee.date_of_birth).toLocaleDateString('ru', dateOptions);
       const sex: string = sexLabel[employee.sex];
-      const id: number = employee.id ? employee.id : 0;
+      const id: number = employee.id ?
+        employee.id :
+        0;
       rows.push({ id, fullName, registrationDate, phone, email, age, dateOfBirth, sex });
     });
     return rows;
@@ -178,7 +182,7 @@ class EmployeeTable extends PureComponent<Props, State> {
           <IntegratedPaging/>
           <FilteringState/>
           <IntegratedFiltering/>
-          <Table rowComponent={this.TableRow} messages={tableMessages}/>
+          <Table rowComponent={this.RowComponent} messages={tableMessages}/>
           <TableColumnReordering defaultOrder={defaultOrder}/>
           <TableColumnResizing defaultColumnWidths={defaultColumnWidths}/>
           <TableHeaderRow showGroupingControls showSortingControls
