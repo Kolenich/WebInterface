@@ -36,7 +36,7 @@ import {
   pagingPanelMessages, tableHeaderRowMessage,
   tableMessages,
 } from '../../lib/translate';
-import EditEmployee from '../EmployeeForm';
+import EmployeeForm from '../EmployeeForm';
 import { Add } from '@material-ui/icons';
 import { EditEmployeeProps, Props, State, TableRows } from './types';
 
@@ -77,9 +77,10 @@ class EmployeeTable extends PureComponent<Props, State> {
   AddButton = (): ReactElement<ReactNode> => {
     const { classes } = this.props;
     return (
-      <Fab color="primary" className={classes.addIcon}
+      <Fab color="primary" className={classes.addIcon} variant="extended"
            onClick={this.openEditWindow(-1, true)}>
         <Add/>
+        Создать
       </Fab>
     );
   }
@@ -197,7 +198,7 @@ class EmployeeTable extends PureComponent<Props, State> {
           open={addEmployee}
           onClose={this.closeEditWindow}
           form={
-            <EditEmployee
+            <EmployeeForm
               id={rowId}
               closeForm={this.closeEditWindow}
               updateTable={this.updateTable}
