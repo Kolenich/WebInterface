@@ -1,5 +1,5 @@
 import React, { ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
-import { Fab, Dialog, Paper } from '@material-ui/core';
+import { Fab, Paper } from '@material-ui/core';
 import { styles } from './styles';
 import withStyles from '@material-ui/core/styles/withStyles';
 import api from '../../lib/api';
@@ -38,14 +38,7 @@ import {
 } from '../../lib/translate';
 import EmployeeForm from '../EmployeeForm';
 import { Add } from '@material-ui/icons';
-import { EditEmployeeProps, Props, State, TableRows } from './types';
-
-// Компонент модального окна
-const EditingFormModal = (props: EditEmployeeProps): ReactElement<ReactNode> => (
-  <Dialog open={props.open} onClose={props.onClose} scroll="paper">
-    {props.form}
-  </Dialog>
-);
+import { Props, State, TableRows } from './types';
 
 class EmployeeTable extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -53,7 +46,6 @@ class EmployeeTable extends PureComponent<Props, State> {
     this.state = {
       ...columnSettings,
       employees: [],
-      rows: [],
       pageSizes: [5, 10, 15, 25, 0],
       defaultPageSize: 10,
       rowId: 0,
@@ -65,8 +57,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     api.getContent<Employee[]>('employees')
       .then((response: AxiosResponse<Employee[]>): ComponentState => {
         const employees: Employee[] = response.data;
-        const rows: TableRows[] = this.formTableData(employees);
-        this.setState({ employees, rows });
+        this.setState({ employees });
       })
       .catch((error: AxiosError) => {
         console.log(error);
@@ -110,13 +101,9 @@ class EmployeeTable extends PureComponent<Props, State> {
   private updateTable = (data: Employee) => {
     const { employees } = { ...this.state };
     const employee: Employee | undefined = employees.find(x => x.id === data.id);
-    if (employee) {
-      employees[employees.indexOf(employee)] = data;
-    } else {
-      employees.push(data);
-    }
-    const rows: TableRows[] = this.formTableData(employees);
-    this.setState({ employees, rows });
+    if (employee) employees[employees.indexOf(employee)] = data;
+    else employees.push(data);
+    this.setState({ employees });
   }
 
   private deleteRecord = (id: number): ComponentState => {
@@ -124,8 +111,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     const employee: Employee | undefined = employees.find(x => x.id === id);
     if (employee) {
       employees.splice(employees.indexOf(employee), 1);
-      const rows: TableRows[] = this.formTableData(employees);
-      this.setState({ employees, rows });
+      this.setState({ employees });
     }
   }
 
@@ -134,7 +120,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     this.setState({ defaultPageSize });
   }
 
-  private formTableData = (employees: Employee[]): TableRows[] => {
+  private formRows = (employees: Employee[]): TableRows[] => {
     const rows: TableRows[] = [];
     // eslint-disable-next-line
     employees.map((employee: Employee): void => {
@@ -161,7 +147,7 @@ class EmployeeTable extends PureComponent<Props, State> {
 
   render(): ReactNode {
     const {
-      rows,
+      employees,
       columns,
       defaultOrder,
       defaultColumnWidths,
@@ -170,6 +156,7 @@ class EmployeeTable extends PureComponent<Props, State> {
       addEmployee,
       rowId,
     } = this.state;
+    const rows: TableRows[] = this.formRows(employees);
     return (
       <Paper>
         <Grid rows={rows} columns={columns}>
@@ -194,17 +181,12 @@ class EmployeeTable extends PureComponent<Props, State> {
           <GroupingPanel messages={groupByMessages}/>
           <PagingPanel pageSizes={pageSizes} messages={pagingPanelMessages}/>
         </Grid>
-        <EditingFormModal
+        <EmployeeForm
+          id={rowId}
           open={addEmployee}
-          onClose={this.closeEditWindow}
-          form={
-            <EmployeeForm
-              id={rowId}
-              closeForm={this.closeEditWindow}
-              updateTable={this.updateTable}
-              deleteRecord={this.deleteRecord}
-            />
-          }
+          onCLose={this.closeEditWindow}
+          updateTable={this.updateTable}
+          deleteRecord={this.deleteRecord}
         />
         <this.AddButton/>
       </Paper>

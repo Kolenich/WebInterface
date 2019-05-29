@@ -71,6 +71,36 @@ class EditEmployee extends PureComponent<Props, State> {
     }
   }
 
+  public componentDidUpdate(prevProps: Readonly<Props>): ComponentState {
+    const { id } = this.props;
+    if (prevProps.id !== id) {
+      if (id !== -1) {
+        api.getContent<Employee>(`employees/${id}`)
+          .then(((response: AxiosResponse<Employee>) => {
+            this.setState({ ...response.data });
+          }))
+          .catch();
+      } else {
+        this.setState({
+          first_name: '',
+          last_name: '',
+          email: '',
+          sex: '',
+          middle_name: null,
+          phone: null,
+          attachment: null,
+          age: 0,
+          organization: null,
+          date_of_birth: '',
+          registration_date: '',
+          successWindow: false,
+          errorWindow: false,
+          statusMessage: '',
+        });
+      }
+    }
+  }
+
   InputField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
     const employee = { ...this.state };
@@ -210,13 +240,13 @@ class EditEmployee extends PureComponent<Props, State> {
         <DialogTitle disableTypography>
           {successWindow &&
           <Typography variant="h5" className={classes.message}>
-              <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
-              Успешно
+	          <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
+	          Успешно
           </Typography>}
           {errorWindow &&
           <Typography variant="h5" className={classes.message}>
-              <Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
-              Ошибка
+	          <Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
+	          Ошибка
           </Typography>}
         </DialogTitle>
         <DialogContent>
@@ -234,10 +264,10 @@ class EditEmployee extends PureComponent<Props, State> {
   }
 
   private closeStatusModal = (): ComponentState => {
-    const { closeForm } = this.props;
+    const { onCLose } = this.props;
     const { successWindow } = this.state;
     this.setState({ successWindow: false, errorWindow: false });
-    if (successWindow) closeForm();
+    if (successWindow) onCLose();
   }
 
   private handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): ComponentState => {
@@ -306,12 +336,12 @@ class EditEmployee extends PureComponent<Props, State> {
   }
 
   public render(): ReactNode {
-    const { id, closeForm } = this.props;
+    const { id, onCLose, open } = this.props;
     const title: string = id !== -1 ?
       'Редактировать сотрудника' :
       'Зарегистрировать сотрудника';
     return (
-      <>
+      <Dialog open={open} onClose={onCLose}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <this.StatusModal/>
@@ -330,15 +360,20 @@ class EditEmployee extends PureComponent<Props, State> {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <this.PrimaryButton text={id !== -1 ? 'Сохранить' : 'Создать'}
-                              icon={id !== -1 ? 'save' : 'add'}
-                              onClick={this.submitForm}/>
+          <this.PrimaryButton
+            text={id !== -1 ?
+              'Сохранить' :
+              'Создать'}
+            icon={id !== -1 ?
+              'save' :
+              'add'}
+            onClick={this.submitForm}/>
           {id !== -1 &&
           <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
           <this.SecondaryButton text="Отмена" icon="cancel"
-                                onClick={closeForm}/>
+                                onClick={onCLose}/>
         </DialogActions>
-      </>
+      </Dialog>
     );
   }
 }

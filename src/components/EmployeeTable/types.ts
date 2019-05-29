@@ -1,16 +1,13 @@
 import { WithStyles } from '@material-ui/core';
 import { styles } from './styles';
-import { Employee, ModalProps } from '../../lib/types';
+import { Employee } from '../../lib/types';
 import { Column, TableColumnWidthInfo } from '@devexpress/dx-react-grid';
-import { ReactElement } from 'react';
-import EditEmployee from '../EmployeeForm';
 
 export interface Props extends WithStyles<typeof styles> {
 }
 
 export interface State {
   employees: Employee[];
-  rows: TableRows[];
   rowId: number;
   columns: Column[];
   defaultOrder: string[];
@@ -29,8 +26,4 @@ export interface TableRows {
   age: number;
   dateOfBirth: string;
   sex: string;
-}
-
-export interface EditEmployeeProps extends ModalProps {
-  form: ReactElement<typeof EditEmployee>;
 }
