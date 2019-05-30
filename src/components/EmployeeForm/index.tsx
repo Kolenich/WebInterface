@@ -203,13 +203,13 @@ class EditEmployee extends PureComponent<Props, State> {
         >
           {buttonProps.text}
           {buttonProps.icon === 'save' &&
-			    <Save className={classes.rightIcon}/>}
+          <Save className={classes.rightIcon}/>}
           {buttonProps.icon === 'add' &&
-			    <Add className={classes.rightIcon}/>}
+          <Add className={classes.rightIcon}/>}
           {buttonProps.icon === 'confirm' &&
-			    <Done className={classes.rightIcon}/>}
+          <Done className={classes.rightIcon}/>}
           {buttonProps.icon === 'update' &&
-			    <Update className={classes.rightIcon}/>}
+          <Update className={classes.rightIcon}/>}
         </Button>
     );
   }
@@ -225,9 +225,9 @@ class EditEmployee extends PureComponent<Props, State> {
         >
           {buttonProps.text}
           {buttonProps.icon === 'delete' &&
-			    <Delete className={classes.rightIcon}/>}
+          <Delete className={classes.rightIcon}/>}
           {buttonProps.icon === 'cancel' &&
-			    <Cancel className={classes.rightIcon}/>}
+          <Cancel className={classes.rightIcon}/>}
         </Button>
     );
   }
@@ -239,15 +239,15 @@ class EditEmployee extends PureComponent<Props, State> {
         <Dialog open={successWindow || errorWindow} scroll="paper">
           <DialogTitle disableTypography>
             {successWindow &&
-				    <Typography variant="h5" className={classes.message}>
-					    <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
-					    Успешно
-				    </Typography>}
+            <Typography variant="h5" className={classes.message}>
+	            <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
+	            Успешно
+            </Typography>}
             {errorWindow &&
-				    <Typography variant="h5" className={classes.message}>
-					    <Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
-					    Ошибка
-				    </Typography>}
+            <Typography variant="h5" className={classes.message}>
+	            <Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
+	            Ошибка
+            </Typography>}
           </DialogTitle>
           <DialogContent>
             {statusMessage}
@@ -369,7 +369,7 @@ class EditEmployee extends PureComponent<Props, State> {
                     'add'}
                 onClick={this.submitForm}/>
             {id !== -1 &&
-				    <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
+            <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
             <this.SecondaryButton text="Отмена" icon="cancel"
                                   onClick={onCLose}/>
           </DialogActions>
