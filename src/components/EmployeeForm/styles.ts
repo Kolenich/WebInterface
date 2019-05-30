@@ -1,7 +1,6 @@
 import { Theme } from '@material-ui/core';
-import createStyles from '@material-ui/core/styles/createStyles';
-import amber from '@material-ui/core/colors/amber';
-import green from '@material-ui/core/colors/green';
+import { createStyles } from '@material-ui/core/styles';
+import { amber, green } from '@material-ui/core/colors';
 
 export const styles = (theme: Theme) => createStyles({
   textField: {

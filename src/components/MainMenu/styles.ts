@@ -1,6 +1,6 @@
 import { Theme } from '@material-ui/core';
-import indigo from '@material-ui/core/colors/indigo';
-import createStyles from '@material-ui/core/styles/createStyles';
+import { indigo } from '@material-ui/core/colors';
+import { createStyles } from '@material-ui/core/styles';
 
 export const styles = (theme: Theme) => createStyles({
   paperRoot: {
