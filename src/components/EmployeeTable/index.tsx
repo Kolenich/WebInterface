@@ -1,7 +1,7 @@
 import React, { ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
 import { Fab, Paper } from '@material-ui/core';
 import { styles } from './styles';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
 import { Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
