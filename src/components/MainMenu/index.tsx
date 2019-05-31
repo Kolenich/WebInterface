@@ -66,7 +66,9 @@ class MainMenu extends Component<Props, State> {
           </Tabs>
         </AppBar>
         <SwipeableViews
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          axis={theme.direction === 'rtl' ?
+            'x-reverse' :
+            'x'}
           index={value}
           onChangeIndex={this.handleChangeIndex}
         >
