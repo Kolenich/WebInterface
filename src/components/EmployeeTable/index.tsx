@@ -146,6 +146,7 @@ class EmployeeTable extends PureComponent<Props, State> {
   }
 
   render(): ReactNode {
+    const { classes } = this.props;
     const {
       employees,
       columns,
@@ -158,7 +159,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     } = this.state;
     const rows: TableRows[] = this.formRows(employees);
     return (
-      <Paper>
+      <Paper className={classes.paper}>
         <Grid rows={rows} columns={columns}>
           <DragDropProvider/>
           <SortingState/>

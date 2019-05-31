@@ -9,9 +9,7 @@ export default {
       session
         .get<dataType>(`api/${requestUrl}/`, { data })
         .then((response: AxiosResponse) => resolve(response))
-        .catch((error: AxiosError) => {
-          reject(error);
-        });
+        .catch((error: AxiosError) => reject(error));
     });
   },
   sendContent<dataType>(requestUrl: string, sendData: dataType, id?: number, sendMethod?: string):
@@ -25,9 +23,7 @@ export default {
       if (!id) url = `api/${requestUrl}/`;
       session({ method, data, url })
         .then((response: AxiosResponse) => resolve(response))
-        .catch((error: AxiosError) => {
-          reject(error);
-        });
+        .catch((error: AxiosError) => reject(error));
     });
   },
 };
