@@ -53,7 +53,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     };
   }
 
-  componentDidMount(): ComponentState {
+  public componentDidMount(): ComponentState {
     api.getContent<Employee[]>('employees')
       .then((response: AxiosResponse<Employee[]>): ComponentState => {
         const employees: Employee[] = response.data;
@@ -89,15 +89,18 @@ class EmployeeTable extends PureComponent<Props, State> {
       />);
   }
 
+  // Колбэк-метод, открывающий модальное окно
   private openEditWindow =
     (rowId: number, addEmployee: boolean) => (): ComponentState => {
       this.setState({ rowId, addEmployee });
     }
 
+  // Колбэк-метод, закрывающий модальное окно
   private closeEditWindow = (): ComponentState => {
     this.setState({ addEmployee: false });
   }
 
+  // Колбэк-метод для обновления или добавления строки в таблице
   private updateTable = (data: Employee) => {
     const { employees } = { ...this.state };
     const employee: Employee | undefined = employees.find(x => x.id === data.id);
@@ -106,6 +109,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     this.setState({ employees });
   }
 
+  // Колбэк-метод для удаления строки в таблице
   private deleteRecord = (id: number): ComponentState => {
     const { employees } = { ...this.state };
     const employee: Employee | undefined = employees.find(x => x.id === id);
@@ -120,6 +124,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     this.setState({ defaultPageSize });
   }
 
+  // Метод, формирующий массив строк для таблицы
   private formRows = (employees: Employee[]): TableRows[] => {
     const rows: TableRows[] = [];
     // eslint-disable-next-line
@@ -145,7 +150,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     return rows;
   }
 
-  render(): ReactNode {
+  public render(): ReactNode {
     const { classes } = this.props;
     const {
       employees,

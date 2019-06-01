@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
+import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import { AppBar, Tabs, Tab, withStyles, Typography } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { styles } from './styles';
@@ -8,7 +8,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import EmployeeTable from '../EmployeeTable';
 import { Props, State, TabContainerProps } from './types';
 
-class MainMenu extends Component<Props, State> {
+class MainMenu extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -18,7 +18,7 @@ class MainMenu extends Component<Props, State> {
     };
   }
 
-  componentDidMount(): ComponentState {
+  public componentDidMount(): ComponentState {
     api.getContent<Employee[]>('employees')
       .then((response: AxiosResponse<Employee[]>) => {
         const employees: Employee[] = response.data;
@@ -29,6 +29,7 @@ class MainMenu extends Component<Props, State> {
       });
   }
 
+  // Компонент-обертка для пункта меню
   TabContainer = ({ children, dir }: TabContainerProps) => {
     const { classes } = this.props;
     return (
@@ -38,11 +39,13 @@ class MainMenu extends Component<Props, State> {
     );
   }
 
-  handleChange = (event: ChangeEvent<{}>, value: number) => {
+  // Метод, обрабатывающий смену активного пункта меню
+  private handleChange = (event: ChangeEvent<{}>, value: number) => {
     this.setState({ value });
   }
 
-  handleChangeIndex = (value: number): ComponentState => {
+  // Метод аналогичный handleChange, но для анимации перехода
+  private handleChangeIndex = (value: number): ComponentState => {
     this.setState({ value });
   }
 
