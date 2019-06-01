@@ -259,6 +259,7 @@ class EditEmployee extends Component<Props, State> {
     }
 
   private deleteForm = (): ComponentState => {
+    this.setState({ statusWindowOpen: true, statusType: 'loading' });
     const { employee } = { ...this.state };
     const { deleteRecord } = this.props;
     const url: string = `employees/${employee.id}`;
@@ -283,6 +284,7 @@ class EditEmployee extends Component<Props, State> {
   }
 
   private submitForm = (): ComponentState => {
+    this.setState({ statusWindowOpen: true, statusType: 'loading' });
     const { updateTable } = this.props;
     const { employee } = { ...this.state };
     // eslint-disable-next-line

@@ -8,8 +8,9 @@ import {
   DialogTitle,
   Typography,
   withStyles,
+  CircularProgress,
 } from '@material-ui/core';
-import { Add, CheckCircle, Done, Error, Save, Update } from '@material-ui/icons';
+import { CheckCircle, Done, Error, Warning } from '@material-ui/icons';
 import classNames from 'classnames';
 import { styles } from './styles';
 import { CustomButtonProps } from '../../lib/types';
@@ -30,14 +31,8 @@ class StatusWindow extends PureComponent<Props, State> {
         {...buttonProps}
       >
         {buttonProps.text}
-        {buttonProps.icon === 'save' &&
-				<Save className={classes.rightIcon}/>}
-        {buttonProps.icon === 'add' &&
-				<Add className={classes.rightIcon}/>}
         {buttonProps.icon === 'confirm' &&
 				<Done className={classes.rightIcon}/>}
-        {buttonProps.icon === 'update' &&
-				<Update className={classes.rightIcon}/>}
       </Button>
     );
   }
@@ -51,7 +46,7 @@ class StatusWindow extends PureComponent<Props, State> {
   public render(): ReactNode {
     const { open, status, message, classes } = this.props;
     return (
-      <Dialog open={open} scroll="paper">
+      <Dialog open={open} scroll="paper" disableBackdropClick disableEscapeKeyDown>
         <DialogTitle disableTypography>
           {status === 'success' &&
 					<Typography variant="h5" className={classes.message}>
@@ -63,17 +58,29 @@ class StatusWindow extends PureComponent<Props, State> {
 						<Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
 						Ошибка
 					</Typography>}
+          {status === 'warning' &&
+	        <Typography variant="h5" className={classes.message}>
+		        <Warning className={classNames(classes.statusIcon, classes.warningIcon)}/>
+		        Внимание
+	        </Typography>}
+          {status === 'loading' &&
+	        <Typography variant="h5" className={classes.message}>
+		        <CircularProgress className={classes.statusIcon}/>
+		        Пожалуйста, подождите...
+	        </Typography>}
         </DialogTitle>
-        <DialogContent>
+        {status !== 'loading' &&
+		    <DialogContent>
           {message}
-        </DialogContent>
-        <DialogActions>
-          <this.PrimaryButton
-            text="Ок"
-            onClick={this.closeWindow}
-            icon="confirm"
-          />
-        </DialogActions>
+		    </DialogContent>}
+        {status !== 'loading' &&
+		    <DialogActions>
+			    <this.PrimaryButton
+				    text="Ок"
+				    onClick={this.closeWindow}
+				    icon="confirm"
+			    />
+		    </DialogActions>}
       </Dialog>);
   }
 }
