@@ -1,4 +1,11 @@
 version: "3.7"
+networks:
+  frontend:
+    name: frontend
+    driver: bridge
+  backend:
+    name: backend
+    driver: bridge
 services:
   web:
     restart: always
@@ -28,11 +35,4 @@ services:
       dockerfile: Dockerfile-postgres
     networks:
       - backend
-networks:
-  frontend:
-    name: frontend
-    driver: bridge
-  backend:
-    name: backend
-    driver: bridge
 
