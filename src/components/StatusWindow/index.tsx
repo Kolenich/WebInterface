@@ -1,4 +1,4 @@
-import React, { ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
+import React, { PureComponent, ReactElement, ReactNode } from 'react';
 import { Props, State } from './types';
 import {
   Button,
@@ -37,14 +37,8 @@ class StatusWindow extends PureComponent<Props, State> {
     );
   }
 
-  private closeWindow = (): ComponentState => {
-    const { onCLose, closeCallback } = this.props;
-    onCLose();
-    if (closeCallback) closeCallback();
-  }
-
   public render(): ReactNode {
-    const { open, status, message, classes } = this.props;
+    const { open, status, message, classes, onCLose } = this.props;
     return (
       <Dialog open={open} scroll="paper" disableBackdropClick disableEscapeKeyDown>
         <DialogTitle disableTypography>
@@ -59,28 +53,28 @@ class StatusWindow extends PureComponent<Props, State> {
 						Ошибка
 					</Typography>}
           {status === 'warning' &&
-	        <Typography variant="h5" className={classes.message}>
-		        <Warning className={classNames(classes.statusIcon, classes.warningIcon)}/>
-		        Внимание
-	        </Typography>}
+          <Typography variant="h5" className={classes.message}>
+	          <Warning className={classNames(classes.statusIcon, classes.warningIcon)}/>
+	          Внимание
+          </Typography>}
           {status === 'loading' &&
-	        <Typography variant="h5" className={classes.message}>
-		        <CircularProgress className={classes.statusIcon}/>
-		        Пожалуйста, подождите...
-	        </Typography>}
+          <Typography variant="h5" className={classes.message}>
+	          <CircularProgress className={classes.statusIcon}/>
+	          Пожалуйста, подождите...
+          </Typography>}
         </DialogTitle>
         {status !== 'loading' &&
-		    <DialogContent>
+        <DialogContent>
           {message}
-		    </DialogContent>}
+        </DialogContent>}
         {status !== 'loading' &&
-		    <DialogActions>
-			    <this.PrimaryButton
-				    text="Ок"
-				    onClick={this.closeWindow}
-				    icon="confirm"
-			    />
-		    </DialogActions>}
+        <DialogActions>
+	        <this.PrimaryButton
+		        text="Ок"
+		        onClick={onCLose}
+		        icon="confirm"
+	        />
+        </DialogActions>}
       </Dialog>);
   }
 }
