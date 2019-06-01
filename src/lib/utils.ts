@@ -7,6 +7,14 @@ export const dateOptions = {
   day: '2-digit',
 };
 
+export const dateTimeOptions = {
+  year: 'numeric',
+  month: 'long',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+};
+
 // Варианты локалей для интернационализации
 export type Locales = 'ru' | 'en-US' | 'en-GB' | 'fr';
 

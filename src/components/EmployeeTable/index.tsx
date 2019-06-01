@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
 import { Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
-import { dateOptions, sexLabel } from '../../lib/utils';
+import { dateOptions, dateTimeOptions, sexLabel } from '../../lib/utils';
 import columnSettings from './columnSettings';
 import {
   GroupingState,
@@ -133,7 +133,7 @@ class EmployeeTable extends PureComponent<Props, State> {
         `${employee.last_name} ${employee.first_name} ${employee.middle_name}` :
         `${employee.last_name} ${employee.first_name}`;
       const registrationDate: string =
-        new Date(employee.registration_date).toLocaleDateString('ru', dateOptions);
+        new Date(employee.registration_date).toLocaleDateString('ru', dateTimeOptions);
       const phone: string = employee.phone !== null ?
         employee.phone :
         'Не указан';

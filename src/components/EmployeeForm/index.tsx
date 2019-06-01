@@ -139,6 +139,8 @@ class EditEmployee extends Component<Props, State> {
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <InlineDatePicker
             clearable
+            openTo="year"
+            views={['year', 'month', 'day']}
             className={classes.datePicker}
             margin="normal"
             variant="outlined"
