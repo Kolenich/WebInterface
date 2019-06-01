@@ -48,7 +48,7 @@ class EmployeeTable extends PureComponent<Props, State> {
       employees: [],
       pageSizes: [5, 10, 15, 25, 0],
       defaultPageSize: 10,
-      rowId: 0,
+      rowId: -1,
       addEmployee: false,
     };
   }

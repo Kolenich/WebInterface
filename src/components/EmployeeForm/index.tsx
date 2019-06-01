@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
+import React, { ChangeEvent, ComponentState, Component, ReactElement, ReactNode } from 'react';
 import {
   DialogTitle,
   DialogContent,
@@ -12,7 +12,6 @@ import {
   MenuItem,
   FormControl,
   Dialog,
-  Typography,
 } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
@@ -24,11 +23,11 @@ import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
 import { validationMessages, validationMethods } from '../../lib/validation';
-import { Add, Cancel, CheckCircle, Delete, Done, Save, Update, Error } from '@material-ui/icons';
+import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
 import api from '../../lib/api';
 import { AxiosError, AxiosResponse } from 'axios';
-import classNames from 'classnames';
 import { InputFieldProps, Props, State } from './types';
+import StatusWindow from '../StatusWindow';
 
 // Переменная, отвечающая за расстояние между TextField'ми
 const spacing: GridSpacing = 16;
@@ -39,7 +38,7 @@ const SAVE_SUCCESS: string = 'Создание прошло успешно!';
 const DELETE_SUCCESS: string = 'Удаление прошло успешно';
 const SERVER_ERROR: string = 'Ошибка на сервере';
 
-class EditEmployee extends PureComponent<Props, State> {
+class EditEmployee extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -54,9 +53,9 @@ class EditEmployee extends PureComponent<Props, State> {
       organization: null,
       date_of_birth: '',
       registration_date: '',
-      successWindow: false,
-      errorWindow: false,
+      statusWindowOpen: false,
       statusMessage: '',
+      statusType: 'loading',
     };
   }
 
@@ -232,42 +231,11 @@ class EditEmployee extends PureComponent<Props, State> {
     );
   }
 
-  StatusModal = (): ReactElement<ReactNode> => {
-    const { successWindow, errorWindow, statusMessage } = this.state;
-    const { classes } = this.props;
-    return (
-      <Dialog open={successWindow || errorWindow} scroll="paper">
-        <DialogTitle disableTypography>
-          {successWindow &&
-          <Typography variant="h5" className={classes.message}>
-	          <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
-	          Успешно
-          </Typography>}
-          {errorWindow &&
-          <Typography variant="h5" className={classes.message}>
-	          <Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
-	          Ошибка
-          </Typography>}
-        </DialogTitle>
-        <DialogContent>
-          {statusMessage}
-        </DialogContent>
-        <DialogActions>
-          <this.PrimaryButton
-            text="Ок"
-            onClick={this.closeStatusModal}
-            icon="confirm"
-          />
-        </DialogActions>
-      </Dialog>
-    );
-  }
-
   private closeStatusModal = (): ComponentState => {
     const { onCLose } = this.props;
-    const { successWindow } = this.state;
-    this.setState({ successWindow: false, errorWindow: false });
-    if (successWindow) onCLose();
+    const { statusType } = this.state;
+    this.setState({ statusWindowOpen: false });
+    if (statusType === 'success') onCLose();
   }
 
   private handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): ComponentState => {
@@ -312,11 +280,19 @@ class EditEmployee extends PureComponent<Props, State> {
         .then((response: AxiosResponse<Employee>) => {
           const newEmployee: Employee = response.data;
           updateTable(newEmployee);
-          this.setState({ successWindow: true, statusMessage: UPDATE_SUCCESS });
+          this.setState({
+            statusWindowOpen: true,
+            statusMessage: UPDATE_SUCCESS,
+            statusType: 'success',
+          });
         })
         .catch((error: AxiosError) => {
           if (error.response) {
-            this.setState({ errorWindow: true, statusMessage: error.response.data });
+            this.setState({
+              statusWindowOpen: true,
+              statusMessage: SERVER_ERROR,
+              statusType: 'error',
+            });
           }
         });
     } else {
@@ -324,12 +300,20 @@ class EditEmployee extends PureComponent<Props, State> {
         .then((response: AxiosResponse<Employee>) => {
           const newEmployee: Employee = response.data;
           updateTable(newEmployee);
-          this.setState({ successWindow: true, statusMessage: SAVE_SUCCESS });
+          this.setState({
+            statusWindowOpen: true,
+            statusMessage: SAVE_SUCCESS,
+            statusType: 'success',
+          });
         })
         .catch((error: AxiosError) => {
           if (error.response) {
             console.log(error.response.data);
-            this.setState({ errorWindow: true, statusMessage: SERVER_ERROR });
+            this.setState({
+              statusWindowOpen: true,
+              statusMessage: SERVER_ERROR,
+              statusType: 'error',
+            });
           }
         });
     }
@@ -337,6 +321,7 @@ class EditEmployee extends PureComponent<Props, State> {
 
   public render(): ReactNode {
     const { id, onCLose, open } = this.props;
+    const { statusWindowOpen, statusMessage, statusType } = this.state;
     const title: string = id !== -1 ?
       'Редактировать сотрудника' :
       'Зарегистрировать сотрудника';
@@ -344,7 +329,8 @@ class EditEmployee extends PureComponent<Props, State> {
       <Dialog open={open} onClose={onCLose}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-          <this.StatusModal/>
+          <StatusWindow open={statusWindowOpen} onCLose={this.closeStatusModal} status={statusType}
+                        message={statusMessage}/>
           <Grid container spacing={spacing}>
             <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic"/>
             <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic"/>

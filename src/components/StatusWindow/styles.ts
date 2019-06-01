@@ -3,24 +3,6 @@ import { createStyles } from '@material-ui/core/styles';
 import { amber, green } from '@material-ui/core/colors';
 
 export const styles = (theme: Theme) => createStyles({
-  textField: {
-    color: theme.palette.text.primary,
-    margin: theme.spacing.unit,
-  },
-  datePicker: {
-    marginLeft: 10,
-    width: '100%',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    width: '100%',
-  },
-  button: {
-    margin: theme.spacing.unit,
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-  },
   statusIcon: {
     fontSize: 35,
     opacity: 0.9,
@@ -38,5 +20,11 @@ export const styles = (theme: Theme) => createStyles({
   message: {
     display: 'flex',
     alignItems: 'center',
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
   },
 });

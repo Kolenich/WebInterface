@@ -14,9 +14,9 @@ export interface Props extends WithStyles<typeof styles> {
 }
 
 export interface State extends Employee {
-  successWindow: boolean;
-  errorWindow: boolean;
-  statusMessage: Employee | string;
+  statusWindowOpen: boolean;
+  statusMessage: string;
+  statusType: 'success' | 'error' | 'warning' | 'loading';
 }
 
 export interface InputFieldProps {
