@@ -8,7 +8,7 @@ export const styles = (theme: Theme) => createStyles({
     margin: theme.spacing.unit,
   },
   datePicker: {
-    marginLeft: 10,
+    marginLeft: theme.spacing.unit,
     width: '100%',
   },
   formControl: {

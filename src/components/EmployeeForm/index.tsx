@@ -55,21 +55,11 @@ class EditEmployee extends Component<Props, State> {
         date_of_birth: '',
         registration_date: '',
       },
+      dateOfBirthNotNull: false,
       statusWindowOpen: false,
       statusMessage: '',
       statusType: 'loading',
     };
-  }
-
-  public componentDidMount(): ComponentState {
-    const { id } = this.props;
-    if (id !== -1) {
-      api.getContent<Employee>(`employees/${id}`)
-        .then(((response: AxiosResponse<Employee>) => {
-          this.setState({ employee: response.data });
-        }))
-        .catch();
-    }
   }
 
   public componentDidUpdate(prevProps: Readonly<Props>): ComponentState {
@@ -78,7 +68,7 @@ class EditEmployee extends Component<Props, State> {
       if (id !== -1) {
         api.getContent<Employee>(`employees/${id}`)
           .then(((response: AxiosResponse<Employee>) => {
-            this.setState({ employee: response.data });
+            this.setState({ employee: response.data, dateOfBirthNotNull: true });
           }))
           .catch();
       } else {
@@ -96,6 +86,7 @@ class EditEmployee extends Component<Props, State> {
             date_of_birth: '',
             registration_date: '',
           },
+          dateOfBirthNotNull: false,
           statusWindowOpen: false,
           statusMessage: '',
         });
@@ -140,13 +131,14 @@ class EditEmployee extends Component<Props, State> {
   DateField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
-    const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
+    const value: string | null = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
-      String(new Date());
+      null;
     return (
       <Grid item xs={props.xs}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <InlineDatePicker
+            clearable
             className={classes.datePicker}
             margin="normal"
             variant="outlined"
@@ -189,11 +181,12 @@ class EditEmployee extends Component<Props, State> {
 
   PrimaryButton = (buttonProps: CustomButtonProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const { employee } = this.state;
+    const { employee, dateOfBirthNotNull } = this.state;
     const disabled: boolean =
       validationMethods.cyrillic(employee.first_name) &&
       validationMethods.cyrillic(employee.last_name) &&
       validationMethods.email(employee.email) &&
+      dateOfBirthNotNull &&
       employee.sex !== '';
     return (
       <Button
@@ -249,7 +242,11 @@ class EditEmployee extends Component<Props, State> {
 
   private handleDateChange = (name: keyof Employee) => (date: Date): ComponentState => {
     const { employee } = { ...this.state };
-    this.setState({ employee: { ...employee, [name]: date } });
+    if (date !== null) {
+      this.setState({ employee: { ...employee, [name]: date }, dateOfBirthNotNull: true });
+    } else {
+      this.setState({ employee: { ...employee, [name]: date }, dateOfBirthNotNull: false });
+    }
   }
 
   private handleAttributeChange =
@@ -342,7 +339,7 @@ class EditEmployee extends Component<Props, State> {
             <this.SelectField xs={3} fieldName="sex" required/>
           </Grid>
           <Grid container spacing={spacing}>
-            <this.DateField xs={4} fieldName="date_of_birth"/>
+            <this.DateField xs={5} fieldName="date_of_birth"/>
           </Grid>
         </DialogContent>
         <DialogActions>

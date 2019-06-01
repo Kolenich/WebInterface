@@ -1,4 +1,3 @@
-import { ComponentState } from 'react';
 import { ButtonProps } from '@material-ui/core/Button';
 
 export interface Employee {
@@ -57,11 +56,6 @@ export interface Organization {
   okved_code: string;
   okved_name: string;
   employees: Employee[];
-}
-
-export interface ModalProps {
-  open: boolean;
-  onClose: () => ComponentState;
 }
 
 // Тип иконок для основной кнопки

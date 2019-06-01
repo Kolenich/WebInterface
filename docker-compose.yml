@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  web:
+    restart: always
+    container_name: web
+    image: web
+    build:
+      context: .
+    #    ports:
+    #      - "80:80"
+    networks:
+      - frontend
+  server:
+    restart: always
+    container_name: server
+    image: server
+    build:
+      context: ../Server
+    networks:
+      - frontend
+      - backend
+  postgres:
+    restart: always
+    container_name: postgres
+    image: postgres
+    build:
+      context: ../Server
+      dockerfile: Dockerfile-postgres
+    networks:
+      - backend
+networks:
+  frontend:
+    name: frontend
+    driver: bridge
+  backend:
+    name: backend
+    driver: bridge
+

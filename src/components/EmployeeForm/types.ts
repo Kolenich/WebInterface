@@ -15,6 +15,7 @@ export interface Props extends WithStyles<typeof styles> {
 
 export interface State {
   employee: Employee;
+  dateOfBirthNotNull: boolean;
   statusWindowOpen: boolean;
   statusMessage: string;
   statusType: 'success' | 'error' | 'warning' | 'loading';
