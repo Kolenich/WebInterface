@@ -13,7 +13,8 @@ export interface Props extends WithStyles<typeof styles> {
   deleteRecord: (id: number) => ComponentState;
 }
 
-export interface State extends Employee {
+export interface State {
+  employee: Employee;
   statusWindowOpen: boolean;
   statusMessage: string;
   statusType: 'success' | 'error' | 'warning' | 'loading';

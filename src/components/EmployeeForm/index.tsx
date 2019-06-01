@@ -42,17 +42,19 @@ class EditEmployee extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      sex: '',
-      middle_name: null,
-      phone: null,
-      attachment: null,
-      age: 0,
-      organization: null,
-      date_of_birth: '',
-      registration_date: '',
+      employee: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        sex: '',
+        middle_name: null,
+        phone: null,
+        attachment: null,
+        age: 0,
+        organization: null,
+        date_of_birth: '',
+        registration_date: '',
+      },
       statusWindowOpen: false,
       statusMessage: '',
       statusType: 'loading',
@@ -64,7 +66,7 @@ class EditEmployee extends Component<Props, State> {
     if (id !== -1) {
       api.getContent<Employee>(`employees/${id}`)
         .then(((response: AxiosResponse<Employee>) => {
-          this.setState({ ...response.data });
+          this.setState({ employee: response.data });
         }))
         .catch();
     }
@@ -72,28 +74,29 @@ class EditEmployee extends Component<Props, State> {
 
   public componentDidUpdate(prevProps: Readonly<Props>): ComponentState {
     const { id } = this.props;
-    if (prevProps.id !== id) {
+    if (prevProps !== this.props) {
       if (id !== -1) {
         api.getContent<Employee>(`employees/${id}`)
           .then(((response: AxiosResponse<Employee>) => {
-            this.setState({ ...response.data });
+            this.setState({ employee: response.data });
           }))
           .catch();
       } else {
         this.setState({
-          first_name: '',
-          last_name: '',
-          email: '',
-          sex: '',
-          middle_name: null,
-          phone: null,
-          attachment: null,
-          age: 0,
-          organization: null,
-          date_of_birth: '',
-          registration_date: '',
-          successWindow: false,
-          errorWindow: false,
+          employee: {
+            first_name: '',
+            last_name: '',
+            email: '',
+            sex: '',
+            middle_name: null,
+            phone: null,
+            attachment: null,
+            age: 0,
+            organization: null,
+            date_of_birth: '',
+            registration_date: '',
+          },
+          statusWindowOpen: false,
           statusMessage: '',
         });
       }
@@ -102,7 +105,7 @@ class EditEmployee extends Component<Props, State> {
 
   InputField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const employee = { ...this.state };
+    const { employee } = { ...this.state };
     const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
       '';
@@ -136,7 +139,7 @@ class EditEmployee extends Component<Props, State> {
 
   DateField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const employee = { ...this.state };
+    const { employee } = { ...this.state };
     const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
       String(new Date());
@@ -164,7 +167,7 @@ class EditEmployee extends Component<Props, State> {
 
   SelectField = (props: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const employee = { ...this.state };
+    const { employee } = { ...this.state };
     const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
       String(employee[props.fieldName]) :
       '';
@@ -186,12 +189,12 @@ class EditEmployee extends Component<Props, State> {
 
   PrimaryButton = (buttonProps: CustomButtonProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
-    const { first_name, last_name, email, sex } = this.state;
+    const { employee } = this.state;
     const disabled: boolean =
-      validationMethods.cyrillic(first_name) &&
-      validationMethods.cyrillic(last_name) &&
-      validationMethods.email(email) &&
-      sex !== '';
+      validationMethods.cyrillic(employee.first_name) &&
+      validationMethods.cyrillic(employee.last_name) &&
+      validationMethods.email(employee.email) &&
+      employee.sex !== '';
     return (
       <Button
         variant="contained"
@@ -240,83 +243,78 @@ class EditEmployee extends Component<Props, State> {
 
   private handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): ComponentState => {
     const sex: Sex = event.target.value as Sex;
-    this.setState({ sex });
+    const { employee } = { ...this.state };
+    this.setState({ employee: { ...employee, sex } });
   }
 
-  private handleDateChange = (name: keyof State) => (date: Date): ComponentState => {
-    this.setState({ [name]: date });
+  private handleDateChange = (name: keyof Employee) => (date: Date): ComponentState => {
+    const { employee } = { ...this.state };
+    this.setState({ employee: { ...employee, [name]: date } });
   }
 
   private handleAttributeChange =
-    (name: keyof State) => (event: ChangeEvent<HTMLInputElement>): ComponentState => {
-      this.setState({ [name]: event.target.value });
+    (name: keyof Employee) => (event: ChangeEvent<HTMLInputElement>): ComponentState => {
+      const { employee } = { ...this.state };
+      this.setState({ employee: { ...employee, [name]: event.target.value } });
     }
 
   private deleteForm = (): ComponentState => {
-    const employee: Employee = { ...this.state };
+    const { employee } = { ...this.state };
     const { deleteRecord } = this.props;
-    api.sendContent<Employee>('employees', employee, employee.id, 'delete')
+    const url: string = `employees/${employee.id}`;
+    const method: string = 'delete';
+    api.sendContent<Employee>(url, employee, method)
       .then(() => {
-        if (employee.id) {
-          deleteRecord(employee.id);
-          this.setState({ successWindow: true, statusMessage: DELETE_SUCCESS });
-        }
+        if (employee.id) deleteRecord(employee.id);
+        this.setState({
+          statusWindowOpen: true,
+          statusMessage: DELETE_SUCCESS,
+          statusType: 'success',
+        });
       })
       .catch((error: AxiosError) => {
+        this.setState({
+          statusWindowOpen: true,
+          statusMessage: SERVER_ERROR,
+          statusType: 'error',
+        });
         if (error.response) console.log(error.response.data);
       });
   }
 
   private submitForm = (): ComponentState => {
     const { updateTable } = this.props;
-    const employee = { ...this.state };
+    const { employee } = { ...this.state };
     // eslint-disable-next-line
-    Object.keys(employee).map((field: keyof State): void => {
+    Object.keys(employee).map((field: keyof Employee): void => {
       if (employee[field] === '') employee[field] = null;
     });
     employee.date_of_birth = moment(employee.date_of_birth).format('YYYY-MM-DD');
+    let statusMessage: string = SAVE_SUCCESS;
+    let url: string = 'employees';
+    let method: string = 'post';
     if (employee.id) {
-      api.sendContent<Employee>('employees', employee, employee.id, 'patch')
-        .then((response: AxiosResponse<Employee>) => {
-          const newEmployee: Employee = response.data;
-          updateTable(newEmployee);
-          this.setState({
-            statusWindowOpen: true,
-            statusMessage: UPDATE_SUCCESS,
-            statusType: 'success',
-          });
-        })
-        .catch((error: AxiosError) => {
-          if (error.response) {
-            this.setState({
-              statusWindowOpen: true,
-              statusMessage: SERVER_ERROR,
-              statusType: 'error',
-            });
-          }
-        });
-    } else {
-      api.sendContent<Employee>('employees', employee)
-        .then((response: AxiosResponse<Employee>) => {
-          const newEmployee: Employee = response.data;
-          updateTable(newEmployee);
-          this.setState({
-            statusWindowOpen: true,
-            statusMessage: SAVE_SUCCESS,
-            statusType: 'success',
-          });
-        })
-        .catch((error: AxiosError) => {
-          if (error.response) {
-            console.log(error.response.data);
-            this.setState({
-              statusWindowOpen: true,
-              statusMessage: SERVER_ERROR,
-              statusType: 'error',
-            });
-          }
-        });
+      url = `employees/${employee.id}`;
+      statusMessage = UPDATE_SUCCESS;
+      method = 'patch';
     }
+    api.sendContent<Employee>(url, employee, method)
+      .then((response: AxiosResponse<Employee>) => {
+        updateTable(response.data);
+        this.setState({
+          statusMessage,
+          statusWindowOpen: true,
+          statusType: 'success',
+        });
+      })
+      .catch((error: AxiosError) => {
+        this.setState({
+          statusWindowOpen: true,
+          statusMessage: SERVER_ERROR,
+          statusType: 'error',
+        });
+        if (error.response) console.log(error.response.data);
+      });
   }
 
   public render(): ReactNode {
