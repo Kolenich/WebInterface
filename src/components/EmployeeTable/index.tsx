@@ -187,7 +187,7 @@ class EmployeeTable extends PureComponent<Props, State> {
         <EmployeeForm
           id={rowId}
           open={addEmployee}
-          onCLose={this.closeEditWindow}
+          onClose={this.closeEditWindow}
           updateTable={this.updateTable}
           deleteRecord={this.deleteRecord}
         />

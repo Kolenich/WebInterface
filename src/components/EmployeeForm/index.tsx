@@ -230,10 +230,10 @@ class EditEmployee extends Component<Props, State> {
   }
 
   private closeStatusModal = (): ComponentState => {
-    const { onCLose } = this.props;
+    const { onClose } = this.props;
     const { statusType } = this.state;
     this.setState({ statusWindowOpen: false });
-    if (statusType === 'success') onCLose();
+    if (statusType === 'success') onClose();
   }
 
   private handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): ComponentState => {
@@ -319,16 +319,16 @@ class EditEmployee extends Component<Props, State> {
   }
 
   public render(): ReactNode {
-    const { id, onCLose, open } = this.props;
+    const { id, onClose, open } = this.props;
     const { statusWindowOpen, statusMessage, statusType } = this.state;
     const title: string = id !== -1 ?
       'Редактировать сотрудника' :
       'Зарегистрировать сотрудника';
     return (
-      <Dialog open={open} onClose={onCLose}>
+      <Dialog open={open} onClose={onClose}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-          <StatusWindow open={statusWindowOpen} onCLose={this.closeStatusModal} status={statusType}
+          <StatusWindow open={statusWindowOpen} onClose={this.closeStatusModal} status={statusType}
                         message={statusMessage}/>
           <Grid container spacing={spacing}>
             <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic"/>
@@ -356,7 +356,7 @@ class EditEmployee extends Component<Props, State> {
           {id !== -1 &&
           <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
           <this.SecondaryButton text="Отмена" icon="cancel"
-                                onClick={onCLose}/>
+                                onClick={onClose}/>
         </DialogActions>
       </Dialog>
     );

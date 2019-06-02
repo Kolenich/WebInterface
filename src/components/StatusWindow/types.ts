@@ -4,7 +4,7 @@ import { ComponentState } from 'react';
 
 export interface Props extends WithStyles<typeof styles> {
   open: boolean;
-  onCLose: () => ComponentState;
+  onClose: () => ComponentState;
   closeCallback?: () => ComponentState;
   status: 'success' | 'error' | 'warning' | 'loading';
   message: string;

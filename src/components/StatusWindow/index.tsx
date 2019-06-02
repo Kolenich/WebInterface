@@ -38,7 +38,7 @@ class StatusWindow extends PureComponent<Props, State> {
   }
 
   public render(): ReactNode {
-    const { open, status, message, classes, onCLose } = this.props;
+    const { open, status, message, classes, onClose } = this.props;
     return (
       <Dialog open={open} scroll="paper" disableBackdropClick disableEscapeKeyDown>
         <DialogTitle disableTypography>
@@ -71,7 +71,7 @@ class StatusWindow extends PureComponent<Props, State> {
         <DialogActions>
 	        <this.PrimaryButton
 		        text="Ок"
-		        onClick={onCLose}
+		        onClick={onClose}
 		        icon="confirm"
 	        />
         </DialogActions>}

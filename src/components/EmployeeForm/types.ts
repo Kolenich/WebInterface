@@ -8,7 +8,7 @@ import { Validation } from '../../lib/validation';
 export interface Props extends WithStyles<typeof styles> {
   id: number;
   open: boolean;
-  onCLose: () => ComponentState;
+  onClose: () => ComponentState;
   updateTable: (newEmployee: Employee) => ComponentState;
   deleteRecord: (id: number) => ComponentState;
 }
