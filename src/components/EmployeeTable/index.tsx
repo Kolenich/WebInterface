@@ -129,22 +129,19 @@ class EmployeeTable extends PureComponent<Props, State> {
     const rows: TableRows[] = [];
     // eslint-disable-next-line
     employees.map((employee: Employee): void => {
-      const fullName: string = employee.middle_name ?
-        `${employee.last_name} ${employee.first_name} ${employee.middle_name}` :
-        `${employee.last_name} ${employee.first_name}`;
-      const registrationDate: string =
-        new Date(employee.registration_date).toLocaleDateString('ru', dateTimeOptions);
-      const phone: string = employee.phone !== null ?
-        employee.phone :
-        'Не указан';
+      let fullName: string = `${employee.last_name} ${employee.first_name}`;
+      if (employee.middle_name !== null) fullName += ` ${employee.middle_name}`;
+      let phone: string = '';
+      if (employee.phone !== null) phone = employee.phone;
+      let id: number = 0;
+      if (employee.id) id = employee.id;
       const email: string = employee.email;
       const age: number = employee.age;
+      const sex: string = sexLabel[employee.sex];
+      const registrationDate: string =
+        new Date(employee.registration_date).toLocaleDateString('ru', dateTimeOptions);
       const dateOfBirth: string =
         new Date(employee.date_of_birth).toLocaleDateString('ru', dateOptions);
-      const sex: string = sexLabel[employee.sex];
-      const id: number = employee.id ?
-        employee.id :
-        0;
       rows.push({ id, fullName, registrationDate, phone, email, age, dateOfBirth, sex });
     });
     return rows;
