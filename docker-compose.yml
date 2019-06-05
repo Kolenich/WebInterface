@@ -11,8 +11,8 @@ services:
     restart: always
     container_name: web
     image: kolenich/web
-    ports:
-      - 80:80
+    #    ports:
+    #      - 80:80
     networks:
       - frontend
   server:
