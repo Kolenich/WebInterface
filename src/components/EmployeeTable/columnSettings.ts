@@ -21,8 +21,8 @@ export default {
     'sex',
   ],
   defaultColumnWidths: [
-    { columnName: 'id', width: window.innerWidth * 0.07 },
-    { columnName: 'fullName', width: window.innerWidth * 0.23 },
+    { columnName: 'id', width: window.innerWidth * 0.05 },
+    { columnName: 'fullName', width: window.innerWidth * 0.25 },
     { columnName: 'registrationDate', width: window.innerWidth * 0.1 },
     { columnName: 'phone', width: window.innerWidth * 0.1 },
     { columnName: 'email', width: window.innerWidth * 0.2 },
