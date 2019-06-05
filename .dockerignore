@@ -48,3 +48,4 @@ docker-compose.yml
 # next.js build output
 .next
 /.dockerignore
+*.sh
