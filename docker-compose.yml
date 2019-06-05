@@ -8,6 +8,8 @@ networks:
     driver: bridge
 services:
   web:
+    volumes:
+      - ./django-static:/app/django-static
     restart: always
     container_name: web
     image: kolenich/web
@@ -16,6 +18,8 @@ services:
     networks:
       - frontend
   server:
+    volumes:
+      - ./django-static:/app/static
     restart: always
     container_name: server
     image: kolenich/server
