@@ -21,18 +21,18 @@ class StatusWindow extends PureComponent<Props, State> {
     this.state = {};
   }
 
-  PrimaryButton = (buttonProps: CustomButtonProps): ReactElement<ReactNode> => {
+  PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
     return (
       <Button
         variant="contained"
         color="primary"
         className={classes.button}
-        {...buttonProps}
+        {...props}
       >
-        {buttonProps.text}
-        {buttonProps.icon === 'confirm' &&
-				<Done className={classes.rightIcon}/>}
+        {text}
+        {icon === 'confirm' &&
+        <Done className={classes.rightIcon}/>}
       </Button>
     );
   }
@@ -43,24 +43,24 @@ class StatusWindow extends PureComponent<Props, State> {
       <Dialog open={open} scroll="paper" disableBackdropClick disableEscapeKeyDown>
         <DialogTitle disableTypography>
           {status === 'success' &&
-					<Typography variant="h5" className={classes.message}>
-						<CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
-						Успешно
-					</Typography>}
+          <Typography variant="h5" className={classes.message}>
+            <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
+            Успешно
+          </Typography>}
           {status === 'error' &&
-					<Typography variant="h5" className={classes.message}>
-						<Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
-						Ошибка
-					</Typography>}
+          <Typography variant="h5" className={classes.message}>
+            <Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
+            Ошибка
+          </Typography>}
           {status === 'warning' &&
           <Typography variant="h5" className={classes.message}>
-	          <Warning className={classNames(classes.statusIcon, classes.warningIcon)}/>
-	          Внимание
+            <Warning className={classNames(classes.statusIcon, classes.warningIcon)}/>
+            Внимание
           </Typography>}
           {status === 'loading' &&
           <Typography variant="h5" className={classes.message}>
-	          <CircularProgress className={classes.statusIcon}/>
-	          Пожалуйста, подождите...
+            <CircularProgress className={classes.statusIcon}/>
+            Пожалуйста, подождите...
           </Typography>}
         </DialogTitle>
         {status !== 'loading' &&
@@ -69,11 +69,11 @@ class StatusWindow extends PureComponent<Props, State> {
         </DialogContent>}
         {status !== 'loading' &&
         <DialogActions>
-	        <this.PrimaryButton
-		        text="Ок"
-		        onClick={onClose}
-		        icon="confirm"
-	        />
+          <this.PrimaryButton
+            text="Ок"
+            onClick={onClose}
+            icon="confirm"
+          />
         </DialogActions>}
       </Dialog>);
   }

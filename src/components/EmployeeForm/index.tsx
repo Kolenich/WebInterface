@@ -94,59 +94,61 @@ class EditEmployee extends Component<Props, State> {
     }
   }
 
-  InputField = (props: InputFieldProps): ReactElement<ReactNode> => {
+  InputField = ({ xs, fieldName, validationType, ...props }: InputFieldProps):
+    ReactElement<ReactNode> => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
-    const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
-      String(employee[props.fieldName]) :
+    const value: string = employee[fieldName] !== null && employee[fieldName] ?
+      String(employee[fieldName]) :
       '';
     let valid: boolean = true;
     let helperText: string = '';
-    if (props.validationType && value !== '') {
+    if (validationType && value !== '') {
       if (value) {
-        valid = validationMethods[props.validationType](value);
+        valid = validationMethods[validationType](value);
       }
-      if (!valid) helperText = validationMessages[props.validationType];
+      if (!valid) helperText = validationMessages[validationType];
     }
     return (
-      <Grid item xs={props.xs}>
+      <Grid item xs={xs}>
         <TextField
-          label={employeeLabel[props.fieldName]}
-          placeholder={employeeLabel[props.fieldName]}
+          label={employeeLabel[fieldName]}
+          placeholder={employeeLabel[fieldName]}
           className={classes.textField}
-          name={String(props.fieldName)}
+          name={String(fieldName)}
           error={!valid}
           helperText={helperText}
           fullWidth
           margin="normal"
           variant="outlined"
-          onChange={this.handleAttributeChange(props.fieldName)}
+          onChange={this.handleAttributeChange(fieldName)}
           value={value}
-          required={props.required}
+          {...props}
         />
       </Grid>
     );
   }
 
-  DateField = (props: InputFieldProps): ReactElement<ReactNode> => {
+  DateField = ({ xs, fieldName, ...props }: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
-    const value: string | null = employee[props.fieldName] !== null && employee[props.fieldName] ?
-      String(employee[props.fieldName]) :
+    const value: string | null = employee[fieldName] !== null && employee[fieldName] ?
+      String(employee[fieldName]) :
       null;
     return (
-      <Grid item xs={props.xs}>
+      <Grid item xs={xs}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <InlineDatePicker
+            {...props}
             clearable
             openTo="year"
             views={['year', 'month', 'day']}
             className={classes.datePicker}
             margin="normal"
             variant="outlined"
-            label={employeeLabel[props.fieldName]}
+            label={employeeLabel[fieldName]}
             value={value}
-            onChange={this.handleDateChange(props.fieldName)}
+            onChange={this.handleDateChange(fieldName)}
             format="dd.MM.yyyy"
             keyboard
             disableFuture
@@ -159,15 +161,15 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
-  SelectField = (props: InputFieldProps): ReactElement<ReactNode> => {
+  SelectField = ({ xs, fieldName, ...props }: InputFieldProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
-    const value: string = employee[props.fieldName] !== null && employee[props.fieldName] ?
-      String(employee[props.fieldName]) :
+    const value: string = employee[fieldName] !== null && employee[fieldName] ?
+      String(employee[fieldName]) :
       '';
     return (
-      <Grid item xs={props.xs}>
-        <FormControl variant="outlined" className={classes.formControl} required={props.required}>
+      <Grid item xs={xs}>
+        <FormControl variant="outlined" className={classes.formControl} {...props}>
           <InputLabel htmlFor="sex">Пол</InputLabel>
           <Select
             value={value}
@@ -181,7 +183,7 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
-  PrimaryButton = (buttonProps: CustomButtonProps): ReactElement<ReactNode> => {
+  PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
     const { employee, dateOfBirthNotNull } = this.state;
     const disabled: boolean =
@@ -196,34 +198,34 @@ class EditEmployee extends Component<Props, State> {
         color="primary"
         className={classes.button}
         disabled={!disabled}
-        {...buttonProps}
+        {...props}
       >
-        {buttonProps.text}
-        {buttonProps.icon === 'save' &&
+        {text}
+        {icon === 'save' &&
         <Save className={classes.rightIcon}/>}
-        {buttonProps.icon === 'add' &&
+        {icon === 'add' &&
         <Add className={classes.rightIcon}/>}
-        {buttonProps.icon === 'confirm' &&
+        {icon === 'confirm' &&
         <Done className={classes.rightIcon}/>}
-        {buttonProps.icon === 'update' &&
+        {icon === 'update' &&
         <Update className={classes.rightIcon}/>}
       </Button>
     );
   }
 
-  SecondaryButton = (buttonProps: CustomButtonProps): ReactElement<ReactNode> => {
+  SecondaryButton = ({ text, icon, ...props }: CustomButtonProps): ReactElement<ReactNode> => {
     const { classes } = this.props;
     return (
       <Button
         variant="contained"
         color="secondary"
         className={classes.button}
-        {...buttonProps}
+        {...props}
       >
-        {buttonProps.text}
-        {buttonProps.icon === 'delete' &&
+        {text}
+        {icon === 'delete' &&
         <Delete className={classes.rightIcon}/>}
-        {buttonProps.icon === 'cancel' &&
+        {icon === 'cancel' &&
         <Cancel className={classes.rightIcon}/>}
       </Button>
     );
