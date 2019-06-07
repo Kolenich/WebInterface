@@ -24,7 +24,7 @@ export const sexLabel: SexLabels = {
   female: 'Жен.',
 };
 
-export const employeeLabel: EmployeeLabels = {
+export const employeeLabels: EmployeeLabels = {
   first_name: 'Имя',
   last_name: 'Фамилия',
   middle_name: 'Отчество',

@@ -17,7 +17,7 @@ import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import { CustomButtonProps, Employee, Sex } from '../../lib/types';
 import { GridSpacing } from '@material-ui/core/Grid';
-import { employeeLabel } from '../../lib/utils';
+import { employeeLabels } from '../../lib/utils';
 import { MuiPickersUtilsProvider, InlineDatePicker } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -112,8 +112,8 @@ class EditEmployee extends Component<Props, State> {
     return (
       <Grid item xs={xs}>
         <TextField
-          label={employeeLabel[fieldName]}
-          placeholder={employeeLabel[fieldName]}
+          label={employeeLabels[fieldName]}
+          placeholder={employeeLabels[fieldName]}
           className={classes.textField}
           name={String(fieldName)}
           error={!valid}
@@ -146,7 +146,7 @@ class EditEmployee extends Component<Props, State> {
             className={classes.datePicker}
             margin="normal"
             variant="outlined"
-            label={employeeLabel[fieldName]}
+            label={employeeLabels[fieldName]}
             value={value}
             onChange={this.handleDateChange(fieldName)}
             format="dd.MM.yyyy"
