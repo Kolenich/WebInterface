@@ -64,17 +64,18 @@ class StatusWindow extends PureComponent<Props, State> {
           </Typography>}
         </DialogTitle>
         {status !== 'loading' &&
-        <DialogContent>
-          {message}
-        </DialogContent>}
-        {status !== 'loading' &&
-        <DialogActions>
-          <this.PrimaryButton
-            text="Ок"
-            onClick={onClose}
-            icon="confirm"
-          />
-        </DialogActions>}
+        <>
+          <DialogContent>
+            {message}
+          </DialogContent>
+          <DialogActions>
+            <this.PrimaryButton
+              text="Ок"
+              onClick={onClose}
+              icon="confirm"
+            />
+          </DialogActions>
+        </>}
       </Dialog>);
   }
 }
