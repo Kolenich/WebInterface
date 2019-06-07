@@ -28,6 +28,6 @@ export default {
     { columnName: 'email', width: window.innerWidth * 0.2 },
     { columnName: 'dateOfBirth', width: window.innerWidth * 0.1 },
     { columnName: 'age', width: window.innerWidth * 0.1 },
-    { columnName: 'sex', width: window.innerWidth * 0.1 },
+    { columnName: 'sex', width: window.innerWidth * 0.09 },
   ],
 };
