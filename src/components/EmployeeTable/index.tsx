@@ -90,10 +90,9 @@ class EmployeeTable extends PureComponent<Props, State> {
   }
 
   // Колбэк-метод, открывающий модальное окно
-  private openEditWindow =
-    (rowId: number, addEmployee: boolean) => (): ComponentState => {
-      this.setState({ rowId, addEmployee });
-    }
+  private openEditWindow = (rowId: number, addEmployee: boolean) => (): ComponentState => {
+    this.setState({ rowId, addEmployee });
+  }
 
   // Колбэк-метод, закрывающий модальное окно
   private closeEditWindow = (): ComponentState => {

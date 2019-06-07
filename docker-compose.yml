@@ -9,7 +9,7 @@ networks:
 services:
   web:
     volumes:
-      - ./../django-static:/app/django-static
+      - ../django-static:/app/django-static
     restart: always
     container_name: web
     image: kolenich/web
@@ -19,7 +19,7 @@ services:
       - web-server
   server:
     volumes:
-      - ./../django-static:/app/static
+      - ../django-static:/app/static
     restart: always
     container_name: server
     image: kolenich/server
