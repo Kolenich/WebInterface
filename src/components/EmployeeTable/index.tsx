@@ -1,4 +1,4 @@
-import React, { ComponentState, PureComponent, ReactElement, ReactNode } from 'react';
+import React, { ComponentState, PureComponent, ReactNode } from 'react';
 import { Fab, Paper } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
@@ -65,7 +65,7 @@ class EmployeeTable extends PureComponent<Props, State> {
   }
 
   // Кнопка для добавления нового сотрудника
-  AddButton = (): ReactElement<ReactNode> => {
+  AddButton = (): JSX.Element => {
     const { classes } = this.props;
     return (
       <Fab color="primary" className={classes.addIcon} variant="extended"
@@ -77,7 +77,7 @@ class EmployeeTable extends PureComponent<Props, State> {
   }
 
   // Компонент строки в таблице
-  RowComponent = (props: Table.DataRowProps): ReactElement<ReactNode> => {
+  RowComponent = (props: Table.DataRowProps): JSX.Element => {
     const { classes } = this.props;
     const rowId: number = props.row.id;
     const addEmployee: boolean = true;

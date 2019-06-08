@@ -5,6 +5,8 @@
   ],
   "rules": {
     "indent": false,
+    "no-unused-variable": true,
+    "no-for-in-array": true,
     "import-name": [
       false,
       {

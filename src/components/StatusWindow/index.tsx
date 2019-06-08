@@ -1,4 +1,4 @@
-import React, { PureComponent, ReactElement, ReactNode } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import { Props, State } from './types';
 import {
   Button,
@@ -21,7 +21,7 @@ class StatusWindow extends PureComponent<Props, State> {
     this.state = {};
   }
 
-  PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): ReactElement<ReactNode> => {
+  PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): JSX.Element => {
     const { classes } = this.props;
     return (
       <Button

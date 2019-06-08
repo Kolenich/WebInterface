@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ComponentState, Component, ReactElement, ReactNode } from 'react';
+import React, { ChangeEvent, ComponentState, Component, ReactNode } from 'react';
 import {
   DialogTitle,
   DialogContent,
@@ -96,7 +96,7 @@ class EditEmployee extends Component<Props, State> {
   }
 
   InputField = ({ xs, fieldName, validationType, ...props }: InputFieldProps):
-    ReactElement<ReactNode> => {
+    JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
     const value: string = employee[fieldName] !== null && employee[fieldName] ?
@@ -130,7 +130,7 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
-  DateField = ({ xs, fieldName, ...props }: InputFieldProps): ReactElement<ReactNode> => {
+  DateField = ({ xs, fieldName, ...props }: InputFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
     const value: string | null = employee[fieldName] !== null && employee[fieldName] ?
@@ -162,7 +162,7 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
-  SelectField = ({ xs, fieldName, ...props }: InputFieldProps): ReactElement<ReactNode> => {
+  SelectField = ({ xs, fieldName, ...props }: InputFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
     const value: string = employee[fieldName] !== null && employee[fieldName] ?
@@ -184,7 +184,7 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
-  PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): ReactElement<ReactNode> => {
+  PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): JSX.Element => {
     const { classes } = this.props;
     const { employee, dateOfBirthNotNull } = this.state;
     const disabled: boolean =
@@ -214,7 +214,7 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
-  SecondaryButton = ({ text, icon, ...props }: CustomButtonProps): ReactElement<ReactNode> => {
+  SecondaryButton = ({ text, icon, ...props }: CustomButtonProps): JSX.Element => {
     const { classes } = this.props;
     return (
       <Button
