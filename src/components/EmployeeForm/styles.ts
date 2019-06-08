@@ -20,4 +20,8 @@ export const styles = (theme: Theme) => createStyles({
   rightIcon: {
     marginLeft: theme.spacing.unit,
   },
+  cancelButton: {
+    float: 'right',
+    padding: 0,
+  },
 });

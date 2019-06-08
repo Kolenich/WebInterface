@@ -12,6 +12,7 @@ import {
   MenuItem,
   FormControl,
   Dialog,
+  IconButton,
 } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
@@ -321,14 +322,19 @@ class EditEmployee extends Component<Props, State> {
   }
 
   public render(): ReactNode {
-    const { id, onClose, open } = this.props;
+    const { id, onClose, open, classes } = this.props;
     const { statusWindowOpen, statusMessage, statusType } = this.state;
     const title: string = id !== -1 ?
       'Редактировать сотрудника' :
       'Зарегистрировать сотрудника';
     return (
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle>
+          {title}
+          <IconButton className={classes.cancelButton} onClick={onClose}>
+            <Cancel/>
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <StatusWindow open={statusWindowOpen} onClose={this.closeStatusModal} status={statusType}
                         message={statusMessage}/>
@@ -357,8 +363,6 @@ class EditEmployee extends Component<Props, State> {
             onClick={this.submitForm}/>
           {id !== -1 &&
           <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
-          <this.SecondaryButton text="Отмена" icon="cancel"
-                                onClick={onClose}/>
         </DialogActions>
       </Dialog>
     );
