@@ -23,13 +23,6 @@ class MainPage extends PureComponent<Props, State> {
     session.post('auth/login/', { username, password })
       .then((response: AxiosResponse) => {
         console.log(response.data.key);
-        session.post('auth/logout/', { username })
-          .then((response: AxiosResponse) => {
-            console.log(response.data.detail);
-          })
-          .catch((error: AxiosError) => {
-            if (error.response) console.log(error.response.data);
-          });
       })
       .catch((error: AxiosError) => {
         if (error.response) console.log(error.response.data);
