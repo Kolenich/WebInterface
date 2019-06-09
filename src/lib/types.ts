@@ -68,3 +68,5 @@ export interface CustomButtonProps extends ButtonProps {
   text: string;
   icon?: PrimaryButtonIcon | SecondaryButtonIcon;
 }
+
+export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';

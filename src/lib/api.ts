@@ -1,5 +1,6 @@
 import { session } from './session';
 import { AxiosResponse, AxiosPromise, AxiosError } from 'axios';
+import { HTTPMethods } from './types';
 
 export default {
   getContent<dataType>(requestUrl: string, sendData?: dataType): AxiosPromise<dataType> {
@@ -8,20 +9,19 @@ export default {
       if (!sendData) data = {} as dataType;
       session
         .get<dataType>(`api/${requestUrl}/`, { data })
-        .then((response: AxiosResponse) => resolve(response))
+        .then((response: AxiosResponse<dataType>) => resolve(response))
         .catch((error: AxiosError) => reject(error));
     });
   },
-  sendContent<dataType>(requestUrl: string, sendData: dataType, sendMethod?: string):
+  sendContent<dataType>(requestUrl: string, sendData: dataType, sendMethod?: HTTPMethods):
     AxiosPromise<dataType> {
     return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
       let method = sendMethod;
-      let data = sendData;
-      const url: string = `api/${requestUrl}/`;
       if (!method) method = 'post';
-      if (!data) data = {} as dataType;
+      const data: dataType = sendData;
+      const url: string = `api/${requestUrl}/`;
       session({ method, data, url })
-        .then((response: AxiosResponse) => resolve(response))
+        .then((response: AxiosResponse<dataType>) => resolve(response))
         .catch((error: AxiosError) => reject(error));
     });
   },

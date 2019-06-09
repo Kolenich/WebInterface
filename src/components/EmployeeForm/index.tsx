@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
-import { CustomButtonProps, Employee, Sex } from '../../lib/types';
+import { CustomButtonProps, Employee, HTTPMethods, Sex } from '../../lib/types';
 import { GridSpacing } from '@material-ui/core/Grid';
 import { employeeLabels } from '../../lib/utils';
 import { MuiPickersUtilsProvider, InlineDatePicker } from 'material-ui-pickers';
@@ -265,7 +265,7 @@ class EditEmployee extends Component<Props, State> {
     const { employee } = { ...this.state };
     const { deleteRecord } = this.props;
     const url: string = `employees/${employee.id}`;
-    const method: string = 'delete';
+    const method: HTTPMethods = 'delete';
     api.sendContent<Employee>(url, employee, method)
       .then(() => {
         if (employee.id) deleteRecord(employee.id);
@@ -296,7 +296,7 @@ class EditEmployee extends Component<Props, State> {
     employee.date_of_birth = moment(employee.date_of_birth).format('YYYY-MM-DD');
     let statusMessage: string = SAVE_SUCCESS;
     let url: string = 'employees';
-    let method: string = 'post';
+    let method: HTTPMethods = 'post';
     if (employee.id) {
       url = `employees/${employee.id}`;
       statusMessage = UPDATE_SUCCESS;
