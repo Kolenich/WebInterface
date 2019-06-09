@@ -15,7 +15,7 @@
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
     "@types/react-swipeable-views": "0.13.0",
-    "axios": "0.18.0",
+    "axios": "0.18.1",
     "date-fns": "2.0.0-alpha.27",
     "material-ui-pickers": "2.2.4",
     "moment": "2.24.0",
