@@ -7,7 +7,7 @@ import EmployeeTable from '../EmployeeTable';
 import { Props, State, TabContainerProps } from './types';
 import { session } from '../../lib/session';
 
-class MainMenu extends PureComponent<Props, State> {
+class MainPage extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -40,7 +40,7 @@ class MainMenu extends PureComponent<Props, State> {
   TabContainer = ({ children, dir }: TabContainerProps): JSX.Element => {
     const { classes } = this.props;
     return (
-      <Typography component="div" dir={dir} classes={{ root: classes.tabContainer }}>
+      <Typography component="div" dir={dir} className={classes.tabContainer}>
         {children}
       </Typography>
     );
@@ -86,7 +86,7 @@ class MainMenu extends PureComponent<Props, State> {
             <EmployeeTable/>
           </this.TabContainer>
           <this.TabContainer dir={theme.direction}>
-            Привет
+            <EmployeeTable/>
           </this.TabContainer>
         </SwipeableViews>
       </>
@@ -94,4 +94,4 @@ class MainMenu extends PureComponent<Props, State> {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(MainMenu);
+export default withStyles(styles, { withTheme: true })(MainPage);

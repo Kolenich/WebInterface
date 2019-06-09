@@ -96,7 +96,7 @@ class EmployeeTable extends PureComponent<Props, State> {
 
   // Колбэк-метод, закрывающий модальное окно
   private closeEditWindow = (): ComponentState => {
-    this.setState({ addEmployee: false, rowId: -1 });
+    this.setState({ addEmployee: false });
   }
 
   // Колбэк-метод для обновления или добавления строки в таблице
