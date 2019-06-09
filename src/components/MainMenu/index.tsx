@@ -2,11 +2,10 @@ import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 're
 import { AppBar, Tabs, Tab, withStyles, Typography } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { styles } from './styles';
-import api from '../../lib/api';
-import { Employee } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import EmployeeTable from '../EmployeeTable';
 import { Props, State, TabContainerProps } from './types';
+import { session } from '../../lib/session';
 
 class MainMenu extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -19,18 +18,26 @@ class MainMenu extends PureComponent<Props, State> {
   }
 
   public componentDidMount(): ComponentState {
-    api.getContent<Employee[]>('employees')
-      .then((response: AxiosResponse<Employee[]>) => {
-        const employees: Employee[] = response.data;
-        this.setState({ employees });
+    const username: string = 'root';
+    const password: string = 'root';
+    session.post('auth/login/', { username, password })
+      .then((response: AxiosResponse) => {
+        console.log(response.data.key);
+        session.post('auth/logout/', { username })
+          .then((response: AxiosResponse) => {
+            console.log(response.data.detail);
+          })
+          .catch((error: AxiosError) => {
+            if (error.response) console.log(error.response.data);
+          });
       })
       .catch((error: AxiosError) => {
-        console.log(error);
+        if (error.response) console.log(error.response.data);
       });
   }
 
   // Компонент-обертка для пункта меню
-  TabContainer = ({ children, dir }: TabContainerProps) => {
+  TabContainer = ({ children, dir }: TabContainerProps): JSX.Element => {
     const { classes } = this.props;
     return (
       <Typography component="div" dir={dir} classes={{ root: classes.tabContainer }}>
@@ -40,7 +47,7 @@ class MainMenu extends PureComponent<Props, State> {
   }
 
   // Метод, обрабатывающий смену активного пункта меню
-  private handleChange = (event: ChangeEvent<{}>, value: number) => {
+  private handleChange = (event: ChangeEvent<{}>, value: number): ComponentState => {
     this.setState({ value });
   }
 
