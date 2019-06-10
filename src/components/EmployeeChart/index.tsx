@@ -14,7 +14,7 @@ import {
 import { ValueScale, Animation, EventTracker } from '@devexpress/dx-react-chart';
 import { styles } from './styles';
 
-const Point = (props: BarSeries.PointProps) => {
+const Point = (props: BarSeries.PointProps): JSX.Element => {
   return (
     <BarSeries.Point
       style={{ animationDuration: `${(props.index + 1) * 0.3}s` }}
