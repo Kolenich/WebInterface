@@ -10,6 +10,6 @@ export const styles = (theme: Theme) => createStyles({
     cursor: 'pointer',
   },
   paper: {
-    backgroundColor: grey[200],
+    backgroundColor: grey[50],
   },
 });

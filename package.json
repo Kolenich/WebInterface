@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "1.3.6",
+    "@devexpress/dx-react-chart": "1.11.0",
+    "@devexpress/dx-react-chart-material-ui": "1.11.0",
     "@devexpress/dx-react-core": "1.10.5",
     "@devexpress/dx-react-grid": "1.10.5",
     "@devexpress/dx-react-grid-material-ui": "1.10.5",

@@ -6,6 +6,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import EmployeeTable from '../EmployeeTable';
 import { Props, State, TabContainerProps } from './types';
 import { session } from '../../lib/session';
+import EmployeeChart from '../EmployeeChart';
 
 class MainPage extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -79,7 +80,7 @@ class MainPage extends PureComponent<Props, State> {
             <EmployeeTable/>
           </this.TabContainer>
           <this.TabContainer dir={theme.direction}>
-            <EmployeeTable/>
+            <EmployeeChart/>
           </this.TabContainer>
         </SwipeableViews>
       </>
