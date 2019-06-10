@@ -9,6 +9,7 @@ import {
   SplineSeries,
   Legend,
   Tooltip,
+  Title,
 } from '@devexpress/dx-react-chart-material-ui';
 import { ValueScale, Animation, EventTracker } from '@devexpress/dx-react-chart';
 import { styles } from './styles';
@@ -43,6 +44,7 @@ class EmployeeChart extends Component<Props, State> {
     return (
       <Paper className={classes.paperMain}>
         <Chart data={data}>
+          <Title text="Графики"/>
           <ValueScale name="sale"/>
           <ValueScale name="total"/>
           <ArgumentAxis/>
