@@ -13,6 +13,7 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 import { ValueScale, Animation, EventTracker } from '@devexpress/dx-react-chart';
 import { styles } from './styles';
+import demoData from './demoData';
 
 const Point = (props: BarSeries.PointProps): JSX.Element => {
   return (
@@ -27,23 +28,16 @@ class EmployeeChart extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      data: [
-        { month: 'Январь', sale: 50, total: 987 },
-        { month: 'Февраль', sale: 100, total: 3000 },
-        { month: 'Март', sale: 30, total: 1100 },
-        { month: 'Апрель', sale: 107, total: 7100 },
-        { month: 'Май', sale: 95, total: 4300 },
-        { month: 'Июнь', sale: 150, total: 7500 },
-      ],
+      ...demoData,
     };
   }
 
   public render(): ReactNode {
     const { classes } = this.props;
-    const { data } = this.state;
+    const { chartData } = this.state;
     return (
       <Paper className={classes.paperMain}>
-        <Chart data={data}>
+        <Chart data={chartData}>
           <Title text="Графики"/>
           <ValueScale name="sale"/>
           <ValueScale name="total"/>

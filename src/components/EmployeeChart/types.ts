@@ -6,10 +6,10 @@ export interface Props extends WithStyles<typeof styles> {
 }
 
 export interface State {
-  data: EmployeeChartPoint[];
+  chartData: ChartPoint[];
 }
 
-export interface EmployeeChartPoint {
+export interface ChartPoint {
   month: string;
   sale: number;
   total: number;
