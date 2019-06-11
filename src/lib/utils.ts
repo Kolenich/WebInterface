@@ -33,3 +33,9 @@ export const employeeLabels: EmployeeLabels = {
   date_of_birth: 'Дата рождения',
   sex: 'Пол',
 };
+
+// Сообщения статусов
+export const UPDATE_SUCCESS: string = 'Сохранение прошло успешно!';
+export const SAVE_SUCCESS: string = 'Создание прошло успешно!';
+export const DELETE_SUCCESS: string = 'Удаление прошло успешно';
+export const SERVER_ERROR: string = 'Ошибка на сервере';

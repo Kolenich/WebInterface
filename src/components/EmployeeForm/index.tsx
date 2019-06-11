@@ -18,7 +18,13 @@ import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import { CustomButtonProps, Employee, HTTPMethods, Sex } from '../../lib/types';
 import { GridSpacing } from '@material-ui/core/Grid';
-import { employeeLabels } from '../../lib/utils';
+import {
+  DELETE_SUCCESS,
+  employeeLabels,
+  SAVE_SUCCESS,
+  SERVER_ERROR,
+  UPDATE_SUCCESS,
+} from '../../lib/utils';
 import { MuiPickersUtilsProvider, InlineDatePicker } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -32,12 +38,6 @@ import StatusWindow from '../StatusWindow';
 
 // Переменная, отвечающая за расстояние между TextField'ми
 const spacing: GridSpacing = 16;
-
-// Сообщения статусов
-const UPDATE_SUCCESS: string = 'Сохранение прошло успешно!';
-const SAVE_SUCCESS: string = 'Создание прошло успешно!';
-const DELETE_SUCCESS: string = 'Удаление прошло успешно';
-const SERVER_ERROR: string = 'Ошибка на сервере';
 
 class EditEmployee extends Component<Props, State> {
   constructor(props: Props) {

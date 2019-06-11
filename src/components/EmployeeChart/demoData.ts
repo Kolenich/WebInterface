@@ -7,4 +7,4 @@ export default {
     { month: 'Май', sale: 95, total: 4300 },
     { month: 'Июнь', sale: 150, total: 7500 },
   ],
-}
+};
