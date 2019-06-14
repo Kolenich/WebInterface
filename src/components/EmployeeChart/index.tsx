@@ -15,15 +15,6 @@ import { ValueScale, Animation, EventTracker } from '@devexpress/dx-react-chart'
 import { styles } from './styles';
 import demoData from './demoData';
 
-const Point = (props: BarSeries.PointProps): JSX.Element => {
-  return (
-    <BarSeries.Point
-      style={{ animationDuration: `${(props.index + 1) * 0.3}s` }}
-      {...props}
-    />
-  );
-};
-
 class EmployeeChart extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -49,7 +40,6 @@ class EmployeeChart extends Component<Props, State> {
             valueField="sale"
             argumentField="month"
             scaleName="sale"
-            pointComponent={Point}
           />
           <SplineSeries
             name="Всего транзакций"
