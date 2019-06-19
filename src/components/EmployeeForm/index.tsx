@@ -95,8 +95,7 @@ class EditEmployee extends Component<Props, State> {
     }
   }
 
-  InputField = ({ xs, fieldName, validationType, ...props }: InputFieldProps):
-    JSX.Element => {
+  InputField = ({ xs, fieldName, validationType, ...props }: InputFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
     const value: string = employee[fieldName] !== null && employee[fieldName] ?
