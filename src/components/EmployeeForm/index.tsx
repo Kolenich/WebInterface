@@ -25,7 +25,11 @@ import {
   SERVER_ERROR,
   UPDATE_SUCCESS,
 } from '../../lib/utils';
-import { MuiPickersUtilsProvider, InlineDatePicker } from 'material-ui-pickers';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+  MaterialUiPickersDate,
+} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
@@ -138,19 +142,19 @@ class EditEmployee extends Component<Props, State> {
     return (
       <Grid item xs={xs}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
-          <InlineDatePicker
+          <KeyboardDatePicker
             {...props}
-            clearable
+            autoOk
             openTo="year"
-            views={['year', 'month', 'day']}
+            views={['year', 'month', 'date']}
             className={classes.datePicker}
             margin="normal"
-            variant="outlined"
+            variant="inline"
+            inputVariant="outlined"
             label={employeeLabels[fieldName]}
             value={value}
             onChange={this.handleDateChange(fieldName)}
             format="dd.MM.yyyy"
-            keyboard
             disableFuture
             invalidDateMessage="Дата должна быть в формате ДД.ММ.ГГГГ"
             minDateMessage="Дата не должна быть меньше 01.01.1900"
@@ -245,7 +249,8 @@ class EditEmployee extends Component<Props, State> {
     this.setState({ employee: { ...employee, sex } });
   }
 
-  private handleDateChange = (name: keyof Employee) => (date: Date): ComponentState => {
+  private handleDateChange = (name: keyof Employee) => (date: MaterialUiPickersDate):
+    ComponentState => {
     const { employee } = { ...this.state };
     if (date !== null) {
       this.setState({ employee: { ...employee, [name]: date }, dateOfBirthNotNull: true });
@@ -335,7 +340,7 @@ class EditEmployee extends Component<Props, State> {
             <Cancel/>
           </IconButton>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent dividers>
           <StatusWindow open={statusWindowOpen} onClose={this.closeStatusModal} status={statusType}
                         message={statusMessage}/>
           <Grid container spacing={spacing}>
