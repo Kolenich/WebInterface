@@ -15,6 +15,23 @@ import { ValueScale, Animation, EventTracker } from '@devexpress/dx-react-chart'
 import { styles } from './styles';
 import demoData from './demoData';
 
+/**
+ * Базовый компонент для указателей на оси абсцисс
+ * @param symbol дополниьельный к значению символ
+ * @constructor
+ */
+const Label = (symbol: string) => ({ text, ...props }: ValueAxis.LabelProps) => {
+  return (
+    <ValueAxis.Label
+      {...props}
+      text={text + symbol}
+    />
+  );
+};
+
+const SaleLabel = Label(' тыс. руб.');
+const TransactionLabel = Label(' ед.');
+
 class EmployeeChart extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -27,14 +44,37 @@ class EmployeeChart extends Component<Props, State> {
     const { classes } = this.props;
     const { chartData } = this.state;
     return (
-      <Paper className={classes.paperMain}>
-        <Chart data={chartData}>
-          <Title text="Графики"/>
-          <ValueScale name="sale"/>
-          <ValueScale name="total"/>
+      <Paper
+        className={classes.paperMain}
+      >
+        <Chart
+          data={chartData}
+        >
+          <Title
+            text="Графики"
+          />
+          <ValueScale
+            name="sale"
+          />
+          <ValueScale
+            name="total"
+          />
           <ArgumentAxis/>
-          <ValueAxis scaleName="sale" showGrid={false} showLine showTicks/>
-          <ValueAxis scaleName="total" position="right" showGrid={false} showLine showTicks/>
+          <ValueAxis
+            scaleName="sale"
+            showGrid={false}
+            showLine
+            showTicks
+            labelComponent={SaleLabel}
+          />
+          <ValueAxis
+            scaleName="total"
+            position="right"
+            showGrid={false}
+            showLine
+            showTicks
+            labelComponent={TransactionLabel}
+          />
           <BarSeries
             name="Всего продано"
             valueField="sale"
