@@ -1,5 +1,5 @@
 import React, { ComponentState, PureComponent, ReactNode } from 'react';
-import { Fab, Paper } from '@material-ui/core';
+import { Fab, Paper, Tooltip } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
@@ -68,11 +68,13 @@ class EmployeeTable extends PureComponent<Props, State> {
   AddButton = (): JSX.Element => {
     const { classes } = this.props;
     return (
-      <Fab color="primary" className={classes.addIcon} variant="extended"
-           onClick={this.openEditWindow(-1, true)}>
-        <Add/>
-        Создать
-      </Fab>
+      <Tooltip title="Создать">
+        <Fab color="primary" className={classes.addIcon} variant="extended"
+             onClick={this.openEditWindow(-1, true)}>
+          <Add/>
+          Создать
+        </Fab>
+      </Tooltip>
     );
   }
 
