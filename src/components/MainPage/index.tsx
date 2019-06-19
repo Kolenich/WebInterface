@@ -2,10 +2,8 @@ import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 're
 import { AppBar, Tabs, Tab, withStyles, Typography } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { styles } from './styles';
-import { AxiosError, AxiosResponse } from 'axios';
 import EmployeeTable from '../EmployeeTable';
 import { Props, State, TabContainerProps } from './types';
-import { session } from '../../lib/session';
 import EmployeeChart from '../EmployeeChart';
 
 class MainPage extends PureComponent<Props, State> {

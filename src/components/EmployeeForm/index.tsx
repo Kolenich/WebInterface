@@ -125,7 +125,7 @@ class EditEmployee extends Component<Props, State> {
           fullWidth
           margin="normal"
           variant="outlined"
-          onChange={this.handleAttributeChange(fieldName)}
+          onChange={this.handleInputChange}
           value={value}
           {...props}
         />
@@ -245,13 +245,13 @@ class EditEmployee extends Component<Props, State> {
   private handleSelectChange = (event: ChangeEvent<{ name?: string | undefined; value: unknown; }>):
     ComponentState => {
     const sex: Sex = event.target.value as Sex;
-    const { employee } = { ...this.state };
+    const { employee } = this.state;
     this.setState({ employee: { ...employee, sex } });
   }
 
   private handleDateChange = (name: keyof Employee) => (date: MaterialUiPickersDate):
     ComponentState => {
-    const { employee } = { ...this.state };
+    const { employee } = this.state;
     if (date !== null) {
       this.setState({ employee: { ...employee, [name]: date }, dateOfBirthNotNull: true });
     } else {
@@ -259,15 +259,16 @@ class EditEmployee extends Component<Props, State> {
     }
   }
 
-  private handleAttributeChange =
-    (name: keyof Employee) => (event: ChangeEvent<HTMLInputElement>): ComponentState => {
-      const { employee } = { ...this.state };
-      this.setState({ employee: { ...employee, [name]: event.target.value } });
-    }
+  private handleInputChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
+    const { employee } = { ...this.state };
+    const name = event.target.name as keyof Employee;
+    const value = event.target.value;
+    this.setState({ employee: { ...employee, [name]: value } });
+  }
 
   private deleteForm = (): ComponentState => {
     this.setState({ statusWindowOpen: true, statusType: 'loading' });
-    const { employee } = { ...this.state };
+    const { employee } = this.state;
     const { deleteRecord } = this.props;
     const url: string = `employees/${employee.id}`;
     const method: HTTPMethods = 'delete';
