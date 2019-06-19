@@ -4,7 +4,7 @@ import { grey } from '@material-ui/core/colors';
 
 export const styles = (theme: Theme) => createStyles({
   addIcon: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   rowCursor: {
     cursor: 'pointer',

@@ -7,10 +7,10 @@ export const styles = (theme: Theme) => createStyles({
     backgroundColor: theme.palette.background.paper,
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     width: 120,
   },
   tabContainer: {
-    paddingBottom: theme.spacing.unit,
+    paddingBottom: theme.spacing(1),
   },
 });

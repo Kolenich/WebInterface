@@ -37,7 +37,7 @@ import { InputFieldProps, Props, State } from './types';
 import StatusWindow from '../StatusWindow';
 
 // Переменная, отвечающая за расстояние между TextField'ми
-const spacing: GridSpacing = 16;
+const spacing: GridSpacing = 2;
 
 class EditEmployee extends Component<Props, State> {
   constructor(props: Props) {
@@ -239,7 +239,8 @@ class EditEmployee extends Component<Props, State> {
     if (statusType === 'success') onClose();
   }
 
-  private handleSelectChange = (event: ChangeEvent<HTMLSelectElement>): ComponentState => {
+  private handleSelectChange = (event: ChangeEvent<{ name?: string | undefined; value: unknown; }>):
+    ComponentState => {
     const sex: Sex = event.target.value as Sex;
     const { employee } = { ...this.state };
     this.setState({ employee: { ...employee, sex } });

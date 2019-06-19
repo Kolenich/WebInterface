@@ -3,7 +3,7 @@ import { grey } from '@material-ui/core/colors';
 
 export const styles = (theme: Theme) => createStyles({
   paperMain: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     backgroundColor: grey[50],
   },
 });

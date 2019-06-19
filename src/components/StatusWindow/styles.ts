@@ -6,7 +6,7 @@ export const styles = (theme: Theme) => createStyles({
   statusIcon: {
     fontSize: 35,
     opacity: 0.9,
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
   errorIcon: {
     color: theme.palette.error.dark,
@@ -22,9 +22,9 @@ export const styles = (theme: Theme) => createStyles({
     alignItems: 'center',
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
   },
 });
