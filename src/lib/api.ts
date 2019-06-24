@@ -11,9 +11,9 @@ export default {
   getContent<dataType>(requestUrl: string, sendData?: any): AxiosPromise<dataType> {
     return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
       let data = sendData;
-      if (!sendData) data = {} as dataType;
+      if (!sendData) data = {};
       session
-        .get<dataType>(`api/${requestUrl}/`, { data })
+        .get<dataType>(`api/${requestUrl}/`, data)
         .then((response: AxiosResponse<dataType>) => resolve(response))
         .catch((error: AxiosError) => reject(error));
     });
