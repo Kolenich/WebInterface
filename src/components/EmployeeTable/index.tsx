@@ -194,7 +194,6 @@ class EmployeeTable extends PureComponent<Props, State> {
       totalCount,
       currentPage,
     } = this.state;
-    console.log(employees);
     const rows: TableRows[] = this.formRows(employees);
     return (
       <Paper className={classes.paper}>
