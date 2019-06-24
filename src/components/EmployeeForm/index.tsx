@@ -269,12 +269,12 @@ class EditEmployee extends Component<Props, State> {
   private deleteForm = (): ComponentState => {
     this.setState({ statusWindowOpen: true, statusType: 'loading' });
     const { employee } = this.state;
-    const { deleteRecord } = this.props;
+    const { updateTable } = this.props;
     const url: string = `employees/${employee.id}`;
     const method: HTTPMethods = 'delete';
     api.sendContent<Employee>(url, employee, method)
       .then(() => {
-        if (employee.id) deleteRecord(employee.id);
+        updateTable();
         this.setState({
           statusWindowOpen: true,
           statusMessage: DELETE_SUCCESS,
@@ -309,8 +309,8 @@ class EditEmployee extends Component<Props, State> {
       method = 'patch';
     }
     api.sendContent<Employee>(url, employee, method)
-      .then((response: AxiosResponse<Employee>) => {
-        updateTable(response.data);
+      .then(() => {
+        updateTable();
         this.setState({
           statusMessage,
           statusWindowOpen: true,

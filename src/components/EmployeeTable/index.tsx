@@ -1,9 +1,9 @@
 import React, { ComponentState, PureComponent, ReactNode } from 'react';
-import { Fab, Paper, Tooltip } from '@material-ui/core';
+import { Fab, LinearProgress, Paper, Tooltip } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
-import { Employee } from '../../lib/types';
+import { DRFGetConfig, Employee, PaginationResponse } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { dateOptions, dateTimeOptions, sexLabel } from '../../lib/utils';
 import columnSettings from './columnSettings';
@@ -11,11 +11,10 @@ import {
   GroupingState,
   IntegratedGrouping,
   PagingState,
-  IntegratedPaging,
   FilteringState,
   IntegratedFiltering,
   SortingState,
-  IntegratedSorting,
+  IntegratedSorting, CustomPaging,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -33,7 +32,8 @@ import {
 import {
   filterRowMessages,
   groupByMessages,
-  pagingPanelMessages, tableHeaderRowMessage,
+  pagingPanelMessages,
+  tableHeaderRowMessage,
   tableMessages,
 } from '../../lib/translate';
 import EmployeeForm from '../EmployeeForm';
@@ -47,17 +47,40 @@ class EmployeeTable extends PureComponent<Props, State> {
       ...columnSettings,
       employees: [],
       pageSizes: [5, 10, 15, 25, 0],
-      defaultPageSize: 10,
+      pageSize: 5,
+      totalCount: 0,
+      currentPage: 0,
       rowId: -1,
       addEmployee: false,
+      loading: false,
     };
   }
 
   public componentDidMount(): ComponentState {
-    api.getContent<Employee[]>('employees')
-      .then((response: AxiosResponse<Employee[]>): ComponentState => {
-        const employees: Employee[] = response.data;
-        this.setState({ employees });
+    this.loadData();
+  }
+
+  public componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>):
+    ComponentState {
+    const { pageSize, currentPage } = this.state;
+    if (prevState.currentPage !== currentPage || prevState.pageSize !== pageSize) {
+      this.loadData();
+    }
+  }
+
+  private loadData = (): ComponentState => {
+    const { currentPage, pageSize } = this.state;
+    const config: DRFGetConfig = {
+      params: {
+        limit: pageSize,
+        offset: currentPage * pageSize,
+      },
+    };
+    api.getContent<PaginationResponse<Employee>>('employees', config)
+      .then((response: AxiosResponse<PaginationResponse<Employee>>): ComponentState => {
+        const employees: Employee[] = response.data.results;
+        const totalCount: number = response.data.count;
+        this.setState({ employees, totalCount, loading: false });
       })
       .catch((error: AxiosError) => {
         console.log(error);
@@ -121,8 +144,16 @@ class EmployeeTable extends PureComponent<Props, State> {
   }
 
   // Метод для обработки изменения числа строк на странице
-  private changePageSize = (defaultPageSize: number): ComponentState => {
-    this.setState({ defaultPageSize });
+  private changePageSize = (pageSize: number): ComponentState => {
+    this.setState({ pageSize, loading: true, currentPage: 0 });
+  }
+
+  /**
+   * Функция обработки изменения текущей страницы
+   * @param currentPage номер текущей страницы
+   */
+  private changeCurrentPage = (currentPage: number) => {
+    this.setState({ currentPage, loading: true });
   }
 
   // Метод, формирующий массив строк для таблицы
@@ -156,9 +187,12 @@ class EmployeeTable extends PureComponent<Props, State> {
       defaultOrder,
       defaultColumnWidths,
       pageSizes,
-      defaultPageSize,
+      pageSize,
       addEmployee,
       rowId,
+      loading,
+      totalCount,
+      currentPage,
     } = this.state;
     const rows: TableRows[] = this.formRows(employees);
     return (
@@ -169,30 +203,53 @@ class EmployeeTable extends PureComponent<Props, State> {
           <IntegratedSorting/>
           <GroupingState/>
           <IntegratedGrouping/>
-          <PagingState defaultCurrentPage={0} pageSize={defaultPageSize}
-                       onPageSizeChange={this.changePageSize}/>
-          <IntegratedPaging/>
+          <PagingState
+            currentPage={currentPage}
+            pageSize={pageSize}
+            onPageSizeChange={this.changePageSize}
+            onCurrentPageChange={this.changeCurrentPage}
+          />
+          <CustomPaging
+            totalCount={totalCount}
+          />
           <FilteringState/>
           <IntegratedFiltering/>
-          <Table rowComponent={this.RowComponent} messages={tableMessages}/>
-          <TableColumnReordering defaultOrder={defaultOrder}/>
-          <TableColumnResizing defaultColumnWidths={defaultColumnWidths}/>
-          <TableHeaderRow showGroupingControls showSortingControls
-                          messages={tableHeaderRowMessage}/>
-          <TableFilterRow messages={filterRowMessages}/>
+          <Table
+            rowComponent={this.RowComponent}
+            messages={tableMessages}
+          />
+          <TableColumnReordering
+            defaultOrder={defaultOrder}
+          />
+          <TableColumnResizing
+            defaultColumnWidths={defaultColumnWidths}
+          />
+          <TableHeaderRow
+            showGroupingControls
+            showSortingControls
+            messages={tableHeaderRowMessage}
+          />
+          <TableFilterRow
+            messages={filterRowMessages}
+          />
           <TableGroupRow/>
           <Toolbar/>
-          <GroupingPanel messages={groupByMessages}/>
-          <PagingPanel pageSizes={pageSizes} messages={pagingPanelMessages}/>
+          <GroupingPanel
+            messages={groupByMessages}
+          />
+          <PagingPanel
+            pageSizes={pageSizes}
+            messages={pagingPanelMessages}
+          />
         </Grid>
         <EmployeeForm
           id={rowId}
           open={addEmployee}
           onClose={this.closeEditWindow}
-          updateTable={this.updateTable}
-          deleteRecord={this.deleteRecord}
+          updateTable={this.loadData}
         />
         <this.AddButton/>
+        {loading && <LinearProgress/>}
       </Paper>
     );
   }

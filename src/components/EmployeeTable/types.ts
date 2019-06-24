@@ -9,12 +9,15 @@ export interface Props extends WithStyles<typeof styles> {
 export interface State {
   employees: Employee[];
   rowId: number;
+  totalCount: number;
+  currentPage: number;
   columns: Column[];
   defaultOrder: string[];
   defaultColumnWidths: TableColumnWidthInfo[];
   pageSizes: number[];
-  defaultPageSize: number;
+  pageSize: number;
   addEmployee: boolean;
+  loading: boolean;
 }
 
 export interface TableRows {

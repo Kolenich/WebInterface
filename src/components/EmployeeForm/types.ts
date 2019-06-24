@@ -9,8 +9,7 @@ export interface Props extends WithStyles<typeof styles> {
   id: number;
   open: boolean;
   onClose: () => ComponentState;
-  updateTable: (newEmployee: Employee) => ComponentState;
-  deleteRecord: (id: number) => ComponentState;
+  updateTable: () => ComponentState;
 }
 
 export interface State {

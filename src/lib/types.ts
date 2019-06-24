@@ -76,3 +76,19 @@ export interface CustomButtonProps extends ButtonProps {
 }
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
+
+export interface PaginationResponse<DataType> {
+  count: number;
+  next: string;
+  previous: string;
+  results: DataType[];
+}
+
+interface PagingParams {
+  limit: number;
+  offset: number;
+}
+
+export interface DRFGetConfig {
+  params: PagingParams;
+}

@@ -8,7 +8,7 @@ export default {
    * @param requestUrl - url запроса
    * @param sendData - параметры запроса
    */
-  getContent<dataType>(requestUrl: string, sendData?: dataType): AxiosPromise<dataType> {
+  getContent<dataType>(requestUrl: string, sendData?: any): AxiosPromise<dataType> {
     return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
       let data = sendData;
       if (!sendData) data = {} as dataType;
