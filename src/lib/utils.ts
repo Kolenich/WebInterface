@@ -1,12 +1,13 @@
-// Опции для форматирования даты
 import { EmployeeLabels, SexLabels } from './types';
 
+// Опции для форматирования даты
 export const dateOptions = {
   year: 'numeric',
   month: 'long',
   day: '2-digit',
 };
 
+// Опции для форматирования даты и времени
 export const dateTimeOptions = {
   year: 'numeric',
   month: 'long',
@@ -24,6 +25,7 @@ export const sexLabel: SexLabels = {
   female: 'Жен.',
 };
 
+// Ярлыки для объекта Employee
 export const employeeLabels: EmployeeLabels = {
   first_name: 'Имя',
   last_name: 'Фамилия',

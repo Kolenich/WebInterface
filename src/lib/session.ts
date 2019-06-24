@@ -15,7 +15,7 @@ const headers: OutgoingHttpHeaders = {
   'Content-Type': 'application/json',
 };
 
-const sessionConfig: AxiosRequestConfig = {
+const requestConfig: AxiosRequestConfig = {
   baseURL,
   xsrfCookieName,
   xsrfHeaderName,
@@ -23,4 +23,4 @@ const sessionConfig: AxiosRequestConfig = {
   headers,
 };
 
-export const session: AxiosInstance = axios.create(sessionConfig);
+export const session: AxiosInstance = axios.create(requestConfig);

@@ -14,7 +14,7 @@ export const filterRowMessages: TableFilterRow.LocalizationMessages = {
 export const pagingPanelMessages: PagingPanel.LocalizationMessages = {
   rowsPerPage: 'Записей на странице',
   showAll: 'Все',
-  info: parameters => {
+  info: (parameters: { from: number, to: number, count: number }) => {
     return `${parameters.from}-${parameters.to} из ${parameters.count}`;
   },
 };

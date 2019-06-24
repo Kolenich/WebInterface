@@ -16,18 +16,6 @@ class MainPage extends PureComponent<Props, State> {
     };
   }
 
-  // public componentDidMount(): ComponentState {
-  //   const username: string = 'root';
-  //   const password: string = 'root';
-  //   session.post('auth/login/', { username, password })
-  //     .then((response: AxiosResponse) => {
-  //       console.log(response.data.key);
-  //     })
-  //     .catch((error: AxiosError) => {
-  //       if (error.response) console.log(error.response.data);
-  //     });
-  // }
-
   // Компонент-обертка для пункта меню
   TabContainer = ({ children, dir }: TabContainerProps): JSX.Element => {
     const { classes } = this.props;

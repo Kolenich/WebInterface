@@ -1,5 +1,6 @@
 import { ButtonProps } from '@material-ui/core/Button';
 
+// Интерфейс для модели Employee
 export interface Employee {
   id?: number;
   first_name: string;
@@ -17,8 +18,10 @@ export interface Employee {
   [index: string]: string | number | undefined | null | Attachment | boolean | Date | Employee;
 }
 
+// Тип для пола
 export type Sex = 'male' | 'female' | '';
 
+// Ярлыки для объекта Employee
 export interface EmployeeLabels {
   first_name: string;
   last_name: string;
@@ -31,6 +34,7 @@ export interface EmployeeLabels {
   [index: string]: string;
 }
 
+// Интерфейс для ярлыков пола
 export interface SexLabels {
   male: string;
   female: string;
@@ -38,6 +42,7 @@ export interface SexLabels {
   [index: string]: string;
 }
 
+// Интерфейс для модели Attachment
 export interface Attachment {
   file: string;
   file_name: string;
@@ -45,6 +50,7 @@ export interface Attachment {
   file_size: number;
 }
 
+// Интерфейс для модели Organization
 export interface Organization {
   id?: number;
   full_name: string;

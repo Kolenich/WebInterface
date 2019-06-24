@@ -3,6 +3,11 @@ import { AxiosResponse, AxiosPromise, AxiosError } from 'axios';
 import { HTTPMethods } from './types';
 
 export default {
+  /**
+   * API-функция для получения данных с сервера
+   * @param requestUrl - url запроса
+   * @param sendData - параметры запроса
+   */
   getContent<dataType>(requestUrl: string, sendData?: dataType): AxiosPromise<dataType> {
     return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
       let data = sendData;
@@ -13,6 +18,12 @@ export default {
         .catch((error: AxiosError) => reject(error));
     });
   },
+  /**
+   * API-функция для отправки данных на сервер
+   * @param requestUrl - url запроса
+   * @param sendData - параметры запроса
+   * @param sendMethod - метод запроса
+   */
   sendContent<dataType>(requestUrl: string, sendData: dataType, sendMethod?: HTTPMethods):
     AxiosPromise<dataType> {
     return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
