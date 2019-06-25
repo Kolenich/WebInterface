@@ -49,3 +49,4 @@ docker-compose.yml
 .next
 /.dockerignore
 *.sh
+.*
