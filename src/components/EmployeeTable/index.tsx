@@ -124,25 +124,6 @@ class EmployeeTable extends PureComponent<Props, State> {
     this.setState({ addEmployee: false });
   }
 
-  // Колбэк-метод для обновления или добавления строки в таблице
-  private updateTable = (data: Employee) => {
-    const { employees } = { ...this.state };
-    const employee: Employee | undefined = employees.find(x => x.id === data.id);
-    if (employee) employees[employees.indexOf(employee)] = data;
-    else employees.push(data);
-    this.setState({ employees });
-  }
-
-  // Колбэк-метод для удаления строки в таблице
-  private deleteRecord = (id: number): ComponentState => {
-    const { employees } = { ...this.state };
-    const employee: Employee | undefined = employees.find(x => x.id === id);
-    if (employee) {
-      employees.splice(employees.indexOf(employee), 1);
-      this.setState({ employees });
-    }
-  }
-
   // Метод для обработки изменения числа строк на странице
   private changePageSize = (pageSize: number): ComponentState => {
     this.setState({ pageSize, loading: true, currentPage: 0 });

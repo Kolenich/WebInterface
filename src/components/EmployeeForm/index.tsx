@@ -69,7 +69,7 @@ class EditEmployee extends Component<Props, State> {
 
   public componentDidUpdate(prevProps: Readonly<Props>): ComponentState {
     const { id } = this.props;
-    if (prevProps !== this.props) {
+    if (prevProps.id !== id) {
       if (id !== -1) {
         api.getContent<Employee>(`employees/${id}`)
           .then(((response: AxiosResponse<Employee>) => {
