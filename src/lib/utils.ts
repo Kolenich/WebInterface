@@ -1,4 +1,4 @@
-import { EmployeeLabels, SexLabels } from './types';
+import { EmployeeLabels, SexLabels, Sorting } from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -15,9 +15,6 @@ export const dateTimeOptions = {
   hour: '2-digit',
   minute: '2-digit',
 };
-
-// Варианты локалей для интернационализации
-export type Locales = 'ru' | 'en-US' | 'en-GB' | 'fr';
 
 // Ярлыки для пола
 export const sexLabel: SexLabels = {
@@ -41,3 +38,8 @@ export const UPDATE_SUCCESS: string = 'Сохранение прошло усп�
 export const SAVE_SUCCESS: string = 'Создание прошло успешно!';
 export const DELETE_SUCCESS: string = 'Удаление прошло успешно';
 export const SERVER_ERROR: string = 'Ошибка на сервере';
+
+export const sortingParams: Sorting = {
+  asc: '',
+  desc: '-',
+};

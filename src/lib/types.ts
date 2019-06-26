@@ -18,6 +18,18 @@ export interface Employee {
   [index: string]: string | number | undefined | null | Attachment | boolean | Date | Employee;
 }
 
+// Интерфейс для строки в таблице Employees
+export interface TableRow {
+  id: number;
+  employee_fio: string;
+  phone: string | null;
+  age: number;
+  email: string;
+  date_of_birth: Date | string;
+  registration_date: Date | string;
+  sex: string;
+}
+
 // Тип для пола
 export type Sex = 'male' | 'female' | '';
 
@@ -77,18 +89,21 @@ export interface CustomButtonProps extends ButtonProps {
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
-export interface PaginationResponse<DataType> {
+export interface ApiResponse<DataType> {
   count: number;
   next: string;
   previous: string;
   results: DataType[];
 }
 
-interface PagingParams {
-  limit: number;
-  offset: number;
+export interface DRFGetConfig {
+  params: any;
 }
 
-export interface DRFGetConfig {
-  params: PagingParams;
+export interface Sorting {
+  asc: string;
+  desc: string;
 }
+
+// Варианты локалей для интернационализации
+export type Locales = 'ru' | 'en-US' | 'en-GB' | 'fr';

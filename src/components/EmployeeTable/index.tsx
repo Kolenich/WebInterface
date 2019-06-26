@@ -3,18 +3,16 @@ import { Fab, LinearProgress, Paper, Tooltip } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
-import { DRFGetConfig, Employee, PaginationResponse } from '../../lib/types';
+import { DRFGetConfig, ApiResponse, TableRow } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
-import { dateOptions, dateTimeOptions, sexLabel } from '../../lib/utils';
 import columnSettings from './columnSettings';
 import {
   GroupingState,
   IntegratedGrouping,
   PagingState,
   FilteringState,
-  IntegratedFiltering,
   SortingState,
-  IntegratedSorting, CustomPaging,
+  CustomPaging, Filter, Sorting,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -38,14 +36,17 @@ import {
 } from '../../lib/translate';
 import EmployeeForm from '../EmployeeForm';
 import { Add } from '@material-ui/icons';
-import { Props, State, TableRows } from './types';
+import { Props, State } from './types';
+import { dateOptions, dateTimeOptions, sortingParams } from '../../lib/utils';
 
 class EmployeeTable extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       ...columnSettings,
-      employees: [],
+      rows: [],
+      filters: [],
+      sorting: [],
       pageSizes: [5, 10, 20],
       pageSize: 5,
       totalCount: 0,
@@ -62,25 +63,48 @@ class EmployeeTable extends PureComponent<Props, State> {
 
   public componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>):
     ComponentState {
-    const { pageSize, currentPage } = this.state;
-    if (prevState.currentPage !== currentPage || prevState.pageSize !== pageSize) {
+    const { pageSize, currentPage, filters, sorting } = this.state;
+    if (
+      prevState.currentPage !== currentPage ||
+      prevState.pageSize !== pageSize ||
+      prevState.filters !== filters ||
+      prevState.sorting !== sorting
+    ) {
       this.loadData();
     }
   }
 
   private loadData = (): ComponentState => {
-    const { currentPage, pageSize } = this.state;
+    const { currentPage, pageSize, filters, sorting } = this.state;
     const config: DRFGetConfig = {
       params: {
+        // Параметры для пагинации
         limit: pageSize,
         offset: currentPage * pageSize,
       },
     };
-    api.getContent<PaginationResponse<Employee>>('employees', config)
-      .then((response: AxiosResponse<PaginationResponse<Employee>>): ComponentState => {
-        const employees: Employee[] = response.data.results;
+    // Параметры для фильтрации
+    // eslint-disable-next-line
+    filters.map((filter: Filter): void => {
+      config.params[`${filter.columnName}__${filter.operation}`] = filter.value;
+    });
+    // Параметры для сортировки
+    // eslint-disable-next-line
+    sorting.map((sort: Sorting) => {
+      config.params.ordering = `${sortingParams[sort.direction]}${sort.columnName}`;
+    });
+    api.getContent<ApiResponse<TableRow>>('employees-table', config)
+      .then((response: AxiosResponse<ApiResponse<TableRow>>): ComponentState => {
+        const rows: TableRow[] = response.data.results;
+        // eslint-disable-next-line
+        rows.map((row: TableRow): void => {
+          // Преобразвание даты в читабельный вид
+          row.registration_date =
+            new Date(row.registration_date).toLocaleDateString('ru', dateTimeOptions);
+          row.date_of_birth = new Date(row.date_of_birth).toLocaleString('ru', dateOptions);
+        });
         const totalCount: number = response.data.count;
-        this.setState({ employees, totalCount, loading: false });
+        this.setState({ rows, totalCount, loading: false });
       })
       .catch((error: AxiosError) => {
         console.log(error);
@@ -133,37 +157,31 @@ class EmployeeTable extends PureComponent<Props, State> {
    * Функция обработки изменения текущей страницы
    * @param currentPage номер текущей страницы
    */
-  private changeCurrentPage = (currentPage: number) => {
+  private changeCurrentPage = (currentPage: number): ComponentState => {
     this.setState({ currentPage, loading: true });
   }
 
-  // Метод, формирующий массив строк для таблицы
-  private formRows = (employees: Employee[]): TableRows[] => {
-    const rows: TableRows[] = [];
-    // eslint-disable-next-line
-    employees.map((employee: Employee): void => {
-      let fullName: string = `${employee.last_name} ${employee.first_name}`;
-      if (employee.middle_name !== null) fullName += ` ${employee.middle_name}`;
-      let phone: string = '';
-      if (employee.phone !== null) phone = employee.phone;
-      let id: number = 0;
-      if (employee.id) id = employee.id;
-      const email: string = employee.email;
-      const age: number = employee.age;
-      const sex: string = sexLabel[employee.sex];
-      const registrationDate: string =
-        new Date(employee.registration_date).toLocaleDateString('ru', dateTimeOptions);
-      const dateOfBirth: string =
-        new Date(employee.date_of_birth).toLocaleDateString('ru', dateOptions);
-      rows.push({ id, fullName, registrationDate, phone, email, age, dateOfBirth, sex });
-    });
-    return rows;
+  /**
+   * Фугкция изменения фильтров
+   * @param filters массив фильтров
+   */
+  private changeFilters = (filters: Filter[]): ComponentState => {
+    this.setState({ filters, loading: true });
+  }
+
+  /**
+   * Фугкция изменения сортировок
+   * @param sorting массив сортировок
+   */
+  private changeSorting = (sorting: Sorting[]): ComponentState => {
+    console.log(sorting);
+    this.setState({ sorting, loading: true });
   }
 
   public render(): ReactNode {
     const { classes } = this.props;
     const {
-      employees,
+      rows,
       columns,
       defaultOrder,
       defaultColumnWidths,
@@ -174,14 +192,19 @@ class EmployeeTable extends PureComponent<Props, State> {
       loading,
       totalCount,
       currentPage,
+      filteringStateColumnExtensions,
+      sortingStateColumnExtensions,
+      sorting,
     } = this.state;
-    const rows: TableRows[] = this.formRows(employees);
     return (
       <Paper className={classes.paper}>
         <Grid rows={rows} columns={columns}>
           <DragDropProvider/>
-          <SortingState/>
-          <IntegratedSorting/>
+          <SortingState
+            sorting={sorting}
+            onSortingChange={this.changeSorting}
+            columnExtensions={sortingStateColumnExtensions}
+          />
           <GroupingState/>
           <IntegratedGrouping/>
           <PagingState
@@ -193,8 +216,10 @@ class EmployeeTable extends PureComponent<Props, State> {
           <CustomPaging
             totalCount={totalCount}
           />
-          <FilteringState/>
-          <IntegratedFiltering/>
+          <FilteringState
+            onFiltersChange={this.changeFilters}
+            columnExtensions={filteringStateColumnExtensions}
+          />
           <Table
             rowComponent={this.RowComponent}
             messages={tableMessages}

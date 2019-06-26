@@ -1,7 +1,6 @@
 import { Theme, WithStyles } from '@material-ui/core';
 import { styles } from './styles';
-import { Employee } from '../../lib/types';
-import { Locales } from '../../lib/utils';
+import { Employee, Locales } from '../../lib/types';
 import { ReactNode } from 'react';
 
 export interface Props extends WithStyles<typeof styles> {
