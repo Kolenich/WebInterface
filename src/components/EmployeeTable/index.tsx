@@ -122,7 +122,8 @@ class EmployeeTable extends PureComponent<Props, State> {
 
   filterCellComponent = (props: TableFilterRow.CellProps, sex: Sex) => {
     const { classes } = this.props;
-    if (props.column.name !== 'sex') {
+    const { column, onFilter } = props;
+    if (column.name !== 'sex') {
       return (
         <TableFilterRow.Cell {...props}/>
       );
@@ -138,12 +139,12 @@ class EmployeeTable extends PureComponent<Props, State> {
             onChange={
               (event: ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
                 let value: string = '';
-                const columnName: string = props.column.name;
+                const columnName: string = column.name;
                 const operation: string = 'startswith';
                 if (event.target.value === 'Муж.') value = 'male';
                 if (event.target.value === 'Жен.') value = 'female';
                 const filter: Filter = { value, columnName, operation };
-                props.onFilter(filter);
+                onFilter(filter);
                 this.setState({ sex: event.target.value as Sex });
               }
             }
