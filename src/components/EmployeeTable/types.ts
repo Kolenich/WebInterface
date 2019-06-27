@@ -1,6 +1,6 @@
 import { WithStyles } from '@material-ui/core';
 import { styles } from './styles';
-import { TableRow } from '../../lib/types';
+import { Sex, TableRow } from '../../lib/types';
 import {
   Column,
   Filter,
@@ -13,6 +13,7 @@ export interface Props extends WithStyles<typeof styles> {
 }
 
 export interface State {
+  sex: Sex;
   rows: TableRow[];
   rowId: number;
   totalCount: number;

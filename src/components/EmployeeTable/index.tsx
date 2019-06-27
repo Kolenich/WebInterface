@@ -1,9 +1,16 @@
-import React, { ComponentState, PureComponent, ReactNode } from 'react';
-import { Fab, LinearProgress, Paper, Tooltip } from '@material-ui/core';
+import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
+import {
+  Fab,
+  FormControl, Input,
+  InputLabel,
+  LinearProgress, MenuItem,
+  Paper, Select,
+  Tooltip,
+} from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
-import { DRFGetConfig, ApiResponse, TableRow } from '../../lib/types';
+import { DRFGetConfig, ApiResponse, TableRow, Sex } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import columnSettings from './columnSettings';
 import {
@@ -39,11 +46,14 @@ import { Add } from '@material-ui/icons';
 import { Props, State } from './types';
 import { dateOptions, dateTimeOptions, sortingParams } from '../../lib/utils';
 
+const sexParams: string[] = ['Муж.', 'Жен.'];
+
 class EmployeeTable extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       ...columnSettings,
+      sex: '',
       rows: [],
       filters: [],
       sorting: [],
@@ -72,6 +82,42 @@ class EmployeeTable extends PureComponent<Props, State> {
     ) {
       this.loadData();
     }
+  }
+
+  filterCellComponent = (props: TableFilterRow.CellProps, sex: Sex) => {
+    if (props.column.name !== 'sex') {
+      return (
+        <TableFilterRow.Cell {...props}/>
+      );
+    }
+    return (
+      <TableFilterRow.Cell{...props}>
+        <FormControl fullWidth>
+          <InputLabel>Фильтр...</InputLabel>
+          <Select
+            value={sex}
+            input={<Input/>}
+            onChange={
+              (event: ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
+                let value: string = '';
+                const columnName: string = props.column.name;
+                const operation: string = 'startswith';
+                if (event.target.value === 'Муж.') value = 'male';
+                if (event.target.value === 'Жен.') value = 'female';
+                const filter: Filter = { value, columnName, operation };
+                props.onFilter(filter);
+                this.setState({ sex: event.target.value as Sex });
+              }
+            }
+          >
+            <MenuItem value=""><em>Сброс</em></MenuItem>
+            {sexParams.map((value: string) => (
+              <MenuItem key={value} value={value}>{value}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </TableFilterRow.Cell>
+    );
   }
 
   private loadData = (): ComponentState => {
@@ -195,6 +241,7 @@ class EmployeeTable extends PureComponent<Props, State> {
       filteringStateColumnExtensions,
       sortingStateColumnExtensions,
       sorting,
+      sex,
     } = this.state;
     return (
       <Paper className={classes.paper}>
@@ -237,6 +284,9 @@ class EmployeeTable extends PureComponent<Props, State> {
           />
           <TableFilterRow
             messages={filterRowMessages}
+            cellComponent={
+              (props: TableFilterRow.CellProps) => this.filterCellComponent(props, sex)
+            }
           />
           <TableGroupRow/>
           <Toolbar/>
