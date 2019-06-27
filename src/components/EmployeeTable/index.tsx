@@ -121,6 +121,7 @@ class EmployeeTable extends PureComponent<Props, State> {
   }
 
   filterCellComponent = (props: TableFilterRow.CellProps, sex: Sex) => {
+    const { classes } = this.props;
     if (props.column.name !== 'sex') {
       return (
         <TableFilterRow.Cell {...props}/>
@@ -131,6 +132,7 @@ class EmployeeTable extends PureComponent<Props, State> {
         <FormControl fullWidth>
           <InputLabel>Фильтр...</InputLabel>
           <Select
+            className={classes.sexSelect}
             value={sex}
             input={<Input/>}
             onChange={
@@ -177,9 +179,8 @@ class EmployeeTable extends PureComponent<Props, State> {
     });
     api.getContent<ApiResponse<TableRow>>('employees-table', config)
       .then((response: AxiosResponse<ApiResponse<TableRow>>): ComponentState => {
-        const rows: TableRow[] = response.data.results;
-        const totalCount: number = response.data.count;
-        this.setState({ rows, totalCount, loading: false });
+        const { results, count } = response.data;
+        this.setState({ rows: results, totalCount: count, loading: false });
       })
       .catch((error: AxiosError) => {
         console.log(error);
@@ -253,6 +254,15 @@ class EmployeeTable extends PureComponent<Props, State> {
     this.setState({ sorting, loading: true });
   }
 
+  /**
+   * Функция, определяющая компонент фильтрации
+   * @param props пропсы
+   */
+  private getCellComponent = (props: TableFilterRow.CellProps) => {
+    const { sex } = this.state;
+    return this.filterCellComponent(props, sex);
+  }
+
   public render(): ReactNode {
     const { classes } = this.props;
     const {
@@ -270,7 +280,6 @@ class EmployeeTable extends PureComponent<Props, State> {
       filteringStateColumnExtensions,
       sortingStateColumnExtensions,
       sorting,
-      sex,
       dateColumns,
       dateTimeColumns,
     } = this.state;
@@ -317,9 +326,7 @@ class EmployeeTable extends PureComponent<Props, State> {
           />
           <TableFilterRow
             messages={filterRowMessages}
-            cellComponent={
-              (props: TableFilterRow.CellProps) => this.filterCellComponent(props, sex)
-            }
+            cellComponent={this.getCellComponent}
           />
           <TableGroupRow/>
           <Toolbar/>

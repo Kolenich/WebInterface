@@ -34,7 +34,6 @@ export default {
     { columnName: 'employee_fio', filteringEnabled: false },
     { columnName: 'registration_date', filteringEnabled: false },
     { columnName: 'date_of_birth', filteringEnabled: false },
-    { columnName: 'sex', filteringEnabled: false },
   ],
   sortingStateColumnExtensions: [
     { columnName: 'employee_fio', sortingEnabled: false },
