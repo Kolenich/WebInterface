@@ -1,7 +1,5 @@
 import {
-  GroupingPanel,
   PagingPanel,
-  SearchPanel,
   Table,
   TableFilterRow,
   TableHeaderRow,
@@ -19,18 +17,10 @@ export const pagingPanelMessages: PagingPanel.LocalizationMessages = {
   },
 };
 
-export const searchPanelMessages: SearchPanel.LocalizationMessages = {
-  searchPlaceholder: 'Поиск...',
-};
-
 export const tableMessages: Table.LocalizationMessages = {
   noData: 'Нет данных',
 };
 
 export const tableHeaderRowMessage: TableHeaderRow.LocalizationMessages = {
   sortingHint: 'Сортировать',
-};
-
-export const groupByMessages: GroupingPanel.LocalizationMessages = {
-  groupByColumn: 'Перетащите сюда заголовок колонки, чтобы сгруппировать по нему',
 };

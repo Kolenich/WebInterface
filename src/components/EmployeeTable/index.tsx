@@ -14,8 +14,6 @@ import { DRFGetConfig, ApiResponse, TableRow, Sex } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import columnSettings from './columnSettings';
 import {
-  GroupingState,
-  IntegratedGrouping,
   PagingState,
   FilteringState,
   SortingState,
@@ -28,15 +26,11 @@ import {
   TableHeaderRow,
   TableColumnReordering,
   TableColumnResizing,
-  TableGroupRow,
-  GroupingPanel,
-  Toolbar,
   PagingPanel,
   TableFilterRow,
 } from '@devexpress/dx-react-grid-material-ui';
 import {
   filterRowMessages,
-  groupByMessages,
   pagingPanelMessages,
   tableHeaderRowMessage,
   tableMessages,
@@ -287,16 +281,14 @@ class EmployeeTable extends PureComponent<Props, State> {
     return (
       <Paper className={classes.paper}>
         <Grid rows={rows} columns={columns}>
-          <DragDropProvider/>
           <DateTypeProvider for={dateColumns}/>
           <DateTimeTypeProvider for={dateTimeColumns}/>
+          <DragDropProvider/>
           <SortingState
             sorting={sorting}
             onSortingChange={this.changeSorting}
             columnExtensions={sortingStateColumnExtensions}
           />
-          <GroupingState/>
-          <IntegratedGrouping/>
           <PagingState
             currentPage={currentPage}
             pageSize={pageSize}
@@ -321,18 +313,12 @@ class EmployeeTable extends PureComponent<Props, State> {
             defaultColumnWidths={defaultColumnWidths}
           />
           <TableHeaderRow
-            showGroupingControls
             showSortingControls
             messages={tableHeaderRowMessage}
           />
           <TableFilterRow
             messages={filterRowMessages}
             cellComponent={this.getCellComponent}
-          />
-          <TableGroupRow/>
-          <Toolbar/>
-          <GroupingPanel
-            messages={groupByMessages}
           />
           <PagingPanel
             pageSizes={pageSizes}
