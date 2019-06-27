@@ -55,7 +55,6 @@ class EditEmployee extends Component<Props, State> {
         middle_name: null,
         phone: null,
         attachment: null,
-        age: 0,
         organization: null,
         date_of_birth: '',
         registration_date: '',
@@ -86,7 +85,6 @@ class EditEmployee extends Component<Props, State> {
             middle_name: null,
             phone: null,
             attachment: null,
-            age: 0,
             organization: null,
             date_of_birth: '',
             registration_date: '',
@@ -240,21 +238,25 @@ class EditEmployee extends Component<Props, State> {
     const { statusType } = this.state;
     this.setState({
       statusWindowOpen: false,
-      employee: {
-        first_name: '',
-        last_name: '',
-        email: '',
-        sex: '',
-        middle_name: null,
-        phone: null,
-        attachment: null,
-        age: 0,
-        organization: null,
-        date_of_birth: '',
-        registration_date: '',
-      },
+
     });
-    if (statusType === 'success') onClose();
+    if (statusType === 'success') {
+      this.setState({
+        employee: {
+          first_name: '',
+          last_name: '',
+          email: '',
+          sex: '',
+          middle_name: null,
+          phone: null,
+          attachment: null,
+          organization: null,
+          date_of_birth: '',
+          registration_date: '',
+        },
+      });
+      onClose();
+    }
   }
 
   private handleSelectChange = (event: ChangeEvent<{ name?: string | undefined; value: unknown; }>):

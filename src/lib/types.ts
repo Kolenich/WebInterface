@@ -7,7 +7,7 @@ export interface Employee {
   last_name: string;
   middle_name: string | null;
   phone: string | null;
-  age: number;
+  age?: number;
   email: string;
   date_of_birth: Date | string;
   registration_date: Date | string;
@@ -19,7 +19,7 @@ export interface Employee {
 // Интерфейс для строки в таблице Employees
 export interface TableRow {
   id: number;
-  employee_fio: string;
+  full_name: string;
   phone: string | null;
   age: number;
   email: string;
