@@ -40,4 +40,6 @@ export default {
     { columnName: 'employee_fio', sortingEnabled: false },
     { columnName: 'sex', sortingEnabled: false },
   ],
+  dateColumns: ['date_of_birth'],
+  dateTimeColumns: ['registration_date'],
 };

@@ -19,7 +19,7 @@ import {
   PagingState,
   FilteringState,
   SortingState,
-  CustomPaging, Filter, Sorting,
+  CustomPaging, Filter, Sorting, DataTypeProvider, DataTypeProviderProps,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -47,6 +47,42 @@ import { Props, State } from './types';
 import { dateOptions, dateTimeOptions, sortingParams } from '../../lib/utils';
 
 const sexParams: string[] = ['Муж.', 'Жен.'];
+
+/**
+ * Форматтер для даты без времени
+ * @param value значение
+ * @constructor
+ */
+const DateFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
+  <>{new Date(value).toLocaleDateString('ru', dateOptions)}</>
+);
+
+/**
+ * Форматтер для даты с временем
+ * @param value значение
+ * @constructor
+ */
+const DateTimeFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
+  <>{new Date(value).toLocaleDateString('ru', dateTimeOptions)}</>
+);
+
+/**
+ * Тип данных для ячеек даты без времени
+ * @param props свойства ячейки
+ * @constructor
+ */
+const DateTypeProvider = (props: DataTypeProviderProps) => (
+  <DataTypeProvider {...props} formatterComponent={DateFormatter}/>
+);
+
+/**
+ * Тип данных для ячеек даты с временем
+ * @param props свойства ячейки
+ * @constructor
+ */
+const DateTimeTypeProvider = (props: DataTypeProviderProps) => (
+  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter}/>
+);
 
 class EmployeeTable extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -142,13 +178,6 @@ class EmployeeTable extends PureComponent<Props, State> {
     api.getContent<ApiResponse<TableRow>>('employees-table', config)
       .then((response: AxiosResponse<ApiResponse<TableRow>>): ComponentState => {
         const rows: TableRow[] = response.data.results;
-        // eslint-disable-next-line
-        rows.map((row: TableRow): void => {
-          // Преобразвание даты в читабельный вид
-          row.registration_date =
-            new Date(row.registration_date).toLocaleDateString('ru', dateTimeOptions);
-          row.date_of_birth = new Date(row.date_of_birth).toLocaleString('ru', dateOptions);
-        });
         const totalCount: number = response.data.count;
         this.setState({ rows, totalCount, loading: false });
       })
@@ -242,11 +271,15 @@ class EmployeeTable extends PureComponent<Props, State> {
       sortingStateColumnExtensions,
       sorting,
       sex,
+      dateColumns,
+      dateTimeColumns,
     } = this.state;
     return (
       <Paper className={classes.paper}>
         <Grid rows={rows} columns={columns}>
           <DragDropProvider/>
+          <DateTypeProvider for={dateColumns}/>
+          <DateTimeTypeProvider for={dateTimeColumns}/>
           <SortingState
             sorting={sorting}
             onSortingChange={this.changeSorting}

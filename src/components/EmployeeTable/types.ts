@@ -14,6 +14,8 @@ export interface Props extends WithStyles<typeof styles> {
 
 export interface State {
   sex: Sex;
+  dateColumns: string[];
+  dateTimeColumns: string[];
   rows: TableRow[];
   rowId: number;
   totalCount: number;

@@ -1,4 +1,4 @@
-import { EmployeeLabels, SexLabels, Sorting } from './types';
+import { EmployeeLabels, Sorting } from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -14,12 +14,6 @@ export const dateTimeOptions = {
   day: '2-digit',
   hour: '2-digit',
   minute: '2-digit',
-};
-
-// Ярлыки для пола
-export const sexLabel: SexLabels = {
-  male: 'Муж.',
-  female: 'Жен.',
 };
 
 // Ярлыки для объекта Employee
