@@ -11,11 +11,9 @@ export interface Employee {
   email: string;
   date_of_birth: Date | string;
   registration_date: Date | string;
-  attachment: Attachment | null;
-  organization: number | null;
   sex: Sex;
 
-  [index: string]: string | number | undefined | null | Attachment | boolean | Date | Employee;
+  [index: string]: string | number | undefined | null | boolean | Date | Employee;
 }
 
 // Интерфейс для строки в таблице Employees
@@ -52,28 +50,6 @@ export interface SexLabels {
   female: string;
 
   [index: string]: string;
-}
-
-// Интерфейс для модели Attachment
-export interface Attachment {
-  file: string;
-  file_name: string;
-  file_mime: string;
-  file_size: number;
-}
-
-// Интерфейс для модели Organization
-export interface Organization {
-  id?: number;
-  full_name: string;
-  short_name: string;
-  registration_date: Date;
-  inn: string;
-  kpp: string;
-  ogrn: string;
-  okved_code: string;
-  okved_name: string;
-  employees: Employee[];
 }
 
 // Тип иконок для основной кнопки
