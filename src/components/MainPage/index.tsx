@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
-import { AppBar, Tabs, Tab, withStyles, Typography } from '@material-ui/core';
+import { AppBar, Tab, Tabs, Typography, withStyles } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 import { styles } from './styles';
 import EmployeeTable from '../EmployeeTable';
@@ -51,8 +51,8 @@ class MainPage extends PureComponent<Props, State> {
             scrollButtons="auto"
             centered
           >
-            <Tab label="Сотрудники"/>
-            <Tab label="Организации"/>
+            <Tab label="Сотрудники" />
+            <Tab label="Организации" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -63,10 +63,10 @@ class MainPage extends PureComponent<Props, State> {
           onChangeIndex={this.handleChangeIndex}
         >
           <this.TabContainer dir={theme.direction}>
-            <EmployeeTable/>
+            <EmployeeTable />
           </this.TabContainer>
           <this.TabContainer dir={theme.direction}>
-            <EmployeeChart/>
+            <EmployeeChart />
           </this.TabContainer>
         </SwipeableViews>
       </>

@@ -2,16 +2,16 @@ import React, { Component, ReactNode } from 'react';
 import { Props, State } from './types';
 import { Paper, withStyles } from '@material-ui/core';
 import {
-  Chart,
   ArgumentAxis,
-  ValueAxis,
   BarSeries,
-  SplineSeries,
+  Chart,
   Legend,
-  Tooltip,
+  SplineSeries,
   Title,
+  Tooltip,
+  ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
-import { ValueScale, Animation, EventTracker } from '@devexpress/dx-react-chart';
+import { Animation, EventTracker, ValueScale } from '@devexpress/dx-react-chart';
 import { styles } from './styles';
 import demoData from './demoData';
 
@@ -59,7 +59,7 @@ class EmployeeChart extends Component<Props, State> {
           <ValueScale
             name="total"
           />
-          <ArgumentAxis/>
+          <ArgumentAxis />
           <ValueAxis
             scaleName="sale"
             showGrid={false}
@@ -87,12 +87,12 @@ class EmployeeChart extends Component<Props, State> {
             argumentField="month"
             scaleName="total"
           />
-          <Animation/>
+          <Animation />
           <Legend
             position="bottom"
           />
-          <EventTracker/>
-          <Tooltip/>
+          <EventTracker />
+          <Tooltip />
         </Chart>
       </Paper>
     );

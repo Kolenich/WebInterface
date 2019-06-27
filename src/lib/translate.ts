@@ -1,9 +1,4 @@
-import {
-  PagingPanel,
-  Table,
-  TableFilterRow,
-  TableHeaderRow,
-} from '@devexpress/dx-react-grid';
+import { PagingPanel, Table, TableFilterRow, TableHeaderRow } from '@devexpress/dx-react-grid';
 
 export const filterRowMessages: TableFilterRow.LocalizationMessages = {
   filterPlaceholder: 'Фильтр...',

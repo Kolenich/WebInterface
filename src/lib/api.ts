@@ -1,5 +1,5 @@
 import { session } from './session';
-import { AxiosResponse, AxiosPromise, AxiosError } from 'axios';
+import { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
 import { HTTPMethods } from './types';
 
 export default {

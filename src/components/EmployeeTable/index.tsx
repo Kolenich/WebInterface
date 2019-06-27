@@ -1,33 +1,40 @@
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import {
   Fab,
-  FormControl, Input,
+  FormControl,
+  Input,
   InputLabel,
-  LinearProgress, MenuItem,
-  Paper, Select,
+  LinearProgress,
+  MenuItem,
+  Paper,
+  Select,
   Tooltip,
 } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import api from '../../lib/api';
-import { DRFGetConfig, ApiResponse, TableRow, Sex } from '../../lib/types';
+import { ApiResponse, DRFGetConfig, Sex, TableRow } from '../../lib/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import columnSettings from './columnSettings';
 import {
-  PagingState,
+  CustomPaging,
+  DataTypeProvider,
+  DataTypeProviderProps,
+  Filter,
   FilteringState,
+  PagingState,
+  Sorting,
   SortingState,
-  CustomPaging, Filter, Sorting, DataTypeProvider, DataTypeProviderProps,
 } from '@devexpress/dx-react-grid';
 import {
-  Grid,
   DragDropProvider,
+  Grid,
+  PagingPanel,
   Table,
-  TableHeaderRow,
   TableColumnReordering,
   TableColumnResizing,
-  PagingPanel,
   TableFilterRow,
+  TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
 import {
   filterRowMessages,
@@ -66,7 +73,7 @@ const DateTimeFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
  * @constructor
  */
 const DateTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateFormatter}/>
+  <DataTypeProvider {...props} formatterComponent={DateFormatter} />
 );
 
 /**
@@ -75,7 +82,7 @@ const DateTypeProvider = (props: DataTypeProviderProps) => (
  * @constructor
  */
 const DateTimeTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter}/>
+  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter} />
 );
 
 class EmployeeTable extends PureComponent<Props, State> {
@@ -114,12 +121,13 @@ class EmployeeTable extends PureComponent<Props, State> {
     }
   }
 
-  filterCellComponent = (props: TableFilterRow.CellProps, sex: Sex) => {
+  filterCellComponent = (props: TableFilterRow.CellProps) => {
     const { classes } = this.props;
+    const { sex } = this.state;
     const { column, onFilter } = props;
     if (column.name !== 'sex') {
       return (
-        <TableFilterRow.Cell {...props}/>
+        <TableFilterRow.Cell {...props} />
       );
     }
     return (
@@ -129,7 +137,7 @@ class EmployeeTable extends PureComponent<Props, State> {
           <Select
             className={classes.sexSelect}
             value={sex}
-            input={<Input/>}
+            input={<Input />}
             onChange={
               (event: ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
                 let value: string = '';
@@ -189,7 +197,7 @@ class EmployeeTable extends PureComponent<Props, State> {
       <Tooltip title="Создать">
         <Fab color="primary" className={classes.addIcon} variant="extended"
              onClick={this.openEditWindow(-1, true)}>
-          <Add/>
+          <Add />
           Создать
         </Fab>
       </Tooltip>
@@ -245,17 +253,7 @@ class EmployeeTable extends PureComponent<Props, State> {
    * @param sorting массив сортировок
    */
   private changeSorting = (sorting: Sorting[]): ComponentState => {
-    console.log(sorting);
     this.setState({ sorting, loading: true });
-  }
-
-  /**
-   * Функция, определяющая компонент фильтрации
-   * @param props пропсы
-   */
-  private getCellComponent = (props: TableFilterRow.CellProps) => {
-    const { sex } = this.state;
-    return this.filterCellComponent(props, sex);
   }
 
   public render(): ReactNode {
@@ -281,9 +279,9 @@ class EmployeeTable extends PureComponent<Props, State> {
     return (
       <Paper className={classes.paper}>
         <Grid rows={rows} columns={columns}>
-          <DateTypeProvider for={dateColumns}/>
-          <DateTimeTypeProvider for={dateTimeColumns}/>
-          <DragDropProvider/>
+          <DateTypeProvider for={dateColumns} />
+          <DateTimeTypeProvider for={dateTimeColumns} />
+          <DragDropProvider />
           <SortingState
             sorting={sorting}
             onSortingChange={this.changeSorting}
@@ -318,7 +316,7 @@ class EmployeeTable extends PureComponent<Props, State> {
           />
           <TableFilterRow
             messages={filterRowMessages}
-            cellComponent={this.getCellComponent}
+            cellComponent={this.filterCellComponent}
           />
           <PagingPanel
             pageSizes={pageSizes}
@@ -331,8 +329,8 @@ class EmployeeTable extends PureComponent<Props, State> {
           onClose={this.closeEditWindow}
           updateTable={this.loadData}
         />
-        <this.AddButton/>
-        {loading && <LinearProgress/>}
+        <this.AddButton />
+        {loading && <LinearProgress />}
       </Paper>
     );
   }

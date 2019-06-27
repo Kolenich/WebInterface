@@ -13,6 +13,6 @@ export const styles = (theme: Theme) => createStyles({
     backgroundColor: grey[50],
   },
   sexSelect: {
-    marginBottom:theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
 });

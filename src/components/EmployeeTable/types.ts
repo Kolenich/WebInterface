@@ -5,7 +5,8 @@ import {
   Column,
   Filter,
   FilteringState,
-  Sorting, SortingState,
+  Sorting,
+  SortingState,
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
 

@@ -1,18 +1,18 @@
-import React, { ChangeEvent, ComponentState, Component, ReactNode } from 'react';
+import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
 import {
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Button,
-  Grid,
-  TextField,
-  InputLabel,
-  Select,
-  OutlinedInput,
-  MenuItem,
-  FormControl,
   Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  TextField,
 } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
@@ -26,9 +26,9 @@ import {
   UPDATE_SUCCESS,
 } from '../../lib/utils';
 import {
-  MuiPickersUtilsProvider,
   KeyboardDatePicker,
   MaterialUiPickersDate,
+  MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -178,7 +178,7 @@ class EditEmployee extends Component<Props, State> {
           <Select
             value={value}
             onChange={this.handleSelectChange}
-            input={<OutlinedInput labelWidth={30} id="sex"/>}>
+            input={<OutlinedInput labelWidth={30} id="sex" />}>
             <MenuItem value="male">Мужской</MenuItem>
             <MenuItem value="female">Женский</MenuItem>
           </Select>
@@ -206,13 +206,13 @@ class EditEmployee extends Component<Props, State> {
       >
         {text}
         {icon === 'save' &&
-        <Save className={classes.rightIcon}/>}
+        <Save className={classes.rightIcon} />}
         {icon === 'add' &&
-        <Add className={classes.rightIcon}/>}
+        <Add className={classes.rightIcon} />}
         {icon === 'confirm' &&
-        <Done className={classes.rightIcon}/>}
+        <Done className={classes.rightIcon} />}
         {icon === 'update' &&
-        <Update className={classes.rightIcon}/>}
+        <Update className={classes.rightIcon} />}
       </Button>
     );
   }
@@ -228,9 +228,9 @@ class EditEmployee extends Component<Props, State> {
       >
         {text}
         {icon === 'delete' &&
-        <Delete className={classes.rightIcon}/>}
+        <Delete className={classes.rightIcon} />}
         {icon === 'cancel' &&
-        <Cancel className={classes.rightIcon}/>}
+        <Cancel className={classes.rightIcon} />}
       </Button>
     );
   }
@@ -238,7 +238,22 @@ class EditEmployee extends Component<Props, State> {
   private closeStatusModal = (): ComponentState => {
     const { onClose } = this.props;
     const { statusType } = this.state;
-    this.setState({ statusWindowOpen: false });
+    this.setState({
+      statusWindowOpen: false,
+      employee: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        sex: '',
+        middle_name: null,
+        phone: null,
+        attachment: null,
+        age: 0,
+        organization: null,
+        date_of_birth: '',
+        registration_date: '',
+      },
+    });
     if (statusType === 'success') onClose();
   }
 
@@ -338,24 +353,24 @@ class EditEmployee extends Component<Props, State> {
         <DialogTitle>
           {title}
           <IconButton className={classes.cancelButton} onClick={onClose}>
-            <Cancel/>
+            <Cancel />
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
           <StatusWindow open={statusWindowOpen} onClose={this.closeStatusModal} status={statusType}
-                        message={statusMessage}/>
+                        message={statusMessage} />
           <Grid container spacing={spacing}>
-            <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic"/>
-            <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic"/>
-            <this.InputField xs={4} fieldName="middle_name" validationType="cyrillic"/>
+            <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic" />
+            <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic" />
+            <this.InputField xs={4} fieldName="middle_name" validationType="cyrillic" />
           </Grid>
           <Grid container spacing={spacing}>
-            <this.InputField xs={5} fieldName="email" required validationType="email"/>
-            <this.InputField xs={4} fieldName="phone" validationType="phone"/>
-            <this.SelectField xs={3} fieldName="sex" required/>
+            <this.InputField xs={5} fieldName="email" required validationType="email" />
+            <this.InputField xs={4} fieldName="phone" validationType="phone" />
+            <this.SelectField xs={3} fieldName="sex" required />
           </Grid>
           <Grid container spacing={spacing}>
-            <this.DateField xs={5} fieldName="date_of_birth"/>
+            <this.DateField xs={5} fieldName="date_of_birth" />
           </Grid>
         </DialogContent>
         <DialogActions>
@@ -366,9 +381,9 @@ class EditEmployee extends Component<Props, State> {
             icon={id !== -1 ?
               'save' :
               'add'}
-            onClick={this.submitForm}/>
+            onClick={this.submitForm} />
           {id !== -1 &&
-          <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
+          <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm} />}
         </DialogActions>
       </Dialog>
     );

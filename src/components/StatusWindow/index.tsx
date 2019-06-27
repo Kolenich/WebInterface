@@ -2,13 +2,13 @@ import React, { PureComponent, ReactNode } from 'react';
 import { Props, State } from './types';
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Typography,
   withStyles,
-  CircularProgress,
 } from '@material-ui/core';
 import { CheckCircle, Done, Error, Warning } from '@material-ui/icons';
 import classNames from 'classnames';
@@ -32,7 +32,7 @@ class StatusWindow extends PureComponent<Props, State> {
       >
         {text}
         {icon === 'confirm' &&
-        <Done className={classes.rightIcon}/>}
+        <Done className={classes.rightIcon} />}
       </Button>
     );
   }
@@ -44,22 +44,22 @@ class StatusWindow extends PureComponent<Props, State> {
         <DialogTitle disableTypography>
           {status === 'success' &&
           <Typography variant="h5" className={classes.message}>
-            <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)}/>
+            <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)} />
             Успешно
           </Typography>}
           {status === 'error' &&
           <Typography variant="h5" className={classes.message}>
-            <Error className={classNames(classes.statusIcon, classes.errorIcon)}/>
+            <Error className={classNames(classes.statusIcon, classes.errorIcon)} />
             Ошибка
           </Typography>}
           {status === 'warning' &&
           <Typography variant="h5" className={classes.message}>
-            <Warning className={classNames(classes.statusIcon, classes.warningIcon)}/>
+            <Warning className={classNames(classes.statusIcon, classes.warningIcon)} />
             Внимание
           </Typography>}
           {status === 'loading' &&
           <Typography variant="h5" className={classes.message}>
-            <CircularProgress className={classes.statusIcon}/>
+            <CircularProgress className={classes.statusIcon} />
             Пожалуйста, подождите...
           </Typography>}
         </DialogTitle>
