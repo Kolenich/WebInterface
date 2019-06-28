@@ -46,7 +46,6 @@ import EmployeeForm from '../EmployeeForm';
 import { Add } from '@material-ui/icons';
 import { Props, State } from './types';
 import { dateOptions, dateTimeOptions, sortingParams } from '../../lib/utils';
-import EmployeeChart from '../EmployeeChart';
 
 const sexParams: string[] = ['Муж.', 'Жен.'];
 
@@ -332,7 +331,6 @@ class EmployeeTable extends PureComponent<Props, State> {
         />
         <this.AddButton />
         {loading && <LinearProgress />}
-        <EmployeeChart />
       </Paper>
     );
   }
