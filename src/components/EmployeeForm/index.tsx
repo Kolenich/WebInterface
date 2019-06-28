@@ -43,7 +43,15 @@ import StatusWindow from '../StatusWindow';
 // Переменная, отвечающая за расстояние между TextField'ми
 const spacing: GridSpacing = 2;
 
-class EditEmployee extends Component<Props, State> {
+/**
+ * Класс Формы для создания/редактирования Сотрудника
+ * @param id {number} - обязательный параметр. ID сотрудниика, которого редактируем.
+ * Если создаём, то -1
+ * @param open {boolean} - обязательный параметр. Переменная, отвечающая за открытие/закрытие формы.
+ * @param onClose {function} - обязательный параметр. Функция, закрывающая окно.
+ * @param updateTable - обязательный параметр. Функция-колбэк, для передачи данных в родителя.
+ */
+class EmployeeForm extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -97,6 +105,14 @@ class EditEmployee extends Component<Props, State> {
     }
   }
 
+  /**
+   * Кастомное поле ввода
+   * @param xs - размер в Grid-сетке
+   * @param fieldName - имя поля в объекте Employee
+   * @param validationType - тип валидации для поля
+   * @param props - остальные пропсы
+   * @constructor
+   */
   InputField = ({ xs, fieldName, validationType, ...props }: InputFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
@@ -131,6 +147,13 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
+  /**
+   * Кастомное поле выбора даты
+   * @param xs - размер в Grid-сетке
+   * @param fieldName - имя поля в объекте Employee
+   * @param props - остальные пропсы
+   * @constructor
+   */
   DateField = ({ xs, fieldName, ...props }: InputFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
@@ -163,6 +186,13 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
+  /**
+   * Кастомное селектор
+   * @param xs - размер в Grid-сетке
+   * @param fieldName - имя поля в объекте Employee
+   * @param props - остальные пропсы
+   * @constructor
+   */
   SelectField = ({ xs, fieldName, ...props }: InputFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
@@ -185,6 +215,13 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
+  /**
+   * Кастомная кнопка (основная)
+   * @param text - текст кнопки
+   * @param icon - иконка кнопки
+   * @param props
+   * @constructor
+   */
   PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): JSX.Element => {
     const { classes } = this.props;
     const { employee, dateOfBirthNotNull } = this.state;
@@ -215,6 +252,13 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
+  /**
+   * Кастомная кнопка (дополнительная)
+   * @param text - текст кнопки
+   * @param icon - иконка кнопки
+   * @param props
+   * @constructor
+   */
   SecondaryButton = ({ text, icon, ...props }: CustomButtonProps): JSX.Element => {
     const { classes } = this.props;
     return (
@@ -233,6 +277,9 @@ class EditEmployee extends Component<Props, State> {
     );
   }
 
+  /**
+   * Функция-колбэк, закрывающая окно статуса
+   */
   private closeStatusModal = (): ComponentState => {
     const { onClose } = this.props;
     const { statusType } = this.state;
@@ -259,6 +306,10 @@ class EditEmployee extends Component<Props, State> {
     }
   }
 
+  /**
+   * Функция, обрабатывающая изменения в селекторе
+   * @param event - ивент изменения
+   */
   private handleSelectChange = (event: ChangeEvent<{ name?: string | undefined; value: unknown; }>):
     ComponentState => {
     const sex: Sex = event.target.value as Sex;
@@ -266,6 +317,10 @@ class EditEmployee extends Component<Props, State> {
     this.setState({ employee: { ...employee, sex } });
   }
 
+  /**
+   * Функция, обрабатывающая изменения в компоненте выбора даты
+   * @param name - имя поля для изменения
+   */
   private handleDateChange = (name: keyof Employee) => (date: MaterialUiPickersDate):
     ComponentState => {
     const { employee } = this.state;
@@ -276,6 +331,10 @@ class EditEmployee extends Component<Props, State> {
     }
   }
 
+  /**
+   * Функция, обрабатывающая изменения в поле ввода
+   * @param event - ивент изменения
+   */
   private handleInputChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
     const { employee } = { ...this.state };
     const name = event.target.name as keyof Employee;
@@ -283,6 +342,9 @@ class EditEmployee extends Component<Props, State> {
     this.setState({ employee: { ...employee, [name]: value } });
   }
 
+  /**
+   * Функция, посылающая запрос на сервер для удаления записи из БД
+   */
   private deleteForm = (): ComponentState => {
     this.setState({ statusWindowOpen: true, statusType: 'loading' });
     const { employee } = this.state;
@@ -308,6 +370,9 @@ class EditEmployee extends Component<Props, State> {
       });
   }
 
+  /**
+   * Функция, отправляющая запрос на сервер для создания или обновления записи в БД
+   */
   private submitForm = (): ComponentState => {
     this.setState({ statusWindowOpen: true, statusType: 'loading' });
     const { updateTable } = this.props;
@@ -392,4 +457,4 @@ class EditEmployee extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(EditEmployee);
+export default withStyles(styles)(EmployeeForm);
