@@ -25,7 +25,7 @@ export default {
   defaultColumnWidths: [
     { columnName: 'id', width: window.innerWidth * 0.075 },
     { columnName: 'avatar', width: window.innerWidth * 0.075 },
-    { columnName: 'full_name', width: window.innerWidth * 0.175 },
+    { columnName: 'full_name', width: window.innerWidth * 0.15 },
     { columnName: 'registration_date', width: window.innerWidth * 0.1 },
     { columnName: 'phone', width: window.innerWidth * 0.1 },
     { columnName: 'email', width: window.innerWidth * 0.2 },

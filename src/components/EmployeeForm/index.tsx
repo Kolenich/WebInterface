@@ -459,11 +459,14 @@ class EmployeeForm extends Component<Props, State> {
           <Grid container spacing={spacing}>
             <this.DateField xs={5} fieldName="date_of_birth" />
           </Grid>
-          <FileUploader
-            avatarUrl={avatarUrl}
-            fileUploadCallback={this.fileUploadCallback}
-            fileRemoveCallback={this.fileRemoveCallback}
-          />
+          <Grid container spacing={spacing}>
+            <FileUploader
+              xs={12}
+              url={avatarUrl}
+              fileUploadCallback={this.fileUploadCallback}
+              fileRemoveCallback={this.fileRemoveCallback}
+            />
+          </Grid>
         </DialogContent>
         <DialogActions>
           <this.PrimaryButton

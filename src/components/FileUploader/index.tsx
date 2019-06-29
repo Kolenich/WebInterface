@@ -1,9 +1,11 @@
 import React, { PureComponent, ReactNode } from 'react';
-import { File as FileType, FilePond } from 'react-filepond';
+import { File, FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import { Props, State } from './types';
 import { Avatar } from '../../lib/types';
 import { getBase64, toDataURL } from '../../lib/utils';
+import { Grid, Typography, withStyles } from '@material-ui/core';
+import { styles } from './styles';
 
 class FileUploader extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -15,7 +17,7 @@ class FileUploader extends PureComponent<Props, State> {
 
   private pond: FilePond = new FilePond({});
 
-  onAddFile = (file: FileType) => {
+  onAddFile = (file: File) => {
     const { fileUploadCallback } = this.props;
     getBase64(file.file)
       .then((data: unknown) => {
@@ -32,14 +34,14 @@ class FileUploader extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps: Readonly<Props>): void {
-    const { avatarUrl } = this.props;
+    const { url } = this.props;
     const { fileLoaded } = this.state;
-    if (prevProps.avatarUrl !== avatarUrl && avatarUrl !== null && !fileLoaded) {
-      toDataURL(avatarUrl, this.dataUrlCallback);
+    if (prevProps.url !== url && url !== null && !fileLoaded) {
+      toDataURL(url, this.dataUrlCallback);
     }
   }
 
-  onRemoveFile = (file: FileType): void => {
+  onRemoveFile = (file: File): void => {
     const { fileRemoveCallback } = this.props;
     fileRemoveCallback();
   }
@@ -48,24 +50,33 @@ class FileUploader extends PureComponent<Props, State> {
     this.pond = ref;
   }
 
-  dataUrlCallback = (dataUrl: FileType) => {
+  dataUrlCallback = (dataUrl: File) => {
     this.pond.addFile(dataUrl);
   }
 
   public render(): ReactNode {
+    const { xs, classes, title } = this.props;
+    let subTitle: string = 'Аватар';
+    if (title) subTitle = title;
     return (
-      <FilePond
-        ref={this.addRef}
-        labelIdle='Пертяните сюда файлы или <span class="filepond--label-action">
+      <Grid item xs={xs}>
+        <Typography variant="subtitle1" className={classes.subTitle}>
+          {subTitle}
+        </Typography>
+        <FilePond
+          className={classes.fileUploader}
+          ref={this.addRef}
+          labelIdle='Перетяните сюда файлы или <span class="filepond--label-action">
         нажмите</span>, чтобы выбрать'
-        labelFileLoading="Подождите, файл загружается..."
-        labelFileLoadError="Не удалось загрузить файл"
-        labelFileProcessing="Файл успешно загружен"
-        onaddfilestart={this.onAddFile}
-        onremovefile={this.onRemoveFile}
-      />
+          labelFileLoading="Подождите, файл загружается..."
+          labelFileLoadError="Не удалось загрузить файл"
+          labelFileProcessing="Файл успешно загружен"
+          onaddfilestart={this.onAddFile}
+          onremovefile={this.onRemoveFile}
+        />
+      </Grid>
     );
   }
 }
 
-export default FileUploader;
+export default withStyles(styles)(FileUploader);
