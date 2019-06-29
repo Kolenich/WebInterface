@@ -1,4 +1,4 @@
-import { EmployeeLabels, Sorting } from './types';
+import { EmployeeLabels, ServerResponses, Sorting } from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -28,10 +28,16 @@ export const employeeLabels: EmployeeLabels = {
 };
 
 // Сообщения статусов
-export const UPDATE_SUCCESS: string = 'Сохранение прошло успешно!';
-export const SAVE_SUCCESS: string = 'Создание прошло успешно!';
-export const DELETE_SUCCESS: string = 'Удаление прошло успешно';
-export const SERVER_ERROR: string = 'Ошибка на сервере';
+export const SERVER_RESPONSES: ServerResponses = {
+  200: 'Сохранение прошло успешно!',
+  201: 'Создание прошло успешно!',
+  204: 'Удаление прошло успешно!',
+  400: 'Некорректное тело запроса',
+  404: 'Запрашиваемый URL не найден',
+  405: 'Данный метод запроса не разрешен',
+  500: 'Внутренняя ошибка сервера',
+  502: 'Время ожидания ответа от сервера истекло',
+};
 
 export const sortingParams: Sorting = {
   asc: '',

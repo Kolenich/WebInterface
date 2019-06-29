@@ -18,13 +18,7 @@ import {
 import { styles } from './styles';
 import { Avatar, CustomButtonProps, Employee, HTTPMethods, Sex } from '../../lib/types';
 import { GridSpacing } from '@material-ui/core/Grid';
-import {
-  DELETE_SUCCESS,
-  employeeLabels,
-  SAVE_SUCCESS,
-  SERVER_ERROR,
-  UPDATE_SUCCESS,
-} from '../../lib/utils';
+import { employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
 import {
   KeyboardDatePicker,
   MaterialUiPickersDate,
@@ -356,21 +350,22 @@ class EmployeeForm extends Component<Props, State> {
     const url: string = `employees/${employee.id}`;
     const method: HTTPMethods = 'delete';
     api.sendContent<Employee>(url, employee, method)
-      .then(() => {
+      .then((response: AxiosResponse<Employee>) => {
         updateTable();
         this.setState({
           statusWindowOpen: true,
-          statusMessage: DELETE_SUCCESS,
+          statusMessage: SERVER_RESPONSES[response.status],
           statusType: 'success',
         });
       })
       .catch((error: AxiosError) => {
-        this.setState({
-          statusWindowOpen: true,
-          statusMessage: SERVER_ERROR,
-          statusType: 'error',
-        });
-        if (error.response) console.log(error.response.data);
+        if (error.response) {
+          this.setState({
+            statusWindowOpen: true,
+            statusMessage: SERVER_RESPONSES[error.response.status],
+            statusType: 'error',
+          });
+        }
       });
   }
 
@@ -386,30 +381,29 @@ class EmployeeForm extends Component<Props, State> {
       if (employee[field] === '') employee[field] = null;
     });
     employee.date_of_birth = moment(employee.date_of_birth).format('YYYY-MM-DD');
-    let statusMessage: string = SAVE_SUCCESS;
     let url: string = 'employees';
     let method: HTTPMethods = 'post';
     if (employee.id) {
       url = `employees/${employee.id}`;
-      statusMessage = UPDATE_SUCCESS;
       method = 'patch';
     }
     api.sendContent<Employee>(url, employee, method)
-      .then(() => {
+      .then((response: AxiosResponse<Employee>) => {
         updateTable();
         this.setState({
-          statusMessage,
+          statusMessage: SERVER_RESPONSES[response.status],
           statusWindowOpen: true,
           statusType: 'success',
         });
       })
       .catch((error: AxiosError) => {
-        this.setState({
-          statusWindowOpen: true,
-          statusMessage: SERVER_ERROR,
-          statusType: 'error',
-        });
-        if (error.response) console.log(error.response.data);
+        if (error.response) {
+          this.setState({
+            statusWindowOpen: true,
+            statusMessage: SERVER_RESPONSES[error.response.status],
+            statusType: 'error',
+          });
+        }
       });
   }
 

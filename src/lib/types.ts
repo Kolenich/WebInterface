@@ -93,3 +93,16 @@ export interface Sorting {
 
 // Варианты локалей для интернационализации
 export type Locales = 'ru' | 'en-US' | 'en-GB' | 'fr';
+
+export interface ServerResponses {
+  200: string;
+  201: string;
+  204: string;
+  400: string;
+  404: string;
+  405: string;
+  500: string;
+  502: string;
+
+  [index: number]: string;
+}

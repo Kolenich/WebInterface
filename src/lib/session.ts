@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
   baseURL = 'http://localhost/server';
 }
 
-const timeout: number = 100000;
+const timeout: number = 1000;
 
 const headers: OutgoingHttpHeaders = {
   'Content-Type': 'application/json',
