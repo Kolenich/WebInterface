@@ -4,7 +4,7 @@ import { OutgoingHttpHeaders } from 'http';
 const xsrfCookieName: string = 'csrftoken';
 const xsrfHeaderName: string = 'X-CSRFToken';
 
-let baseURL: string = 'http://localhost:8000/';
+let baseURL: string = 'http://localhost:8000';
 if (process.env.NODE_ENV === 'production') {
   baseURL = 'http://localhost/server';
 }
@@ -24,3 +24,7 @@ const requestConfig: AxiosRequestConfig = {
 };
 
 export const session: AxiosInstance = axios.create(requestConfig);
+
+export const API_URL: string = 'api';
+
+export const fileUploadUrl: string = `${baseURL}/${API_URL}`;

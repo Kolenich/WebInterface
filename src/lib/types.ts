@@ -12,8 +12,16 @@ export interface Employee {
   date_of_birth: Date | string;
   registration_date: Date | string;
   sex: Sex;
+  avatar: Avatar | null;
 
-  [index: string]: string | number | undefined | null | boolean | Date | Employee;
+  [index: string]: string | number | undefined | null | boolean | Date | Avatar;
+}
+
+export interface Avatar {
+  file: Blob | string;
+  content_type: string;
+  size: string | number;
+  file_name: string;
 }
 
 // Интерфейс для строки в таблице Employees

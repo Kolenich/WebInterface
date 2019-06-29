@@ -13,10 +13,10 @@ import {
   OutlinedInput,
   Select,
   TextField,
+  withStyles,
 } from '@material-ui/core';
 import { styles } from './styles';
-import { withStyles } from '@material-ui/core/styles';
-import { CustomButtonProps, Employee, HTTPMethods, Sex } from '../../lib/types';
+import { Avatar, CustomButtonProps, Employee, HTTPMethods, Sex } from '../../lib/types';
 import { GridSpacing } from '@material-ui/core/Grid';
 import {
   DELETE_SUCCESS,
@@ -39,6 +39,7 @@ import api from '../../lib/api';
 import { AxiosError, AxiosResponse } from 'axios';
 import { InputFieldProps, Props, State } from './types';
 import StatusWindow from '../StatusWindow';
+import FileUploader from '../FileUploader';
 
 // Переменная, отвечающая за расстояние между TextField'ми
 const spacing: GridSpacing = 2;
@@ -66,6 +67,7 @@ class EmployeeForm extends Component<Props, State> {
         organization: null,
         date_of_birth: '',
         registration_date: '',
+        avatar: null,
       },
       dateOfBirthNotNull: false,
       statusWindowOpen: false,
@@ -80,6 +82,7 @@ class EmployeeForm extends Component<Props, State> {
       if (id !== -1) {
         api.getContent<Employee>(`employees/${id}`)
           .then(((response: AxiosResponse<Employee>) => {
+            console.log(response.data);
             this.setState({ employee: response.data, dateOfBirthNotNull: true });
           }))
           .catch();
@@ -96,6 +99,7 @@ class EmployeeForm extends Component<Props, State> {
             organization: null,
             date_of_birth: '',
             registration_date: '',
+            avatar: null,
           },
           dateOfBirthNotNull: false,
           statusWindowOpen: false,
@@ -300,6 +304,7 @@ class EmployeeForm extends Component<Props, State> {
           organization: null,
           date_of_birth: '',
           registration_date: '',
+          avatar: null,
         },
       });
       onClose();
@@ -409,6 +414,20 @@ class EmployeeForm extends Component<Props, State> {
       });
   }
 
+  /**
+   * Функция-колбэк, для загрузки файла
+   * @param avatar объект с файлом
+   */
+  fileUploadCallback = (avatar: Avatar) => {
+    const { employee } = this.state;
+    this.setState({ employee: { ...employee, avatar } });
+  }
+
+  fileRemoveCallback = () => {
+    const { employee } = this.state;
+    this.setState({ employee: { ...employee, avatar: null } });
+  }
+
   public render(): ReactNode {
     const { id, onClose, open, classes } = this.props;
     const { statusWindowOpen, statusMessage, statusType } = this.state;
@@ -439,6 +458,10 @@ class EmployeeForm extends Component<Props, State> {
           <Grid container spacing={spacing}>
             <this.DateField xs={5} fieldName="date_of_birth" />
           </Grid>
+          <FileUploader
+            fileUploadCallback={this.fileUploadCallback}
+            fileRemoveCallback={this.fileRemoveCallback}
+          />
         </DialogContent>
         <DialogActions>
           <this.PrimaryButton
