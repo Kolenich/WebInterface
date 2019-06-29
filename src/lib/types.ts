@@ -100,6 +100,7 @@ export interface ServerResponses {
   204: string;
   400: string;
   404: string;
+  413: string;
   405: string;
   500: string;
   502: string;
