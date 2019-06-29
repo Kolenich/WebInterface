@@ -15,4 +15,8 @@ export const styles = (theme: Theme) => createStyles({
   sexSelect: {
     marginBottom: theme.spacing(2),
   },
+  emptyFilter: {
+    padding: 0,
+    margin: 0,
+  },
 });

@@ -3,6 +3,7 @@ import {
   Avatar,
   Fab,
   FormControl,
+  IconButton,
   Input,
   InputLabel,
   LinearProgress,
@@ -10,6 +11,7 @@ import {
   Paper,
   Select,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
 import { styles } from './styles';
 import { withStyles } from '@material-ui/core/styles';
@@ -44,7 +46,7 @@ import {
   tableMessages,
 } from '../../lib/translate';
 import EmployeeForm from '../EmployeeForm';
-import { Add } from '@material-ui/icons';
+import { Add, Create } from '@material-ui/icons';
 import { Props, State } from './types';
 import { dateOptions, dateTimeOptions, getFileLoadURL, sortingParams } from '../../lib/utils';
 import avatar from '../../assets/default_avatar.png';
@@ -146,11 +148,42 @@ class EmployeeTable extends PureComponent<Props, State> {
     }
   }
 
+  /**
+   * Компонент для иконок под разные статусы
+   */
+  IconFormatter = (props: DataTypeProvider.ValueFormatterProps) => {
+    const { id } = props.row;
+    return (
+      <Tooltip title="Редактировать">
+        <IconButton onClick={this.openEditWindow(id)}>
+          <Create />
+        </IconButton>
+      </Tooltip>
+    );
+  }
+
+  /**
+   * Компонент, предоставляющий тип для иконок под разные статусы
+   */
+  IconTypeProvider = (props: DataTypeProviderProps) => (
+    <DataTypeProvider
+      formatterComponent={this.IconFormatter}
+      {...props}
+    />
+  )
+
   filterCellComponent = (props: TableFilterRow.CellProps) => {
     const { classes } = this.props;
     const { sex } = this.state;
     const { column, onFilter } = props;
     if (column.name !== 'sex') {
+      if (column.name === 'button') {
+        return (
+          <TableFilterRow.Cell {...props} >
+            <Typography className={classes.emptyFilter} />
+          </TableFilterRow.Cell>
+        );
+      }
       return (
         <TableFilterRow.Cell {...props} />
       );
@@ -221,7 +254,7 @@ class EmployeeTable extends PureComponent<Props, State> {
     return (
       <Tooltip title="Создать">
         <Fab color="primary" className={classes.addIcon} variant="extended"
-             onClick={this.openEditWindow(-1, true)}>
+             onClick={this.openEditWindow(-1)}>
           <Add />
           Создать
         </Fab>
@@ -233,18 +266,17 @@ class EmployeeTable extends PureComponent<Props, State> {
   RowComponent = (props: Table.DataRowProps): JSX.Element => {
     const { classes } = this.props;
     const rowId: number = props.row.id;
-    const addEmployee: boolean = true;
     return (
       <Table.Row
         {...props}
         className={classes.rowCursor}
-        onClick={this.openEditWindow(rowId, addEmployee)}
+        onDoubleClick={this.openEditWindow(rowId)}
       />);
   }
 
   // Колбэк-метод, открывающий модальное окно
-  private openEditWindow = (rowId: number, addEmployee: boolean) => (): ComponentState => {
-    this.setState({ rowId, addEmployee });
+  private openEditWindow = (rowId: number) => (): ComponentState => {
+    this.setState({ rowId, addEmployee: true });
   }
 
   // Колбэк-метод, закрывающий модальное окно
@@ -301,6 +333,7 @@ class EmployeeTable extends PureComponent<Props, State> {
       dateColumns,
       dateTimeColumns,
       avatarColumns,
+      buttonColumns,
     } = this.state;
     return (
       <Paper className={classes.paper}>
@@ -308,6 +341,7 @@ class EmployeeTable extends PureComponent<Props, State> {
           <DateTypeProvider for={dateColumns} />
           <DateTimeTypeProvider for={dateTimeColumns} />
           <ImageTypeProvider for={avatarColumns} />
+          <this.IconTypeProvider for={buttonColumns} />
           <DragDropProvider />
           <SortingState
             sorting={sorting}
