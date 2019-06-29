@@ -82,7 +82,6 @@ class EmployeeForm extends Component<Props, State> {
       if (id !== -1) {
         api.getContent<Employee>(`employees/${id}`)
           .then(((response: AxiosResponse<Employee>) => {
-            console.log(response.data);
             this.setState({ employee: response.data, dateOfBirthNotNull: true });
           }))
           .catch();
@@ -430,10 +429,12 @@ class EmployeeForm extends Component<Props, State> {
 
   public render(): ReactNode {
     const { id, onClose, open, classes } = this.props;
-    const { statusWindowOpen, statusMessage, statusType } = this.state;
+    const { statusWindowOpen, statusMessage, statusType, employee } = this.state;
     const title: string = id !== -1 ?
       'Редактировать сотрудника' :
       'Зарегистрировать сотрудника';
+    let avatarUrl: string | null = null;
+    if (employee.avatar !== null) avatarUrl = employee.avatar.file;
     return (
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>
@@ -459,6 +460,7 @@ class EmployeeForm extends Component<Props, State> {
             <this.DateField xs={5} fieldName="date_of_birth" />
           </Grid>
           <FileUploader
+            avatarUrl={avatarUrl}
             fileUploadCallback={this.fileUploadCallback}
             fileRemoveCallback={this.fileRemoveCallback}
           />

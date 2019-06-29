@@ -1,5 +1,6 @@
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import {
+  Avatar,
   Fab,
   FormControl,
   Input,
@@ -46,6 +47,7 @@ import EmployeeForm from '../EmployeeForm';
 import { Add } from '@material-ui/icons';
 import { Props, State } from './types';
 import { dateOptions, dateTimeOptions, sortingParams } from '../../lib/utils';
+import { requestConfig } from '../../lib/session';
 
 const sexParams: string[] = ['Муж.', 'Жен.'];
 
@@ -57,6 +59,20 @@ const sexParams: string[] = ['Муж.', 'Жен.'];
 const DateFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
   <>{new Date(value).toLocaleDateString('ru', dateOptions)}</>
 );
+
+/**
+ * Форматтер для изображений
+ * @param value url файла
+ * @constructor
+ */
+const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
+  if (value !== null) {
+    return (
+      <Avatar src={`${requestConfig.baseURL}${value}`} />
+    );
+  }
+  return <Avatar>A</Avatar>;
+};
 
 /**
  * Форматтер для даты с временем
@@ -74,6 +90,15 @@ const DateTimeFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
  */
 const DateTypeProvider = (props: DataTypeProviderProps) => (
   <DataTypeProvider {...props} formatterComponent={DateFormatter} />
+);
+
+/**
+ * Тип данных для ячеек с аватарами
+ * @param props свойства ячейки
+ * @constructor
+ */
+const ImageTypeProvider = (props: DataTypeProviderProps) => (
+  <DataTypeProvider {...props} formatterComponent={ImageFormatter} />
 );
 
 /**
@@ -275,12 +300,14 @@ class EmployeeTable extends PureComponent<Props, State> {
       sorting,
       dateColumns,
       dateTimeColumns,
+      avatarColumns,
     } = this.state;
     return (
       <Paper className={classes.paper}>
         <Grid rows={rows} columns={columns}>
           <DateTypeProvider for={dateColumns} />
           <DateTimeTypeProvider for={dateTimeColumns} />
+          <ImageTypeProvider for={avatarColumns} />
           <DragDropProvider />
           <SortingState
             sorting={sorting}

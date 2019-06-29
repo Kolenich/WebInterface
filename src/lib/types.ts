@@ -18,7 +18,8 @@ export interface Employee {
 }
 
 export interface Avatar {
-  file: Blob | string;
+  id?: number;
+  file: string;
   content_type: string;
   size: string | number;
   file_name: string;
@@ -27,6 +28,7 @@ export interface Avatar {
 // Интерфейс для строки в таблице Employees
 export interface TableRow {
   id: number;
+  avatar: string;
   full_name: string;
   phone: string | null;
   age: number;

@@ -15,7 +15,7 @@ const headers: OutgoingHttpHeaders = {
   'Content-Type': 'application/json',
 };
 
-const requestConfig: AxiosRequestConfig = {
+export const requestConfig: AxiosRequestConfig = {
   baseURL,
   xsrfCookieName,
   xsrfHeaderName,
@@ -26,5 +26,3 @@ const requestConfig: AxiosRequestConfig = {
 export const session: AxiosInstance = axios.create(requestConfig);
 
 export const API_URL: string = 'api';
-
-export const fileUploadUrl: string = `${baseURL}/${API_URL}`;

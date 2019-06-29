@@ -2,6 +2,7 @@ export default {
   // Название колонок в таблице
   columns: [
     { name: 'id', title: 'ID' },
+    { name: 'avatar', title: 'Аватар' },
     { name: 'full_name', title: 'ФИО сотрудника' },
     { name: 'registration_date', title: 'Дата регистрации' },
     { name: 'phone', title: 'Телефон' },
@@ -12,6 +13,7 @@ export default {
   ],
   defaultOrder: [
     'id',
+    'avatar',
     'full_name',
     'registration_date',
     'phone',
@@ -22,7 +24,8 @@ export default {
   ],
   defaultColumnWidths: [
     { columnName: 'id', width: window.innerWidth * 0.075 },
-    { columnName: 'full_name', width: window.innerWidth * 0.225 },
+    { columnName: 'avatar', width: window.innerWidth * 0.075 },
+    { columnName: 'full_name', width: window.innerWidth * 0.175 },
     { columnName: 'registration_date', width: window.innerWidth * 0.1 },
     { columnName: 'phone', width: window.innerWidth * 0.1 },
     { columnName: 'email', width: window.innerWidth * 0.2 },
@@ -33,9 +36,12 @@ export default {
   filteringStateColumnExtensions: [
     { columnName: 'registration_date', filteringEnabled: false },
     { columnName: 'date_of_birth', filteringEnabled: false },
+    { columnName: 'avatar', filteringEnabled: false },
   ],
   sortingStateColumnExtensions: [
+    { columnName: 'avatar', sortingEnabled: false },
   ],
   dateColumns: ['date_of_birth'],
   dateTimeColumns: ['registration_date'],
+  avatarColumns: ['avatar'],
 };

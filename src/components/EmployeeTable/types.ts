@@ -17,6 +17,7 @@ export interface State {
   sex: Sex;
   dateColumns: string[];
   dateTimeColumns: string[];
+  avatarColumns: string[];
   rows: TableRow[];
   rowId: number;
   totalCount: number;

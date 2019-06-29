@@ -38,6 +38,10 @@ export const sortingParams: Sorting = {
   desc: '-',
 };
 
+/**
+ * Функция конвертации blob-Объекта файла в base64
+ * @param file
+ */
 export function getBase64(file: Blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -45,4 +49,23 @@ export function getBase64(file: Blob) {
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
   });
+}
+
+/**
+ * Функция конвертации файла с сервера в base64
+ * @param url - url файла с сервера
+ * @param callback функция-колбэк, возвращающая файл в формате base64
+ */
+export function toDataURL(url: string, callback: (dataUrl: any) => void) {
+  const xhr: XMLHttpRequest = new XMLHttpRequest();
+  xhr.onload = function () {
+    const reader: FileReader = new FileReader();
+    reader.onloadend = function () {
+      callback(reader.result);
+    };
+    reader.readAsDataURL(xhr.response);
+  };
+  xhr.open('GET', url);
+  xhr.responseType = 'blob';
+  xhr.send();
 }
