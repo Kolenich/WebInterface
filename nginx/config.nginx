@@ -45,4 +45,9 @@ server {
     alias /app/django-static/;
     autoindex on;
   }
+
+  location /media/ {
+    alias /app/media/;
+    autoindex on;
+  }
 }

@@ -10,6 +10,7 @@ services:
   web:
     volumes:
       - ../django-static:/app/django-static
+      - ../media:/app/media
     restart: always
     container_name: web
     image: kolenich/web
@@ -20,6 +21,7 @@ services:
   server:
     volumes:
       - ../django-static:/app/static
+      - ../media:/app/media
     restart: always
     container_name: server
     image: kolenich/server
