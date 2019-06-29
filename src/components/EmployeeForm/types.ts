@@ -26,3 +26,8 @@ export interface InputFieldProps {
   required?: boolean;
   validationType?: Validation;
 }
+
+export interface SelectFieldProps extends InputFieldProps {
+  labelWidth: number;
+
+}

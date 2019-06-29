@@ -48,6 +48,7 @@ import { Add } from '@material-ui/icons';
 import { Props, State } from './types';
 import { dateOptions, dateTimeOptions, sortingParams } from '../../lib/utils';
 import { requestConfig } from '../../lib/session';
+import avatar from '../../assets/default_avatar.png';
 
 const sexParams: string[] = ['Муж.', 'Жен.'];
 
@@ -71,7 +72,7 @@ const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
       <Avatar src={`${requestConfig.baseURL}${value}`} />
     );
   }
-  return <Avatar>A</Avatar>;
+  return <Avatar src={avatar} />;
 };
 
 /**

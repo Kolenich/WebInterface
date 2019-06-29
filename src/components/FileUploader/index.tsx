@@ -66,7 +66,7 @@ class FileUploader extends PureComponent<Props, State> {
         <FilePond
           className={classes.fileUploader}
           ref={this.addRef}
-          labelIdle='Перетяните сюда файлы или <span class="filepond--label-action">
+          labelIdle='Перетяните сюда файл или <span class="filepond--label-action">
         нажмите</span>, чтобы выбрать'
           labelFileLoading="Подождите, файл загружается..."
           labelFileLoadError="Не удалось загрузить файл"

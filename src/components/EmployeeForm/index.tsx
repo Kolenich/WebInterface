@@ -31,7 +31,7 @@ import { validationMessages, validationMethods } from '../../lib/validation';
 import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
 import api from '../../lib/api';
 import { AxiosError, AxiosResponse } from 'axios';
-import { InputFieldProps, Props, State } from './types';
+import { InputFieldProps, Props, SelectFieldProps, State } from './types';
 import StatusWindow from '../StatusWindow';
 import FileUploader from '../FileUploader';
 
@@ -69,6 +69,8 @@ class EmployeeForm extends Component<Props, State> {
       statusType: 'loading',
     };
   }
+
+  private inputLabel = React.createRef<HTMLLabelElement>();
 
   public componentDidUpdate(prevProps: Readonly<Props>): ComponentState {
     const { id } = this.props;
@@ -187,10 +189,11 @@ class EmployeeForm extends Component<Props, State> {
    * Кастомное селектор
    * @param xs - размер в Grid-сетке
    * @param fieldName - имя поля в объекте Employee
+   * @param labelWidth - ширина лэйбла
    * @param props - остальные пропсы
    * @constructor
    */
-  SelectField = ({ xs, fieldName, ...props }: InputFieldProps): JSX.Element => {
+  SelectField = ({ xs, fieldName, labelWidth, ...props }: SelectFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
     const value: string = employee[fieldName] !== null && employee[fieldName] ?
@@ -199,11 +202,11 @@ class EmployeeForm extends Component<Props, State> {
     return (
       <Grid item xs={xs}>
         <FormControl variant="outlined" className={classes.formControl} {...props}>
-          <InputLabel htmlFor="sex">Пол</InputLabel>
+          <InputLabel ref={this.inputLabel} htmlFor="sex">Пол</InputLabel>
           <Select
             value={value}
             onChange={this.handleSelectChange}
-            input={<OutlinedInput labelWidth={30} id="sex" />}>
+            input={<OutlinedInput labelWidth={labelWidth} id="sex" />}>
             <MenuItem value="male">Мужской</MenuItem>
             <MenuItem value="female">Женский</MenuItem>
           </Select>
@@ -429,6 +432,8 @@ class EmployeeForm extends Component<Props, State> {
       'Зарегистрировать сотрудника';
     let avatarUrl: string | null = null;
     if (employee.avatar !== null) avatarUrl = employee.avatar.file;
+    let labelWidth: number = 0;
+    if (this.inputLabel.current !== null) labelWidth = this.inputLabel.current.offsetWidth;
     return (
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>
@@ -448,7 +453,7 @@ class EmployeeForm extends Component<Props, State> {
           <Grid container spacing={spacing}>
             <this.InputField xs={5} fieldName="email" required validationType="email" />
             <this.InputField xs={4} fieldName="phone" validationType="phone" />
-            <this.SelectField xs={3} fieldName="sex" required />
+            <this.SelectField labelWidth={labelWidth} xs={3} fieldName="sex" required />
           </Grid>
           <Grid container spacing={spacing}>
             <this.DateField xs={5} fieldName="date_of_birth" />
