@@ -76,3 +76,10 @@ export function toDataURL(url: string, callback: (dataUrl: any) => void) {
   xhr.responseType = 'blob';
   xhr.send();
 }
+
+export function getFileLoadURL() {
+  if (process.env.NODE_ENV === 'production') {
+    return 'http://localhost';
+  }
+  return 'http://localhost:8000';
+}

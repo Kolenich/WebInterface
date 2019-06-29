@@ -46,8 +46,7 @@ import {
 import EmployeeForm from '../EmployeeForm';
 import { Add } from '@material-ui/icons';
 import { Props, State } from './types';
-import { dateOptions, dateTimeOptions, sortingParams } from '../../lib/utils';
-import { requestConfig } from '../../lib/session';
+import { dateOptions, dateTimeOptions, getFileLoadURL, sortingParams } from '../../lib/utils';
 import avatar from '../../assets/default_avatar.png';
 
 const sexParams: string[] = ['Муж.', 'Жен.'];
@@ -69,7 +68,7 @@ const DateFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
 const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
   if (value !== null) {
     return (
-      <Avatar src={`${requestConfig.baseURL}${value}`} />
+      <Avatar src={`${getFileLoadURL()}${value}`} />
     );
   }
   return <Avatar src={avatar} />;

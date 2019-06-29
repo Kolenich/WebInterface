@@ -15,7 +15,7 @@ const headers: OutgoingHttpHeaders = {
   'Content-Type': 'application/json',
 };
 
-export const requestConfig: AxiosRequestConfig = {
+const requestConfig: AxiosRequestConfig = {
   baseURL,
   xsrfCookieName,
   xsrfHeaderName,
