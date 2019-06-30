@@ -1,23 +1,29 @@
-import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import { AppBar, Tab, Tabs, Typography, withStyles } from '@material-ui/core';
+import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import SwipeableViews from 'react-swipeable-views';
-import { styles } from './styles';
-import EmployeeTable from '../EmployeeTable';
-import { Props, State, TabContainerProps } from './types';
 import EmployeeChart from '../EmployeeChart';
+import EmployeeTable from '../EmployeeTable';
+import { styles } from './styles';
+import { IProps, IState, ITabContainerProps } from './types';
 
-class MainPage extends PureComponent<Props, State> {
-  constructor(props: Props) {
+/**
+ * Компонент основной страницы
+ */
+class MainPage extends PureComponent<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
-      employees: [],
-      locale: 'ru',
       value: 0,
     };
   }
 
-  // Компонент-обертка для пункта меню
-  TabContainer = ({ children, dir }: TabContainerProps): JSX.Element => {
+  /**
+   * Компонент-обертка для пункта меню
+   * @param children дочерние DOM-элементы
+   * @param dir направление
+   * @constructor
+   */
+  TabContainer = ({ children, dir }: ITabContainerProps): JSX.Element => {
     const { classes } = this.props;
     return (
       <Typography component="div" dir={dir} className={classes.tabContainer}>
@@ -26,16 +32,26 @@ class MainPage extends PureComponent<Props, State> {
     );
   }
 
-  // Метод, обрабатывающий смену активного пункта меню
+  /**
+   * Метод, обрабатывающий смену активного пункта меню
+   * @param event DOM-событие
+   * @param value индекс пункта меню
+   */
   private handleChange = (event: ChangeEvent<{}>, value: number): ComponentState => {
     this.setState({ value });
   }
 
-  // Метод аналогичный handleChange, но для анимации перехода
+  /**
+   * Метод аналогичный handleChange, но для анимации перехода
+   * @param value индекс пункта меню
+   */
   private handleChangeIndex = (value: number): ComponentState => {
     this.setState({ value });
   }
 
+  /**
+   * Базовый метод рендера
+   */
   public render(): ReactNode {
     const { value } = this.state;
     const { theme } = this.props;

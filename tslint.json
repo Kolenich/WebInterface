@@ -4,6 +4,16 @@
     "tslint-config-airbnb"
   ],
   "rules": {
+    "member-ordering": true,
+    "promise-function-async": true,
+    "curly": true,
+    "no-construct": true,
+    "no-var-keyword": true,
+    "prefer-object-spread": true,
+    "completed-docs": true,
+    "interface-name": true,
+    "ordered-imports": true,
+    "jsdoc-format": true,
     "indent": false,
     "no-unused-variable": true,
     "no-for-in-array": true,

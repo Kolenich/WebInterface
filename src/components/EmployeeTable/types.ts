@@ -1,6 +1,3 @@
-import { WithStyles } from '@material-ui/core';
-import { styles } from './styles';
-import { Sex, TableRow } from '../../lib/types';
 import {
   Column,
   Filter,
@@ -9,29 +6,52 @@ import {
   SortingState,
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
+import { WithStyles } from '@material-ui/core';
+import { ITableRow, Sex } from '../../lib/types';
+import { styles } from './styles';
 
-export interface Props extends WithStyles<typeof styles> {
+export interface IProps extends WithStyles<typeof styles> {
 }
 
-export interface State {
+export interface IState {
+  /** Пол */
   sex: Sex;
+  /** Список столбцов с датой */
   dateColumns: string[];
+  /** Список столбцов с датой и временем */
   dateTimeColumns: string[];
+  /** Список столбцов с аватаром */
   avatarColumns: string[];
+  /** Список столбцов с кнопкой */
   buttonColumns: string[];
-  rows: TableRow[];
+  /** Строки в таблице */
+  rows: ITableRow[];
+  /** Номер текущей строки */
   rowId: number;
+  /** Общее количество строк в таблице */
   totalCount: number;
+  /** Индекс текущей страницы */
   currentPage: number;
+  /** СПисок столбцов в таблице */
   columns: Column[];
+  /** Список фильтров по колонкам */
   filters: Filter[];
+  /** Список сортировок по колонкам */
   sorting: Sorting[];
+  /** Базовый порядок столбцов в таблице */
   defaultOrder: string[];
+  /** Ширина столбцов по умолчанию */
   defaultColumnWidths: TableColumnWidthInfo[];
+  /** Настройки столбцов по фильтрации */
   filteringStateColumnExtensions: FilteringState.ColumnExtension[];
+  /** Настройки столбцов по сортировке */
   sortingStateColumnExtensions: SortingState.ColumnExtension[];
+  /** Допустимые размеры страниц */
   pageSizes: number[];
+  /** Текущий размер страницы */
   pageSize: number;
+  /** Указатель, открывающий/закрывающий форму для создания/редактирования */
   addEmployee: boolean;
+  /** Указатель загрузки */
   loading: boolean;
 }

@@ -1,5 +1,4 @@
 export default {
-  // Название колонок в таблице
   columns: [
     { name: 'button', title: ' ' },
     { name: 'avatar', title: 'Аватар' },

@@ -1,5 +1,5 @@
-import { API_URL, session } from './session';
 import { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
+import { API_URL, session } from './session';
 import { HTTPMethods } from './types';
 
 export default {
@@ -11,7 +11,9 @@ export default {
   getContent<dataType>(requestUrl: string, sendData?: any): AxiosPromise<dataType> {
     return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
       let data = sendData;
-      if (!sendData) data = {};
+      if (!sendData) {
+        data = {};
+      }
       session
         .get<dataType>(`${API_URL}/${requestUrl}/`, data)
         .then((response: AxiosResponse<dataType>) => resolve(response))
@@ -28,7 +30,9 @@ export default {
     AxiosPromise<dataType> {
     return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
       let method = sendMethod;
-      if (!method) method = 'post';
+      if (!method) {
+        method = 'post';
+      }
       const data: dataType = sendData;
       const url: string = `${API_URL}/${requestUrl}/`;
       session({ method, data, url })

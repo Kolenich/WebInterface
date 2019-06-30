@@ -1,4 +1,4 @@
-import { EmployeeLabels, ServerResponses, Sorting } from './types';
+import { IEmployeeLabels, IServerResponses, ISorting } from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -17,7 +17,7 @@ export const dateTimeOptions = {
 };
 
 // Ярлыки для объекта Employee
-export const employeeLabels: EmployeeLabels = {
+export const employeeLabels: IEmployeeLabels = {
   first_name: 'Имя',
   last_name: 'Фамилия',
   middle_name: 'Отчество',
@@ -28,7 +28,7 @@ export const employeeLabels: EmployeeLabels = {
 };
 
 // Сообщения статусов
-export const SERVER_RESPONSES: ServerResponses = {
+export const SERVER_RESPONSES: IServerResponses = {
   200: 'Сохранение прошло успешно!',
   201: 'Создание прошло успешно!',
   204: 'Удаление прошло успешно!',
@@ -40,7 +40,7 @@ export const SERVER_RESPONSES: ServerResponses = {
   502: 'Время ожидания ответа от сервера истекло',
 };
 
-export const sortingParams: Sorting = {
+export const sortingParams: ISorting = {
   asc: '',
   desc: '-',
 };

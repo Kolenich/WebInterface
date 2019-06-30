@@ -1,16 +1,21 @@
 import { Theme, WithStyles } from '@material-ui/core';
 import { styles } from './styles';
 
-export interface Props extends WithStyles<typeof styles> {
+export interface IProps extends WithStyles<typeof styles> {
+  /** Тема Material UI */
   theme: Theme;
 }
 
-export interface State {
-  chartData: ChartPoint[];
+export interface IState {
+  /** Тип массива точек для графика */
+  chartData: IChartPoint[];
 }
 
-export interface ChartPoint {
+export interface IChartPoint {
+  /** Месяц */
   month: string;
+  /** Объём продаж */
   sale: number;
+  /** Всего транзакций */
   total: number;
 }

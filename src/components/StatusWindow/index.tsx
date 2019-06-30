@@ -1,5 +1,3 @@
-import React, { PureComponent, ReactNode } from 'react';
-import { Props, State } from './types';
 import {
   Button,
   CircularProgress,
@@ -12,16 +10,28 @@ import {
 } from '@material-ui/core';
 import { CheckCircle, Done, Error, Warning } from '@material-ui/icons';
 import classNames from 'classnames';
+import React, { PureComponent, ReactNode } from 'react';
+import { ICustomButtonProps } from '../../lib/types';
 import { styles } from './styles';
-import { CustomButtonProps } from '../../lib/types';
+import { IProps, IState } from './types';
 
-class StatusWindow extends PureComponent<Props, State> {
-  constructor(props: Props) {
+/**
+ * Компонент окна статуса
+ */
+class StatusWindow extends PureComponent<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {};
   }
 
-  PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): JSX.Element => {
+  /**
+   * Компонент основной кнопки
+   * @param text текст кнопки
+   * @param icon тип иконки
+   * @param props остальные пропсы
+   * @constructor
+   */
+  PrimaryButton = ({ text, icon, ...props }: ICustomButtonProps): JSX.Element => {
     const { classes } = this.props;
     return (
       <Button
@@ -37,6 +47,9 @@ class StatusWindow extends PureComponent<Props, State> {
     );
   }
 
+  /**
+   * Базовый метод рендера
+   */
   public render(): ReactNode {
     const { open, status, message, classes, onClose } = this.props;
     return (

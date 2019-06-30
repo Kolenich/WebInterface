@@ -1,6 +1,4 @@
-import React, { Component, ReactNode } from 'react';
-import { Props, State } from './types';
-import { Paper, withStyles } from '@material-ui/core';
+import { Animation, EventTracker, ValueScale } from '@devexpress/dx-react-chart';
 import {
   ArgumentAxis,
   BarSeries,
@@ -11,9 +9,11 @@ import {
   Tooltip,
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
-import { Animation, EventTracker, ValueScale } from '@devexpress/dx-react-chart';
-import { styles } from './styles';
+import { Paper, withStyles } from '@material-ui/core';
+import React, { Component, ReactNode } from 'react';
 import demoData from './demoData';
+import { styles } from './styles';
+import { IProps, IState } from './types';
 
 /**
  * Базовый компонент для указателей на оси абсцисс
@@ -32,33 +32,29 @@ const Label = (symbol: string) => ({ text, ...props }: ValueAxis.LabelProps) => 
 const SaleLabel = Label(' тыс. руб.');
 const TransactionLabel = Label(' ед.');
 
-class EmployeeChart extends Component<Props, State> {
-  constructor(props: Props) {
+/**
+ * Компонент графиков.
+ */
+class EmployeeChart extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       ...demoData,
     };
   }
 
+  /**
+   * Базовый метод рендера.
+   */
   public render(): ReactNode {
     const { classes } = this.props;
     const { chartData } = this.state;
     return (
-      <Paper
-        className={classes.paperMain}
-      >
-        <Chart
-          data={chartData}
-        >
-          <Title
-            text="Графики"
-          />
-          <ValueScale
-            name="sale"
-          />
-          <ValueScale
-            name="total"
-          />
+      <Paper className={classes.paperMain}>
+        <Chart data={chartData}>
+          <Title text="Графики" />
+          <ValueScale name="sale" />
+          <ValueScale name="total" />
           <ArgumentAxis />
           <ValueAxis
             scaleName="sale"
@@ -88,9 +84,7 @@ class EmployeeChart extends Component<Props, State> {
             scaleName="total"
           />
           <Animation />
-          <Legend
-            position="bottom"
-          />
+          <Legend position="bottom" />
           <EventTracker />
           <Tooltip />
         </Chart>

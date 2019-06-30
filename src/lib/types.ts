@@ -1,109 +1,158 @@
 import { ButtonProps } from '@material-ui/core/Button';
 
-// Интерфейс для модели Employee
-export interface Employee {
+export interface IEmployee {
+  /** id сотрудника */
   id?: number;
+  /** Имя */
   first_name: string;
+  /** Фамилия */
   last_name: string;
+  /** Отчество */
   middle_name: string | null;
+  /** Телефон */
   phone: string | null;
+  /** Возраст */
   age?: number;
+  /** Электронная почта */
   email: string;
+  /** Дата рождения */
   date_of_birth: Date | string;
+  /** Дата регистрации */
   registration_date: Date | string;
+  /** Пол сотрудника */
   sex: Sex;
-  avatar: Avatar | null;
+  /** Аватар сотрудника */
+  avatar: IAvatar | null;
 
-  [index: string]: string | number | undefined | null | boolean | Date | Avatar;
+  [index: string]: string | number | undefined | null | boolean | Date | IAvatar;
 }
 
-export interface Avatar {
+export interface IAvatar {
+  /** id аватара */
   id?: number;
+  /** Ссылка для загрузки файла или его base64 представление */
   file: string;
+  /** Тип файла */
   content_type: string;
+  /** Размер файла в байтах */
   size: string | number;
+  /** Имя файла */
   file_name: string;
 }
 
-// Интерфейс для строки в таблице Employees
-export interface TableRow {
+export interface ITableRow {
+  /** id строки */
   id: number;
+  /** Относительный URL для загрузки файла */
   avatar: string;
+  /** ФИО сотрудника */
   full_name: string;
+  /** Телефон */
   phone: string | null;
+  /** Возраст */
   age: number;
+  /** Электронная почта */
   email: string;
+  /** Дата рождения */
   date_of_birth: Date | string;
+  /** Дата регистрации */
   registration_date: Date | string;
+  /** Пол сотрудника */
   sex: string;
 }
 
-// Тип для пола
 export type Sex = 'male' | 'female' | '';
 
-// Ярлыки для объекта Employee
-export interface EmployeeLabels {
+export interface IEmployeeLabels {
+  /** Ярлык для имени */
   first_name: string;
+  /** Ярлык для фамилии */
   last_name: string;
+  /** Ярлык для отчества */
   middle_name: string;
+  /** Ярлык для телефона */
   phone: string;
+  /** Ярлык для электронной почты */
   email: string;
+  /** Ярлык для даты рождения */
   date_of_birth: string;
+  /** Ярлык для пола сотрудника */
   sex: string;
 
   [index: string]: string;
 }
 
-// Интерфейс для ярлыков пола
-export interface SexLabels {
+export interface ISexLabels {
+  /** Ярлык для мудского пола */
   male: string;
+  /** Ярлык для женского пола */
   female: string;
 
   [index: string]: string;
 }
 
-// Тип иконок для основной кнопки
 export type PrimaryButtonIcon = 'save' | 'add' | 'confirm' | 'update' | 'edit';
 
-// Тип иконок для вторичной кнопки
 export type SecondaryButtonIcon = 'delete' | 'cancel';
 
-export interface CustomButtonProps extends ButtonProps {
+export interface ICustomButtonProps extends ButtonProps {
+  /** Текст кнопки */
   text: string;
+  /** Тип иконки */
   icon?: PrimaryButtonIcon | SecondaryButtonIcon;
 }
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
-export interface ApiResponse<DataType> {
+export interface IApiResponse<DataType> {
+  /** Общее количество записей в БД */
   count: number;
+  /** Ссылка для следующей страницы */
   next: string;
+  /** ССылка для предыдущей страницы */
   previous: string;
+  /** Записи для текущей страницы */
   results: DataType[];
 }
 
-export interface DRFGetConfig {
+export interface IDRFGetConfig {
+  /** Параметры GET-запроса */
   params: any;
 }
 
-export interface Sorting {
+export interface ISorting {
+  /** Подстановка параметра для сортировки по возрастанию */
   asc: string;
+  /** Подстановка параметра для сортировки по убыванию */
   desc: string;
 }
 
-// Варианты локалей для интернационализации
-export type Locales = 'ru' | 'en-US' | 'en-GB' | 'fr';
-
-export interface ServerResponses {
+export interface IServerResponses {
+  /** Указатель статуса "OK" */
   200: string;
+  /** Указатель статуса "CREATED" */
   201: string;
+  /** Указатель статуса "DELETED" */
   204: string;
+  /** Указатель статуса "BAD_REQUEST" */
   400: string;
+  /** Указатель статуса "NOT_FOUND" */
   404: string;
+  /** Указатель статуса "ENTITY_TOO_LARGE" */
   413: string;
+  /** Указатель статуса "METHOD_NOT_ALLOWED" */
   405: string;
+  /** Указатель статуса "INTERNAL_SERVER_ERROR" */
   500: string;
+  /** Указатель статуса "BAD_GATEAWAY" */
   502: string;
 
   [index: number]: string;
+}
+
+export interface ISelectElement {
+  /** Имя в DOM-элементе */
+  name?: string | undefined;
+  /** Значение в DOM-элементе */
+  value: unknown;
 }

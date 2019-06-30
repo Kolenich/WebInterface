@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
+import DateFnsUtils from '@date-io/date-fns';
 import {
   Button,
   Dialog,
@@ -15,39 +15,41 @@ import {
   TextField,
   withStyles,
 } from '@material-ui/core';
-import { styles } from './styles';
-import { Avatar, CustomButtonProps, Employee, HTTPMethods, Sex } from '../../lib/types';
 import { GridSpacing } from '@material-ui/core/Grid';
-import { employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
+import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
 import {
   KeyboardDatePicker,
   MaterialUiPickersDate,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { AxiosError, AxiosResponse } from 'axios';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
-import { validationMessages, validationMethods } from '../../lib/validation';
-import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
+import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
 import api from '../../lib/api';
-import { AxiosError, AxiosResponse } from 'axios';
-import { InputFieldProps, Props, SelectFieldProps, State } from './types';
-import StatusWindow from '../StatusWindow';
+import {
+  HTTPMethods,
+  IAvatar,
+  ICustomButtonProps,
+  IEmployee,
+  ISelectElement,
+  Sex,
+} from '../../lib/types';
+import { employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
+import { validationMessages, validationMethods } from '../../lib/validation';
 import FileUploader from '../FileUploader';
+import StatusWindow from '../StatusWindow';
+import { styles } from './styles';
+import { IProps, ISelectFieldProps, IState, ITextFieldProps } from './types';
 
 // Переменная, отвечающая за расстояние между TextField'ми
 const spacing: GridSpacing = 2;
 
 /**
  * Класс Формы для создания/редактирования Сотрудника
- * @param id {number} - обязательный параметр. ID сотрудниика, которого редактируем.
- * Если создаём, то -1
- * @param open {boolean} - обязательный параметр. Переменная, отвечающая за открытие/закрытие формы.
- * @param onClose {function} - обязательный параметр. Функция, закрывающая окно.
- * @param updateTable - обязательный параметр. Функция-колбэк, для передачи данных в родителя.
  */
-class EmployeeForm extends Component<Props, State> {
-  constructor(props: Props) {
+class EmployeeForm extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       employee: {
@@ -70,14 +72,20 @@ class EmployeeForm extends Component<Props, State> {
     };
   }
 
+  /**
+   *  Объект ref для Select-элемента
+   */
   private inputLabel = React.createRef<HTMLLabelElement>();
 
-  public componentDidUpdate(prevProps: Readonly<Props>): ComponentState {
+  /**
+   * Метод, вызываемый после обнолвения компонента
+   */
+  public componentDidUpdate(prevProps: Readonly<IProps>): ComponentState {
     const { id } = this.props;
     if (prevProps.id !== id) {
       if (id !== -1) {
-        api.getContent<Employee>(`employees/${id}`)
-          .then(((response: AxiosResponse<Employee>) => {
+        api.getContent<IEmployee>(`employees/${id}`)
+          .then(((response: AxiosResponse<IEmployee>) => {
             this.setState({ employee: response.data, dateOfBirthNotNull: true });
           }))
           .catch();
@@ -112,7 +120,7 @@ class EmployeeForm extends Component<Props, State> {
    * @param props - остальные пропсы
    * @constructor
    */
-  InputField = ({ xs, fieldName, validationType, ...props }: InputFieldProps): JSX.Element => {
+  InputField = ({ xs, fieldName, validationType, ...props }: ITextFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
     const value: string = employee[fieldName] !== null && employee[fieldName] ?
@@ -124,7 +132,9 @@ class EmployeeForm extends Component<Props, State> {
       if (value) {
         valid = validationMethods[validationType](value);
       }
-      if (!valid) helperText = validationMessages[validationType];
+      if (!valid) {
+        helperText = validationMessages[validationType];
+      }
     }
     return (
       <Grid item xs={xs}>
@@ -153,7 +163,7 @@ class EmployeeForm extends Component<Props, State> {
    * @param props - остальные пропсы
    * @constructor
    */
-  DateField = ({ xs, fieldName, ...props }: InputFieldProps): JSX.Element => {
+  DateField = ({ xs, fieldName, ...props }: ITextFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
     const value: string | null = employee[fieldName] !== null && employee[fieldName] ?
@@ -193,7 +203,7 @@ class EmployeeForm extends Component<Props, State> {
    * @param props - остальные пропсы
    * @constructor
    */
-  SelectField = ({ xs, fieldName, labelWidth, ...props }: SelectFieldProps): JSX.Element => {
+  SelectField = ({ xs, fieldName, labelWidth, ...props }: ISelectFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = { ...this.state };
     const value: string = employee[fieldName] !== null && employee[fieldName] ?
@@ -222,7 +232,7 @@ class EmployeeForm extends Component<Props, State> {
    * @param props
    * @constructor
    */
-  PrimaryButton = ({ text, icon, ...props }: CustomButtonProps): JSX.Element => {
+  PrimaryButton = ({ text, icon, ...props }: ICustomButtonProps): JSX.Element => {
     const { classes } = this.props;
     const { employee, dateOfBirthNotNull } = this.state;
     const disabled: boolean =
@@ -259,7 +269,7 @@ class EmployeeForm extends Component<Props, State> {
    * @param props
    * @constructor
    */
-  SecondaryButton = ({ text, icon, ...props }: CustomButtonProps): JSX.Element => {
+  SecondaryButton = ({ text, icon, ...props }: ICustomButtonProps): JSX.Element => {
     const { classes } = this.props;
     return (
       <Button
@@ -311,8 +321,7 @@ class EmployeeForm extends Component<Props, State> {
    * Функция, обрабатывающая изменения в селекторе
    * @param event - ивент изменения
    */
-  private handleSelectChange = (event: ChangeEvent<{ name?: string | undefined; value: unknown; }>):
-    ComponentState => {
+  private handleSelectChange = (event: ChangeEvent<ISelectElement>): ComponentState => {
     const sex: Sex = event.target.value as Sex;
     const { employee } = this.state;
     this.setState({ employee: { ...employee, sex } });
@@ -322,7 +331,7 @@ class EmployeeForm extends Component<Props, State> {
    * Функция, обрабатывающая изменения в компоненте выбора даты
    * @param name - имя поля для изменения
    */
-  private handleDateChange = (name: keyof Employee) => (date: MaterialUiPickersDate):
+  private handleDateChange = (name: keyof IEmployee) => (date: MaterialUiPickersDate):
     ComponentState => {
     const { employee } = this.state;
     if (date !== null) {
@@ -338,7 +347,7 @@ class EmployeeForm extends Component<Props, State> {
    */
   private handleInputChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
     const { employee } = { ...this.state };
-    const name = event.target.name as keyof Employee;
+    const name = event.target.name as keyof IEmployee;
     const value = event.target.value;
     this.setState({ employee: { ...employee, [name]: value } });
   }
@@ -352,8 +361,8 @@ class EmployeeForm extends Component<Props, State> {
     const { updateTable } = this.props;
     const url: string = `employees/${employee.id}`;
     const method: HTTPMethods = 'delete';
-    api.sendContent<Employee>(url, employee, method)
-      .then((response: AxiosResponse<Employee>) => {
+    api.sendContent<IEmployee>(url, employee, method)
+      .then((response: AxiosResponse<IEmployee>) => {
         updateTable();
         this.setState({
           statusWindowOpen: true,
@@ -380,8 +389,10 @@ class EmployeeForm extends Component<Props, State> {
     const { updateTable } = this.props;
     const { employee } = { ...this.state };
     // eslint-disable-next-line
-    Object.keys(employee).map((field: keyof Employee): void => {
-      if (employee[field] === '') employee[field] = null;
+    Object.keys(employee).map((field: keyof IEmployee): void => {
+      if (employee[field] === '') {
+        employee[field] = null;
+      }
     });
     employee.date_of_birth = moment(employee.date_of_birth).format('YYYY-MM-DD');
     let url: string = 'employees';
@@ -390,8 +401,8 @@ class EmployeeForm extends Component<Props, State> {
       url = `employees/${employee.id}`;
       method = 'patch';
     }
-    api.sendContent<Employee>(url, employee, method)
-      .then((response: AxiosResponse<Employee>) => {
+    api.sendContent<IEmployee>(url, employee, method)
+      .then((response: AxiosResponse<IEmployee>) => {
         updateTable();
         this.setState({
           statusMessage: SERVER_RESPONSES[response.status],
@@ -414,16 +425,22 @@ class EmployeeForm extends Component<Props, State> {
    * Функция-колбэк, для загрузки файла
    * @param avatar объект с файлом
    */
-  fileUploadCallback = (avatar: Avatar) => {
+  fileUploadCallback = (avatar: IAvatar) => {
     const { employee } = this.state;
     this.setState({ employee: { ...employee, avatar } });
   }
 
+  /**
+   * Функция-колбэк, вызываемая при удалении файла
+   */
   fileRemoveCallback = () => {
     const { employee } = this.state;
     this.setState({ employee: { ...employee, avatar: null } });
   }
 
+  /**
+   * Базовый метод рендера
+   */
   public render(): ReactNode {
     const { id, onClose, open, classes } = this.props;
     const { statusWindowOpen, statusMessage, statusType, employee } = this.state;
@@ -431,9 +448,13 @@ class EmployeeForm extends Component<Props, State> {
       'Редактировать сотрудника' :
       'Зарегистрировать сотрудника';
     let avatarUrl: string | null = null;
-    if (employee.avatar !== null) avatarUrl = employee.avatar.file;
+    if (employee.avatar !== null) {
+      avatarUrl = employee.avatar.file;
+    }
     let labelWidth: number = 0;
-    if (this.inputLabel.current !== null) labelWidth = this.inputLabel.current.offsetWidth;
+    if (this.inputLabel.current !== null) {
+      labelWidth = this.inputLabel.current.offsetWidth;
+    }
     return (
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>
