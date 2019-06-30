@@ -249,7 +249,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    */
   private loadData = (): ComponentState => {
     const { currentPage, pageSize, filters, sorting } = this.state;
-    console.log(filters);
     const config: IDRFGetConfig = {
       params: {
         // Параметры для пагинации
