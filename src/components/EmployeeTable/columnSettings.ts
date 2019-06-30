@@ -2,7 +2,6 @@ export default {
   // Название колонок в таблице
   columns: [
     { name: 'button', title: ' ' },
-    { name: 'id', title: 'ID' },
     { name: 'avatar', title: 'Аватар' },
     { name: 'full_name', title: 'ФИО сотрудника' },
     { name: 'registration_date', title: 'Дата регистрации' },
@@ -15,7 +14,6 @@ export default {
   defaultOrder: [
     'button',
     'avatar',
-    'id',
     'full_name',
     'registration_date',
     'phone',
@@ -26,9 +24,8 @@ export default {
   ],
   defaultColumnWidths: [
     { columnName: 'button', width: window.innerWidth * 0.05 },
-    { columnName: 'id', width: window.innerWidth * 0.05 },
     { columnName: 'avatar', width: window.innerWidth * 0.05 },
-    { columnName: 'full_name', width: window.innerWidth * 0.15 },
+    { columnName: 'full_name', width: window.innerWidth * 0.2 },
     { columnName: 'registration_date', width: window.innerWidth * 0.1 },
     { columnName: 'phone', width: window.innerWidth * 0.1 },
     { columnName: 'email', width: window.innerWidth * 0.2 },
