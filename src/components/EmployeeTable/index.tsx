@@ -45,7 +45,13 @@ import {
   tableMessages,
 } from '../../lib/translate';
 import { IApiResponse, IDRFGetConfig, ISelectElement, ITableRow, Sex } from '../../lib/types';
-import { dateOptions, dateTimeOptions, getFileLoadURL, sortingParams } from '../../lib/utils';
+import {
+  dateOptions,
+  dateTimeOptions,
+  filteringParams,
+  getFileLoadURL,
+  sortingParams,
+} from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
 import { styles } from './styles';
@@ -124,7 +130,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       rows: [],
       filters: [],
       sorting: [],
-      pageSizes: [5, 10, 20],
+      pageSizes: [2, 5, 10, 20],
       pageSize: 5,
       totalCount: 0,
       currentPage: 0,
@@ -215,7 +221,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               (event: ChangeEvent<ISelectElement>) => {
                 let value: string = '';
                 const columnName: string = column.name;
-                const operation: string = 'startswith';
+                const operation: string = 'equal';
                 if (event.target.value === 'Муж.') {
                   value = 'male';
                 }
@@ -243,6 +249,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    */
   private loadData = (): ComponentState => {
     const { currentPage, pageSize, filters, sorting } = this.state;
+    console.log(filters);
     const config: IDRFGetConfig = {
       params: {
         // Параметры для пагинации
@@ -251,10 +258,14 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       },
     };
     // Параметры для фильтрации
+    // eslint-disable-next-line
     filters.map((filter: Filter): void => {
-      config.params[`${filter.columnName}__${filter.operation}`] = filter.value;
+      if (filter.operation) {
+        config.params[`${filter.columnName}${filteringParams[filter.operation]}`] = filter.value;
+      }
     });
     // Параметры для сортировки
+    // eslint-disable-next-line
     sorting.map((sort: Sorting) => {
       config.params.ordering = `${sortingParams[sort.direction]}${sort.columnName}`;
     });
@@ -290,7 +301,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param props базовые пропсы
    * @constructor
    */
-  RowComponent = (props: Table.DataRowProps): JSX.Element => {
+  rowComponent = (props: Table.DataRowProps): JSX.Element => {
     const { classes } = this.props;
     const rowId: number = props.row.id;
     return (
@@ -372,10 +383,16 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       dateTimeColumns,
       avatarColumns,
       buttonColumns,
+      availableFilterOperations,
+      filterableColumns,
     } = this.state;
     return (
       <Paper className={classes.paper}>
         <Grid rows={rows} columns={columns}>
+          <DataTypeProvider
+            for={filterableColumns}
+            availableFilterOperations={availableFilterOperations}
+          />
           <DateTypeProvider for={dateColumns} />
           <DateTimeTypeProvider for={dateTimeColumns} />
           <ImageTypeProvider for={avatarColumns} />
@@ -400,7 +417,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             columnExtensions={filteringStateColumnExtensions}
           />
           <Table
-            rowComponent={this.RowComponent}
+            rowComponent={this.rowComponent}
             messages={tableMessages}
           />
           <TableColumnReordering
@@ -414,6 +431,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             messages={tableHeaderRowMessage}
           />
           <TableFilterRow
+            showFilterSelector
             messages={filterRowMessages}
             cellComponent={this.filterCellComponent}
           />

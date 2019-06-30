@@ -2,6 +2,12 @@ import { PagingPanel, Table, TableFilterRow, TableHeaderRow } from '@devexpress/
 
 export const filterRowMessages: TableFilterRow.LocalizationMessages = {
   filterPlaceholder: 'Фильтр...',
+  contains: 'Содержит',
+  equal: 'Соответствует',
+  notContains: 'Не содержит',
+  notEqual: 'Не соответствует',
+  startsWith: 'Начинается с',
+  endsWith: 'Оканчивается на',
 };
 
 export const pagingPanelMessages: PagingPanel.LocalizationMessages = {

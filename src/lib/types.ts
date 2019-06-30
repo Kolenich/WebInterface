@@ -127,6 +127,19 @@ export interface ISorting {
   desc: string;
 }
 
+export interface IFiltering {
+  /** Подстановка параметра для фильтрации типа contains */
+  contains: string;
+  /** Подстановка параметра для фильтрации типа equal */
+  equal: string;
+  /** Подстановка параметра для фильтрации типа statsWith */
+  startsWith: string;
+  /** Подстановка параметра для фильтрации типа endsWith */
+  endsWith: string;
+
+  [index: string]: string;
+}
+
 export interface IServerResponses {
   /** Указатель статуса "OK" */
   200: string;

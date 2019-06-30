@@ -1,4 +1,4 @@
-import { IEmployeeLabels, IServerResponses, ISorting } from './types';
+import { IEmployeeLabels, IFiltering, IServerResponses, ISorting } from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -43,6 +43,13 @@ export const SERVER_RESPONSES: IServerResponses = {
 export const sortingParams: ISorting = {
   asc: '',
   desc: '-',
+};
+
+export const filteringParams: IFiltering = {
+  contains: '__contains',
+  equal: '',
+  startsWith: '__startswith',
+  endsWith: '__endswith',
 };
 
 /**

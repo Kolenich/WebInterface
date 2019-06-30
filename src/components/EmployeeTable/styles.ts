@@ -15,4 +15,7 @@ export const styles = (theme: Theme) => createStyles({
   sexSelect: {
     marginBottom: theme.spacing(2),
   },
+                                                       tableCell: {
+                                                         textAlign: 'center',
+                                                       },
 });

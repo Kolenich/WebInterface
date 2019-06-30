@@ -20,6 +20,10 @@ export interface IState {
   dateColumns: string[];
   /** Список столбцов с датой и временем */
   dateTimeColumns: string[];
+  /** Список допустимых операций фильтрации */
+  availableFilterOperations: string[];
+  /** Список столбцов, которые можно фильтровать */
+  filterableColumns: string[];
   /** Список столбцов с аватаром */
   avatarColumns: string[];
   /** Список столбцов с кнопкой */
