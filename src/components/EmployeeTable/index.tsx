@@ -177,10 +177,10 @@ class EmployeeTable extends PureComponent<Props, State> {
     const { sex } = this.state;
     const { column, onFilter } = props;
     if (column.name !== 'sex') {
-      if (column.name === 'button') {
+      if (column.name === 'button' || column.name === 'avatar') {
         return (
           <TableFilterRow.Cell {...props} >
-            <Typography className={classes.emptyFilter} />
+            <Typography component="div" />
           </TableFilterRow.Cell>
         );
       }

@@ -14,8 +14,8 @@ export default {
   ],
   defaultOrder: [
     'button',
-    'id',
     'avatar',
+    'id',
     'full_name',
     'registration_date',
     'phone',
@@ -39,8 +39,6 @@ export default {
   filteringStateColumnExtensions: [
     { columnName: 'registration_date', filteringEnabled: false },
     { columnName: 'date_of_birth', filteringEnabled: false },
-    { columnName: 'avatar', filteringEnabled: false },
-    { columnName: 'button', filteringEnabled: false },
   ],
   sortingStateColumnExtensions: [
     { columnName: 'avatar', sortingEnabled: false },
