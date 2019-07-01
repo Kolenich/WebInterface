@@ -61,7 +61,7 @@ export const filteringParams: IFiltering = {
  * Функция конвертации blob-Объекта файла в base64
  * @param file
  */
-export function getBase64(file: Blob): Promise {
+export function getBase64(file: Blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
