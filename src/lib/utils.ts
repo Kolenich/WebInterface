@@ -54,7 +54,6 @@ export const filteringParams: IFiltering = {
   greaterThanOrEqual: '__gte',
   lessThan: '__lt',
   lessThanOrEqual: '__lte',
-
 };
 
 /**
