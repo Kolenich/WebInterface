@@ -46,6 +46,7 @@ export default {
     'greaterThanOrEqual',
     'lessThan',
     'lessThanOrEqual',
+    'equal',
   ],
   textFilterColumns: [
     'full_name',
