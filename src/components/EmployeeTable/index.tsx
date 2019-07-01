@@ -38,20 +38,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import avatar from '../../assets/default_avatar.png';
 import api from '../../lib/api';
-import {
-  filterRowMessages,
-  pagingPanelMessages,
-  tableHeaderRowMessage,
-  tableMessages,
-} from '../../lib/translate';
+import { filterRowMessages, pagingPanelMessages, tableHeaderRowMessage, tableMessages } from '../../lib/translate';
 import { IApiResponse, IDRFGetConfig, ISelectElement, ITableRow, Sex } from '../../lib/types';
-import {
-  dateOptions,
-  dateTimeOptions,
-  filteringParams,
-  getFileLoadURL,
-  sortingParams,
-} from '../../lib/utils';
+import { dateOptions, dateTimeOptions, filteringParams, getFileLoadURL, sortingParams } from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
 import { styles } from './styles';
@@ -76,10 +65,10 @@ const DateFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
 const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
   if (value !== null) {
     return (
-      <Avatar src={`${getFileLoadURL()}${value}`} />
+      <Avatar src={`${getFileLoadURL()}${value}`}/>
     );
   }
-  return <Avatar src={avatar} />;
+  return <Avatar src={avatar}/>;
 };
 
 /**
@@ -97,7 +86,7 @@ const DateTimeFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
  * @constructor
  */
 const DateTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateFormatter} />
+  <DataTypeProvider {...props} formatterComponent={DateFormatter}/>
 );
 
 /**
@@ -106,7 +95,7 @@ const DateTypeProvider = (props: DataTypeProviderProps) => (
  * @constructor
  */
 const ImageTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={ImageFormatter} />
+  <DataTypeProvider {...props} formatterComponent={ImageFormatter}/>
 );
 
 /**
@@ -115,7 +104,7 @@ const ImageTypeProvider = (props: DataTypeProviderProps) => (
  * @constructor
  */
 const DateTimeTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter} />
+  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter}/>
 );
 
 /**
@@ -173,7 +162,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     return (
       <Tooltip title="Редактировать">
         <IconButton onClick={this.openEditWindow(id)}>
-          <Create />
+          <Create/>
         </IconButton>
       </Tooltip>
     );
@@ -201,7 +190,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       if (column.name === 'button' || column.name === 'avatar') {
         return (
           <TableFilterRow.Cell {...props} >
-            <Typography component="div" />
+            <Typography component="div"/>
           </TableFilterRow.Cell>
         );
       }
@@ -216,7 +205,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           <Select
             className={classes.sexSelect}
             value={sex}
-            input={<Input />}
+            input={<Input/>}
             onChange={
               (event: ChangeEvent<ISelectElement>) => {
                 let value: string = '';
@@ -275,6 +264,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       })
       .catch((error: AxiosError) => {
         console.log(error);
+        this.setState({ loading: false });
       });
   }
 
@@ -288,7 +278,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       <Tooltip title="Создать">
         <Fab color="primary" className={classes.addIcon} variant="extended"
              onClick={this.openEditWindow(-1)}>
-          <Add />
+          <Add/>
           Создать
         </Fab>
       </Tooltip>
@@ -382,21 +372,27 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       dateTimeColumns,
       avatarColumns,
       buttonColumns,
-      availableFilterOperations,
-      filterableColumns,
+      availableTextFilterOperations,
+      availableNumberFilterOperations,
+      textFilterColumns,
+      numberFilterColumns,
     } = this.state;
     return (
       <Paper className={classes.paper}>
         <Grid rows={rows} columns={columns}>
           <DataTypeProvider
-            for={filterableColumns}
-            availableFilterOperations={availableFilterOperations}
+            for={textFilterColumns}
+            availableFilterOperations={availableTextFilterOperations}
           />
-          <DateTypeProvider for={dateColumns} />
-          <DateTimeTypeProvider for={dateTimeColumns} />
-          <ImageTypeProvider for={avatarColumns} />
-          <this.IconTypeProvider for={buttonColumns} />
-          <DragDropProvider />
+          <DataTypeProvider
+            for={numberFilterColumns}
+            availableFilterOperations={availableNumberFilterOperations}
+          />
+          <DateTypeProvider for={dateColumns}/>
+          <DateTimeTypeProvider for={dateTimeColumns}/>
+          <ImageTypeProvider for={avatarColumns}/>
+          <this.IconTypeProvider for={buttonColumns}/>
+          <DragDropProvider/>
           <SortingState
             sorting={sorting}
             onSortingChange={this.changeSorting}
@@ -445,8 +441,8 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           onClose={this.closeEditWindow}
           updateTable={this.loadData}
         />
-        <this.AddButton />
-        {loading && <LinearProgress />}
+        <this.AddButton/>
+        {loading && <LinearProgress/>}
       </Paper>
     );
   }

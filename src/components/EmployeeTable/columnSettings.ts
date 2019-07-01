@@ -40,13 +40,21 @@ export default {
     { columnName: 'avatar', sortingEnabled: false },
     { columnName: 'button', sortingEnabled: false },
   ],
-  availableFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
-  filterableColumns: [
+  availableTextFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
+  availableNumberFilterOperations: [
+    'greaterThan',
+    'greaterThanOrEqual',
+    'lessThan',
+    'lessThanOrEqual',
+  ],
+  textFilterColumns: [
     'full_name',
     'registration_date',
     'phone',
     'email',
     'date_of_birth',
+  ],
+  numberFilterColumns: [
     'age',
   ],
   dateColumns: ['date_of_birth'],

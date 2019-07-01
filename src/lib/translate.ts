@@ -8,6 +8,10 @@ export const filterRowMessages: TableFilterRow.LocalizationMessages = {
   notEqual: 'Не соответствует',
   startsWith: 'Начинается с',
   endsWith: 'Оканчивается на',
+  greaterThanOrEqual: 'Больше чем или равно',
+  lessThanOrEqual: 'Меньше чем или равно',
+  lessThan: 'Меньше чем',
+  greaterThan: 'Больше чем',
 };
 
 export const pagingPanelMessages: PagingPanel.LocalizationMessages = {

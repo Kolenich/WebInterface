@@ -50,6 +50,11 @@ export const filteringParams: IFiltering = {
   equal: '',
   startsWith: '__startswith',
   endsWith: '__endswith',
+  greaterThan: '__gt',
+  greaterThanOrEqual: '__gte',
+  lessThan: '__lt',
+  lessThanOrEqual: '__lte',
+
 };
 
 /**

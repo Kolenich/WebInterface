@@ -136,6 +136,14 @@ export interface IFiltering {
   startsWith: string;
   /** Подстановка параметра для фильтрации типа endsWith */
   endsWith: string;
+  /** Подстановка параметра для фильтрации типа gte */
+  greaterThanOrEqual: string;
+  /** Подстановка параметра для фильтрации типа lte */
+  lessThanOrEqual: string;
+  /** Подстановка параметра для фильтрации типа lt */
+  lessThan: string;
+  /** Подстановка параметра для фильтрации типа gt */
+  greaterThan: string;
 
   [index: string]: string;
 }
