@@ -38,9 +38,20 @@ import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import avatar from '../../assets/default_avatar.png';
 import api from '../../lib/api';
-import { filterRowMessages, pagingPanelMessages, tableHeaderRowMessage, tableMessages } from '../../lib/translate';
+import {
+  filterRowMessages,
+  pagingPanelMessages,
+  tableHeaderRowMessage,
+  tableMessages,
+} from '../../lib/translate';
 import { IApiResponse, IDRFGetConfig, ISelectElement, ITableRow, Sex } from '../../lib/types';
-import { dateOptions, dateTimeOptions, filteringParams, getFileLoadURL, sortingParams } from '../../lib/utils';
+import {
+  dateOptions,
+  dateTimeOptions,
+  filteringParams,
+  getFileLoadURL,
+  sortingParams,
+} from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
 import { styles } from './styles';
@@ -65,10 +76,10 @@ const DateFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
 const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
   if (value !== null) {
     return (
-      <Avatar src={`${getFileLoadURL()}${value}`}/>
+      <Avatar src={`${getFileLoadURL()}${value}`} />
     );
   }
-  return <Avatar src={avatar}/>;
+  return <Avatar src={avatar} />;
 };
 
 /**
@@ -86,7 +97,7 @@ const DateTimeFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
  * @constructor
  */
 const DateTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateFormatter}/>
+  <DataTypeProvider {...props} formatterComponent={DateFormatter} />
 );
 
 /**
@@ -95,7 +106,7 @@ const DateTypeProvider = (props: DataTypeProviderProps) => (
  * @constructor
  */
 const ImageTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={ImageFormatter}/>
+  <DataTypeProvider {...props} formatterComponent={ImageFormatter} />
 );
 
 /**
@@ -104,7 +115,7 @@ const ImageTypeProvider = (props: DataTypeProviderProps) => (
  * @constructor
  */
 const DateTimeTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter}/>
+  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter} />
 );
 
 /**
@@ -155,6 +166,42 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   }
 
   /**
+   * Компонент для сортировки номерных значений
+   * @param value значение сортировки
+   * @param onValueChange функция изменения значения
+   * @param classes стили
+   * @constructor
+   */
+  NumberEditorComponent = ({ value, onValueChange }: DataTypeProvider.ValueEditorProps) => {
+    const { classes } = this.props;
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const { value: targetValue } = event.target;
+      if (targetValue.trim() === '') {
+        onValueChange('');
+        return;
+      }
+      onValueChange(parseInt(targetValue, 10));
+    };
+    return (
+      <Input
+        type="number"
+        classes={{
+          input: classes.numericInput,
+        }}
+        fullWidth
+        value={value === undefined ?
+          '' :
+          value}
+        inputProps={{
+          min: 0,
+          placeholder: 'Фильтр...',
+        }}
+        onChange={handleChange}
+      />
+    );
+  }
+
+  /**
    * Компонент для иконок под разные статусы
    */
   IconFormatter = (props: DataTypeProvider.ValueFormatterProps) => {
@@ -162,7 +209,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     return (
       <Tooltip title="Редактировать">
         <IconButton onClick={this.openEditWindow(id)}>
-          <Create/>
+          <Create />
         </IconButton>
       </Tooltip>
     );
@@ -190,7 +237,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       if (column.name === 'button' || column.name === 'avatar') {
         return (
           <TableFilterRow.Cell {...props} >
-            <Typography component="div"/>
+            <Typography component="div" />
           </TableFilterRow.Cell>
         );
       }
@@ -205,7 +252,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           <Select
             className={classes.sexSelect}
             value={sex}
-            input={<Input/>}
+            input={<Input />}
             onChange={
               (event: ChangeEvent<ISelectElement>) => {
                 let value: string = '';
@@ -278,7 +325,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       <Tooltip title="Создать">
         <Fab color="primary" className={classes.addIcon} variant="extended"
              onClick={this.openEditWindow(-1)}>
-          <Add/>
+          <Add />
           Создать
         </Fab>
       </Tooltip>
@@ -387,12 +434,13 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           <DataTypeProvider
             for={numberFilterColumns}
             availableFilterOperations={availableNumberFilterOperations}
+            editorComponent={this.NumberEditorComponent}
           />
-          <DateTypeProvider for={dateColumns}/>
-          <DateTimeTypeProvider for={dateTimeColumns}/>
-          <ImageTypeProvider for={avatarColumns}/>
-          <this.IconTypeProvider for={buttonColumns}/>
-          <DragDropProvider/>
+          <DateTypeProvider for={dateColumns} />
+          <DateTimeTypeProvider for={dateTimeColumns} />
+          <ImageTypeProvider for={avatarColumns} />
+          <this.IconTypeProvider for={buttonColumns} />
+          <DragDropProvider />
           <SortingState
             sorting={sorting}
             onSortingChange={this.changeSorting}
@@ -441,8 +489,8 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           onClose={this.closeEditWindow}
           updateTable={this.loadData}
         />
-        <this.AddButton/>
-        {loading && <LinearProgress/>}
+        <this.AddButton />
+        {loading && <LinearProgress />}
       </Paper>
     );
   }

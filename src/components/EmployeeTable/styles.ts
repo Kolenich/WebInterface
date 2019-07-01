@@ -19,7 +19,7 @@ export const styles = (theme: Theme) => createStyles({
     textAlign: 'center',
   },
   numericInput: {
-    textAlign: 'right',
+    textAlign: 'left',
     width: '100%',
   },
 });
