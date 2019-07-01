@@ -172,12 +172,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param classes стили
    * @constructor
    */
-  NumberEditorComponent = ({ value, onValueChange }: DataTypeProvider.ValueEditorProps) => {
+  numberEditorComponent = ({ value, onValueChange }: DataTypeProvider.ValueEditorProps) => {
     const { classes } = this.props;
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const { value: targetValue } = event.target;
       if (targetValue.trim() === '') {
-        onValueChange('');
+        onValueChange(targetValue.trim());
         return;
       }
       onValueChange(parseInt(targetValue, 10));
@@ -204,7 +204,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   /**
    * Компонент для иконок под разные статусы
    */
-  IconFormatter = (props: DataTypeProvider.ValueFormatterProps) => {
+  iconFormatter = (props: DataTypeProvider.ValueFormatterProps) => {
     const { id } = props.row;
     return (
       <Tooltip title="Редактировать">
@@ -218,9 +218,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   /**
    * Компонент, предоставляющий тип для иконок под разные статусы
    */
-  IconTypeProvider = (props: DataTypeProviderProps) => (
+  iconTypeProvider = (props: DataTypeProviderProps) => (
     <DataTypeProvider
-      formatterComponent={this.IconFormatter}
+      formatterComponent={this.iconFormatter}
       {...props}
     />
   )
@@ -319,7 +319,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Кнопка для добавления нового сотрудника
    * @constructor
    */
-  AddButton = (): JSX.Element => {
+  addButton = (): JSX.Element => {
     const { classes } = this.props;
     return (
       <Tooltip title="Создать">
@@ -434,12 +434,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           <DataTypeProvider
             for={numberFilterColumns}
             availableFilterOperations={availableNumberFilterOperations}
-            editorComponent={this.NumberEditorComponent}
+            editorComponent={this.numberEditorComponent}
           />
           <DateTypeProvider for={dateColumns} />
           <DateTimeTypeProvider for={dateTimeColumns} />
           <ImageTypeProvider for={avatarColumns} />
-          <this.IconTypeProvider for={buttonColumns} />
+          <this.iconTypeProvider for={buttonColumns} />
           <DragDropProvider />
           <SortingState
             sorting={sorting}
@@ -489,7 +489,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           onClose={this.closeEditWindow}
           updateTable={this.loadData}
         />
-        <this.AddButton />
+        <this.addButton />
         {loading && <LinearProgress />}
       </Paper>
     );
