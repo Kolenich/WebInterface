@@ -4,7 +4,7 @@ import { OutgoingHttpHeaders } from 'http';
 const xsrfCookieName: string = 'csrftoken';
 const xsrfHeaderName: string = 'X-CSRFToken';
 
-let baseURL: string = 'http://localhost:8000';
+let baseURL: string = 'http://localhost:8080';
 if (process.env.NODE_ENV === 'production') {
   baseURL = 'http://localhost/server';
 }

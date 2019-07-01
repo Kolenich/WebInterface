@@ -61,7 +61,7 @@ export const filteringParams: IFiltering = {
  * Функция конвертации blob-Объекта файла в base64
  * @param file
  */
-export function getBase64(file: Blob) {
+export function getBase64(file: Blob): Promise {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -75,7 +75,7 @@ export function getBase64(file: Blob) {
  * @param url - url файла с сервера
  * @param callback функция-колбэк, возвращающая файл в формате base64
  */
-export function toDataURL(url: string, callback: (dataUrl: any) => void) {
+export function toDataURL(url: string, callback: (dataUrl: any) => void): void {
   const xhr: XMLHttpRequest = new XMLHttpRequest();
   xhr.onload = function () {
     const reader: FileReader = new FileReader();
@@ -89,9 +89,12 @@ export function toDataURL(url: string, callback: (dataUrl: any) => void) {
   xhr.send();
 }
 
-export function getFileLoadURL() {
+/**
+ * Функция, генерирующая URL запроса для загрузки картинок
+ */
+export function getFileLoadURL(): string {
   if (process.env.NODE_ENV === 'production') {
     return 'http://localhost';
   }
-  return 'http://localhost:8000';
+  return 'http://localhost:8080';
 }
