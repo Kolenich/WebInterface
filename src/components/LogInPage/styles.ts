@@ -12,7 +12,7 @@ export const styles = (theme: Theme) => createStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    width: 400,
+    width: 500,
   },
   avatar: {
     margin: theme.spacing(1),

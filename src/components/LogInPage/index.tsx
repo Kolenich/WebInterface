@@ -5,7 +5,6 @@ import {
   Container,
   CssBaseline,
   FormControlLabel,
-  Link,
   TextField,
   Typography,
   withStyles,
@@ -13,6 +12,7 @@ import {
 import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
 import React, { PureComponent, ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 
@@ -77,12 +77,12 @@ class SignInPage extends PureComponent<IProps, IState> {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link to="/">
                   Забыли пароль?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/employees">
                   Нет учётной записи? Зарегистрируйтесь!
                 </Link>
               </Grid>
