@@ -25,6 +25,13 @@ class SignUpPage extends PureComponent<IProps, IState> {
   }
 
   /**
+   * Метод, вызываемый в момент монтирования компонента
+   */
+  componentDidMount(): void {
+    document.title = 'Зарегистрироваться в системе';
+  }
+
+  /**
    * Базовый метод рендера
    */
   public render(): ReactNode {

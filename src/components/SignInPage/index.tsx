@@ -27,6 +27,13 @@ class SignInPage extends PureComponent<IProps, IState> {
   }
 
   /**
+   * Метод, вызываемый в момент монтирования компонента
+   */
+  componentDidMount(): void {
+    document.title = 'Войти в систему';
+  }
+
+  /**
    * Базовый метод рендера
    */
   public render(): ReactNode {

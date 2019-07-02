@@ -10,7 +10,7 @@ import {
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
 import { Paper, withStyles } from '@material-ui/core';
-import React, { Component, ReactNode } from 'react';
+import React, { Component, ComponentState, ReactNode } from 'react';
 import demoData from './demoData';
 import { styles } from './styles';
 import { IProps, IState } from './types';
@@ -41,6 +41,13 @@ class EmployeeChart extends Component<IProps, IState> {
     this.state = {
       ...demoData,
     };
+  }
+
+  /**
+   * Метод, вызываемый после монтирования компонента
+   */
+  public componentDidMount(): ComponentState {
+    document.title = 'Графики';
   }
 
   /**
