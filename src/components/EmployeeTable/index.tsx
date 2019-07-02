@@ -19,7 +19,6 @@ import {
   TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
 import {
-  Avatar,
   Fab,
   FormControl,
   IconButton,
@@ -36,87 +35,17 @@ import { withStyles } from '@material-ui/core/styles';
 import { Add, Create } from '@material-ui/icons';
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
-import avatar from '../../assets/default_avatar.png';
 import api from '../../lib/api';
-import {
-  filterRowMessages,
-  pagingPanelMessages,
-  tableHeaderRowMessage,
-  tableMessages,
-} from '../../lib/translate';
+import { filterRowMessages, pagingPanelMessages, tableHeaderRowMessage, tableMessages } from '../../lib/translate';
 import { IApiResponse, IDRFGetConfig, ISelectElement, ITableRow, Sex } from '../../lib/types';
-import {
-  dateOptions,
-  dateTimeOptions,
-  filteringParams,
-  getFileLoadURL,
-  sortingParams,
-} from '../../lib/utils';
+import { filteringParams, sortingParams } from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
+import { DateTimeTypeProvider, DateTypeProvider, ImageTypeProvider } from './formatters';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 
 const sexParams: string[] = ['Муж.', 'Жен.'];
-
-/**
- * Форматтер для даты без времени
- * @param value значение
- * @constructor
- */
-const DateFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
-  <>{new Date(value).toLocaleDateString('ru', dateOptions)}</>
-);
-
-/**
- * Форматтер для изображений
- * @param value url файла
- * @constructor
- */
-const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
-  if (value !== null) {
-    return (
-      <Avatar src={`${getFileLoadURL()}${value}`} />
-    );
-  }
-  return <Avatar src={avatar} />;
-};
-
-/**
- * Форматтер для даты с временем
- * @param value значение
- * @constructor
- */
-const DateTimeFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => (
-  <>{new Date(value).toLocaleDateString('ru', dateTimeOptions)}</>
-);
-
-/**
- * Тип данных для ячеек даты без времени
- * @param props свойства ячейки
- * @constructor
- */
-const DateTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateFormatter} />
-);
-
-/**
- * Тип данных для ячеек с аватарами
- * @param props свойства ячейки
- * @constructor
- */
-const ImageTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={ImageFormatter} />
-);
-
-/**
- * Тип данных для ячеек даты с временем
- * @param props свойства ячейки
- * @constructor
- */
-const DateTimeTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter} />
-);
 
 /**
  * Компонент таблицы Сотрудников
@@ -130,7 +59,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       rows: [],
       filters: [],
       sorting: [],
-      pageSizes: [2, 5, 10, 20],
+      pageSizes: [5, 10, 20],
       pageSize: 5,
       totalCount: 0,
       currentPage: 0,
@@ -144,6 +73,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Метод, вызываемый после монтирования компонента
    */
   public componentDidMount(): ComponentState {
+    console.log(this.props);
     this.loadData();
   }
 
@@ -189,8 +119,10 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           input: classes.numericInput,
         }}
         fullWidth
-        value={value === undefined ?
-          '' :
+        value={value === undefined
+          ?
+          ''
+          :
           value}
         inputProps={{
           min: 0,
@@ -209,7 +141,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     return (
       <Tooltip title="Редактировать">
         <IconButton onClick={this.openEditWindow(id)}>
-          <Create />
+          <Create/>
         </IconButton>
       </Tooltip>
     );
@@ -237,7 +169,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       if (column.name === 'button' || column.name === 'avatar') {
         return (
           <TableFilterRow.Cell {...props} >
-            <Typography component="div" />
+            <Typography component="div"/>
           </TableFilterRow.Cell>
         );
       }
@@ -252,7 +184,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           <Select
             className={classes.sexSelect}
             value={sex}
-            input={<Input />}
+            input={<Input/>}
             onChange={
               (event: ChangeEvent<ISelectElement>) => {
                 let value: string = '';
@@ -325,7 +257,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       <Tooltip title="Создать">
         <Fab color="primary" className={classes.addIcon} variant="extended"
              onClick={this.openEditWindow(-1)}>
-          <Add />
+          <Add/>
           Создать
         </Fab>
       </Tooltip>
@@ -436,11 +368,11 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             availableFilterOperations={availableNumberFilterOperations}
             editorComponent={this.numberEditorComponent}
           />
-          <DateTypeProvider for={dateColumns} />
-          <DateTimeTypeProvider for={dateTimeColumns} />
-          <ImageTypeProvider for={avatarColumns} />
-          <this.iconTypeProvider for={buttonColumns} />
-          <DragDropProvider />
+          <DateTypeProvider for={dateColumns}/>
+          <DateTimeTypeProvider for={dateTimeColumns}/>
+          <ImageTypeProvider for={avatarColumns}/>
+          <this.iconTypeProvider for={buttonColumns}/>
+          <DragDropProvider/>
           <SortingState
             sorting={sorting}
             onSortingChange={this.changeSorting}
@@ -489,8 +421,8 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           onClose={this.closeEditWindow}
           updateTable={this.loadData}
         />
-        <this.addButton />
-        {loading && <LinearProgress />}
+        <this.addButton/>
+        {loading && <LinearProgress/>}
       </Paper>
     );
   }

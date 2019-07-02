@@ -7,10 +7,10 @@ import {
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
 import { WithStyles } from '@material-ui/core';
-import { ITableRow, Sex } from '../../lib/types';
+import { IRouterProps, ITableRow, Sex } from '../../lib/types';
 import { styles } from './styles';
 
-export interface IProps extends WithStyles<typeof styles> {
+export interface IProps extends WithStyles<typeof styles>, IRouterProps {
 }
 
 export interface IState {

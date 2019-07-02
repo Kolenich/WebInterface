@@ -1,4 +1,5 @@
 import { ButtonProps } from '@material-ui/core/Button';
+import { match } from 'react-router';
 
 export interface IEmployee {
   /** id сотрудника */
@@ -176,4 +177,13 @@ export interface ISelectElement {
   name?: string | undefined;
   /** Значение в DOM-элементе */
   value: unknown;
+}
+
+export interface IRouterProps {
+  /** История в браузере */
+  history: History;
+  /** Текущее местополжение (URL) */
+  location: Location;
+  /** Дополнительные параметры роутера */
+  match: match<any>;
 }
