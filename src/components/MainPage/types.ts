@@ -7,4 +7,6 @@ export interface IProps extends WithStyles<typeof styles> {
 }
 
 export interface IState {
+  /** Указатель зарегистрирован пользователь или нет */
+  loggedIn: boolean;
 }
