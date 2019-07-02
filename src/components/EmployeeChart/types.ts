@@ -1,7 +1,8 @@
 import { Theme, WithStyles } from '@material-ui/core';
+import { IRouterProps } from '../../lib/types';
 import { styles } from './styles';
 
-export interface IProps extends WithStyles<typeof styles> {
+export interface IProps extends WithStyles<typeof styles>, IRouterProps {
   /** Тема Material UI */
   theme: Theme;
 }

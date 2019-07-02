@@ -32,14 +32,14 @@ class SignUpPage extends PureComponent<IProps, IState> {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-        <div className={classes.paper}>
+        <Typography component="div" className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlined />
           </Avatar>
           <Typography component="h1" variant="h5">
             Зарегистрироваться
           </Typography>
-          <form className={classes.form} noValidate>
+          <Typography component="form" className={classes.form}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -89,7 +89,6 @@ class SignUpPage extends PureComponent<IProps, IState> {
               </Grid>
             </Grid>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
@@ -104,8 +103,8 @@ class SignUpPage extends PureComponent<IProps, IState> {
                 </Link>
               </Grid>
             </Grid>
-          </form>
-        </div>
+          </Typography>
+        </Typography>
       </Container>
     );
   }

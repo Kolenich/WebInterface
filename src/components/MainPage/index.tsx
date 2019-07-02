@@ -14,9 +14,7 @@ import { IProps, IState } from './types';
 class MainPage extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = {
-      value: 0,
-    };
+    this.state = {};
   }
 
   /**
@@ -27,8 +25,8 @@ class MainPage extends PureComponent<IProps, IState> {
       <Switch>
         <Route path="/sign-in" component={SignInPage} />
         <Route path="/sign-up" component={SignUpPage} />
-        <Route path="/employees" component={EmployeeTable}/>
-        <Route path="/charts" component={EmployeeChart}/>
+        <Route path="/employees" component={EmployeeTable} />
+        <Route path="/charts" component={EmployeeChart} />
         <Redirect to="/sign-in" from="/" />
       </Switch>
     );

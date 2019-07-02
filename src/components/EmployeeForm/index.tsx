@@ -334,11 +334,13 @@ class EmployeeForm extends Component<IProps, IState> {
   private handleDateChange = (name: keyof IEmployee) => (date: MaterialUiPickersDate):
     ComponentState => {
     const { employee } = this.state;
-    if (date !== null) {
-      this.setState({ employee: { ...employee, [name]: date }, dateOfBirthNotNull: true });
-    } else {
-      this.setState({ employee: { ...employee, [name]: date }, dateOfBirthNotNull: false });
-    }
+    this.setState({
+      employee: {
+        ...employee,
+        [name]: date,
+      },
+      dateOfBirthNotNull: date !== null,
+    });
   }
 
   /**
@@ -371,6 +373,7 @@ class EmployeeForm extends Component<IProps, IState> {
         });
       })
       .catch((error: AxiosError) => {
+        console.log(error);
         if (error.response) {
           this.setState({
             statusWindowOpen: true,

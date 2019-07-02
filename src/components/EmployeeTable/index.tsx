@@ -36,7 +36,12 @@ import { Add, Create } from '@material-ui/icons';
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import api from '../../lib/api';
-import { filterRowMessages, pagingPanelMessages, tableHeaderRowMessage, tableMessages } from '../../lib/translate';
+import {
+  filterRowMessages,
+  pagingPanelMessages,
+  tableHeaderRowMessage,
+  tableMessages,
+} from '../../lib/translate';
 import { IApiResponse, IDRFGetConfig, ISelectElement, ITableRow, Sex } from '../../lib/types';
 import { filteringParams, sortingParams } from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
@@ -73,7 +78,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Метод, вызываемый после монтирования компонента
    */
   public componentDidMount(): ComponentState {
-    console.log(this.props);
     this.loadData();
   }
 
@@ -141,7 +145,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     return (
       <Tooltip title="Редактировать">
         <IconButton onClick={this.openEditWindow(id)}>
-          <Create/>
+          <Create />
         </IconButton>
       </Tooltip>
     );
@@ -169,7 +173,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       if (column.name === 'button' || column.name === 'avatar') {
         return (
           <TableFilterRow.Cell {...props} >
-            <Typography component="div"/>
+            <Typography component="div" />
           </TableFilterRow.Cell>
         );
       }
@@ -184,7 +188,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           <Select
             className={classes.sexSelect}
             value={sex}
-            input={<Input/>}
+            input={<Input />}
             onChange={
               (event: ChangeEvent<ISelectElement>) => {
                 let value: string = '';
@@ -257,7 +261,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       <Tooltip title="Создать">
         <Fab color="primary" className={classes.addIcon} variant="extended"
              onClick={this.openEditWindow(-1)}>
-          <Add/>
+          <Add />
           Создать
         </Fab>
       </Tooltip>
@@ -368,11 +372,11 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             availableFilterOperations={availableNumberFilterOperations}
             editorComponent={this.numberEditorComponent}
           />
-          <DateTypeProvider for={dateColumns}/>
-          <DateTimeTypeProvider for={dateTimeColumns}/>
-          <ImageTypeProvider for={avatarColumns}/>
-          <this.iconTypeProvider for={buttonColumns}/>
-          <DragDropProvider/>
+          <DateTypeProvider for={dateColumns} />
+          <DateTimeTypeProvider for={dateTimeColumns} />
+          <ImageTypeProvider for={avatarColumns} />
+          <this.iconTypeProvider for={buttonColumns} />
+          <DragDropProvider />
           <SortingState
             sorting={sorting}
             onSortingChange={this.changeSorting}
@@ -421,8 +425,8 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           onClose={this.closeEditWindow}
           updateTable={this.loadData}
         />
-        <this.addButton/>
-        {loading && <LinearProgress/>}
+        <this.addButton />
+        {loading && <LinearProgress />}
       </Paper>
     );
   }
