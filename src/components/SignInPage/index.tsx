@@ -5,6 +5,7 @@ import {
   Container,
   CssBaseline,
   FormControlLabel,
+  Link,
   TextField,
   Typography,
   withStyles,
@@ -12,7 +13,7 @@ import {
 import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
 import React, { PureComponent, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 
@@ -32,10 +33,10 @@ class SignInPage extends PureComponent<IProps, IState> {
     const { classes } = this.props;
     return (
       <Container component="main" maxWidth="xs">
-        <CssBaseline/>
+        <CssBaseline />
         <Typography component="div" className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlined/>
+            <LockOutlined />
           </Avatar>
           <Typography component="h1" variant="h5">
             Войти
@@ -64,7 +65,7 @@ class SignInPage extends PureComponent<IProps, IState> {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary"/>}
+              control={<Checkbox value="remember" color="primary" />}
               label="Запомнить"
             />
             <Button
@@ -77,12 +78,12 @@ class SignInPage extends PureComponent<IProps, IState> {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to="/">
+                <Link variant="body2" component={RouterLink} to="/employees">
                   Забыли пароль?
                 </Link>
               </Grid>
               <Grid item>
-                <Link to="/employees">
+                <Link variant="body2" component={RouterLink} to="/sign-up">
                   Нет учётной записи? Зарегистрируйтесь!
                 </Link>
               </Grid>

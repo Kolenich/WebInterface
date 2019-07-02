@@ -3,7 +3,8 @@ import React, { PureComponent, ReactNode } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import EmployeeChart from '../EmployeeChart';
 import EmployeeTable from '../EmployeeTable';
-import LogInPage from '../LogInPage';
+import SignInPage from '../SignInPage';
+import SignUpPage from '../SignUpPage';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 
@@ -24,10 +25,11 @@ class MainPage extends PureComponent<IProps, IState> {
   public render(): ReactNode {
     return (
       <Switch>
-        <Route path="/login" component={LogInPage}/>
+        <Route path="/sign-in" component={SignInPage} />
+        <Route path="/sign-up" component={SignUpPage} />
         <Route path="/employees" component={EmployeeTable}/>
         <Route path="/charts" component={EmployeeChart}/>
-        <Redirect to="/login" from="/"/>
+        <Redirect to="/sign-in" from="/" />
       </Switch>
     );
   }
