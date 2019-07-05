@@ -93,7 +93,7 @@ export function toDataURL(url: string, callback: (dataUrl: any) => void): void {
  */
 export function getFileLoadURL(): string {
   if (process.env.NODE_ENV === 'production') {
-    return 'http://localhost';
+    return 'http://vps706754.ovh.net';
   }
   return 'http://localhost:8080';
 }
