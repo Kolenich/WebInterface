@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
-import React, { PureComponent, ReactNode } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
 import { IProps, IState } from './types';
@@ -20,7 +20,7 @@ import { IProps, IState } from './types';
 /**
  * Компонента страницы входа в систему
  */
-class SignInPage extends PureComponent<IProps, IState> {
+class SignInPage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {};

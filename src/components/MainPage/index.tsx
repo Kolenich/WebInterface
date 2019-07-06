@@ -1,5 +1,5 @@
 import { withStyles } from '@material-ui/core';
-import React, { PureComponent, ReactNode } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import EmployeeChart from '../EmployeeChart';
 import EmployeeTable from '../EmployeeTable';
@@ -11,7 +11,7 @@ import { IProps, IState } from './types';
 /**
  * Компонент основной страницы
  */
-class MainPage extends PureComponent<IProps, IState> {
+class MainPage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {

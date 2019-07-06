@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { CheckCircle, Done, Error, Warning } from '@material-ui/icons';
 import classNames from 'classnames';
-import React, { PureComponent, ReactNode } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { ICustomButtonProps } from '../../lib/types';
 import { styles } from './styles';
 import { IProps, IState } from './types';
@@ -18,7 +18,7 @@ import { IProps, IState } from './types';
 /**
  * Компонент окна статуса
  */
-class StatusWindow extends PureComponent<IProps, IState> {
+class StatusWindow extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {};

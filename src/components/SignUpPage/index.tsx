@@ -10,7 +10,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
-import React, { PureComponent, ReactNode } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
 import { IProps, IState } from './types';
@@ -18,7 +18,7 @@ import { IProps, IState } from './types';
 /**
  * Компонент станицы регистрации
  */
-class SignUpPage extends PureComponent<IProps, IState> {
+class SignUpPage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {};

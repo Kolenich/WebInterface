@@ -34,7 +34,7 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import { Add, Create } from '@material-ui/icons';
 import { AxiosError, AxiosResponse } from 'axios';
-import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
+import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
 import api from '../../lib/api';
 import {
   filterRowMessages,
@@ -55,7 +55,7 @@ const sexParams: string[] = ['Муж.', 'Жен.'];
 /**
  * Компонент таблицы Сотрудников
  */
-class EmployeeTable extends PureComponent<IProps, IState> {
+class EmployeeTable extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {

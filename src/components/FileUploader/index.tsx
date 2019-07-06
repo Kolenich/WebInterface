@@ -1,6 +1,6 @@
 import { Grid, Typography, withStyles } from '@material-ui/core';
 import 'filepond/dist/filepond.min.css';
-import React, { PureComponent, ReactNode } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { File, FilePond } from 'react-filepond';
 import { IAvatar } from '../../lib/types';
 import { getBase64, toDataURL } from '../../lib/utils';
@@ -10,7 +10,7 @@ import { IProps, IState } from './types';
 /**
  * Компонент для загрузки файлов
  */
-class FileUploader extends PureComponent<IProps, IState> {
+class FileUploader extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
