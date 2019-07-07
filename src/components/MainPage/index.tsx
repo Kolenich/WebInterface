@@ -15,7 +15,7 @@ class MainPage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      loggedIn: true,
+      loggedIn: false,
     };
   }
 
