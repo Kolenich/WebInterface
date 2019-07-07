@@ -1,0 +1,45 @@
+version: "3.7"
+networks:
+  web-server:
+    name: web-server
+    driver: bridge
+  server-postgres:
+    name: server-postgres
+    driver: bridge
+  server-rabbitmq:
+    name: server-rabbitmq
+    driver: bridge
+services:
+  web:
+    volumes:
+      - ../django-static:/app/static
+      - ../media:/app/media
+    restart: always
+    container_name: web
+    image: kolenich/web
+    ports:
+      - 80:80
+    networks:
+      - web-server
+  server:
+    volumes:
+      - ../django-static:/app/static
+      - ../media:/app/media
+    restart: always
+    container_name: server
+    image: kolenich/server
+    networks:
+      - web-server
+      - server-postgres
+  postgres:
+    restart: always
+    container_name: postgres
+    image: kolenich/postgres
+    networks:
+      - server-postgres
+  rabbitmq:
+    restart: always
+    container_name: rabbitmq
+    image: kolenich/rabbitmq
+    networks:
+      - server-rabbitmq

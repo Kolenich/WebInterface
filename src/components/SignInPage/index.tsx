@@ -1,10 +1,9 @@
 import {
   Avatar,
   Button,
-  Checkbox,
+  CircularProgress,
   Container,
   CssBaseline,
-  FormControlLabel,
   Link,
   TextField,
   Typography,
@@ -12,8 +11,10 @@ import {
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
-import React, { Component, ReactNode } from 'react';
+import { AxiosError, AxiosResponse } from 'axios';
+import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { session } from '../../lib/session';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 
@@ -23,7 +24,11 @@ import { IProps, IState } from './types';
 class SignInPage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: '',
+      password: '',
+      loading: false,
+    };
   }
 
   /**
@@ -34,10 +39,37 @@ class SignInPage extends Component<IProps, IState> {
   }
 
   /**
+   * Метод, обрабатывающий изменение в текстовом поле
+   * @param event объект сбытия изменения
+   */
+  handleTextChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  /**
+   * Метод для обработки нажатия на кнопку "Войти"
+   */
+  handleLogin = (): ComponentState => {
+    this.setState({ loading: true });
+    const { email, password } = this.state;
+    session.post('auth/login/', { email, password })
+      .then((response: AxiosResponse) => {
+        this.setState({ loading: false });
+        console.log(response);
+      })
+      .catch((error: AxiosError) => {
+        this.setState({ loading: false });
+        console.log(error);
+      });
+  }
+
+  /**
    * Базовый метод рендера
    */
   public render(): ReactNode {
     const { classes } = this.props;
+    const { email, password, loading } = this.state;
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -58,7 +90,8 @@ class SignInPage extends Component<IProps, IState> {
               label="Электронная почта"
               name="email"
               autoComplete="email"
-              autoFocus
+              value={email}
+              onChange={this.handleTextChange}
             />
             <TextField
               variant="outlined"
@@ -70,18 +103,24 @@ class SignInPage extends Component<IProps, IState> {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={this.handleTextChange}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Запомнить"
-            />
+            {/*<FormControlLabel*/}
+            {/*  control={<Checkbox value="remember" color="primary" />}*/}
+            {/*  label="Запомнить"*/}
+            {/*/>*/}
             <Button
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={this.handleLogin}
+              disabled={loading}
             >
               Войти
+              {loading &&
+              <CircularProgress size={15} className={classes.circularProgress} />}
             </Button>
             <Grid container>
               <Grid item xs>

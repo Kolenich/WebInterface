@@ -39,4 +39,4 @@ class MainPage extends Component<IProps, IState> {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(MainPage);
+export default withStyles(styles)(MainPage);
