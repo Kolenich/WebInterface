@@ -13,6 +13,10 @@ export interface IState {
   password: string;
   /** Флаг загрузки */
   loading: boolean;
+  /** Указатель для запоминания данных польхователя */
+  remember: boolean;
+  /** Указатель ошибки ввода логина или пароля */
+  error: boolean;
 
   [index: string]: string | boolean;
 }

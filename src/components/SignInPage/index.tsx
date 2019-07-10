@@ -1,9 +1,11 @@
 import {
   Avatar,
   Button,
+  Checkbox,
   CircularProgress,
   Container,
   CssBaseline,
+  FormControlLabel,
   Link,
   TextField,
   Typography,
@@ -30,6 +32,8 @@ class SignInPage extends PureComponent<IProps, IState> {
       email: '',
       password: '',
       loading: false,
+      remember: false,
+      error: false,
     };
   }
 
@@ -42,11 +46,20 @@ class SignInPage extends PureComponent<IProps, IState> {
 
   /**
    * Метод, обрабатывающий изменение в текстовом поле
-   * @param event объект сбытия изменения
+   * @param event объект события изменения
    */
   handleTextChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  }
+
+  /**
+   * Метод, обрабатывающий изменение в чекбоксе
+   * @param event объект события изменения
+   */
+  handleBooleanChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
+    const { name, checked } = event.target;
+    this.setState({ [name]: checked });
   }
 
   /**
@@ -62,7 +75,14 @@ class SignInPage extends PureComponent<IProps, IState> {
       })
       .catch((error: AxiosError) => {
         this.setState({ loading: false });
-        console.log(error);
+        // Проверка для TypeScript
+        if (error.response) {
+          if (error.response.status === 400) {
+            this.setState({ error: true });
+            // Убираем сообщение об ошибке через 3 секунды
+            setTimeout(() => this.setState({ error: false }), 3000);
+          }
+        }
       });
   }
 
@@ -71,7 +91,7 @@ class SignInPage extends PureComponent<IProps, IState> {
    */
   public render(): ReactNode {
     const { classes } = this.props;
-    const { email, password, loading } = this.state;
+    const { email, password, loading, remember, error } = this.state;
     return (
       <ReactCSSTransitionGroup
         transitionName="sign-in"
@@ -115,10 +135,17 @@ class SignInPage extends PureComponent<IProps, IState> {
                 value={password}
                 onChange={this.handleTextChange}
               />
-              {/*<FormControlLabel*/}
-              {/*  control={<Checkbox value="remember" color="primary" />}*/}
-              {/*  label="Запомнить"*/}
-              {/*/>*/}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={remember}
+                    name="remember"
+                    onChange={this.handleBooleanChange}
+                    color="primary"
+                  />
+                }
+                label="Запомнить"
+              />
               <Button
                 fullWidth
                 variant="contained"
@@ -131,6 +158,10 @@ class SignInPage extends PureComponent<IProps, IState> {
                 {loading &&
                 <CircularProgress size={15} className={classes.circularProgress} />}
               </Button>
+              {error &&
+              <Typography className={classes.errorMessage}>
+                Неверный логин или пароль
+              </Typography>}
               <Grid container>
                 <Grid item xs>
                   <Link variant="body2" component={RouterLink} to="/employees">

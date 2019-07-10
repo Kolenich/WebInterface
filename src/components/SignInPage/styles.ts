@@ -28,4 +28,9 @@ export const styles = (theme: Theme) => createStyles({
   circularProgress: {
     marginLeft: theme.spacing(1),
   },
+  errorMessage: {
+    textAlign: 'center',
+    color: theme.palette.error.dark,
+    marginBottom: theme.spacing(1),
+  },
 });
