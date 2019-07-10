@@ -13,9 +13,11 @@ import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { session } from '../../lib/session';
 import { styles } from './styles';
+import './styles.css';
 import { IProps, IState } from './types';
 
 /**
@@ -71,72 +73,80 @@ class SignInPage extends Component<IProps, IState> {
     const { classes } = this.props;
     const { email, password, loading } = this.state;
     return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Typography component="div" className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlined />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Войти
-          </Typography>
-          <Typography component="form" className={classes.form}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Электронная почта"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={this.handleTextChange}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Пароль"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={this.handleTextChange}
-            />
-            {/*<FormControlLabel*/}
-            {/*  control={<Checkbox value="remember" color="primary" />}*/}
-            {/*  label="Запомнить"*/}
-            {/*/>*/}
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={this.handleLogin}
-              disabled={loading}
-            >
+      <ReactCSSTransitionGroup
+        transitionName="sign-in"
+        transitionAppear
+        transitionAppearTimeout={500}
+        transitionEnter={false}
+        transitionLeave={false}
+      >
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Typography component="div" className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlined />
+            </Avatar>
+            <Typography component="h1" variant="h5">
               Войти
-              {loading &&
-              <CircularProgress size={15} className={classes.circularProgress} />}
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link variant="body2" component={RouterLink} to="/employees">
-                  Забыли пароль?
-                </Link>
+            </Typography>
+            <Typography component="form" className={classes.form}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Электронная почта"
+                name="email"
+                autoComplete="email"
+                value={email}
+                onChange={this.handleTextChange}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Пароль"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={this.handleTextChange}
+              />
+              {/*<FormControlLabel*/}
+              {/*  control={<Checkbox value="remember" color="primary" />}*/}
+              {/*  label="Запомнить"*/}
+              {/*/>*/}
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={this.handleLogin}
+                disabled={loading}
+              >
+                Войти
+                {loading &&
+                <CircularProgress size={15} className={classes.circularProgress} />}
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link variant="body2" component={RouterLink} to="/employees">
+                    Забыли пароль?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link variant="body2" component={RouterLink} to="/sign-up">
+                    Нет учётной записи? Зарегистрируйтесь!
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link variant="body2" component={RouterLink} to="/sign-up">
-                  Нет учётной записи? Зарегистрируйтесь!
-                </Link>
-              </Grid>
-            </Grid>
+            </Typography>
           </Typography>
-        </Typography>
-      </Container>
+        </Container>
+      </ReactCSSTransitionGroup>
     );
   }
 }

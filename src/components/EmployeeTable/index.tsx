@@ -35,6 +35,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Add, Create } from '@material-ui/icons';
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import api from '../../lib/api';
 import {
   filterRowMessages,
@@ -48,6 +49,7 @@ import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
 import { DateTimeTypeProvider, DateTypeProvider, ImageTypeProvider } from './formatters';
 import { styles } from './styles';
+import './styles.css';
 import { IProps, IState } from './types';
 
 const sexParams: string[] = ['Муж.', 'Жен.'];
@@ -362,73 +364,81 @@ class EmployeeTable extends Component<IProps, IState> {
       numberFilterColumns,
     } = this.state;
     return (
-      <Paper className={classes.paper}>
-        <Grid rows={rows} columns={columns}>
-          <DataTypeProvider
-            for={textFilterColumns}
-            availableFilterOperations={availableTextFilterOperations}
+      <ReactCSSTransitionGroup
+        transitionName="table"
+        transitionAppear
+        transitionAppearTimeout={500}
+        transitionEnter={false}
+        transitionLeave={false}
+      >
+        <Paper className={classes.paper}>
+          <Grid rows={rows} columns={columns}>
+            <DataTypeProvider
+              for={textFilterColumns}
+              availableFilterOperations={availableTextFilterOperations}
+            />
+            <DataTypeProvider
+              for={numberFilterColumns}
+              availableFilterOperations={availableNumberFilterOperations}
+              editorComponent={this.numberEditorComponent}
+            />
+            <DateTypeProvider for={dateColumns} />
+            <DateTimeTypeProvider for={dateTimeColumns} />
+            <ImageTypeProvider for={avatarColumns} />
+            <this.iconTypeProvider for={buttonColumns} />
+            <DragDropProvider />
+            <SortingState
+              sorting={sorting}
+              onSortingChange={this.changeSorting}
+              columnExtensions={sortingStateColumnExtensions}
+            />
+            <PagingState
+              currentPage={currentPage}
+              pageSize={pageSize}
+              onPageSizeChange={this.changePageSize}
+              onCurrentPageChange={this.changeCurrentPage}
+            />
+            <CustomPaging
+              totalCount={totalCount}
+            />
+            <FilteringState
+              onFiltersChange={this.changeFilters}
+              columnExtensions={filteringStateColumnExtensions}
+            />
+            <Table
+              rowComponent={this.rowComponent}
+              messages={tableMessages}
+            />
+            <TableColumnReordering
+              defaultOrder={defaultOrder}
+            />
+            <TableColumnResizing
+              defaultColumnWidths={defaultColumnWidths}
+            />
+            <TableHeaderRow
+              showSortingControls
+              messages={tableHeaderRowMessage}
+            />
+            <TableFilterRow
+              showFilterSelector
+              messages={filterRowMessages}
+              cellComponent={this.filterCellComponent}
+            />
+            <PagingPanel
+              pageSizes={pageSizes}
+              messages={pagingPanelMessages}
+            />
+          </Grid>
+          <EmployeeForm
+            id={rowId}
+            open={addEmployee}
+            onClose={this.closeEditWindow}
+            updateTable={this.loadData}
           />
-          <DataTypeProvider
-            for={numberFilterColumns}
-            availableFilterOperations={availableNumberFilterOperations}
-            editorComponent={this.numberEditorComponent}
-          />
-          <DateTypeProvider for={dateColumns} />
-          <DateTimeTypeProvider for={dateTimeColumns} />
-          <ImageTypeProvider for={avatarColumns} />
-          <this.iconTypeProvider for={buttonColumns} />
-          <DragDropProvider />
-          <SortingState
-            sorting={sorting}
-            onSortingChange={this.changeSorting}
-            columnExtensions={sortingStateColumnExtensions}
-          />
-          <PagingState
-            currentPage={currentPage}
-            pageSize={pageSize}
-            onPageSizeChange={this.changePageSize}
-            onCurrentPageChange={this.changeCurrentPage}
-          />
-          <CustomPaging
-            totalCount={totalCount}
-          />
-          <FilteringState
-            onFiltersChange={this.changeFilters}
-            columnExtensions={filteringStateColumnExtensions}
-          />
-          <Table
-            rowComponent={this.rowComponent}
-            messages={tableMessages}
-          />
-          <TableColumnReordering
-            defaultOrder={defaultOrder}
-          />
-          <TableColumnResizing
-            defaultColumnWidths={defaultColumnWidths}
-          />
-          <TableHeaderRow
-            showSortingControls
-            messages={tableHeaderRowMessage}
-          />
-          <TableFilterRow
-            showFilterSelector
-            messages={filterRowMessages}
-            cellComponent={this.filterCellComponent}
-          />
-          <PagingPanel
-            pageSizes={pageSizes}
-            messages={pagingPanelMessages}
-          />
-        </Grid>
-        <EmployeeForm
-          id={rowId}
-          open={addEmployee}
-          onClose={this.closeEditWindow}
-          updateTable={this.loadData}
-        />
-        <this.addButton />
-        {loading && <LinearProgress />}
-      </Paper>
+          <this.addButton />
+          {loading && <LinearProgress />}
+        </Paper>
+      </ReactCSSTransitionGroup>
     );
   }
 }

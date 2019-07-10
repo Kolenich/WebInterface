@@ -1,0 +1,8 @@
+.sign-in-appear {
+  opacity: 0.01;
+}
+
+.sign-in-appear.sign-in-appear-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}

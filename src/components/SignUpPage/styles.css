@@ -1,0 +1,8 @@
+.sign-up-appear {
+  opacity: 0.01;
+}
+
+.sign-up-appear.sign-up-appear-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
