@@ -10,7 +10,7 @@ import {
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
 import { Paper, withStyles } from '@material-ui/core';
-import React, { ComponentState, PureComponent, ReactNode } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import demoData from './demoData';
 import { styles } from './styles';
 import { IProps, IState } from './types';
@@ -44,9 +44,9 @@ class EmployeeChart extends PureComponent<IProps, IState> {
   }
 
   /**
-   * Метод, вызываемый после монтирования компонента
+   * Метод, вызываемый после перед монтированием компонента
    */
-  public componentDidMount(): ComponentState {
+  public componentWillMount(): void {
     document.title = 'Графики';
   }
 

@@ -27,9 +27,9 @@ class SignUpPage extends PureComponent<IProps, IState> {
   }
 
   /**
-   * Метод, вызываемый в момент монтирования компонента
+   * Метод, вызываемый в момент перед монтированием компонента
    */
-  componentDidMount(): void {
+  public componentWillMount(): void {
     document.title = 'Зарегистрироваться в системе';
   }
 

@@ -77,10 +77,16 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   }
 
   /**
+   * Метод, вызываемый в момент перед монтированием компонента
+   */
+  public componentWillMount(): void {
+    document.title = 'Сотрудники';
+  }
+
+  /**
    * Метод, вызываемый после монтирования компонента
    */
   public componentDidMount(): ComponentState {
-    document.title = 'Сотрудники';
     this.loadData();
   }
 
