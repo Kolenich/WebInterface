@@ -66,7 +66,6 @@ class SignUpPage extends Component<IProps, IState> {
                     fullWidth
                     id="first_name"
                     label="Имя"
-                    autoFocus
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
