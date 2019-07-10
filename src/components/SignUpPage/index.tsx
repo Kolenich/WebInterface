@@ -10,7 +10,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
-import React, { Component, ReactNode } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
@@ -20,7 +20,7 @@ import { IProps, IState } from './types';
 /**
  * Компонент станицы регистрации
  */
-class SignUpPage extends Component<IProps, IState> {
+class SignUpPage extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {};

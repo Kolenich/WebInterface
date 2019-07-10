@@ -10,7 +10,7 @@ import {
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
 import { Paper, withStyles } from '@material-ui/core';
-import React, { Component, ComponentState, ReactNode } from 'react';
+import React, { ComponentState, PureComponent, ReactNode } from 'react';
 import demoData from './demoData';
 import { styles } from './styles';
 import { IProps, IState } from './types';
@@ -35,7 +35,7 @@ const TransactionLabel = Label(' ед.');
 /**
  * Компонент графиков.
  */
-class EmployeeChart extends Component<IProps, IState> {
+class EmployeeChart extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {

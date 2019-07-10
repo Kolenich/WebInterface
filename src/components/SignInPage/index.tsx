@@ -12,7 +12,7 @@ import {
 import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
 import { AxiosError, AxiosResponse } from 'axios';
-import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
+import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { session } from '../../lib/session';
@@ -23,7 +23,7 @@ import { IProps, IState } from './types';
 /**
  * Компонента страницы входа в систему
  */
-class SignInPage extends Component<IProps, IState> {
+class SignInPage extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {

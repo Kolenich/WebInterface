@@ -34,7 +34,7 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import { Add, Create } from '@material-ui/icons';
 import { AxiosError, AxiosResponse } from 'axios';
-import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
+import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import api from '../../lib/api';
 import {
@@ -57,7 +57,7 @@ const sexParams: string[] = ['Муж.', 'Жен.'];
 /**
  * Компонент таблицы Сотрудников
  */
-class EmployeeTable extends Component<IProps, IState> {
+class EmployeeTable extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {

@@ -25,7 +25,7 @@ import {
 import { AxiosError, AxiosResponse } from 'axios';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
-import React, { ChangeEvent, Component, ComponentState, ReactNode } from 'react';
+import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import api from '../../lib/api';
 import {
   HTTPMethods,
@@ -48,7 +48,7 @@ const spacing: GridSpacing = 2;
 /**
  * Класс Формы для создания/редактирования Сотрудника
  */
-class EmployeeForm extends Component<IProps, IState> {
+class EmployeeForm extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
