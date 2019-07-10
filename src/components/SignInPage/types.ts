@@ -1,9 +1,11 @@
 import { WithStyles } from '@material-ui/core';
+import { IStore } from '../../lib/context/types';
 import { IRouterProps } from '../../lib/types';
 import { styles } from './styles';
 
 export interface IProps extends WithStyles<typeof styles>, IRouterProps {
-
+  /** Переменная контекста */
+  context: IStore;
 }
 
 export interface IState {

@@ -1,29 +1,29 @@
 import { withStyles } from '@material-ui/core';
 import React, { PureComponent, ReactNode } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
+import withContext from '../../lib/context';
 import EmployeeChart from '../EmployeeChart';
 import EmployeeTable from '../EmployeeTable';
 import SignInPage from '../SignInPage';
 import SignUpPage from '../SignUpPage';
 import { styles } from './styles';
-import { IProps, IState } from './types';
+import { IProps, IPropsContext, IState } from './types';
 
 /**
  * Компонент основной страницы
  */
-class MainPage extends PureComponent<IProps, IState> {
-  constructor(props: IProps) {
+class MainPage extends PureComponent<IPropsContext, IState> {
+  constructor(props: IPropsContext) {
     super(props);
-    this.state = {
-      loggedIn: false,
-    };
+    this.state = {};
   }
 
   /**
    * Базовый метод рендера
    */
   public render(): ReactNode {
-    const { loggedIn } = this.state;
+    const { context } = this.props;
+    const { loggedIn } = context.state;
     return (
       <Switch>
         <Route path="/sign-in" component={SignInPage} />
@@ -39,4 +39,4 @@ class MainPage extends PureComponent<IProps, IState> {
   }
 }
 
-export default withStyles(styles)(MainPage);
+export default withStyles(styles)(withContext<IProps>(MainPage));

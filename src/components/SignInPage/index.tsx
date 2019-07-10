@@ -17,6 +17,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
+import withContext from '../../lib/context';
 import { session } from '../../lib/session';
 import { styles } from './styles';
 import './styles.css';
@@ -182,4 +183,4 @@ class SignInPage extends PureComponent<IProps, IState> {
   }
 }
 
-export default withStyles(styles)(SignInPage);
+export default withStyles(styles)(withContext<IProps>(SignInPage));
