@@ -10,4 +10,6 @@ export interface IState {
 export interface IStore {
   /** Хранилище глобальных переменных */
   state: IState;
+  /** Функция для обработки логина */
+  handleLogin: (email: string, password: string) => boolean;
 }

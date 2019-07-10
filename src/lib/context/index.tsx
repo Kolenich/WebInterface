@@ -1,4 +1,6 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import React, { ComponentType, createContext, PureComponent, ReactNode } from 'react';
+import { session } from '../session';
 import { IProps, IState, IStore } from './types';
 
 const Context = createContext({} as IStore);
@@ -15,11 +17,30 @@ export class Provider extends PureComponent<IProps, IState> {
   }
 
   /**
+   * Метд для обработки логина
+   * @param email электронная почта пользователя
+   * @param password пароль пользователя
+   */
+  private handleLogin = (email: string, password: string): boolean => {
+    session.post('auth/login/', { email, password })
+      .then((response: AxiosResponse) => {
+        this.setState({ loggedIn: true });
+        return true;
+      })
+      .catch((error: AxiosError) => {
+        this.setState({ loggedIn: false });
+        return false;
+      });
+    return false;
+  }
+
+  /**
    * Базовый метод рендера
    */
   public render(): ReactNode {
     const { children } = this.props;
     const store: IStore = {
+      handleLogin: this.handleLogin,
       state: this.state,
     };
     return (
