@@ -1,7 +1,7 @@
 import { DataTypeProvider, DataTypeProviderProps } from '@devexpress/dx-react-grid';
 import { Avatar } from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
 import React from 'react';
-import avatar from '../../assets/default_avatar.png';
 import { dateOptions, dateTimeOptions, getFileLoadURL } from '../../lib/utils';
 
 /**
@@ -21,10 +21,14 @@ export const DateFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) =
 export const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
   if (value !== null) {
     return (
-      <Avatar src={`${getFileLoadURL()}${value}`}/>
+      <Avatar src={`${getFileLoadURL()}${value}`} />
     );
   }
-  return <Avatar src={avatar}/>;
+  return (
+    <Avatar>
+      <AccountCircle />
+    </Avatar>
+  );
 };
 
 /**
@@ -42,7 +46,7 @@ export const DateTimeFormatter = ({ value }: DataTypeProvider.ValueFormatterProp
  * @constructor
  */
 export const DateTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateFormatter}/>
+  <DataTypeProvider {...props} formatterComponent={DateFormatter} />
 );
 
 /**
@@ -51,7 +55,7 @@ export const DateTypeProvider = (props: DataTypeProviderProps) => (
  * @constructor
  */
 export const ImageTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={ImageFormatter}/>
+  <DataTypeProvider {...props} formatterComponent={ImageFormatter} />
 );
 
 /**
@@ -60,5 +64,5 @@ export const ImageTypeProvider = (props: DataTypeProviderProps) => (
  * @constructor
  */
 export const DateTimeTypeProvider = (props: DataTypeProviderProps) => (
-  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter}/>
+  <DataTypeProvider {...props} formatterComponent={DateTimeFormatter} />
 );
