@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { CheckCircle, Done, Error, Warning } from '@material-ui/icons';
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import { ICustomButtonProps } from '../../lib/types';
 import { styles } from './styles';
 import { IProps, IState } from './types';

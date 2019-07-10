@@ -1,5 +1,5 @@
 import { withStyles } from '@material-ui/core';
-import React, { ReactNode } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import EmployeeChart from '../EmployeeChart';
 import EmployeeTable from '../EmployeeTable';
