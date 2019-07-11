@@ -6,3 +6,21 @@
   opacity: 1;
   transition: opacity 500ms ease-in;
 }
+
+.error-enter {
+  opacity: 0.01;
+}
+
+.error-enter.error-enter-active {
+  opacity: 1;
+  transition: opacity 250ms ease-in;
+}
+
+.error-leave {
+  opacity: 1;
+}
+
+.error-leave.error-leave-active {
+  opacity: 0.01;
+  transition: opacity 250ms ease-in;
+}

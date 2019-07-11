@@ -119,6 +119,7 @@ class SignInPage extends PureComponent<IProps, IState> {
                 id="email"
                 label="Электронная почта"
                 name="email"
+                error={error}
                 autoComplete="email"
                 value={email}
                 onChange={this.handleTextChange}
@@ -127,6 +128,7 @@ class SignInPage extends PureComponent<IProps, IState> {
                 variant="outlined"
                 margin="normal"
                 required
+                error={error}
                 fullWidth
                 name="password"
                 label="Пароль"
@@ -159,10 +161,19 @@ class SignInPage extends PureComponent<IProps, IState> {
                 {loading &&
                 <CircularProgress size={15} className={classes.circularProgress} />}
               </Button>
-              {error &&
-              <Typography className={classes.errorMessage}>
-                Неверный логин или пароль
-              </Typography>}
+              <ReactCSSTransitionGroup
+                transitionName="error"
+                transitionAppear={false}
+                transitionEnterTimeout={250}
+                transitionLeaveTimeout={250}
+                transitionEnter
+                transitionLeave
+              >
+                {error &&
+                <Typography className={classes.errorMessage}>
+                  Неверный логин или пароль
+                </Typography>}
+              </ReactCSSTransitionGroup>
               <Grid container>
                 <Grid item xs>
                   <Link variant="body2" component={RouterLink} to="/employees">
