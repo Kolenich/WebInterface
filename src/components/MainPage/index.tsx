@@ -1,4 +1,3 @@
-import { withStyles } from '@material-ui/core';
 import React, { PureComponent, ReactNode } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import withContext from '../../lib/context';
@@ -6,7 +5,6 @@ import EmployeeChart from '../EmployeeChart';
 import EmployeeTable from '../EmployeeTable';
 import SignInPage from '../SignInPage';
 import SignUpPage from '../SignUpPage';
-import { styles } from './styles';
 import { IProps, IPropsContext, IState } from './types';
 
 /**
@@ -39,4 +37,4 @@ class MainPage extends PureComponent<IPropsContext, IState> {
   }
 }
 
-export default withStyles(styles)(withContext<IProps>(MainPage));
+export default withContext<IProps>(MainPage);
