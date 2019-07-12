@@ -238,16 +238,16 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       },
     };
     // Параметры для фильтрации
-    // eslint-disable-next-line
     filters.map((filter: Filter): void => {
       if (filter.operation) {
         config.params[`${filter.columnName}${filteringParams[filter.operation]}`] = filter.value;
       }
+      return undefined;
     });
     // Параметры для сортировки
-    // eslint-disable-next-line
     sorting.map((sort: Sorting) => {
       config.params.ordering = `${sortingParams[sort.direction]}${sort.columnName}`;
+      return undefined;
     });
     api.getContent<IApiResponse<ITableRow>>('employees-table', config)
       .then((response: AxiosResponse<IApiResponse<ITableRow>>): ComponentState => {

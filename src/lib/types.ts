@@ -110,7 +110,7 @@ export interface IApiResponse<DataType> {
   count: number;
   /** Ссылка для следующей страницы */
   next: string;
-  /** ССылка для предыдущей страницы */
+  /** Ссылка для предыдущей страницы */
   previous: string;
   /** Записи для текущей страницы */
   results: DataType[];
