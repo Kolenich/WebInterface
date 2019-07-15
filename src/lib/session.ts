@@ -6,7 +6,7 @@ const xsrfHeaderName: string = 'X-CSRFToken';
 
 let baseURL: string = 'http://localhost:8080';
 if (process.env.NODE_ENV === 'production') {
-  baseURL = 'http://vps706754.ovh.net/server';
+  baseURL = 'https://vps706754.ovh.net/server';
 }
 
 const timeout: number = 1000;
