@@ -12,8 +12,8 @@ networks:
 services:
   web:
     volumes:
-      - django-static:/app/static
-      - media:/app/media
+      - ./django-static:/app/static
+      - ./media:/app/media
     restart: always
     container_name: web
     image: kolenich/web
@@ -23,8 +23,8 @@ services:
       - web-server
   server:
     volumes:
-      - django-static:/app/static
-      - media:/app/media
+      - ./django-static:/app/static
+      - ./media:/app/media
     restart: always
     container_name: server
     image: kolenich/server
