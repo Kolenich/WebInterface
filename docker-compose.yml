@@ -14,7 +14,7 @@ services:
     volumes:
       - ./django-static:/app/static
       - ./media:/app/media
-      - /etc/letsencrypt:/etc/letencrypt
+      - /etc/letsencrypt:/etc/letsencrypt
     restart: always
     container_name: web
     image: kolenich/web
