@@ -20,6 +20,7 @@ services:
     image: kolenich/web
     ports:
       - 80:80
+      - 443:443
     networks:
       - web-server
   server:
