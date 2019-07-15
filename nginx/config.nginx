@@ -9,7 +9,7 @@ server {
 }
 
 server {
-  listen 443;
+  listen 443 ssl;
   server_name vps706754.ovh.net;
   root /usr/share/nginx/html;
   index index.html;
