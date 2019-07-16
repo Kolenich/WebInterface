@@ -17,13 +17,24 @@ import {
 } from '@material-ui/core';
 import { GridSpacing } from '@material-ui/core/Grid';
 import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
-import { KeyboardDatePicker, MaterialUiPickersDate, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import {
+  KeyboardDatePicker,
+  MaterialUiPickersDate,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 import { AxiosError, AxiosResponse } from 'axios';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import api from '../../lib/api';
-import { HTTPMethods, IAvatar, ICustomButtonProps, IEmployee, ISelectElement, Sex } from '../../lib/types';
+import {
+  HTTPMethods,
+  IAvatar,
+  ICustomButtonProps,
+  IEmployee,
+  ISelectElement,
+  Sex,
+} from '../../lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
 import { validationMessages, validationMethods } from '../../lib/validation';
 import FileUploader from '../FileUploader';
@@ -211,7 +222,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           <Select
             value={value}
             onChange={this.handleSelectChange}
-            input={<OutlinedInput labelWidth={labelWidth} id="sex"/>}>
+            input={<OutlinedInput labelWidth={labelWidth} id="sex" />}>
             <MenuItem value="male">Мужской</MenuItem>
             <MenuItem value="female">Женский</MenuItem>
           </Select>
@@ -246,13 +257,13 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       >
         {text}
         {icon === 'save' &&
-        <Save className={classes.rightIcon}/>}
+        <Save className={classes.rightIcon} />}
         {icon === 'add' &&
-        <Add className={classes.rightIcon}/>}
+        <Add className={classes.rightIcon} />}
         {icon === 'confirm' &&
-        <Done className={classes.rightIcon}/>}
+        <Done className={classes.rightIcon} />}
         {icon === 'update' &&
-        <Update className={classes.rightIcon}/>}
+        <Update className={classes.rightIcon} />}
       </Button>
     );
   }
@@ -275,9 +286,9 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       >
         {text}
         {icon === 'delete' &&
-        <Delete className={classes.rightIcon}/>}
+        <Delete className={classes.rightIcon} />}
         {icon === 'cancel' &&
-        <Cancel className={classes.rightIcon}/>}
+        <Cancel className={classes.rightIcon} />}
       </Button>
     );
   }
@@ -460,24 +471,24 @@ class EmployeeForm extends PureComponent<IProps, IState> {
         <DialogTitle>
           {title}
           <IconButton className={classes.cancelButton} onClick={onClose}>
-            <Cancel/>
+            <Cancel />
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
           <StatusWindow open={statusWindowOpen} onClose={this.closeStatusModal} status={statusType}
-                        message={statusMessage}/>
+                        message={statusMessage} />
           <Grid container spacing={spacing}>
-            <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic"/>
-            <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic"/>
-            <this.InputField xs={4} fieldName="middle_name" validationType="cyrillic"/>
+            <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic" />
+            <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic" />
+            <this.InputField xs={4} fieldName="middle_name" validationType="cyrillic" />
           </Grid>
           <Grid container spacing={spacing}>
-            <this.InputField xs={5} fieldName="email" required validationType="email"/>
-            <this.InputField xs={4} fieldName="phone" validationType="phone"/>
-            <this.SelectField labelWidth={labelWidth} xs={3} fieldName="sex" required/>
+            <this.InputField xs={5} fieldName="email" required validationType="email" />
+            <this.InputField xs={4} fieldName="phone" validationType="phone" />
+            <this.SelectField labelWidth={labelWidth} xs={3} fieldName="sex" required />
           </Grid>
           <Grid container spacing={spacing}>
-            <this.DateField xs={5} fieldName="date_of_birth"/>
+            <this.DateField xs={5} fieldName="date_of_birth" />
           </Grid>
           <Grid container spacing={spacing}>
             <FileUploader
@@ -500,9 +511,9 @@ class EmployeeForm extends PureComponent<IProps, IState> {
               'save'
               :
               'add'}
-            onClick={this.submitForm}/>
+            onClick={this.submitForm} />
           {id !== -1 &&
-          <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
+          <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm} />}
         </DialogActions>
       </Dialog>
     );
