@@ -40,6 +40,14 @@ export const SERVER_RESPONSES: IServerResponses = {
   502: 'Время ожидания ответа от сервера истекло',
 };
 
+/**
+ * Функция глубокого копирования объекта
+ * @param data копируемый объект
+ */
+export function deepCopy<dataType>(data: dataType) {
+  return JSON.parse(JSON.stringify(data)) as dataType;
+}
+
 export const sortingParams: ISorting = {
   asc: '',
   desc: '-',

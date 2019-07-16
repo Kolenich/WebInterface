@@ -17,25 +17,14 @@ import {
 } from '@material-ui/core';
 import { GridSpacing } from '@material-ui/core/Grid';
 import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
-import {
-  KeyboardDatePicker,
-  MaterialUiPickersDate,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+import { KeyboardDatePicker, MaterialUiPickersDate, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { AxiosError, AxiosResponse } from 'axios';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import api from '../../lib/api';
-import {
-  HTTPMethods,
-  IAvatar,
-  ICustomButtonProps,
-  IEmployee,
-  ISelectElement,
-  Sex,
-} from '../../lib/types';
-import { employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
+import { HTTPMethods, IAvatar, ICustomButtonProps, IEmployee, ISelectElement, Sex } from '../../lib/types';
+import { deepCopy, employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
 import { validationMessages, validationMethods } from '../../lib/validation';
 import FileUploader from '../FileUploader';
 import StatusWindow from '../StatusWindow';
@@ -122,9 +111,11 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    */
   InputField = ({ xs, fieldName, validationType, ...props }: ITextFieldProps): JSX.Element => {
     const { classes } = this.props;
-    const { employee } = { ...this.state };
-    const value: string = employee[fieldName] !== null && employee[fieldName] ?
-      String(employee[fieldName]) :
+    const { employee } = deepCopy<IState>(this.state);
+    const value: string = employee[fieldName] !== null && employee[fieldName]
+      ?
+      String(employee[fieldName])
+      :
       '';
     let valid: boolean = true;
     let helperText: string = '';
@@ -165,9 +156,11 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    */
   DateField = ({ xs, fieldName, ...props }: ITextFieldProps): JSX.Element => {
     const { classes } = this.props;
-    const { employee } = { ...this.state };
-    const value: string | null = employee[fieldName] !== null && employee[fieldName] ?
-      String(employee[fieldName]) :
+    const { employee } = deepCopy<IState>(this.state);
+    const value: string | null = employee[fieldName] !== null && employee[fieldName]
+      ?
+      String(employee[fieldName])
+      :
       null;
     return (
       <Grid item xs={xs}>
@@ -205,9 +198,11 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    */
   SelectField = ({ xs, fieldName, labelWidth, ...props }: ISelectFieldProps): JSX.Element => {
     const { classes } = this.props;
-    const { employee } = { ...this.state };
-    const value: string = employee[fieldName] !== null && employee[fieldName] ?
-      String(employee[fieldName]) :
+    const { employee } = deepCopy<IState>(this.state);
+    const value: string = employee[fieldName] !== null && employee[fieldName]
+      ?
+      String(employee[fieldName])
+      :
       '';
     return (
       <Grid item xs={xs}>
@@ -216,7 +211,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           <Select
             value={value}
             onChange={this.handleSelectChange}
-            input={<OutlinedInput labelWidth={labelWidth} id="sex" />}>
+            input={<OutlinedInput labelWidth={labelWidth} id="sex"/>}>
             <MenuItem value="male">Мужской</MenuItem>
             <MenuItem value="female">Женский</MenuItem>
           </Select>
@@ -251,13 +246,13 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       >
         {text}
         {icon === 'save' &&
-        <Save className={classes.rightIcon} />}
+        <Save className={classes.rightIcon}/>}
         {icon === 'add' &&
-        <Add className={classes.rightIcon} />}
+        <Add className={classes.rightIcon}/>}
         {icon === 'confirm' &&
-        <Done className={classes.rightIcon} />}
+        <Done className={classes.rightIcon}/>}
         {icon === 'update' &&
-        <Update className={classes.rightIcon} />}
+        <Update className={classes.rightIcon}/>}
       </Button>
     );
   }
@@ -280,9 +275,9 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       >
         {text}
         {icon === 'delete' &&
-        <Delete className={classes.rightIcon} />}
+        <Delete className={classes.rightIcon}/>}
         {icon === 'cancel' &&
-        <Cancel className={classes.rightIcon} />}
+        <Cancel className={classes.rightIcon}/>}
       </Button>
     );
   }
@@ -348,7 +343,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * @param event - ивент изменения
    */
   private handleInputChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
-    const { employee } = { ...this.state };
+    const { employee } = deepCopy<IState>(this.state);
     const name = event.target.name as keyof IEmployee;
     const value = event.target.value;
     this.setState({ employee: { ...employee, [name]: value } });
@@ -390,7 +385,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   private submitForm = (): ComponentState => {
     this.setState({ statusWindowOpen: true, statusType: 'loading' });
     const { updateTable } = this.props;
-    const { employee } = { ...this.state };
+    const { employee } = deepCopy<IState>(this.state);
     // eslint-disable-next-line
     Object.keys(employee).map((field: keyof IEmployee): void => {
       if (employee[field] === '') {
@@ -447,8 +442,10 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   public render(): ReactNode {
     const { id, onClose, open, classes } = this.props;
     const { statusWindowOpen, statusMessage, statusType, employee } = this.state;
-    const title: string = id !== -1 ?
-      'Редактировать сотрудника' :
+    const title: string = id !== -1
+      ?
+      'Редактировать сотрудника'
+      :
       'Зарегистрировать сотрудника';
     let avatarUrl: string | null = null;
     if (employee.avatar !== null) {
@@ -463,24 +460,24 @@ class EmployeeForm extends PureComponent<IProps, IState> {
         <DialogTitle>
           {title}
           <IconButton className={classes.cancelButton} onClick={onClose}>
-            <Cancel />
+            <Cancel/>
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
           <StatusWindow open={statusWindowOpen} onClose={this.closeStatusModal} status={statusType}
-                        message={statusMessage} />
+                        message={statusMessage}/>
           <Grid container spacing={spacing}>
-            <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic" />
-            <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic" />
-            <this.InputField xs={4} fieldName="middle_name" validationType="cyrillic" />
+            <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic"/>
+            <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic"/>
+            <this.InputField xs={4} fieldName="middle_name" validationType="cyrillic"/>
           </Grid>
           <Grid container spacing={spacing}>
-            <this.InputField xs={5} fieldName="email" required validationType="email" />
-            <this.InputField xs={4} fieldName="phone" validationType="phone" />
-            <this.SelectField labelWidth={labelWidth} xs={3} fieldName="sex" required />
+            <this.InputField xs={5} fieldName="email" required validationType="email"/>
+            <this.InputField xs={4} fieldName="phone" validationType="phone"/>
+            <this.SelectField labelWidth={labelWidth} xs={3} fieldName="sex" required/>
           </Grid>
           <Grid container spacing={spacing}>
-            <this.DateField xs={5} fieldName="date_of_birth" />
+            <this.DateField xs={5} fieldName="date_of_birth"/>
           </Grid>
           <Grid container spacing={spacing}>
             <FileUploader
@@ -493,15 +490,19 @@ class EmployeeForm extends PureComponent<IProps, IState> {
         </DialogContent>
         <DialogActions>
           <this.PrimaryButton
-            text={id !== -1 ?
-              'Сохранить' :
+            text={id !== -1
+              ?
+              'Сохранить'
+              :
               'Создать'}
-            icon={id !== -1 ?
-              'save' :
+            icon={id !== -1
+              ?
+              'save'
+              :
               'add'}
-            onClick={this.submitForm} />
+            onClick={this.submitForm}/>
           {id !== -1 &&
-          <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm} />}
+          <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm}/>}
         </DialogActions>
       </Dialog>
     );
