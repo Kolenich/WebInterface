@@ -33,6 +33,7 @@ services:
     networks:
       - web-server
       - server-postgres
+      - server-rabbitmq
   postgres:
     restart: always
     container_name: postgres
