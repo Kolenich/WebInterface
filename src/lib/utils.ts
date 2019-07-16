@@ -46,10 +46,10 @@ export const sortingParams: ISorting = {
 };
 
 export const filteringParams: IFiltering = {
-  contains: '__contains',
+  contains: '__icontains',
   equal: '',
-  startsWith: '__startswith',
-  endsWith: '__endswith',
+  startsWith: '__istartswith',
+  endsWith: '__iendswith',
   greaterThan: '__gt',
   greaterThanOrEqual: '__gte',
   lessThan: '__lt',
