@@ -12,7 +12,6 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
-  TextField,
   withStyles,
 } from '@material-ui/core';
 import { GridSpacing } from '@material-ui/core/Grid';
@@ -27,6 +26,7 @@ import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import api from '../../lib/api';
+import TextField from '../../lib/components/TextField';
 import {
   HTTPMethods,
   IAvatar,
@@ -36,7 +36,7 @@ import {
   Sex,
 } from '../../lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
-import { validationMessages, validationMethods } from '../../lib/validation';
+import { validationMethods } from '../../lib/validation';
 import FileUploader from '../FileUploader';
 import StatusWindow from '../StatusWindow';
 import { styles } from './styles';
@@ -110,52 +110,6 @@ class EmployeeForm extends PureComponent<IProps, IState> {
         });
       }
     }
-  }
-
-  /**
-   * Кастомное поле ввода
-   * @param xs - размер в Grid-сетке
-   * @param fieldName - имя поля в объекте Employee
-   * @param validationType - тип валидации для поля
-   * @param props - остальные пропсы
-   * @constructor
-   */
-  InputField = ({ xs, fieldName, validationType, ...props }: ITextFieldProps): JSX.Element => {
-    const { classes } = this.props;
-    const { employee } = deepCopy<IState>(this.state);
-    const value: string = employee[fieldName] !== null && employee[fieldName]
-      ?
-      String(employee[fieldName])
-      :
-      '';
-    let valid: boolean = true;
-    let helperText: string = '';
-    if (validationType && value !== '') {
-      if (value) {
-        valid = validationMethods[validationType](value);
-      }
-      if (!valid) {
-        helperText = validationMessages[validationType];
-      }
-    }
-    return (
-      <Grid item xs={xs}>
-        <TextField
-          label={employeeLabels[fieldName]}
-          placeholder={employeeLabels[fieldName]}
-          className={classes.textField}
-          name={String(fieldName)}
-          error={!valid}
-          helperText={helperText}
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          onChange={this.handleInputChange}
-          value={value}
-          {...props}
-        />
-      </Grid>
-    );
   }
 
   /**
@@ -478,13 +432,51 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           <StatusWindow open={statusWindowOpen} onClose={this.closeStatusModal} status={statusType}
                         message={statusMessage} />
           <Grid container spacing={spacing}>
-            <this.InputField xs={4} fieldName="last_name" required validationType="cyrillic" />
-            <this.InputField xs={4} fieldName="first_name" required validationType="cyrillic" />
-            <this.InputField xs={4} fieldName="middle_name" validationType="cyrillic" />
+            <TextField
+              xs={4}
+              fieldName="last_name"
+              required
+              validationType="cyrillic"
+              label={employeeLabels.last_name}
+              fieldValue={employee.last_name}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              xs={4}
+              fieldName="first_name"
+              required
+              validationType="cyrillic"
+              label={employeeLabels.first_name}
+              fieldValue={employee.first_name}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              xs={4}
+              fieldName="middle_name"
+              validationType="cyrillic"
+              label={employeeLabels.middle_name}
+              fieldValue={employee.middle_name}
+              onChange={this.handleInputChange}
+            />
           </Grid>
           <Grid container spacing={spacing}>
-            <this.InputField xs={5} fieldName="email" required validationType="email" />
-            <this.InputField xs={4} fieldName="phone" validationType="phone" />
+            <TextField
+              xs={5}
+              fieldName="email"
+              required
+              validationType="email"
+              label={employeeLabels.email}
+              fieldValue={employee.email}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              xs={4}
+              fieldName="phone"
+              validationType="phone"
+              label={employeeLabels.phone}
+              fieldValue={employee.phone}
+              onChange={this.handleInputChange}
+            />
             <this.SelectField labelWidth={labelWidth} xs={3} fieldName="sex" required />
           </Grid>
           <Grid container spacing={spacing}>

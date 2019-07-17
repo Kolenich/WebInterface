@@ -83,15 +83,6 @@ export interface IEmployeeLabels {
   [index: string]: string;
 }
 
-export interface ISexLabels {
-  /** Ярлык для мудского пола */
-  male: string;
-  /** Ярлык для женского пола */
-  female: string;
-
-  [index: string]: string;
-}
-
 export type PrimaryButtonIcon = 'save' | 'add' | 'confirm' | 'update' | 'edit';
 
 export type SecondaryButtonIcon = 'delete' | 'cancel';
