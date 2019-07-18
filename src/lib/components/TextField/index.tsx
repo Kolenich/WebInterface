@@ -4,6 +4,16 @@ import { validationMessages, validationMethods } from '../../validation';
 import { styles } from './styles';
 import { IProps } from './types';
 
+/**
+ * Компонент кастомного текстового поля
+ * @param xs размер в Grid-сетке
+ * @param classes классы CSS
+ * @param fieldName имя поля
+ * @param validationType тип валидации
+ * @param fieldValue значение текстового поля
+ * @param props остальные пропсы
+ * @constructor
+ */
 const TextField: FunctionComponent<IProps> =
   ({ xs, classes, fieldName, validationType, fieldValue, ...props }: IProps) => {
     let valid: boolean = true;
