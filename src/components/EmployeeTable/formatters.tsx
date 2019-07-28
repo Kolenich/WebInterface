@@ -2,7 +2,7 @@ import { DataTypeProvider, DataTypeProviderProps } from '@devexpress/dx-react-gr
 import { Avatar } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import React from 'react';
-import { dateOptions, dateTimeOptions, getFileLoadURL } from '../../lib/utils';
+import { dateOptions, dateTimeOptions, getBaseUrl } from '../../lib/utils';
 
 /**
  * Форматтер для даты без времени
@@ -21,7 +21,7 @@ export const DateFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) =
 export const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
   if (value !== null) {
     return (
-      <Avatar src={`${getFileLoadURL()}${value}`} />
+      <Avatar src={`${getBaseUrl()}${value}`} />
     );
   }
   return (

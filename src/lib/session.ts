@@ -1,13 +1,11 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { OutgoingHttpHeaders } from 'http';
+import { getBaseUrl } from './utils';
 
 const xsrfCookieName: string = 'csrftoken';
 const xsrfHeaderName: string = 'X-CSRFToken';
 
-let baseURL: string = 'http://localhost:8080';
-if (process.env.NODE_ENV === 'production') {
-  baseURL = 'https://vps706754.ovh.net/server';
-}
+const baseURL: string = getBaseUrl();
 
 const timeout: number = 1000;
 

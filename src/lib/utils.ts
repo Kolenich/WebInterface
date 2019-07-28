@@ -99,7 +99,7 @@ export function toDataURL(url: string, callback: (dataUrl: any) => void): void {
 /**
  * Функция, генерирующая URL запроса для загрузки картинок
  */
-export function getFileLoadURL(): string {
+export function getBaseUrl(): string {
   if (process.env.NODE_ENV === 'production') {
     return 'https://vps706754.ovh.net';
   }

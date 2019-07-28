@@ -496,12 +496,13 @@ class EmployeeForm extends PureComponent<IProps, IState> {
             />
             <this.SelectField labelWidth={labelWidth} lg={6} xs={12} fieldName="sex" required />
             <this.DateField xs={12} lg={6} fieldName="date_of_birth" />
+            {employee.id &&
             <FileUploader
               xs={12}
               url={avatarUrl}
               fileUploadCallback={this.fileUploadCallback}
               fileRemoveCallback={this.fileRemoveCallback}
-            />
+            />}
           </Grid>
         </DialogContent>
         <DialogActions>
