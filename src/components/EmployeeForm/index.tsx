@@ -86,40 +86,46 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       if (id !== -1) {
         api.getContent<IEmployee>(`employees/${id}`)
           .then(((response: AxiosResponse<IEmployee>) => {
-            this.setState({ employee: response.data, dateOfBirthNotNull: true });
+            this.setState((state: IState) => (
+              { ...state, employee: response.data, dateOfBirthNotNull: true }
+            ));
           }))
           .catch();
       } else {
-        this.setState({
-          employee: {
-            first_name: '',
-            last_name: '',
-            email: '',
-            sex: '',
-            middle_name: null,
-            phone: null,
-            attachment: null,
-            organization: null,
-            date_of_birth: '',
-            registration_date: '',
-            avatar: null,
-          },
-          dateOfBirthNotNull: false,
-          statusWindowOpen: false,
-          statusMessage: '',
-        });
+        this.setState((state: IState) => (
+          {
+            ...state,
+            employee: {
+              first_name: '',
+              last_name: '',
+              email: '',
+              sex: '',
+              middle_name: null,
+              phone: null,
+              attachment: null,
+              organization: null,
+              date_of_birth: '',
+              registration_date: '',
+              avatar: null,
+            },
+            dateOfBirthNotNull: false,
+            statusWindowOpen: false,
+            statusMessage: '',
+          }
+        ));
       }
     }
   }
 
   /**
    * Кастомное поле выбора даты
-   * @param xs - размер в Grid-сетке
+   * @param xs - размер в Grid-сетке на маленьких экранах
+   * @param lg - размер в Grid-сетке на больших экранах
    * @param fieldName - имя поля в объекте Employee
    * @param props - остальные пропсы
    * @constructor
    */
-  DateField = ({ xs, fieldName, ...props }: ITextFieldProps): JSX.Element => {
+  DateField = ({ xs, lg, fieldName, ...props }: ITextFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = deepCopy<IState>(this.state);
     const value: string | null = employee[fieldName] !== null && employee[fieldName]
@@ -128,7 +134,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       :
       null;
     return (
-      <Grid item xs={xs}>
+      <Grid item xs={xs} lg={lg}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
           <KeyboardDatePicker
             {...props}
@@ -155,13 +161,14 @@ class EmployeeForm extends PureComponent<IProps, IState> {
 
   /**
    * Кастомное селектор
-   * @param xs - размер в Grid-сетке
+   * @param xs - размер в Grid-сетке на маленьких экранах
+   * @param lg - размер в Grid-сетке на больштх экранах
    * @param fieldName - имя поля в объекте Employee
    * @param labelWidth - ширина лэйбла
    * @param props - остальные пропсы
    * @constructor
    */
-  SelectField = ({ xs, fieldName, labelWidth, ...props }: ISelectFieldProps): JSX.Element => {
+  SelectField = ({ xs, lg, fieldName, labelWidth, ...props }: ISelectFieldProps): JSX.Element => {
     const { classes } = this.props;
     const { employee } = deepCopy<IState>(this.state);
     const value: string = employee[fieldName] !== null && employee[fieldName]
@@ -170,7 +177,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       :
       '';
     return (
-      <Grid item xs={xs}>
+      <Grid item xs={xs} lg={lg}>
         <FormControl variant="outlined" className={classes.formControl} {...props}>
           <InputLabel ref={this.inputLabel} htmlFor="sex">Пол</InputLabel>
           <Select
@@ -253,12 +260,10 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   private closeStatusModal = (): ComponentState => {
     const { onClose } = this.props;
     const { statusType } = this.state;
-    this.setState({
-      statusWindowOpen: false,
-
-    });
+    this.setState((state: IState) => ({ ...state, statusWindowOpen: false }));
     if (statusType === 'success') {
-      this.setState({
+      this.setState((state: IState) => ({
+        ...state,
         employee: {
           first_name: '',
           last_name: '',
@@ -272,7 +277,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           registration_date: '',
           avatar: null,
         },
-      });
+      }));
       onClose();
     }
   }
@@ -283,8 +288,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    */
   private handleSelectChange = (event: ChangeEvent<ISelectElement>): ComponentState => {
     const sex: Sex = event.target.value as Sex;
-    const { employee } = this.state;
-    this.setState({ employee: { ...employee, sex } });
+    this.setState((state: IState) => ({ ...state, employee: { ...state.employee, sex } }));
   }
 
   /**
@@ -293,14 +297,14 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    */
   private handleDateChange = (name: keyof IEmployee) => (date: MaterialUiPickersDate):
     ComponentState => {
-    const { employee } = this.state;
-    this.setState({
+    this.setState((state: IState) => ({
+      ...state,
       employee: {
-        ...employee,
+        ...state.employee,
         [name]: date,
       },
       dateOfBirthNotNull: date !== null,
-    });
+    }));
   }
 
   /**
@@ -308,10 +312,13 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * @param event - ивент изменения
    */
   private handleInputChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
-    const { employee } = deepCopy<IState>(this.state);
-    const name = event.target.name as keyof IEmployee;
-    const value = event.target.value;
-    this.setState({ employee: { ...employee, [name]: value } });
+    const { value, name } = event.target;
+    this.setState((state: IState) => ({
+      ...state,
+      employee: {
+        ...state.employee, [name]: value,
+      },
+    }));
   }
 
   /**
@@ -326,20 +333,22 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     api.sendContent<IEmployee>(url, employee, method)
       .then((response: AxiosResponse<IEmployee>) => {
         updateTable();
-        this.setState({
+        this.setState((state: IState) => ({
+          ...state,
           statusWindowOpen: true,
           statusMessage: SERVER_RESPONSES[response.status],
           statusType: 'success',
-        });
+        }));
       })
       .catch((error: AxiosError) => {
-        console.log(error);
         if (error.response) {
-          this.setState({
+          const statusMessage: string = SERVER_RESPONSES[error.response.status];
+          this.setState((state: IState) => ({
+            ...state,
+            statusMessage,
             statusWindowOpen: true,
-            statusMessage: SERVER_RESPONSES[error.response.status],
             statusType: 'error',
-          });
+          }));
         }
       });
   }
@@ -348,14 +357,16 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * Функция, отправляющая запрос на сервер для создания или обновления записи в БД
    */
   private submitForm = (): ComponentState => {
-    this.setState({ statusWindowOpen: true, statusType: 'loading' });
+    this.setState((state: IState) => ({
+      ...state, statusWindowOpen: true, statusType: 'loading',
+    }));
     const { updateTable } = this.props;
     const { employee } = deepCopy<IState>(this.state);
-    // eslint-disable-next-line
     Object.keys(employee).map((field: keyof IEmployee): void => {
       if (employee[field] === '') {
         employee[field] = null;
       }
+      return undefined;
     });
     employee.date_of_birth = moment(employee.date_of_birth).format('YYYY-MM-DD');
     let url: string = 'employees';
@@ -367,19 +378,22 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     api.sendContent<IEmployee>(url, employee, method)
       .then((response: AxiosResponse<IEmployee>) => {
         updateTable();
-        this.setState({
+        this.setState((state: IState) => ({
+          ...state,
           statusMessage: SERVER_RESPONSES[response.status],
           statusWindowOpen: true,
           statusType: 'success',
-        });
+        }));
       })
       .catch((error: AxiosError) => {
         if (error.response) {
-          this.setState({
+          const statusMessage: string = SERVER_RESPONSES[error.response.status];
+          this.setState((state: IState) => ({
+            ...state,
+            statusMessage,
             statusWindowOpen: true,
-            statusMessage: SERVER_RESPONSES[error.response.status],
             statusType: 'error',
-          });
+          }));
         }
       });
   }
@@ -388,17 +402,17 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * Функция-колбэк, для загрузки файла
    * @param avatar объект с файлом
    */
-  fileUploadCallback = (avatar: IAvatar) => {
-    const { employee } = this.state;
-    this.setState({ employee: { ...employee, avatar } });
+  private fileUploadCallback = (avatar: IAvatar) => {
+    this.setState((state: IState) => ({ ...state, employee: { ...state.employee, avatar } }));
   }
 
   /**
    * Функция-колбэк, вызываемая при удалении файла
    */
   fileRemoveCallback = () => {
-    const { employee } = this.state;
-    this.setState({ employee: { ...employee, avatar: null } });
+    this.setState((state: IState) => (
+      { ...state, employee: { ...state.employee, avatar: null } }
+    ));
   }
 
   /**
@@ -433,7 +447,8 @@ class EmployeeForm extends PureComponent<IProps, IState> {
                         message={statusMessage} />
           <Grid container spacing={spacing}>
             <TextField
-              xs={4}
+              xs={12}
+              lg={4}
               fieldName="last_name"
               required
               validationType="cyrillic"
@@ -442,7 +457,8 @@ class EmployeeForm extends PureComponent<IProps, IState> {
               onChange={this.handleInputChange}
             />
             <TextField
-              xs={4}
+              xs={12}
+              lg={4}
               fieldName="first_name"
               required
               validationType="cyrillic"
@@ -451,17 +467,17 @@ class EmployeeForm extends PureComponent<IProps, IState> {
               onChange={this.handleInputChange}
             />
             <TextField
-              xs={4}
+              xs={12}
+              lg={4}
               fieldName="middle_name"
               validationType="cyrillic"
               label={employeeLabels.middle_name}
               fieldValue={employee.middle_name}
               onChange={this.handleInputChange}
             />
-          </Grid>
-          <Grid container spacing={spacing}>
             <TextField
-              xs={5}
+              xs={12}
+              lg={6}
               fieldName="email"
               required
               validationType="email"
@@ -470,19 +486,16 @@ class EmployeeForm extends PureComponent<IProps, IState> {
               onChange={this.handleInputChange}
             />
             <TextField
-              xs={4}
+              xs={12}
+              lg={6}
               fieldName="phone"
               validationType="phone"
               label={employeeLabels.phone}
               fieldValue={employee.phone}
               onChange={this.handleInputChange}
             />
-            <this.SelectField labelWidth={labelWidth} xs={3} fieldName="sex" required />
-          </Grid>
-          <Grid container spacing={spacing}>
-            <this.DateField xs={5} fieldName="date_of_birth" />
-          </Grid>
-          <Grid container spacing={spacing}>
+            <this.SelectField labelWidth={labelWidth} lg={6} xs={12} fieldName="sex" required />
+            <this.DateField xs={12} lg={6} fieldName="date_of_birth" />
             <FileUploader
               xs={12}
               url={avatarUrl}

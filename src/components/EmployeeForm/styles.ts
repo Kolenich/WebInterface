@@ -7,7 +7,7 @@ export const styles = (theme: Theme) => createStyles({
     margin: theme.spacing(1),
   },
   datePicker: {
-    marginLeft: theme.spacing(1),
+    margin: theme.spacing(1),
     width: '100%',
   },
   formControl: {

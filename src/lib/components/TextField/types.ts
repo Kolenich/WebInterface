@@ -6,8 +6,10 @@ import { Validation } from '../../validation';
 import { styles } from './styles';
 
 export interface IProps extends WithStyles<typeof styles> {
-  /** Размер в Grid-сетке */
+  /** Размер в Grid-сетке на маленьких экранах */
   xs: GridSize;
+  /** Размер в Grid-сетке на больштх экранах */
+  lg: GridSize;
   /** Имя поля в объекте */
   fieldName: keyof IEmployee;
   /** Значение в текстовом поле */

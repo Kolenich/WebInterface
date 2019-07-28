@@ -6,7 +6,8 @@ import { IProps } from './types';
 
 /**
  * Компонент кастомного текстового поля
- * @param xs размер в Grid-сетке
+ * @param xs размер в Grid-сетке на маденьких экранах
+ * @param lg размер в Grid-сетке на больших экранах
  * @param classes классы CSS
  * @param fieldName имя поля
  * @param validationType тип валидации
@@ -15,7 +16,7 @@ import { IProps } from './types';
  * @constructor
  */
 const TextField: FunctionComponent<IProps> =
-  ({ xs, classes, fieldName, validationType, fieldValue, ...props }: IProps) => {
+  ({ xs, lg, classes, fieldName, validationType, fieldValue, ...props }: IProps) => {
     let valid: boolean = true;
     let helperText: string = '';
     if (validationType && fieldValue !== '') {
@@ -31,7 +32,7 @@ const TextField: FunctionComponent<IProps> =
       value = fieldValue;
     }
     return (
-      <Grid item xs={xs}>
+      <Grid item xs={xs} lg={lg}>
         <TextFieldBase
           className={classes.textField}
           name={fieldName as string}

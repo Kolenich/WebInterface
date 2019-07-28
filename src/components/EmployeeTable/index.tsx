@@ -33,7 +33,7 @@ import {
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Add, Create } from '@material-ui/icons';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import api from '../../lib/api';
@@ -211,7 +211,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
                 }
                 const filter: Filter = { value, columnName, operation };
                 onFilter(filter);
-                this.setState({ sex: event.target.value as Sex });
+                this.setState((state: IState) => (
+                  { ...state, sex: event.target.value as Sex }
+                ));
               }
             }
           >
@@ -252,11 +254,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     api.getContent<IApiResponse<ITableRow>>('employees-table', config)
       .then((response: AxiosResponse<IApiResponse<ITableRow>>): ComponentState => {
         const { results, count } = response.data;
-        this.setState({ rows: results, totalCount: count, loading: false });
+        this.setState((state: IState) => (
+          { ...state, rows: results, totalCount: count, loading: false }
+        ));
       })
-      .catch((error: AxiosError) => {
-        console.log(error);
-        this.setState({ loading: false });
+      .catch(() => {
+        this.setState((state: IState) => ({ ...state, loading: false }));
       });
   }
 
@@ -298,14 +301,14 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param rowId id сотрудника
    */
   private openEditWindow = (rowId: number) => (): ComponentState => {
-    this.setState({ rowId, addEmployee: true });
+    this.setState((state: IState) => ({ ...state, rowId, addEmployee: true }));
   }
 
   /**
    * Колбэк-метод, закрывающий модальное окно
    */
   private closeEditWindow = (): ComponentState => {
-    this.setState({ addEmployee: false, rowId: -1 });
+    this.setState((state: IState) => ({ ...state, rowId: -1, addEmployee: false }));
   }
 
   /**
@@ -313,7 +316,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param pageSize
    */
   private changePageSize = (pageSize: number): ComponentState => {
-    this.setState({ pageSize, loading: true, currentPage: 0 });
+    this.setState((state: IState) => ({ ...state, pageSize, loading: true, currentPage: 0 }));
   }
 
   /**
@@ -321,15 +324,15 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param currentPage номер текущей страницы
    */
   private changeCurrentPage = (currentPage: number): ComponentState => {
-    this.setState({ currentPage, loading: true });
+    this.setState((state: IState) => ({ ...state, currentPage, loading: true }));
   }
 
   /**
-   * Фугкция изменения фильтров
+   * Функция изменения фильтров
    * @param filters массив фильтров
    */
   private changeFilters = (filters: Filter[]): ComponentState => {
-    this.setState({ filters, loading: true });
+    this.setState((state: IState) => ({ ...state, filters, loading: true }));
   }
 
   /**
@@ -337,7 +340,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param sorting массив сортировок
    */
   private changeSorting = (sorting: Sorting[]): ComponentState => {
-    this.setState({ sorting, loading: true });
+    this.setState((state: IState) => ({ ...state, sorting, loading: true }));
   }
 
   /**

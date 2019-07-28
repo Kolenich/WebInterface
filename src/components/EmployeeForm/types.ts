@@ -30,8 +30,10 @@ export interface IState {
 }
 
 export interface ITextFieldProps {
-  /** Размер в Grid-сетке */
+  /** Размер в Grid-сетке на маленьих экранах */
   xs: GridSize;
+  /** Размер в Grid-сетке на больших экранах */
+  lg: GridSize;
   /** Имя поля в объекте Employee */
   fieldName: keyof IEmployee;
   /** Указатель обязательного для заполнения поля */
