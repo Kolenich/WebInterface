@@ -1,4 +1,3 @@
-import { ButtonProps } from '@material-ui/core/Button';
 import { match } from 'react-router';
 
 export interface IEmployee {
@@ -81,17 +80,6 @@ export interface IEmployeeLabels {
   sex: string;
 
   [index: string]: string;
-}
-
-export type PrimaryButtonIcon = 'save' | 'add' | 'confirm' | 'update' | 'edit';
-
-export type SecondaryButtonIcon = 'delete' | 'cancel';
-
-export interface ICustomButtonProps extends ButtonProps {
-  /** Текст кнопки */
-  text: string;
-  /** Тип иконки */
-  icon?: PrimaryButtonIcon | SecondaryButtonIcon;
 }
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';

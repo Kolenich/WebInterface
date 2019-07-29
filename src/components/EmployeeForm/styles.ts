@@ -14,12 +14,7 @@ export const styles = (theme: Theme) => createStyles({
     margin: theme.spacing(1),
     width: '100%',
   },
-  button: {
-    margin: theme.spacing(1),
-  },
-  rightIcon: {
-    marginLeft: theme.spacing(1),
-  },
+
   cancelButton: {
     float: 'right',
     padding: 0,

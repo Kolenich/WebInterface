@@ -1,5 +1,4 @@
 import {
-  Button,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -8,10 +7,10 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core';
-import { CheckCircle, Done, Error, Warning } from '@material-ui/icons';
+import { CheckCircle, Error, Warning } from '@material-ui/icons';
 import classNames from 'classnames';
 import React, { PureComponent, ReactNode } from 'react';
-import { ICustomButtonProps } from '../../lib/types';
+import Button from '../../lib/components/Button';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 
@@ -22,29 +21,6 @@ class StatusWindow extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {};
-  }
-
-  /**
-   * Компонент основной кнопки
-   * @param text текст кнопки
-   * @param icon тип иконки
-   * @param props остальные пропсы
-   * @constructor
-   */
-  PrimaryButton = ({ text, icon, ...props }: ICustomButtonProps): JSX.Element => {
-    const { classes } = this.props;
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        {...props}
-      >
-        {text}
-        {icon === 'confirm' &&
-        <Done className={classes.rightIcon} />}
-      </Button>
-    );
   }
 
   /**
@@ -82,7 +58,8 @@ class StatusWindow extends PureComponent<IProps, IState> {
             {message}
           </DialogContent>
           <DialogActions>
-            <this.PrimaryButton
+            <Button
+              color="primary"
               text="Ок"
               onClick={onClose}
               icon="confirm"

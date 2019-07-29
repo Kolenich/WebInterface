@@ -1,6 +1,5 @@
 import DateFnsUtils from '@date-io/date-fns';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -15,7 +14,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import { GridSpacing } from '@material-ui/core/Grid';
-import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
+import { Cancel } from '@material-ui/icons';
 import {
   KeyboardDatePicker,
   MaterialUiPickersDate,
@@ -26,17 +25,11 @@ import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import api from '../../lib/api';
+import Button from '../../lib/components/Button';
+import { IButtonIcon } from '../../lib/components/Button/types';
 import TextField from '../../lib/components/TextField';
-import {
-  HTTPMethods,
-  IAvatar,
-  ICustomButtonProps,
-  IEmployee,
-  ISelectElement,
-  Sex,
-} from '../../lib/types';
+import { HTTPMethods, IAvatar, IEmployee, ISelectElement, Sex } from '../../lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
-import { validationMethods } from '../../lib/validation';
 import FileUploader from '../FileUploader';
 import StatusWindow from '../StatusWindow';
 import { styles } from './styles';
@@ -189,68 +182,6 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           </Select>
         </FormControl>
       </Grid>
-    );
-  }
-
-  /**
-   * Кастомная кнопка (основная)
-   * @param text - текст кнопки
-   * @param icon - иконка кнопки
-   * @param props
-   * @constructor
-   */
-  PrimaryButton = ({ text, icon, ...props }: ICustomButtonProps): JSX.Element => {
-    const { classes } = this.props;
-    const { employee, dateOfBirthNotNull } = this.state;
-    const disabled: boolean =
-      validationMethods.cyrillic(employee.first_name) &&
-      validationMethods.cyrillic(employee.last_name) &&
-      validationMethods.email(employee.email) &&
-      dateOfBirthNotNull &&
-      employee.sex !== '';
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        disabled={!disabled}
-        {...props}
-      >
-        {text}
-        {icon === 'save' &&
-        <Save className={classes.rightIcon} />}
-        {icon === 'add' &&
-        <Add className={classes.rightIcon} />}
-        {icon === 'confirm' &&
-        <Done className={classes.rightIcon} />}
-        {icon === 'update' &&
-        <Update className={classes.rightIcon} />}
-      </Button>
-    );
-  }
-
-  /**
-   * Кастомная кнопка (дополнительная)
-   * @param text - текст кнопки
-   * @param icon - иконка кнопки
-   * @param props
-   * @constructor
-   */
-  SecondaryButton = ({ text, icon, ...props }: ICustomButtonProps): JSX.Element => {
-    const { classes } = this.props;
-    return (
-      <Button
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        {...props}
-      >
-        {text}
-        {icon === 'delete' &&
-        <Delete className={classes.rightIcon} />}
-        {icon === 'cancel' &&
-        <Cancel className={classes.rightIcon} />}
-      </Button>
     );
   }
 
@@ -421,11 +352,15 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   public render(): ReactNode {
     const { id, onClose, open, classes } = this.props;
     const { statusWindowOpen, statusMessage, statusType, employee } = this.state;
-    const title: string = id !== -1
-      ?
-      'Редактировать сотрудника'
-      :
+    const title: string = id !== -1 ?
+      'Редактировать сотрудника' :
       'Зарегистрировать сотрудника';
+    const saveButtonText: string = id !== -1 ?
+      'Сохранить' :
+      'Создать';
+    const saveButtonIcon: IButtonIcon = id !== -1 ?
+      'save' :
+      'add';
     let avatarUrl: string | null = null;
     if (employee.avatar !== null) {
       avatarUrl = employee.avatar.file;
@@ -506,20 +441,14 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <this.PrimaryButton
-            text={id !== -1
-              ?
-              'Сохранить'
-              :
-              'Создать'}
-            icon={id !== -1
-              ?
-              'save'
-              :
-              'add'}
-            onClick={this.submitForm} />
+          <Button
+            color="primary"
+            text={saveButtonText}
+            icon={saveButtonIcon}
+            onClick={this.submitForm}
+          />
           {id !== -1 &&
-          <this.SecondaryButton text="Удалить" icon="delete" onClick={this.deleteForm} />}
+          <Button color="secondary" text="Удалить" icon="delete" onClick={this.deleteForm} />}
         </DialogActions>
       </Dialog>
     );
