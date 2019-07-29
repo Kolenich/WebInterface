@@ -16,7 +16,7 @@ import { IProps } from './types';
  * @constructor
  */
 const TextField: FunctionComponent<IProps> =
-  ({ xs, lg, classes, fieldName, validationType, fieldValue, ...props }: IProps) => {
+  ({ xs, lg, classes, fieldName, validationType, fieldValue, ...props }: IProps): JSX.Element => {
     let valid: boolean = true;
     let helperText: string = '';
     if (validationType && fieldValue !== '') {

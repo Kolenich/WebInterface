@@ -18,23 +18,11 @@ import {
   TableFilterRow,
   TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
-import {
-  Fab,
-  FormControl,
-  IconButton,
-  Input,
-  InputLabel,
-  LinearProgress,
-  MenuItem,
-  Paper,
-  Select,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { Fab, IconButton, LinearProgress, Paper, Tooltip } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Add, Create } from '@material-ui/icons';
 import { AxiosResponse } from 'axios';
-import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
+import React, { ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import api from '../../lib/api';
 import {
@@ -43,16 +31,18 @@ import {
   tableHeaderRowMessage,
   tableMessages,
 } from '../../lib/translate';
-import { IApiResponse, IDRFGetConfig, ISelectElement, ITableRow, Sex } from '../../lib/types';
+import { IApiResponse, IDRFGetConfig, ITableRow } from '../../lib/types';
 import { filteringParams, sortingParams } from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
-import { DateTimeTypeProvider, DateTypeProvider, ImageTypeProvider } from './formatters';
+import DateTypeProvider from './components/DateFormatter';
+import DateTimeTypeProvider from './components/DateTimeFormatter';
+import FilterCellComponent from './components/FilterCellComponent';
+import ImageTypeProvider from './components/ImageFormatter';
+import NumberEditorComponent from './components/NumberEditorComponent';
 import { styles } from './styles';
 import './styles.css';
 import { IProps, IState } from './types';
-
-const sexParams: string[] = ['Муж.', 'Жен.'];
 
 /**
  * Компонент таблицы Сотрудников
@@ -62,7 +52,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     super(props);
     this.state = {
       ...columnSettings,
-      sex: '',
       rows: [],
       filters: [],
       sorting: [],
@@ -109,44 +98,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   }
 
   /**
-   * Компонент для сортировки номерных значений
-   * @param value значение сортировки
-   * @param onValueChange функция изменения значения
-   * @param classes стили
-   * @constructor
-   */
-  numberEditorComponent = ({ value, onValueChange }: DataTypeProvider.ValueEditorProps) => {
-    const { classes } = this.props;
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const { value: targetValue } = event.target;
-      if (targetValue.trim() === '') {
-        onValueChange(targetValue.trim());
-        return;
-      }
-      onValueChange(parseInt(targetValue, 10));
-    };
-    return (
-      <Input
-        type="number"
-        classes={{
-          input: classes.numericInput,
-        }}
-        fullWidth
-        value={value === undefined
-          ?
-          ''
-          :
-          value}
-        inputProps={{
-          min: 0,
-          placeholder: 'Фильтр...',
-        }}
-        onChange={handleChange}
-      />
-    );
-  }
-
-  /**
    * Компонент для иконок под разные статусы
    */
   iconFormatter = (props: DataTypeProvider.ValueFormatterProps) => {
@@ -169,63 +120,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       {...props}
     />
   )
-
-  /**
-   * КОмпонент ячейуи для фильтрации по столбцам
-   * @param props базовые пропсы
-   */
-  filterCellComponent = (props: TableFilterRow.CellProps) => {
-    const { classes } = this.props;
-    const { sex } = this.state;
-    const { column, onFilter } = props;
-    if (column.name !== 'sex') {
-      if (column.name === 'button' || column.name === 'avatar') {
-        return (
-          <TableFilterRow.Cell {...props} >
-            <Typography component="div" />
-          </TableFilterRow.Cell>
-        );
-      }
-      return (
-        <TableFilterRow.Cell {...props} />
-      );
-    }
-    return (
-      <TableFilterRow.Cell{...props}>
-        <FormControl fullWidth>
-          <InputLabel>Фильтр...</InputLabel>
-          <Select
-            className={classes.sexSelect}
-            value={sex}
-            input={<Input />}
-            onChange={
-              (event: ChangeEvent<ISelectElement>) => {
-                let value: string = '';
-                const columnName: string = column.name;
-                const operation: string = 'equal';
-                if (event.target.value === 'Муж.') {
-                  value = 'male';
-                }
-                if (event.target.value === 'Жен.') {
-                  value = 'female';
-                }
-                const filter: Filter = { value, columnName, operation };
-                onFilter(filter);
-                this.setState((state: IState) => (
-                  { ...state, sex: event.target.value as Sex }
-                ));
-              }
-            }
-          >
-            <MenuItem value=""><em>Сброс</em></MenuItem>
-            {sexParams.map((value: string) => (
-              <MenuItem key={value} value={value}>{value}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </TableFilterRow.Cell>
-    );
-  }
 
   /**
    * Метод для загрузи данных в таблицу с сервера
@@ -389,7 +283,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             <DataTypeProvider
               for={numberFilterColumns}
               availableFilterOperations={availableNumberFilterOperations}
-              editorComponent={this.numberEditorComponent}
+              editorComponent={NumberEditorComponent}
             />
             <DateTypeProvider for={dateColumns} />
             <DateTimeTypeProvider for={dateTimeColumns} />
@@ -431,7 +325,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             <TableFilterRow
               showFilterSelector
               messages={filterRowMessages}
-              cellComponent={this.filterCellComponent}
+              cellComponent={FilterCellComponent}
             />
             <PagingPanel
               pageSizes={pageSizes}

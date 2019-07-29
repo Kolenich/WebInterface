@@ -12,14 +12,7 @@ export const styles = (theme: Theme) => createStyles({
   paper: {
     backgroundColor: grey[50],
   },
-  sexSelect: {
-    marginBottom: theme.spacing(2),
-  },
   tableCell: {
     textAlign: 'center',
-  },
-  numericInput: {
-    textAlign: 'left',
-    width: '100%',
   },
 });
