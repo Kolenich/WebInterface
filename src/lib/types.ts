@@ -24,7 +24,7 @@ export interface IEmployee {
   /** Аватар сотрудника */
   avatar: IAvatar | null;
 
-  [index: string]: string | number | undefined | null | boolean | Date | IAvatar;
+  [index: string]: string | number | undefined | null | boolean | IAvatar | Date;
 }
 
 export interface IAvatar {
@@ -54,9 +54,9 @@ export interface ITableRow {
   /** Электронная почта */
   email: string;
   /** Дата рождения */
-  date_of_birth: Date | string;
+  date_of_birth: string;
   /** Дата регистрации */
-  registration_date: Date | string;
+  registration_date: string;
   /** Пол сотрудника */
   sex: string;
 }

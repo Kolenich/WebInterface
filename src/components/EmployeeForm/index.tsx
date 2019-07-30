@@ -57,7 +57,6 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     };
   }
 
-
   /**
    * Метод, вызываемый после обнолвения компонента
    */
