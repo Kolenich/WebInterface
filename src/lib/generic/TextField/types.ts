@@ -1,7 +1,6 @@
 import { WithStyles } from '@material-ui/core';
 import { GridSize } from '@material-ui/core/Grid';
 import { ChangeEvent, ComponentState } from 'react';
-import { IEmployee } from '../../types';
 import { Validation } from '../../validation';
 import { styles } from './styles';
 
@@ -11,7 +10,7 @@ export interface IProps extends WithStyles<typeof styles> {
   /** Размер в Grid-сетке на больштх экранах */
   lg: GridSize;
   /** Имя поля в объекте */
-  fieldName: keyof IEmployee;
+  name: string;
   /** Значение в текстовом поле */
   fieldValue: string | null;
   /** Указатель обязательного для заполнения поля */

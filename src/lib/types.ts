@@ -16,9 +16,9 @@ export interface IEmployee {
   /** Электронная почта */
   email: string;
   /** Дата рождения */
-  date_of_birth: Date | string;
+  date_of_birth: string | null;
   /** Дата регистрации */
-  registration_date: Date | string;
+  registration_date: string;
   /** Пол сотрудника */
   sex: Sex;
   /** Аватар сотрудника */

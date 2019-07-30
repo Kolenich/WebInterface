@@ -16,7 +16,7 @@ import { IProps } from './types';
  * @constructor
  */
 const TextField: FunctionComponent<IProps> =
-  ({ xs, lg, classes, fieldName, validationType, fieldValue, ...props }: IProps): JSX.Element => {
+  ({ xs, lg, classes, validationType, fieldValue, ...props }: IProps): JSX.Element => {
     let valid: boolean = true;
     let helperText: string = '';
     if (validationType && fieldValue !== '') {
@@ -35,13 +35,11 @@ const TextField: FunctionComponent<IProps> =
       <Grid item xs={xs} lg={lg}>
         <TextFieldBase
           className={classes.textField}
-          name={fieldName as string}
           error={!valid}
           helperText={helperText}
           fullWidth
           margin="normal"
           variant="outlined"
-          placeholder=""
           value={value}
           {...props}
         />

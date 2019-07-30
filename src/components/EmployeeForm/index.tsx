@@ -1,39 +1,31 @@
-import DateFnsUtils from '@date-io/date-fns';
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
   withStyles,
 } from '@material-ui/core';
 import { GridSpacing } from '@material-ui/core/Grid';
 import { Cancel } from '@material-ui/icons';
-import {
-  KeyboardDatePicker,
-  MaterialUiPickersDate,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+import { MaterialUiPickersDate } from '@material-ui/pickers';
 import { AxiosError, AxiosResponse } from 'axios';
-import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import api from '../../lib/api';
 import Button from '../../lib/generic/Button';
 import { IButtonIcon } from '../../lib/generic/Button/types';
+import DateField from '../../lib/generic/DateField';
 import FileUploader from '../../lib/generic/FileUploader';
+import Select from '../../lib/generic/Select';
 import StatusWindow from '../../lib/generic/StatusWindow';
 import TextField from '../../lib/generic/TextField';
 import { HTTPMethods, IAvatar, IEmployee, ISelectElement, Sex } from '../../lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
+import { sexChoices } from './structure';
 import { styles } from './styles';
-import { IProps, ISelectFieldProps, IState, ITextFieldProps } from './types';
+import { IProps, IState } from './types';
 
 // Переменная, отвечающая за расстояние между TextField'ми
 const spacing: GridSpacing = 2;
@@ -65,10 +57,6 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     };
   }
 
-  /**
-   *  Объект ref для Select-элемента
-   */
-  private inputLabel = React.createRef<HTMLLabelElement>();
 
   /**
    * Метод, вызываемый после обнолвения компонента
@@ -108,81 +96,6 @@ class EmployeeForm extends PureComponent<IProps, IState> {
         ));
       }
     }
-  }
-
-  /**
-   * Кастомное поле выбора даты
-   * @param xs - размер в Grid-сетке на маленьких экранах
-   * @param lg - размер в Grid-сетке на больших экранах
-   * @param fieldName - имя поля в объекте Employee
-   * @param props - остальные пропсы
-   * @constructor
-   */
-  DateField = ({ xs, lg, fieldName, ...props }: ITextFieldProps): JSX.Element => {
-    const { classes } = this.props;
-    const { employee } = deepCopy<IState>(this.state);
-    const value: string | null = employee[fieldName] !== null && employee[fieldName]
-      ?
-      String(employee[fieldName])
-      :
-      null;
-    return (
-      <Grid item xs={xs} lg={lg}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
-          <KeyboardDatePicker
-            {...props}
-            autoOk
-            openTo="year"
-            views={['year', 'month', 'date']}
-            className={classes.datePicker}
-            margin="normal"
-            variant="inline"
-            inputVariant="outlined"
-            label={employeeLabels[fieldName]}
-            value={value}
-            onChange={this.handleDateChange(fieldName)}
-            format="dd.MM.yyyy"
-            disableFuture
-            invalidDateMessage="Дата должна быть в формате ДД.ММ.ГГГГ"
-            minDateMessage="Дата не должна быть меньше 01.01.1900"
-            maxDateMessage="Дата не должна превышать сегодняшнее число"
-          />
-        </MuiPickersUtilsProvider>
-      </Grid>
-    );
-  }
-
-  /**
-   * Кастомное селектор
-   * @param xs - размер в Grid-сетке на маленьких экранах
-   * @param lg - размер в Grid-сетке на больштх экранах
-   * @param fieldName - имя поля в объекте Employee
-   * @param labelWidth - ширина лэйбла
-   * @param props - остальные пропсы
-   * @constructor
-   */
-  SelectField = ({ xs, lg, fieldName, labelWidth, ...props }: ISelectFieldProps): JSX.Element => {
-    const { classes } = this.props;
-    const { employee } = deepCopy<IState>(this.state);
-    const value: string = employee[fieldName] !== null && employee[fieldName]
-      ?
-      String(employee[fieldName])
-      :
-      '';
-    return (
-      <Grid item xs={xs} lg={lg}>
-        <FormControl variant="outlined" className={classes.formControl} {...props}>
-          <InputLabel ref={this.inputLabel} htmlFor="sex">Пол</InputLabel>
-          <Select
-            value={value}
-            onChange={this.handleSelectChange}
-            input={<OutlinedInput labelWidth={labelWidth} id="sex" />}>
-            <MenuItem value="male">Мужской</MenuItem>
-            <MenuItem value="female">Женский</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-    );
   }
 
   /**
@@ -299,7 +212,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       }
       return undefined;
     });
-    employee.date_of_birth = moment(employee.date_of_birth).format('YYYY-MM-DD');
+    employee.date_of_birth = moment(employee.date_of_birth as string).format('YYYY-MM-DD');
     let url: string = 'employees';
     let method: HTTPMethods = 'post';
     if (employee.id) {
@@ -352,22 +265,17 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   public render(): ReactNode {
     const { id, onClose, open, classes } = this.props;
     const { statusWindowOpen, statusMessage, statusType, employee } = this.state;
-    const title: string = id !== -1 ?
-      'Редактировать сотрудника' :
-      'Зарегистрировать сотрудника';
-    const saveButtonText: string = id !== -1 ?
-      'Сохранить' :
-      'Создать';
-    const saveButtonIcon: IButtonIcon = id !== -1 ?
-      'save' :
-      'add';
+    let title: string = 'Зарегистрировать сотрудника';
+    let saveButtonText: string = 'Создать';
+    let saveButtonIcon: IButtonIcon = 'add';
+    if (id !== -1) {
+      title = 'Редактировать сотрудника';
+      saveButtonText = 'Сохранить';
+      saveButtonIcon = 'save';
+    }
     let avatarUrl: string | null = null;
     if (employee.avatar !== null) {
       avatarUrl = employee.avatar.file;
-    }
-    let labelWidth: number = 0;
-    if (this.inputLabel.current !== null) {
-      labelWidth = this.inputLabel.current.offsetWidth;
     }
     return (
       <Dialog open={open} onClose={onClose}>
@@ -384,7 +292,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
             <TextField
               xs={12}
               lg={4}
-              fieldName="last_name"
+              name="last_name"
               required
               validationType="cyrillic"
               label={employeeLabels.last_name}
@@ -394,7 +302,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
             <TextField
               xs={12}
               lg={4}
-              fieldName="first_name"
+              name="first_name"
               required
               validationType="cyrillic"
               label={employeeLabels.first_name}
@@ -404,7 +312,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
             <TextField
               xs={12}
               lg={4}
-              fieldName="middle_name"
+              name="middle_name"
               validationType="cyrillic"
               label={employeeLabels.middle_name}
               fieldValue={employee.middle_name}
@@ -413,7 +321,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
             <TextField
               xs={12}
               lg={6}
-              fieldName="email"
+              name="email"
               required
               validationType="email"
               label={employeeLabels.email}
@@ -423,21 +331,34 @@ class EmployeeForm extends PureComponent<IProps, IState> {
             <TextField
               xs={12}
               lg={6}
-              fieldName="phone"
+              name="phone"
               validationType="phone"
               label={employeeLabels.phone}
               fieldValue={employee.phone}
               onChange={this.handleInputChange}
             />
-            <this.SelectField labelWidth={labelWidth} lg={6} xs={12} fieldName="sex" required />
-            <this.DateField xs={12} lg={6} fieldName="date_of_birth" />
-            {employee.id &&
+            <Select
+              value={employee.sex}
+              xs={12}
+              lg={6}
+              handleChange={this.handleSelectChange}
+              items={sexChoices}
+              label="Пол"
+              required
+            />
+            <DateField
+              xs={12}
+              lg={6}
+              value={employee.date_of_birth}
+              onChange={this.handleDateChange('date_of_birth')}
+              label="Дата рождения"
+            />
             <FileUploader
               xs={12}
               url={avatarUrl}
               fileUploadCallback={this.fileUploadCallback}
               fileRemoveCallback={this.fileRemoveCallback}
-            />}
+            />
           </Grid>
         </DialogContent>
         <DialogActions>
