@@ -18,7 +18,7 @@ export interface IEmployee {
   /** Дата рождения */
   date_of_birth: string | null;
   /** Дата регистрации */
-  registration_date: string;
+  registration_date: string | null;
   /** Пол сотрудника */
   sex: Sex;
   /** Аватар сотрудника */
