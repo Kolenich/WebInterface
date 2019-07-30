@@ -25,13 +25,13 @@ import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import api from '../../lib/api';
-import Button from '../../lib/components/Button';
-import { IButtonIcon } from '../../lib/components/Button/types';
-import TextField from '../../lib/components/TextField';
+import Button from '../../lib/generic/Button';
+import { IButtonIcon } from '../../lib/generic/Button/types';
+import FileUploader from '../../lib/generic/FileUploader';
+import StatusWindow from '../../lib/generic/StatusWindow';
+import TextField from '../../lib/generic/TextField';
 import { HTTPMethods, IAvatar, IEmployee, ISelectElement, Sex } from '../../lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
-import FileUploader from '../FileUploader';
-import StatusWindow from '../StatusWindow';
 import { styles } from './styles';
 import { IProps, ISelectFieldProps, IState, ITextFieldProps } from './types';
 

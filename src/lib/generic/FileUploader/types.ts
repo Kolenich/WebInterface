@@ -1,7 +1,7 @@
 import { WithStyles } from '@material-ui/core';
 import { GridSize } from '@material-ui/core/Grid';
 import { ComponentState } from 'react';
-import { IAvatar } from '../../lib/types';
+import { IAvatar } from '../../types';
 import { styles } from './styles';
 
 export interface IProps extends WithStyles<typeof styles> {

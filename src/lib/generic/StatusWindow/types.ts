@@ -14,6 +14,3 @@ export interface IProps extends WithStyles<typeof styles> {
   /** Отображаемое сообщеие */
   message: string;
 }
-
-export interface IState {
-}

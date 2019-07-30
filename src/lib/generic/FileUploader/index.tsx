@@ -2,8 +2,8 @@ import { Grid, Typography, withStyles } from '@material-ui/core';
 import 'filepond/dist/filepond.min.css';
 import React, { PureComponent, ReactNode } from 'react';
 import { File, FilePond } from 'react-filepond';
-import { IAvatar } from '../../lib/types';
-import { getBase64, toDataURL } from '../../lib/utils';
+import { IAvatar } from '../../types';
+import { getBase64, toDataURL } from '../../utils';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 
