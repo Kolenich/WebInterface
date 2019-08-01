@@ -247,11 +247,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * @param id первичный ключ аватара в БД
    */
   deleteAvatar = (id: number | undefined) => () => {
-    api.sendContent(
-      `avatar/${id}`,
-      {},
-      'delete',
-    )
+    api.sendContent(`avatar/${id}`, {}, 'delete')
       .then(() => {
         this.setState((state: IState) => ({
           ...state,
@@ -297,8 +293,12 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <StatusWindow open={statusWindowOpen} onClose={this.closeStatusModal} status={statusType}
-                        message={statusMessage} />
+          <StatusWindow
+            open={statusWindowOpen}
+            onClose={this.closeStatusModal}
+            status={statusType}
+            message={statusMessage}
+          />
           <Grid container spacing={spacing}>
             <TextField
               xs={12}
