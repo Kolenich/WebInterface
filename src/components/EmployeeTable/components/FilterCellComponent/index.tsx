@@ -37,7 +37,7 @@ const FilterCellComponent = ({ classes, ...props }: IProps) => {
     );
   }
   return (
-    <TableFilterRow.Cell{...props}>
+    <TableFilterRow.Cell {...props}>
       <FormControl fullWidth>
         <InputLabel>Фильтр...</InputLabel>
         <Select

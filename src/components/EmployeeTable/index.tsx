@@ -145,7 +145,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       config.params.ordering = `${sortingParams[sort.direction]}${sort.columnName}`;
       return undefined;
     });
-    api.getContent<IApiResponse<ITableRow>>('employees-table', config)
+    api.getContent<IApiResponse<ITableRow>>('employee-table', config)
       .then((response: AxiosResponse<IApiResponse<ITableRow>>): ComponentState => {
         const { results, count } = response.data;
         this.setState((state: IState) => (
@@ -181,12 +181,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    */
   rowComponent = (props: Table.DataRowProps): JSX.Element => {
     const { classes } = this.props;
-    const rowId: number = props.row.id;
+    const { id } = props.row;
     return (
       <Table.Row
         {...props}
         className={classes.rowCursor}
-        onDoubleClick={this.openEditWindow(rowId)}
+        onDoubleClick={this.openEditWindow(id)}
       />);
   }
 

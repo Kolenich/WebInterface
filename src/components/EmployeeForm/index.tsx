@@ -1,10 +1,12 @@
 import {
+  Avatar,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
   IconButton,
+  Typography,
   withStyles,
 } from '@material-ui/core';
 import { GridSpacing } from '@material-ui/core/Grid';
@@ -17,11 +19,10 @@ import api from '../../lib/api';
 import Button from '../../lib/generic/Button';
 import { IButtonIcon } from '../../lib/generic/Button/types';
 import DateField from '../../lib/generic/DateField';
-import FileUploader from '../../lib/generic/FileUploader';
 import Select from '../../lib/generic/Select';
 import StatusWindow from '../../lib/generic/StatusWindow';
 import TextField from '../../lib/generic/TextField';
-import { HTTPMethods, IAvatar, IEmployee, ISelectElement, Sex } from '../../lib/types';
+import { HTTPMethods, IEmployee, ISelectElement, Sex } from '../../lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
 import { sexChoices } from './structure';
 import { styles } from './styles';
@@ -64,7 +65,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     const { id } = this.props;
     if (prevProps.id !== id) {
       if (id !== -1) {
-        api.getContent<IEmployee>(`employees/${id}`)
+        api.getContent<IEmployee>(`employee/${id}`)
           .then(((response: AxiosResponse<IEmployee>) => {
             this.setState((state: IState) => (
               { ...state, employee: response.data, dateOfBirthNotNull: true }
@@ -171,7 +172,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     this.setState({ statusWindowOpen: true, statusType: 'loading' });
     const { employee } = this.state;
     const { updateTable } = this.props;
-    const url: string = `employees/${employee.id}`;
+    const url: string = `employee/${employee.id}`;
     const method: HTTPMethods = 'delete';
     api.sendContent<IEmployee>(url, employee, method)
       .then((response: AxiosResponse<IEmployee>) => {
@@ -212,10 +213,10 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       return undefined;
     });
     employee.date_of_birth = moment(employee.date_of_birth as string).format('YYYY-MM-DD');
-    let url: string = 'employees';
+    let url: string = 'employee';
     let method: HTTPMethods = 'post';
     if (employee.id) {
-      url = `employees/${employee.id}`;
+      url = `employee/${employee.id}`;
       method = 'patch';
     }
     api.sendContent<IEmployee>(url, employee, method)
@@ -242,20 +243,35 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   }
 
   /**
-   * Функция-колбэк, для загрузки файла
-   * @param avatar объект с файлом
+   * Функция удаления аватара по id
+   * @param id первичный ключ аватара в БД
    */
-  private fileUploadCallback = (avatar: IAvatar) => {
-    this.setState((state: IState) => ({ ...state, employee: { ...state.employee, avatar } }));
-  }
-
-  /**
-   * Функция-колбэк, вызываемая при удалении файла
-   */
-  fileRemoveCallback = () => {
-    this.setState((state: IState) => (
-      { ...state, employee: { ...state.employee, avatar: null } }
-    ));
+  deleteAvatar = (id: number | undefined) => () => {
+    api.sendContent(
+      `avatar/${id}`,
+      {},
+      'delete',
+    )
+      .then(() => {
+        this.setState((state: IState) => ({
+          ...state,
+          statusWindowOpen: true,
+          statusType: 'success',
+          statusMessage: 'Аватар удален успешно!',
+          employee: { ...state.employee, avatar: null },
+        }));
+      })
+      .catch((error: AxiosError) => {
+        if (error.response) {
+          const statusMessage: string = SERVER_RESPONSES[error.response.status];
+          this.setState((state: IState) => ({
+            ...state,
+            statusMessage,
+            statusWindowOpen: true,
+            statusType: 'error',
+          }));
+        }
+      });
   }
 
   /**
@@ -271,10 +287,6 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       title = 'Редактировать сотрудника';
       saveButtonText = 'Сохранить';
       saveButtonIcon = 'save';
-    }
-    let avatarUrl: string | null = null;
-    if (employee.avatar !== null) {
-      avatarUrl = employee.avatar.file;
     }
     return (
       <Dialog open={open} onClose={onClose}>
@@ -352,12 +364,25 @@ class EmployeeForm extends PureComponent<IProps, IState> {
               onChange={this.handleDateChange('date_of_birth')}
               label="Дата рождения"
             />
-            <FileUploader
-              xs={12}
-              url={avatarUrl}
-              fileUploadCallback={this.fileUploadCallback}
-              fileRemoveCallback={this.fileRemoveCallback}
-            />
+            {employee.avatar &&
+            <>
+              <Grid item xs={12} lg={12} className={classes.gridItem}>
+                <Typography variant="subtitle1">
+                  Аватар
+                </Typography>
+              </Grid>
+              <Grid item xs={12} lg={3} className={classes.gridItem}>
+                <Avatar
+                  className={classes.avatar}
+                  src={employee.avatar.file}
+                  alt={employee.first_name}
+                />
+              </Grid>
+              <Grid item xs={12} lg={12}>
+                <Button onClick={this.deleteAvatar(employee.avatar.id)} variant="outlined"
+                        text="Удалить" color="secondary" icon="delete" />
+              </Grid>
+            </>}
           </Grid>
         </DialogContent>
         <DialogActions>

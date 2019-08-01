@@ -11,9 +11,7 @@ import { getBaseUrl } from '../../../../lib/utils';
  */
 const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
   if (value !== null) {
-    return (
-      <Avatar src={`${getBaseUrl()}${value}`} />
-    );
+    return <Avatar src={`${getBaseUrl()}${value}`} />;
   }
   return (
     <Avatar>
