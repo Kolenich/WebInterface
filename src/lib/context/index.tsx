@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { ComponentType, createContext, PureComponent, ReactNode } from 'react';
 import { session } from '../session';
-import { IProps, IState, IStore } from './types';
+import { IContext, IProps, IState, IStore } from './types';
 
 const Context = createContext({} as IStore);
 
@@ -52,11 +52,7 @@ export class Provider extends PureComponent<IProps, IState> {
 }
 
 export default <ComponentProps extends {}>
-(Component: ComponentType<ComponentProps &
-  {
-    /** Передаем дочернему компоненту общий контекст */
-    context: IStore;
-  }>) =>
+(Component: ComponentType<ComponentProps & IContext>) =>
   class Consumer extends PureComponent<ComponentProps> {
     /**
      * Базовый метод рендера

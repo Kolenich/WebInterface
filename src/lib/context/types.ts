@@ -13,3 +13,8 @@ export interface IStore {
   /** Функция для обработки логина */
   handleLogin: (email: string, password: string) => boolean;
 }
+
+export interface IContext {
+  /** Общее хранилище приложения */
+  context: IStore;
+}
