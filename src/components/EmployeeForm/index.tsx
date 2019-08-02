@@ -246,7 +246,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * Функция удаления аватара по id
    * @param id первичный ключ аватара в БД
    */
-  deleteAvatar = (id: number | undefined) => () => {
+  private deleteAvatar = (id: number | undefined) => () => {
     api.sendContent(`avatar/${id}`, {}, 'delete')
       .then(() => {
         this.setState((state: IState) => ({
