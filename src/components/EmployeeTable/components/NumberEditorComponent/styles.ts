@@ -1,9 +1,5 @@
-import { Theme } from '@material-ui/core';
-import { createStyles } from '@material-ui/core/styles';
-
-export const styles = (theme: Theme) => createStyles({
+export const styles = () => ({
   numericInput: {
-    textAlign: 'left',
     width: '100%',
   },
 });

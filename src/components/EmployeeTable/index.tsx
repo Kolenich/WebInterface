@@ -18,9 +18,9 @@ import {
   TableFilterRow,
   TableHeaderRow,
 } from '@devexpress/dx-react-grid-material-ui';
-import { Fab, IconButton, LinearProgress, Paper, Tooltip } from '@material-ui/core';
+import { IconButton, LinearProgress, Paper, Tooltip } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Add, Create } from '@material-ui/icons';
+import { Create } from '@material-ui/icons';
 import { AxiosResponse } from 'axios';
 import React, { ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -35,6 +35,7 @@ import { IApiResponse, IDRFGetConfig, ITableRow } from '../../lib/types';
 import { filteringParams, sortingParams } from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
+import AddButton from './components/AddButton';
 import DateEditorComponent from './components/DateEditorComponent';
 import DateTypeProvider from './components/DateFormatter';
 import DateTimeEditorComponent from './components/DateTimeEditorComponent';
@@ -157,23 +158,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       .catch(() => {
         this.setState((state: IState) => ({ ...state, loading: false }));
       });
-  }
-
-  /**
-   * Кнопка для добавления нового сотрудника
-   * @constructor
-   */
-  addButton = (): JSX.Element => {
-    const { classes } = this.props;
-    return (
-      <Tooltip title="Создать">
-        <Fab color="primary" className={classes.addIcon} variant="extended"
-             onClick={this.openEditWindow(-1)}>
-          <Add />
-          Создать
-        </Fab>
-      </Tooltip>
-    );
   }
 
   /**
@@ -348,7 +332,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             onClose={this.closeEditWindow}
             updateTable={this.loadData}
           />
-          <this.addButton />
+          <AddButton tooltip="Создать" text="Создать" onClick={this.openEditWindow(-1)} />
           {loading && <LinearProgress />}
         </Paper>
       </ReactCSSTransitionGroup>

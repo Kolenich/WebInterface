@@ -1,7 +1,9 @@
-import { Input, withStyles } from '@material-ui/core';
+import { Input, makeStyles } from '@material-ui/core';
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
+
+const useStyles = makeStyles(styles);
 
 /**
  * Компонент для отображения в таблице числового значения
@@ -9,7 +11,7 @@ import { IProps } from './types';
  * @constructor
  */
 const NumberEditorComponent: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
-  const { classes } = props;
+  const classes = useStyles();
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value: targetValue } = event.target;
     if (targetValue.trim() === '') {
@@ -39,4 +41,4 @@ const NumberEditorComponent: FunctionComponent<IProps> = (props: IProps): JSX.El
   );
 };
 
-export default withStyles(styles)(NumberEditorComponent);
+export default NumberEditorComponent;

@@ -1,5 +1,5 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { DatePicker, MaterialUiPickersDate, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import ruLocale from 'date-fns/locale/ru';
 import moment from 'moment';
@@ -7,16 +7,18 @@ import React, { FunctionComponent } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
 
+const useStyles = makeStyles(styles);
+
 /**
  * Компонент фильтрации по дате
- * @param classes стили
  * @param onValueChange функция, обрабатывающая изменение в поле
  * @param value значение в поле
  * @param props остальные пропсы
  * @constructor
  */
 const DateEditorComponent: FunctionComponent<IProps> =
-  ({ classes, onValueChange, value, ...props }: IProps): JSX.Element => {
+  ({ onValueChange, value, ...props }: IProps): JSX.Element => {
+    const classes = useStyles();
     const handleChange = (date: MaterialUiPickersDate) => {
       let value: null | string = null;
       if (date) {
@@ -28,7 +30,6 @@ const DateEditorComponent: FunctionComponent<IProps> =
     if (value) {
       displayValue = value;
     }
-    console.log(displayValue);
     return (
       <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
         <DatePicker
@@ -49,4 +50,4 @@ const DateEditorComponent: FunctionComponent<IProps> =
     );
   };
 
-export default withStyles(styles)(DateEditorComponent);
+export default DateEditorComponent;

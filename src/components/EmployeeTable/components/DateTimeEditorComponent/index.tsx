@@ -1,5 +1,5 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import {
   DateTimePicker,
   MaterialUiPickersDate,
@@ -10,16 +10,18 @@ import React, { FunctionComponent } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
 
+const useStyles = makeStyles(styles);
+
 /**
  * Компонент фильтрации по дате/времени
- * @param classes стили
  * @param onValueChange функция, обрабатывающая изменение в поле
  * @param value значение в поле
  * @param props остальные пропсы
  * @constructor
  */
 const DateTimeEditorComponent: FunctionComponent<IProps> =
-  ({ classes, onValueChange, value, ...props }: IProps): JSX.Element => {
+  ({ onValueChange, value, ...props }: IProps): JSX.Element => {
+    const classes = useStyles();
     const handleChange = (date: MaterialUiPickersDate) => {
       onValueChange(date);
     };
@@ -48,4 +50,4 @@ const DateTimeEditorComponent: FunctionComponent<IProps> =
     );
   };
 
-export default withStyles(styles)(DateTimeEditorComponent);
+export default DateTimeEditorComponent;

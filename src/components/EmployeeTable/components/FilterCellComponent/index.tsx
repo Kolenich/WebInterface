@@ -4,10 +4,10 @@ import {
   FormControl,
   Input,
   InputLabel,
+  makeStyles,
   MenuItem,
   Select,
   Typography,
-  withStyles,
 } from '@material-ui/core';
 import React, { ChangeEvent, useState } from 'react';
 import { ISelectElement, Sex } from '../../../../lib/types';
@@ -16,14 +16,16 @@ import { IProps } from './types';
 
 const sexParams: string[] = ['Муж.', 'Жен.'];
 
+const useStyles = makeStyles(styles);
+
 /**
  * Компонент ячейуи для фильтрации по столбцам
- * @param classes стили
  * @param props базовые пропсы
  */
-const FilterCellComponent = ({ classes, ...props }: IProps) => {
+const FilterCellComponent = (props: IProps) => {
   const [sex, setSex] = useState('');
   const { column, onFilter } = props;
+  const classes = useStyles();
   if (column.name !== 'sex') {
     if (column.name === 'button' || column.name === 'avatar') {
       return (
@@ -71,4 +73,4 @@ const FilterCellComponent = ({ classes, ...props }: IProps) => {
   );
 };
 
-export default withStyles(styles)(FilterCellComponent);
+export default FilterCellComponent;
