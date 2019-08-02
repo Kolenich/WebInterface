@@ -1,7 +1,6 @@
 import {
   Column,
   Filter,
-  FilteringState,
   Sorting,
   SortingState,
   TableColumnWidthInfo,
@@ -22,6 +21,10 @@ export interface IState {
   availableTextFilterOperations: string[];
   /** Список допустимых операций фильтрации для числовых полей */
   availableNumberFilterOperations: string[];
+  /** Список допустимых операций фильтрации для полей даты */
+  availableDateFilterOperations: string[];
+  /** Список допустимых операций фильтрации для полей даты/времени */
+  availableDateTimeFilterOperations: string[];
   /** Список текстовых столбцов, которые можно фильтровать */
   textFilterColumns: string[];
   /** Список числовых столбцов, которые можно фильтровать */
@@ -48,8 +51,6 @@ export interface IState {
   defaultOrder: string[];
   /** Ширина столбцов по умолчанию */
   defaultColumnWidths: TableColumnWidthInfo[];
-  /** Настройки столбцов по фильтрации */
-  filteringStateColumnExtensions: FilteringState.ColumnExtension[];
   /** Настройки столбцов по сортировке */
   sortingStateColumnExtensions: SortingState.ColumnExtension[];
   /** Допустимые размеры страниц */

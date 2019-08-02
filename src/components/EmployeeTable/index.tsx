@@ -35,7 +35,9 @@ import { IApiResponse, IDRFGetConfig, ITableRow } from '../../lib/types';
 import { filteringParams, sortingParams } from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
+import DateEditorComponent from './components/DateEditorComponent';
 import DateTypeProvider from './components/DateFormatter';
+import DateTimeEditorComponent from './components/DateTimeEditorComponent';
 import DateTimeTypeProvider from './components/DateTimeFormatter';
 import FilterCellComponent from './components/FilterCellComponent';
 import ImageTypeProvider from './components/ImageFormatter';
@@ -254,7 +256,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       loading,
       totalCount,
       currentPage,
-      filteringStateColumnExtensions,
       sortingStateColumnExtensions,
       sorting,
       dateColumns,
@@ -263,6 +264,8 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       buttonColumns,
       availableTextFilterOperations,
       availableNumberFilterOperations,
+      availableDateFilterOperations,
+      availableDateTimeFilterOperations,
       textFilterColumns,
       numberFilterColumns,
     } = this.state;
@@ -285,8 +288,16 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               availableFilterOperations={availableNumberFilterOperations}
               editorComponent={NumberEditorComponent}
             />
-            <DateTypeProvider for={dateColumns} />
-            <DateTimeTypeProvider for={dateTimeColumns} />
+            <DateTypeProvider
+              for={dateColumns}
+              availableFilterOperations={availableDateFilterOperations}
+              editorComponent={DateEditorComponent}
+            />
+            <DateTimeTypeProvider
+              for={dateTimeColumns}
+              availableFilterOperations={availableDateTimeFilterOperations}
+              editorComponent={DateTimeEditorComponent}
+            />
             <ImageTypeProvider for={avatarColumns} />
             <this.iconTypeProvider for={buttonColumns} />
             <DragDropProvider />
@@ -306,7 +317,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             />
             <FilteringState
               onFiltersChange={this.changeFilters}
-              columnExtensions={filteringStateColumnExtensions}
             />
             <Table
               rowComponent={this.rowComponent}

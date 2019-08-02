@@ -24,17 +24,13 @@ export default {
   defaultColumnWidths: [
     { columnName: 'button', width: window.innerWidth * 0.05 },
     { columnName: 'avatar', width: window.innerWidth * 0.05 },
-    { columnName: 'full_name', width: window.innerWidth * 0.2 },
-    { columnName: 'registration_date', width: window.innerWidth * 0.1 },
+    { columnName: 'full_name', width: window.innerWidth * 0.175 },
+    { columnName: 'registration_date', width: window.innerWidth * 0.125 },
     { columnName: 'phone', width: window.innerWidth * 0.1 },
-    { columnName: 'email', width: window.innerWidth * 0.2 },
-    { columnName: 'date_of_birth', width: window.innerWidth * 0.1 },
+    { columnName: 'email', width: window.innerWidth * 0.175 },
+    { columnName: 'date_of_birth', width: window.innerWidth * 0.125 },
     { columnName: 'age', width: window.innerWidth * 0.1 },
     { columnName: 'sex', width: window.innerWidth * 0.09 },
-  ],
-  filteringStateColumnExtensions: [
-    { columnName: 'registration_date', filteringEnabled: false },
-    { columnName: 'date_of_birth', filteringEnabled: false },
   ],
   sortingStateColumnExtensions: [
     { columnName: 'avatar', sortingEnabled: false },
@@ -47,6 +43,19 @@ export default {
     'lessThan',
     'lessThanOrEqual',
     'equal',
+  ],
+  availableDateFilterOperations: [
+    'greaterThan',
+    'greaterThanOrEqual',
+    'lessThan',
+    'lessThanOrEqual',
+    'equal',
+  ],
+  availableDateTimeFilterOperations: [
+    'greaterThan',
+    'greaterThanOrEqual',
+    'lessThan',
+    'lessThanOrEqual',
   ],
   textFilterColumns: [
     'full_name',
