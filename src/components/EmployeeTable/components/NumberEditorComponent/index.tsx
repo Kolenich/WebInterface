@@ -23,9 +23,7 @@ const NumberEditorComponent: FunctionComponent<IProps> = (props: IProps): JSX.El
   return (
     <Input
       type="number"
-      classes={{
-        input: classes.numericInput,
-      }}
+      classes={{ input: classes.numericInput }}
       fullWidth
       value={props.value === undefined
         ?

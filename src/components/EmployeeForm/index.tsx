@@ -23,8 +23,7 @@ import Select from '../../lib/generic/Select';
 import StatusWindow from '../../lib/generic/StatusWindow';
 import TextField from '../../lib/generic/TextField';
 import { HTTPMethods, IEmployee, ISelectElement, Sex } from '../../lib/types';
-import { deepCopy, employeeLabels, SERVER_RESPONSES } from '../../lib/utils';
-import { sexChoices } from './structure';
+import { deepCopy, employeeLabels, SERVER_RESPONSES, sexChoices } from '../../lib/utils';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 

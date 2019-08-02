@@ -15,10 +15,14 @@ export interface IProps extends WithStyles<typeof styles>, IRouterProps {
 export interface IState {
   /** Список столбцов с датой */
   dateColumns: string[];
+  /** Список столбцов с полом */
+  sexColumns: string[];
   /** Список столбцов с датой и временем */
   dateTimeColumns: string[];
   /** Список допустимых операций фильтрации для текстовых полей */
   availableTextFilterOperations: string[];
+  /** Список допустимых операций фильтрации для столбца "Пол" */
+  availableSexFilterOperations: string[];
   /** Список допустимых операций фильтрации для числовых полей */
   availableNumberFilterOperations: string[];
   /** Список допустимых операций фильтрации для полей даты */

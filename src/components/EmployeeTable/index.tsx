@@ -43,6 +43,9 @@ import DateTimeTypeProvider from './components/DateTimeFormatter';
 import FilterCellComponent from './components/FilterCellComponent';
 import ImageTypeProvider from './components/ImageFormatter';
 import NumberEditorComponent from './components/NumberEditorComponent';
+import SexEditorComponent from './components/SexEditorComponent';
+import SexTypeProvider from './components/SexFormatter';
+import TextEditorComponent from './components/TextEditorComponent';
 import { styles } from './styles';
 import './styles.css';
 import { IProps, IState } from './types';
@@ -243,6 +246,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       sortingStateColumnExtensions,
       sorting,
       dateColumns,
+      sexColumns,
       dateTimeColumns,
       avatarColumns,
       buttonColumns,
@@ -250,6 +254,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       availableNumberFilterOperations,
       availableDateFilterOperations,
       availableDateTimeFilterOperations,
+      availableSexFilterOperations,
       textFilterColumns,
       numberFilterColumns,
     } = this.state;
@@ -266,6 +271,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             <DataTypeProvider
               for={textFilterColumns}
               availableFilterOperations={availableTextFilterOperations}
+              editorComponent={TextEditorComponent}
             />
             <DataTypeProvider
               for={numberFilterColumns}
@@ -281,6 +287,11 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               for={dateTimeColumns}
               availableFilterOperations={availableDateTimeFilterOperations}
               editorComponent={DateTimeEditorComponent}
+            />
+            <SexTypeProvider
+              for={sexColumns}
+              availableFilterOperations={availableSexFilterOperations}
+              editorComponent={SexEditorComponent}
             />
             <ImageTypeProvider for={avatarColumns} />
             <this.iconTypeProvider for={buttonColumns} />

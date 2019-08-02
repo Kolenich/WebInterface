@@ -29,8 +29,8 @@ export default {
     { columnName: 'phone', width: window.innerWidth * 0.1 },
     { columnName: 'email', width: window.innerWidth * 0.175 },
     { columnName: 'date_of_birth', width: window.innerWidth * 0.125 },
-    { columnName: 'age', width: window.innerWidth * 0.1 },
-    { columnName: 'sex', width: window.innerWidth * 0.09 },
+    { columnName: 'age', width: window.innerWidth * 0.075 },
+    { columnName: 'sex', width: window.innerWidth * 0.124 },
   ],
   sortingStateColumnExtensions: [
     { columnName: 'avatar', sortingEnabled: false },
@@ -44,6 +44,7 @@ export default {
     'lessThanOrEqual',
     'equal',
   ],
+  availableSexFilterOperations: ['equal'],
   availableDateFilterOperations: [
     'greaterThan',
     'greaterThanOrEqual',
@@ -71,4 +72,5 @@ export default {
   dateTimeColumns: ['registration_date'],
   avatarColumns: ['avatar'],
   buttonColumns: ['button'],
+  sexColumns: ['sex'],
 };

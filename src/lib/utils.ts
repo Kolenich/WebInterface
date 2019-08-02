@@ -1,3 +1,4 @@
+import { ISelectItem } from './generic/Select/types';
 import { IEmployeeLabels, IFiltering, IServerResponses, ISorting } from './types';
 
 // Опции для форматирования даты
@@ -105,3 +106,8 @@ export function getBaseUrl(): string {
   }
   return 'http://localhost:8080';
 }
+
+export const sexChoices: ISelectItem[] = [
+  { key: 0, label: 'Муж.', value: 'male' },
+  { key: 1, label: 'Жен.', value: 'female' },
+];
