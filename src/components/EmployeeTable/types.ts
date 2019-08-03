@@ -20,15 +20,15 @@ export interface IState {
   /** Список столбцов с датой и временем */
   dateTimeColumns: string[];
   /** Список допустимых операций фильтрации для текстовых полей */
-  availableTextFilterOperations: string[];
+  textFilterOperations: string[];
   /** Список допустимых операций фильтрации для столбца "Пол" */
-  availableSexFilterOperations: string[];
+  sexFilterOperations: string[];
   /** Список допустимых операций фильтрации для числовых полей */
-  availableNumberFilterOperations: string[];
+  numberFilterOperations: string[];
   /** Список допустимых операций фильтрации для полей даты */
-  availableDateFilterOperations: string[];
+  dateFilterOperations: string[];
   /** Список допустимых операций фильтрации для полей даты/времени */
-  availableDateTimeFilterOperations: string[];
+  dateTimeFilterOperations: string[];
   /** Список текстовых столбцов, которые можно фильтровать */
   textFilterColumns: string[];
   /** Список числовых столбцов, которые можно фильтровать */

@@ -12,11 +12,11 @@ import {
   DragDropProvider,
   Grid,
   PagingPanel,
-  Table,
   TableColumnReordering,
   TableColumnResizing,
   TableFilterRow,
   TableHeaderRow,
+  VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
 import { IconButton, LinearProgress, Paper, Tooltip } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -43,6 +43,7 @@ import DateTimeTypeProvider from './components/DateTimeFormatter';
 import FilterCellComponent from './components/FilterCellComponent';
 import ImageTypeProvider from './components/ImageFormatter';
 import NumberEditorComponent from './components/NumberEditorComponent';
+import RootComponent from './components/RootComponent';
 import SexEditorComponent from './components/SexEditorComponent';
 import SexTypeProvider from './components/SexFormatter';
 import TextEditorComponent from './components/TextEditorComponent';
@@ -164,22 +165,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   }
 
   /**
-   * Компонент строки в таблице
-   * @param props базовые пропсы
-   * @constructor
-   */
-  rowComponent = (props: Table.DataRowProps): JSX.Element => {
-    const { classes } = this.props;
-    const { id } = props.row;
-    return (
-      <Table.Row
-        {...props}
-        className={classes.rowCursor}
-        onDoubleClick={this.openEditWindow(id)}
-      />);
-  }
-
-  /**
    * Колбэк-метод, открывающий модальное окно
    * @param rowId id сотрудника
    */
@@ -227,6 +212,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   }
 
   /**
+   * Функция получения уникального идентификатора строки
+   * @param row строка
+   */
+  private getRowId = (row: ITableRow) => row.id;
+
+  /**
    * Базовый метод рендера
    */
   public render(): ReactNode {
@@ -250,11 +241,11 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       dateTimeColumns,
       avatarColumns,
       buttonColumns,
-      availableTextFilterOperations,
-      availableNumberFilterOperations,
-      availableDateFilterOperations,
-      availableDateTimeFilterOperations,
-      availableSexFilterOperations,
+      textFilterOperations,
+      numberFilterOperations,
+      dateFilterOperations,
+      dateTimeFilterOperations,
+      sexFilterOperations,
       textFilterColumns,
       numberFilterColumns,
     } = this.state;
@@ -267,30 +258,35 @@ class EmployeeTable extends PureComponent<IProps, IState> {
         transitionLeave={false}
       >
         <Paper className={classes.paper}>
-          <Grid rows={rows} columns={columns}>
+          <Grid
+            rows={rows}
+            columns={columns}
+            getRowId={this.getRowId}
+            rootComponent={RootComponent}
+          >
             <DataTypeProvider
               for={textFilterColumns}
-              availableFilterOperations={availableTextFilterOperations}
+              availableFilterOperations={textFilterOperations}
               editorComponent={TextEditorComponent}
             />
             <DataTypeProvider
               for={numberFilterColumns}
-              availableFilterOperations={availableNumberFilterOperations}
+              availableFilterOperations={numberFilterOperations}
               editorComponent={NumberEditorComponent}
             />
             <DateTypeProvider
               for={dateColumns}
-              availableFilterOperations={availableDateFilterOperations}
+              availableFilterOperations={dateFilterOperations}
               editorComponent={DateEditorComponent}
             />
             <DateTimeTypeProvider
               for={dateTimeColumns}
-              availableFilterOperations={availableDateTimeFilterOperations}
+              availableFilterOperations={dateTimeFilterOperations}
               editorComponent={DateTimeEditorComponent}
             />
             <SexTypeProvider
               for={sexColumns}
-              availableFilterOperations={availableSexFilterOperations}
+              availableFilterOperations={sexFilterOperations}
               editorComponent={SexEditorComponent}
             />
             <ImageTypeProvider for={avatarColumns} />
@@ -313,8 +309,8 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             <FilteringState
               onFiltersChange={this.changeFilters}
             />
-            <Table
-              rowComponent={this.rowComponent}
+            <VirtualTable
+              height="auto"
               messages={tableMessages}
             />
             <TableColumnReordering
@@ -337,15 +333,15 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               messages={pagingPanelMessages}
             />
           </Grid>
-          <EmployeeForm
-            id={rowId}
-            open={addEmployee}
-            onClose={this.closeEditWindow}
-            updateTable={this.loadData}
-          />
-          <AddButton tooltip="Создать" text="Создать" onClick={this.openEditWindow(-1)} />
           {loading && <LinearProgress />}
         </Paper>
+        <AddButton tooltip="Создать" text="Создать" onClick={this.openEditWindow(-1)} />
+        <EmployeeForm
+          id={rowId}
+          open={addEmployee}
+          onClose={this.closeEditWindow}
+          updateTable={this.loadData}
+        />
       </ReactCSSTransitionGroup>
     );
   }

@@ -30,29 +30,29 @@ export default {
     { columnName: 'email', width: window.innerWidth * 0.175 },
     { columnName: 'date_of_birth', width: window.innerWidth * 0.125 },
     { columnName: 'age', width: window.innerWidth * 0.075 },
-    { columnName: 'sex', width: window.innerWidth * 0.124 },
+    { columnName: 'sex', width: window.innerWidth * 0.115 },
   ],
   sortingStateColumnExtensions: [
     { columnName: 'avatar', sortingEnabled: false },
     { columnName: 'button', sortingEnabled: false },
   ],
-  availableTextFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
-  availableNumberFilterOperations: [
+  textFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
+  numberFilterOperations: [
     'greaterThan',
     'greaterThanOrEqual',
     'lessThan',
     'lessThanOrEqual',
     'equal',
   ],
-  availableSexFilterOperations: ['equal'],
-  availableDateFilterOperations: [
+  sexFilterOperations: ['equal'],
+  dateFilterOperations: [
     'greaterThan',
     'greaterThanOrEqual',
     'lessThan',
     'lessThanOrEqual',
     'equal',
   ],
-  availableDateTimeFilterOperations: [
+  dateTimeFilterOperations: [
     'greaterThan',
     'greaterThanOrEqual',
     'lessThan',
