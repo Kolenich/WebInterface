@@ -57,6 +57,7 @@ import { IProps, IState } from './types';
 class EmployeeTable extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    document.title = 'Сотрудники';
     this.state = {
       ...columnSettings,
       rows: [],
@@ -70,13 +71,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       addEmployee: false,
       loading: false,
     };
-  }
-
-  /**
-   * Метод, вызываемый в момент перед монтированием компонента
-   */
-  public componentWillMount(): void {
-    document.title = 'Сотрудники';
   }
 
   /**

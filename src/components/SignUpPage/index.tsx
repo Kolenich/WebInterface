@@ -23,14 +23,8 @@ import { IProps, IState } from './types';
 class SignUpPage extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = {};
-  }
-
-  /**
-   * Метод, вызываемый в момент перед монтированием компонента
-   */
-  public componentWillMount(): void {
     document.title = 'Зарегистрироваться в системе';
+    this.state = {};
   }
 
   /**

@@ -38,16 +38,10 @@ const TransactionLabel = Label(' ед.');
 class EmployeeChart extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    document.title = 'Графики';
     this.state = {
       ...demoData,
     };
-  }
-
-  /**
-   * Метод, вызываемый после перед монтированием компонента
-   */
-  public componentWillMount(): void {
-    document.title = 'Графики';
   }
 
   /**

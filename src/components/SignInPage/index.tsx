@@ -29,6 +29,7 @@ import { IProps, IState } from './types';
 class SignInPage extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    document.title = 'Войти в систему';
     this.state = {
       email: '',
       password: '',
@@ -36,13 +37,6 @@ class SignInPage extends PureComponent<IProps, IState> {
       remember: false,
       error: false,
     };
-  }
-
-  /**
-   * Метод, вызываемый в момент перед монтированием компонента
-   */
-  public componentWillMount(): void {
-    document.title = 'Войти в систему';
   }
 
   /**
