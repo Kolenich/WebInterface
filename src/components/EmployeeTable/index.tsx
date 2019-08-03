@@ -335,7 +335,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           </Grid>
           {loading && <LinearProgress />}
         </Paper>
-        <AddButton tooltip="Создать" text="Создать" onClick={this.openEditWindow(-1)} />
+        <AddButton tooltip="Создать" onClick={this.openEditWindow(-1)} />
         <EmployeeForm
           id={rowId}
           open={addEmployee}

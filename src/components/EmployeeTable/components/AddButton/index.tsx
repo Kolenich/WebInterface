@@ -10,18 +10,16 @@ const useStyles = makeStyles(styles);
  * Кнопка для добавления нового сотрудника
  * @constructor
  */
-const AddButton: FunctionComponent<IProps> = ({ tooltip, text, ...props }: IProps): JSX.Element => {
+const AddButton: FunctionComponent<IProps> = ({ tooltip, ...props }: IProps): JSX.Element => {
   const classes = useStyles();
   return (
     <Tooltip title={tooltip}>
       <Fab
         color="primary"
         className={classes.addIcon}
-        variant="extended"
         {...props}
       >
         <Add />
-        {text}
       </Fab>
     </Tooltip>
   );
