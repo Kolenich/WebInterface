@@ -1,8 +1,6 @@
-import { WithStyles } from '@material-ui/core';
 import { ComponentState } from 'react';
-import { styles } from './styles';
 
-export interface IProps extends WithStyles<typeof styles> {
+export interface IProps {
   /** Указатель открыто окно статуса или нет */
   open: boolean;
   /** Функция-колбэк, закрывающая окно статуса */

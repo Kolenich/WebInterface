@@ -2,14 +2,16 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  makeStyles,
   MenuItem,
   OutlinedInput,
   Select as SelectBase,
-  withStyles,
 } from '@material-ui/core';
 import React, { FunctionComponent, useRef } from 'react';
 import { styles } from './styles';
 import { IProps, ISelectItem } from './types';
+
+const useStyles = makeStyles(styles);
 
 /**
  * Компонент селекта
@@ -24,7 +26,8 @@ import { IProps, ISelectItem } from './types';
  * @constructor
  */
 const Select: FunctionComponent<IProps> =
-  ({ classes, xs, lg, handleChange, items, value, label, ...props }: IProps): JSX.Element => {
+  ({ xs, lg, handleChange, items, value, label, ...props }: IProps): JSX.Element => {
+    const classes = useStyles();
     const inputLabel = useRef<HTMLLabelElement>(null);
     let labelWidth = 0;
     if (inputLabel.current) {
@@ -47,4 +50,4 @@ const Select: FunctionComponent<IProps> =
     );
   };
 
-export default withStyles(styles)(Select);
+export default Select;

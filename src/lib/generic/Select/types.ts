@@ -1,10 +1,8 @@
-import { WithStyles } from '@material-ui/core';
 import { GridSize } from '@material-ui/core/Grid';
 import { ChangeEvent, ComponentState } from 'react';
 import { ISelectElement } from '../../types';
-import { styles } from './styles';
 
-export interface IProps extends WithStyles<typeof styles> {
+export interface IProps {
   /** Размер в Grid-сетке на маленьих экранах */
   xs: GridSize;
   /** Размер в Grid-сетке на больших экранах */
