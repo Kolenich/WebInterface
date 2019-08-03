@@ -17,10 +17,14 @@ const TextEditorComponent: FunctionComponent<IProps> = (props: IProps) => {
     const { value } = event.target;
     onValueChange(value);
   };
+  let displayValue: string = '';
+  if (value) {
+    displayValue = value;
+  }
   return (
     <TextField
       label="Фильтр..."
-      value={value}
+      value={displayValue}
       onChange={onChange}
       fullWidth
       className={classes.textField}

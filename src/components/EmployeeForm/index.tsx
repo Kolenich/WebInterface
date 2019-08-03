@@ -246,8 +246,10 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * @param id первичный ключ аватара в БД
    */
   private deleteAvatar = (id: number | undefined) => () => {
+    const { updateTable } = this.props;
     api.sendContent(`avatar/${id}`, {}, 'delete')
       .then(() => {
+        updateTable();
         this.setState((state: IState) => ({
           ...state,
           statusWindowOpen: true,

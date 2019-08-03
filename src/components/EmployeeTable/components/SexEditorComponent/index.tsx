@@ -19,6 +19,10 @@ const SexEditorComponent: FunctionComponent<IProps> = (props: IProps) => {
     const { value } = event.target;
     onValueChange(value);
   };
+  let displayValue: string = '';
+  if (value) {
+    displayValue = value;
+  }
   return (
     <FormControl fullWidth>
       <InputLabel className={classes.inputLabel}>
@@ -26,7 +30,7 @@ const SexEditorComponent: FunctionComponent<IProps> = (props: IProps) => {
       </InputLabel>
       <Select
         className={classes.sexSelect}
-        value={value}
+        value={displayValue}
         input={<Input />}
         onChange={onChange}
       >

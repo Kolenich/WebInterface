@@ -33,6 +33,7 @@ const DateTimeEditorComponent: FunctionComponent<IProps> =
       <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
         <DateTimePicker
           {...props}
+          hideTabs
           ampm={false}
           value={displayValue}
           label="Фильтр..."
