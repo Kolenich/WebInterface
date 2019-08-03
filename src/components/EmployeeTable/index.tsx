@@ -137,13 +137,13 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     // Параметры для фильтрации
     filters.map((filter: Filter): void => {
       if (filter.operation) {
-        config.params[`${filter.columnName}${filteringParams[filter.operation]}`] = filter.value;
+        config.params[filter.columnName + filteringParams[filter.operation]] = filter.value;
       }
       return undefined;
     });
     // Параметры для сортировки
-    sorting.map((sort: Sorting) => {
-      config.params.ordering = `${sortingParams[sort.direction]}${sort.columnName}`;
+    sorting.map((sort: Sorting): void => {
+      config.params.ordering = sortingParams[sort.direction] + sort.columnName;
       return undefined;
     });
     api.getContent<IApiResponse<ITableRow>>('employee-table', config)
