@@ -24,7 +24,7 @@ export interface IEmployee {
   /** Аватар сотрудника */
   avatar: IAvatar | null;
 
-  [index: string]: string | number | undefined | null | boolean | IAvatar | Date;
+  [index: string]: string | number | undefined | null | boolean | IAvatar;
 }
 
 export interface IAvatar {

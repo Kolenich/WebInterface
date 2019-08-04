@@ -144,7 +144,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       ...state,
       employee: {
         ...state.employee,
-        [name]: date,
+        [name]: moment(date as Date).format('YYYY-MM-DD'),
       },
       dateOfBirthNotNull: date !== null,
     }));
@@ -211,7 +211,6 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       }
       return undefined;
     });
-    employee.date_of_birth = moment(employee.date_of_birth as string).format('YYYY-MM-DD');
     let url: string = 'employee';
     let method: HTTPMethods = 'post';
     if (employee.id) {
@@ -270,6 +269,13 @@ class EmployeeForm extends PureComponent<IProps, IState> {
         }
       });
   }
+
+  /**
+   * Функция, обрабатывающая ошибку при вводе в поле даты
+   */
+  handleDateError = (): ComponentState => (
+    this.setState((state: IState) => ({ ...state, dateOfBirthNotNull: false }))
+  )
 
   /**
    * Базовый метод рендера
@@ -364,6 +370,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
               value={employee.date_of_birth}
               onChange={this.handleDateChange('date_of_birth')}
               label="Дата рождения"
+              onError={this.handleDateError}
             />
             {employee.avatar &&
             <>
