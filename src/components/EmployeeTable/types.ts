@@ -65,4 +65,10 @@ export interface IState {
   addEmployee: boolean;
   /** Указатель загрузки */
   loading: boolean;
+  /** Переменная, отвечающая за показ снэкбара */
+  snackbarOpen: boolean;
+  /** Переменная, отвечающая за тип снэкбара */
+  snackbarVariant: 'success' | 'error' | 'warning' | 'info';
+  /** Переменная, отвечающая за сообщение снэкбара */
+  snackbarMessage: string;
 }

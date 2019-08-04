@@ -25,6 +25,7 @@ import { AxiosResponse } from 'axios';
 import React, { ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import api from '../../lib/api';
+import Snackbar from '../../lib/generic/Snackbar';
 import {
   filterRowMessages,
   pagingPanelMessages,
@@ -70,6 +71,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       rowId: -1,
       addEmployee: false,
       loading: false,
+      snackbarOpen: false,
+      snackbarVariant: 'info',
+      snackbarMessage: '',
     };
   }
 
@@ -154,7 +158,13 @@ class EmployeeTable extends PureComponent<IProps, IState> {
         ));
       })
       .catch(() => {
-        this.setState((state: IState) => ({ ...state, loading: false }));
+        this.setState((state: IState) => ({
+          ...state,
+          loading: false,
+          snackbarOpen: true,
+          snackbarVariant: 'error',
+          snackbarMessage: 'При загрузке данных произошла ошибка',
+        }));
       });
   }
 
@@ -162,54 +172,61 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Колбэк-метод, открывающий модальное окно
    * @param rowId id сотрудника
    */
-  private openEditWindow = (rowId: number) => (): ComponentState => {
-    this.setState((state: IState) => ({ ...state, rowId, addEmployee: true }));
-  }
+  private openEditWindow = (rowId: number) => (): ComponentState => (
+    this.setState((state: IState) => ({ ...state, rowId, addEmployee: true }))
+  )
 
   /**
    * Колбэк-метод, закрывающий модальное окно
    */
-  private closeEditWindow = (): ComponentState => {
-    this.setState((state: IState) => ({ ...state, rowId: -1, addEmployee: false }));
-  }
+  private closeEditWindow = (): ComponentState => (
+    this.setState((state: IState) => ({ ...state, rowId: -1, addEmployee: false }))
+  )
 
   /**
    * Метод для обработки изменения числа строк на странице
    * @param pageSize
    */
-  private changePageSize = (pageSize: number): ComponentState => {
-    this.setState((state: IState) => ({ ...state, pageSize, loading: true, currentPage: 0 }));
-  }
+  private changePageSize = (pageSize: number): ComponentState => (
+    this.setState((state: IState) => ({ ...state, pageSize, loading: true, currentPage: 0 }))
+  )
 
   /**
    * Функция обработки изменения текущей страницы
    * @param currentPage номер текущей страницы
    */
-  private changeCurrentPage = (currentPage: number): ComponentState => {
-    this.setState((state: IState) => ({ ...state, currentPage, loading: true }));
-  }
+  private changeCurrentPage = (currentPage: number): ComponentState => (
+    this.setState((state: IState) => ({ ...state, currentPage, loading: true }))
+  )
 
   /**
    * Функция изменения фильтров
    * @param filters массив фильтров
    */
-  private changeFilters = (filters: Filter[]): ComponentState => {
-    this.setState((state: IState) => ({ ...state, filters, loading: true }));
-  }
+  private changeFilters = (filters: Filter[]): ComponentState => (
+    this.setState((state: IState) => ({ ...state, filters, loading: true }))
+  )
 
   /**
    * Фугкция изменения сортировок
    * @param sorting массив сортировок
    */
-  private changeSorting = (sorting: Sorting[]): ComponentState => {
-    this.setState((state: IState) => ({ ...state, sorting, loading: true }));
-  }
+  private changeSorting = (sorting: Sorting[]): ComponentState => (
+    this.setState((state: IState) => ({ ...state, sorting, loading: true }))
+  )
 
   /**
    * Функция получения уникального идентификатора строки
    * @param row строка
    */
   private getRowId = (row: ITableRow) => row.id;
+
+  /**
+   * Функция, закрывающая снэкбар
+   */
+  private closeSnackbar = (): ComponentState => (
+    this.setState((state: IState) => ({ ...state, snackbarOpen: false }))
+  )
 
   /**
    * Базовый метод рендера
@@ -242,6 +259,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       sexFilterOperations,
       textFilterColumns,
       numberFilterColumns,
+      snackbarOpen,
+      snackbarVariant,
+      snackbarMessage,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -251,6 +271,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
         transitionEnter={false}
         transitionLeave={false}
       >
+        <Snackbar
+          open={snackbarOpen}
+          variant={snackbarVariant}
+          message={snackbarMessage}
+          onClose={this.closeSnackbar}
+        />
         <Paper className={classes.paper}>
           <Grid
             rows={rows}
