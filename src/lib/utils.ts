@@ -45,8 +45,8 @@ export const SERVER_RESPONSES: IServerResponses = {
  * Функция глубокого копирования объекта
  * @param data копируемый объект
  */
-export function deepCopy<dataType>(data: dataType) {
-  return JSON.parse(JSON.stringify(data)) as dataType;
+export function deepCopy<IData>(data: IData) {
+  return JSON.parse(JSON.stringify(data)) as IData;
 }
 
 export const sortingParams: ISorting = {
@@ -98,7 +98,7 @@ export function toDataURL(url: string, callback: (dataUrl: any) => void): void {
 }
 
 /**
- * Функция, генерирующая URL запроса для загрузки картинок
+ * Функция, генерирующая URL запроса для запросов на сервер
  */
 export function getBaseUrl(): string {
   if (process.env.NODE_ENV === 'production') {
