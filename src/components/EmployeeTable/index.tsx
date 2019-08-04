@@ -1,7 +1,6 @@
 import {
   CustomPaging,
   DataTypeProvider,
-  DataTypeProviderProps,
   Filter,
   FilteringState,
   PagingState,
@@ -18,9 +17,8 @@ import {
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
-import { IconButton, LinearProgress, Paper, Tooltip } from '@material-ui/core';
+import { LinearProgress, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Create } from '@material-ui/icons';
 import { AxiosResponse } from 'axios';
 import React, { ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -42,6 +40,7 @@ import DateTypeProvider from './components/DateFormatter';
 import DateTimeEditorComponent from './components/DateTimeEditorComponent';
 import DateTimeTypeProvider from './components/DateTimeFormatter';
 import FilterCellComponent from './components/FilterCellComponent';
+import IconTypeProvider from './components/IconFormatter';
 import ImageTypeProvider from './components/ImageFormatter';
 import NumberEditorComponent from './components/NumberEditorComponent';
 import RootComponent from './components/RootComponent';
@@ -101,30 +100,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       this.loadData();
     }
   }
-
-  /**
-   * Компонент для иконок под разные статусы
-   */
-  iconFormatter = (props: DataTypeProvider.ValueFormatterProps) => {
-    const { id } = props.row;
-    return (
-      <Tooltip title="Редактировать">
-        <IconButton onClick={this.openEditWindow(id)}>
-          <Create />
-        </IconButton>
-      </Tooltip>
-    );
-  }
-
-  /**
-   * Компонент, предоставляющий тип для иконок под разные статусы
-   */
-  iconTypeProvider = (props: DataTypeProviderProps) => (
-    <DataTypeProvider
-      formatterComponent={this.iconFormatter}
-      {...props}
-    />
-  )
 
   /**
    * Метод для загрузи данных в таблицу с сервера
@@ -277,7 +252,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           message={snackbarMessage}
           onClose={this.closeSnackbar}
         />
-        <Paper className={classes.paper}>
+        <Paper
+          className={classes.paper}
+        >
           <Grid
             rows={rows}
             columns={columns}
@@ -309,8 +286,13 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               availableFilterOperations={sexFilterOperations}
               editorComponent={SexEditorComponent}
             />
-            <ImageTypeProvider for={avatarColumns} />
-            <this.iconTypeProvider for={buttonColumns} />
+            <ImageTypeProvider
+              for={avatarColumns}
+            />
+            <IconTypeProvider
+              handleClick={this.openEditWindow}
+              for={buttonColumns}
+            />
             <DragDropProvider />
             <SortingState
               sorting={sorting}
@@ -355,7 +337,10 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           </Grid>
           {loading && <LinearProgress />}
         </Paper>
-        <AddButton tooltip="Создать" onClick={this.openEditWindow(-1)} />
+        <AddButton
+          tooltip="Создать"
+          onClick={this.openEditWindow(-1)}
+        />
         <EmployeeForm
           id={rowId}
           open={addEmployee}

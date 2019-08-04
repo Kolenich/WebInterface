@@ -25,9 +25,10 @@ export const variantIcon: IVariantIcons = {
  * @param props передаваемые пропсы
  * @constructor
  */
-const TransitionComponent = (props: TransitionProps): JSX.Element => (
-  <Grow {...props} />
-);
+const TransitionComponent: FunctionComponent<TransitionProps> =
+  (props: TransitionProps): JSX.Element => (
+    <Grow {...props} />
+  );
 
 /**
  * Компонент-обертка для содержимого снэкбара
@@ -56,6 +57,14 @@ const SnackbarContentWrapper: FunctionComponent<IWrapperProps> =
     );
   };
 
+/**
+ * Основной компонент снэкбара
+ * @param message сообщение снэкбара
+ * @param variant тип отображаемого снэкбара
+ * @param onClose функция, закрывающая снэкбар
+ * @param open переменная, отвечающая за открытие/закрытие снэкбара
+ * @constructor
+ */
 const Snackbar: FunctionComponent<IProps> =
   ({ message, variant, onClose, open }: IProps) => (
     <SnackbarBase
