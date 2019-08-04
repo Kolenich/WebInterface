@@ -65,24 +65,23 @@ const SnackbarContentWrapper: FunctionComponent<IWrapperProps> =
  * @param open переменная, отвечающая за открытие/закрытие снэкбара
  * @constructor
  */
-const Snackbar: FunctionComponent<IProps> =
-  ({ message, variant, onClose, open }: IProps) => (
-    <SnackbarBase
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
-      }}
-      TransitionComponent={TransitionComponent}
-      open={open}
-      autoHideDuration={3000}
+const Snackbar: FunctionComponent<IProps> = ({ message, variant, onClose, open }: IProps) => (
+  <SnackbarBase
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    TransitionComponent={TransitionComponent}
+    open={open}
+    autoHideDuration={3000}
+    onClose={onClose}
+  >
+    <SnackbarContentWrapper
       onClose={onClose}
-    >
-      <SnackbarContentWrapper
-        onClose={onClose}
-        variant={variant}
-        message={message}
-      />
-    </SnackbarBase>
-  );
+      variant={variant}
+      message={message}
+    />
+  </SnackbarBase>
+);
 
 export default Snackbar;

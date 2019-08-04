@@ -1,15 +1,14 @@
 import { SnackbarContentProps } from '@material-ui/core/SnackbarContent';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ComponentState, ComponentType } from 'react';
-import { variantIcon } from './index';
 
 export interface IWrapperProps extends SnackbarContentProps {
   /** Сообщение снэкбара */
-  message?: string;
+  message: string;
   /** Функция, закрывающая снэкбар */
-  onClose?: () => ComponentState;
+  onClose: () => ComponentState;
   /** Тип снэкбара */
-  variant: keyof typeof variantIcon;
+  variant: keyof IVariantIcons;
 }
 
 export interface IProps extends IWrapperProps {
