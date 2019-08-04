@@ -2,7 +2,7 @@ import { Theme } from '@material-ui/core';
 import { amber, green } from '@material-ui/core/colors';
 import { createStyles } from '@material-ui/core/styles';
 
-export const styles = (theme: Theme) => createStyles({
+export const styles = (theme: Theme) => createStyles<string, any>({
   statusIcon: {
     fontSize: 35,
     opacity: 0.9,

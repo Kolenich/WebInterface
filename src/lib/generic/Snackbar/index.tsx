@@ -10,6 +10,9 @@ import { IProps, IVariantIcons, IWrapperProps } from './types';
 
 const useStyles = makeStyles(styles);
 
+/**
+ * Объект с иконками для снэкбара
+ */
 export const variantIcon: IVariantIcons = {
   success: CheckCircle,
   warning: Warning,
@@ -17,17 +20,29 @@ export const variantIcon: IVariantIcons = {
   info: Info,
 };
 
+/**
+ * Компонент, отвечающий за анимацию появления и исчезновения снэкбара
+ * @param props передаваемые пропсы
+ * @constructor
+ */
 const TransitionComponent = (props: TransitionProps): JSX.Element => (
   <Grow {...props} />
 );
 
+/**
+ * Компонент-обертка для содержимого снэкбара
+ * @param message сообщение снэкбара
+ * @param onClose функция, закрывающая снэкбар
+ * @param variant тип отображаемого снэкбара
+ * @param props остальные пропсы
+ * @constructor
+ */
 const SnackbarContentWrapper: FunctionComponent<IWrapperProps> =
   ({ message, onClose, variant, ...props }: IWrapperProps): JSX.Element => {
     const classes = useStyles();
     const Icon: ComponentType<SvgIconProps> = variantIcon[variant];
     return (
       <SnackbarContent
-        // @ts-ignore
         className={clsx(classes[variant], classes.snackbar)}
         aria-describedby="snackbar"
         message={

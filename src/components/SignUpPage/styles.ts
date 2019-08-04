@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { createStyles } from '@material-ui/core/styles';
 
-export const styles = (theme: Theme) => createStyles({
+export const styles = (theme: Theme) => createStyles<string, any>({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
