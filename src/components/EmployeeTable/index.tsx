@@ -39,9 +39,9 @@ import DateEditorComponent from './components/DateEditorComponent';
 import DateTypeProvider from './components/DateFormatter';
 import DateTimeEditorComponent from './components/DateTimeEditorComponent';
 import DateTimeTypeProvider from './components/DateTimeFormatter';
-import FilterCellComponent from './components/FilterCellComponent';
 import IconTypeProvider from './components/IconFormatter';
 import ImageTypeProvider from './components/ImageFormatter';
+import NoFilterEditorComponent from './components/NoFilterEditorComponent';
 import NumberEditorComponent from './components/NumberEditorComponent';
 import RootComponent from './components/RootComponent';
 import SexEditorComponent from './components/SexEditorComponent';
@@ -288,10 +288,14 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             />
             <ImageTypeProvider
               for={avatarColumns}
+              availableFilterOperations={[]}
+              editorComponent={NoFilterEditorComponent}
             />
             <IconTypeProvider
               handleClick={this.openEditWindow}
               for={buttonColumns}
+              availableFilterOperations={[]}
+              editorComponent={NoFilterEditorComponent}
             />
             <DragDropProvider />
             <SortingState
@@ -328,7 +332,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             <TableFilterRow
               showFilterSelector
               messages={filterRowMessages}
-              cellComponent={FilterCellComponent}
             />
             <PagingPanel
               pageSizes={pageSizes}
