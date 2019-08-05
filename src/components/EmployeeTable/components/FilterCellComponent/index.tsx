@@ -1,4 +1,5 @@
 import { TableFilterRow } from '@devexpress/dx-react-grid-material-ui';
+import { Typography } from '@material-ui/core';
 import React, { FunctionComponent } from 'react';
 
 /**
@@ -6,11 +7,13 @@ import React, { FunctionComponent } from 'react';
  * @param props базовые пропсы
  */
 const FilterCellComponent: FunctionComponent<TableFilterRow.CellProps> =
-  (props: TableFilterRow.CellProps) => {
+  (props: TableFilterRow.CellProps): JSX.Element => {
     const { column } = props;
     if (['button', 'avatar'].includes(column.name)) {
       return (
-        <th />
+        <TableFilterRow.Cell {...props}>
+          <Typography component="div" />
+        </TableFilterRow.Cell>
       );
     }
     return <TableFilterRow.Cell {...props} />;
