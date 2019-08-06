@@ -11,26 +11,10 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 import { Paper, withStyles } from '@material-ui/core';
 import React, { PureComponent, ReactNode } from 'react';
+import { SaleLabel, TransactionLabel } from './components/Label';
 import demoData from './demoData';
 import { styles } from './styles';
 import { IProps, IState } from './types';
-
-/**
- * Базовый компонент для указателей на оси абсцисс
- * @param symbol дополниьельный к значению символ
- * @constructor
- */
-const Label = (symbol: string) => ({ text, ...props }: ValueAxis.LabelProps) => {
-  return (
-    <ValueAxis.Label
-      {...props}
-      text={text + symbol}
-    />
-  );
-};
-
-const SaleLabel = Label(' тыс. руб.');
-const TransactionLabel = Label(' ед.');
 
 /**
  * Компонент графиков.
