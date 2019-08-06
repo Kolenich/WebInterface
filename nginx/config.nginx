@@ -57,6 +57,12 @@ server {
     proxy_set_header X-Forwarded-Proto $scheme;
   }
 
+  location /auth/ {
+    proxy_pass http://server:8000/auth/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+
   location /django-static/ {
     alias /app/static/;
     autoindex on;
