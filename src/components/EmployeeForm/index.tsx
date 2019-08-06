@@ -61,15 +61,13 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           }))
           .catch();
       } else {
-        this.setState((state: IState) => (
-          {
-            ...state,
-            employee: { ...defaultEmployee },
-            dateOfBirthNotNull: false,
-            statusWindowOpen: false,
-            statusMessage: '',
-          }
-        ));
+        this.setState((state: IState) => ({
+          ...state,
+          employee: { ...defaultEmployee },
+          dateOfBirthNotNull: false,
+          statusWindowOpen: false,
+          statusMessage: '',
+        }));
       }
     }
   }
