@@ -24,6 +24,7 @@ import StatusWindow from '../../lib/generic/StatusWindow';
 import TextField from '../../lib/generic/TextField';
 import { HTTPMethods, IEmployee, ISelectElement, Sex } from '../../lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES, sexChoices } from '../../lib/utils';
+import { defaultEmployee } from './structure';
 import { styles } from './styles';
 import { IProps, IState } from './types';
 
@@ -37,18 +38,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      employee: {
-        first_name: '',
-        last_name: '',
-        email: '',
-        sex: '',
-        middle_name: null,
-        phone: null,
-        organization: null,
-        date_of_birth: null,
-        registration_date: null,
-        avatar: null,
-      },
+      employee: { ...defaultEmployee },
       dateOfBirthNotNull: false,
       statusWindowOpen: false,
       statusMessage: '',
@@ -74,18 +64,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
         this.setState((state: IState) => (
           {
             ...state,
-            employee: {
-              first_name: '',
-              last_name: '',
-              email: '',
-              sex: '',
-              middle_name: null,
-              phone: null,
-              organization: null,
-              date_of_birth: null,
-              registration_date: null,
-              avatar: null,
-            },
+            employee: { ...defaultEmployee },
             dateOfBirthNotNull: false,
             statusWindowOpen: false,
             statusMessage: '',
@@ -105,18 +84,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     if (statusType === 'success') {
       this.setState((state: IState) => ({
         ...state,
-        employee: {
-          first_name: '',
-          last_name: '',
-          email: '',
-          sex: '',
-          middle_name: null,
-          phone: null,
-          organization: null,
-          date_of_birth: null,
-          registration_date: null,
-          avatar: null,
-        },
+        employee: { ...defaultEmployee },
       }));
       onClose();
     }
