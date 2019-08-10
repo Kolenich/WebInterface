@@ -1,15 +1,19 @@
+import { MuiThemeProvider } from '@material-ui/core';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import MainPage from './components/MainPage';
 import './index.css';
 import { Provider } from './lib/context';
-import * as serviceWorker from './serviceWorker';
+import { theme } from './lib/theme';
+import { unregister } from './serviceWorker';
 
-ReactDOM.render(
+render(
   <BrowserRouter>
     <Provider>
-      <MainPage />
+      <MuiThemeProvider theme={theme}>
+        <MainPage />
+      </MuiThemeProvider>
     </Provider>
   </BrowserRouter>,
   document.getElementById('root'),
@@ -18,4 +22,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+unregister();

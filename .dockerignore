@@ -29,8 +29,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-package-lock.json
-Dockerfile.web
+Dockerfile.*
 docker-compose.yml
 
 # Optional npm cache directory
@@ -43,10 +42,7 @@ docker-compose.yml
 .node_repl_history
 
 # Yarn Integrity file
-.yarn-integrity
 
 # next.js build output
 .next
-/.dockerignore
-*.sh
 .*
