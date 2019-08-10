@@ -168,6 +168,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     }));
     const { updateTable } = this.props;
     const { employee } = deepCopy<IState>(this.state);
+    const { id } = employee;
     Object.keys(employee).map((field: keyof IEmployee): void => {
       if (employee[field] === '') {
         employee[field] = null;
@@ -176,8 +177,8 @@ class EmployeeForm extends PureComponent<IProps, IState> {
     });
     let url: string = 'employee';
     let method: HTTPMethods = 'post';
-    if (employee.id) {
-      url = `employee/${employee.id}`;
+    if (id) {
+      url = `employee/${id}`;
       method = 'patch';
     }
     api.sendContent<IEmployee>(url, employee, method)
