@@ -9,19 +9,11 @@ networks:
   server-rabbitmq:
     name: server-rabbitmq
     driver: bridge
-volumes:
-  static:
-    name: static
-    driver: local
-    driver_opts:
-      type: none
-      device: $PWD/static
-      o: bind
 services:
   web:
     volumes:
-      - static:/usr/share/nginx/html/static
-      - $PWD/media:/usr/share/nginx/html/media
+      - ./django:/usr/share/nginx/html/django
+      - ./media:/usr/share/nginx/html/media
       - /etc/letsencrypt:/etc/letsencrypt
     restart: always
     container_name: web
@@ -33,8 +25,8 @@ services:
       - web-server
   server:
     volumes:
-      - static:/app/static
-      - $PWD/media:/app/media
+      - ./django:/app/static
+      - ./media:/app/media
     restart: always
     container_name: server
     image: kolenich/server
