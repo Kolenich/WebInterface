@@ -1,7 +1,7 @@
 import { DataTypeProvider, DataTypeProviderProps } from '@devexpress/dx-react-grid';
 import { Avatar } from '@material-ui/core';
-import { AccountCircle } from '@material-ui/icons';
 import React from 'react';
+import yoba from '../../../../assets/img/yoba.jpg';
 import { getBaseUrl } from '../../../../lib/utils';
 
 /**
@@ -14,9 +14,7 @@ const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
     return <Avatar src={`${getBaseUrl()}${value}`} />;
   }
   return (
-    <Avatar>
-      <AccountCircle />
-    </Avatar>
+    <Avatar src={yoba} />
   );
 };
 
