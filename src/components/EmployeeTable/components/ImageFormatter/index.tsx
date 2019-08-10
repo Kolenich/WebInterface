@@ -10,12 +10,10 @@ import { getBaseUrl } from '../../../../lib/utils';
  * @constructor
  */
 const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
-  if (value !== null) {
+  if (value) {
     return <Avatar src={`${getBaseUrl()}${value}`} />;
   }
-  return (
-    <Avatar src={yoba} />
-  );
+  return <Avatar src={yoba} />;
 };
 
 /**
