@@ -63,11 +63,6 @@ server {
     proxy_set_header X-Forwarded-Proto $scheme;
   }
 
-  location /django-static/ {
-    alias /app/static/;
-    autoindex on;
-  }
-
   location /media/ {
     alias /app/media/;
     autoindex on;
