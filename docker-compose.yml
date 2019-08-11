@@ -9,10 +9,25 @@ networks:
   server-rabbitmq:
     name: server-rabbitmq
     driver: bridge
+volumes:
+  static:
+    name: static
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $PWD/static
+  postgres_data:
+    name: postgres_data
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: $PWD/postgres_data
 services:
   web:
     volumes:
-      - ./django:/usr/share/nginx/html/django
+      - static:/usr/share/nginx/html/static
       - ./media:/usr/share/nginx/html/media
       - /etc/letsencrypt:/etc/letsencrypt
     restart: always
@@ -25,7 +40,7 @@ services:
       - web-server
   server:
     volumes:
-      - ./django:/app/static
+      - static:/app/static
       - ./media:/app/media
     restart: always
     container_name: server
@@ -37,12 +52,22 @@ services:
   postgres:
     restart: always
     container_name: postgres
-    image: kolenich/postgres
+    image: postgres:11.3-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=nikolay
+      - POSTGRES_PASSWORD=Crowel_16
     networks:
       - server-postgres
   rabbitmq:
     restart: always
     container_name: rabbitmq
-    image: kolenich/rabbitmq
+    image: rabbitmq:3.7.15-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=kolenich
+      - RABBITMQ_DEFAULT_PASS=Crowel_16
+      - RABBITMQ_DEFAULT_VHOST=kolenich-host
     networks:
       - server-rabbitmq
