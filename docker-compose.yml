@@ -12,14 +12,8 @@ networks:
 volumes:
   static:
     name: static
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: $PWD/static
   postgres_data:
     name: postgres_data
-    driver: local
     driver_opts:
       type: none
       o: bind
