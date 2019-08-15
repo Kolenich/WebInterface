@@ -55,6 +55,8 @@ export interface IState {
   sorting: Sorting[];
   /** Базовый порядок столбцов в таблице */
   defaultOrder: string[];
+  /** Список зафиксированных слева столбцов */
+  leftFixedColumns: string[] | symbol[];
   /** Ширина столбцов по умолчанию */
   defaultColumnWidths: TableColumnWidthInfo[];
   /** Настройки столбцов по сортировке */

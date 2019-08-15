@@ -18,6 +18,7 @@ import {
   TableEditColumn,
   TableEditRow,
   TableFilterRow,
+  TableFixedColumns,
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
@@ -200,7 +201,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     const {
       rows, columns, defaultOrder, defaultColumnWidths, pageSizes, pageSize, loading, totalCount,
       currentPage, sortingStateColumnExtensions, sorting, snackbarOpen, snackbarVariant,
-      snackbarMessage,
+      snackbarMessage, leftFixedColumns,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -274,6 +275,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               showEditCommand
               commandComponent={CommandComponent}
               messages={tableEditColumnMessages}
+            />
+            <TableFixedColumns
+              leftColumns={leftFixedColumns}
             />
             <PagingPanel
               pageSizes={pageSizes}

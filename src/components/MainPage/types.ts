@@ -1,7 +1,6 @@
 import { IStore } from '../../lib/context/types';
-import { IRouterProps } from '../../lib/types';
 
-export interface IProps extends IRouterProps {
+export interface IProps {
 }
 
 export interface IPropsContext extends IProps {

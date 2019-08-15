@@ -1,3 +1,5 @@
+import { TableEditColumn } from '@devexpress/dx-react-grid-material-ui';
+
 export default {
   columns: [
     { name: 'avatar', title: 'Аватар' },
@@ -55,4 +57,5 @@ export default {
   dateTimeColumns: ['registration_date'],
   avatarColumns: ['avatar'],
   sexColumns: ['sex'],
+  leftFixedColumns: [TableEditColumn.COLUMN_TYPE],
 };
