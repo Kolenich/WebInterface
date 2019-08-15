@@ -4,14 +4,14 @@ export const theme: Theme = createMuiTheme({
   palette: {
     primary: {
       main: '#6c9339',
+      contrastText: '#fff',
     },
     secondary: {
       main: '#ff8a82',
       contrastText: '#fff',
     },
     error: {
-      dark: '#ff793a',
-      main: '#333',
+      main: '#ff793a',
       contrastText: '#fff',
     },
   },

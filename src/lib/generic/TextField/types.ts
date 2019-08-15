@@ -1,6 +1,6 @@
 import { GridSize } from '@material-ui/core/Grid';
 import { ChangeEvent, ComponentState } from 'react';
-import { Validation } from '../../validation';
+import { Validation } from '../../types';
 
 export interface IProps {
   /** Размер в Grid-сетке на маленьких экранах */

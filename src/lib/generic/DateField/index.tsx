@@ -1,6 +1,7 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { makeStyles } from '@material-ui/styles';
 import ruLocale from 'date-fns/locale/ru';
 import React, { FunctionComponent } from 'react';
 import { styles } from './styles';

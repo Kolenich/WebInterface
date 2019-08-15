@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import withContext from '../../lib/context';
 import EmployeeChart from '../EmployeeChart';
@@ -10,7 +10,7 @@ import { IProps, IPropsContext } from './types';
 /**
  * Компонент основной страницы
  */
-const MainPage = ({ context }: IPropsContext) => {
+const MainPage: FunctionComponent<IPropsContext> = ({ context }: IPropsContext): JSX.Element => {
   const { loggedIn } = context.state;
   return (
     <Switch>

@@ -1,6 +1,8 @@
 import {
+  ChangeSet,
   CustomPaging,
   DataTypeProvider,
+  EditingState,
   Filter,
   FilteringState,
   PagingState,
@@ -13,12 +15,14 @@ import {
   PagingPanel,
   TableColumnReordering,
   TableColumnResizing,
+  TableEditColumn,
+  TableEditRow,
   TableFilterRow,
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
 import { LinearProgress, Paper } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
 import React, { ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -27,16 +31,14 @@ import Snackbar from '../../lib/generic/Snackbar';
 import {
   filterRowMessages,
   pagingPanelMessages,
+  tableEditColumnMessages,
   tableHeaderRowMessage,
   tableMessages,
 } from '../../lib/translate';
 import { IApiResponse, IDRFGetConfig, ITableRow } from '../../lib/types';
 import { filteringParams, sortingParams } from '../../lib/utils';
-import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
-import AddButton from './components/AddButton';
-import NoFilterEditor from './components/EditorComponents/NoFilterEditor';
-import IconTypeProvider from './components/FormatterComponents/IconFormatter';
+import CommandComponent from './components/CommandComponent';
 import RootComponent from './components/RootComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';
@@ -59,8 +61,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       pageSize: 5,
       totalCount: 0,
       currentPage: 0,
-      rowId: -1,
-      addEmployee: false,
       loading: false,
       snackbarOpen: false,
       snackbarVariant: 'info',
@@ -136,21 +136,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   }
 
   /**
-   * Колбэк-метод, открывающий модальное окно
-   * @param rowId id сотрудника
-   */
-  private openEditWindow = (rowId: number) => (): ComponentState => (
-    this.setState((state: IState) => ({ ...state, rowId, addEmployee: true }))
-  )
-
-  /**
-   * Колбэк-метод, закрывающий модальное окно
-   */
-  private closeEditWindow = (): ComponentState => (
-    this.setState((state: IState) => ({ ...state, rowId: -1, addEmployee: false }))
-  )
-
-  /**
    * Метод для обработки изменения числа строк на странице
    * @param pageSize
    */
@@ -196,14 +181,26 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   )
 
   /**
+   * Функция подтверждения изменений
+   * @param added массив добавленных строк
+   * @param changed массив изменённых строк
+   * @param deleted массив id удалённых строк
+   */
+  private commitChanges = ({ added, changed, deleted }: ChangeSet) => {
+    if (added) console.log(added);
+    if (changed) console.log(changed);
+    if (deleted) console.log(deleted);
+  }
+
+  /**
    * Базовый метод рендера
    */
   public render(): ReactNode {
     const { classes } = this.props;
     const {
-      rows, columns, defaultOrder, defaultColumnWidths, pageSizes, pageSize, addEmployee, rowId,
-      loading, totalCount, currentPage, sortingStateColumnExtensions, sorting, buttonColumns,
-      snackbarOpen, snackbarVariant, snackbarMessage,
+      rows, columns, defaultOrder, defaultColumnWidths, pageSizes, pageSize, loading, totalCount,
+      currentPage, sortingStateColumnExtensions, sorting, snackbarOpen, snackbarVariant,
+      snackbarMessage,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -231,12 +228,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
               <DataTypeProvider {...props} />
             ))}
-            <IconTypeProvider
-              handleClick={this.openEditWindow}
-              for={buttonColumns}
-              availableFilterOperations={[]}
-              editorComponent={NoFilterEditor}
-            />
             <DragDropProvider />
             <SortingState
               sorting={sorting}
@@ -254,6 +245,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             />
             <FilteringState
               onFiltersChange={this.changeFilters}
+            />
+            <EditingState
+              onCommitChanges={this.commitChanges}
             />
             <VirtualTable
               height="auto"
@@ -273,6 +267,14 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               showFilterSelector
               messages={filterRowMessages}
             />
+            <TableEditRow />
+            <TableEditColumn
+              showAddCommand
+              showDeleteCommand
+              showEditCommand
+              commandComponent={CommandComponent}
+              messages={tableEditColumnMessages}
+            />
             <PagingPanel
               pageSizes={pageSizes}
               messages={pagingPanelMessages}
@@ -280,16 +282,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           </Grid>
           {loading && <LinearProgress />}
         </Paper>
-        <AddButton
-          tooltip="Создать"
-          onClick={this.openEditWindow(-1)}
-        />
-        <EmployeeForm
-          id={rowId}
-          open={addEmployee}
-          onClose={this.closeEditWindow}
-          updateTable={this.loadData}
-        />
       </ReactCSSTransitionGroup>
     );
   }

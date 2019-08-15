@@ -1,8 +1,8 @@
 import { Grow, Snackbar as SnackbarBase, SnackbarContent, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { CheckCircle, Error, Info, Warning } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import React, { ComponentType, FunctionComponent } from 'react';
 import { styles } from './styles';

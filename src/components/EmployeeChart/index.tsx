@@ -9,7 +9,8 @@ import {
   Tooltip,
   ValueAxis,
 } from '@devexpress/dx-react-chart-material-ui';
-import { Paper, withStyles } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import React, { PureComponent, ReactNode } from 'react';
 import { SaleLabel, TransactionLabel } from './components/Label';
 import demoData from './demoData';

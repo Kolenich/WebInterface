@@ -2,11 +2,11 @@ import {
   FormControl,
   Grid,
   InputLabel,
-  makeStyles,
   MenuItem,
   OutlinedInput,
   Select as SelectBase,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React, { FunctionComponent, useRef } from 'react';
 import { styles } from './styles';
 import { IProps, ISelectItem } from './types';

@@ -9,10 +9,10 @@ import {
   Link,
   TextField,
   Typography,
-  withStyles,
 } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
+import { withStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';

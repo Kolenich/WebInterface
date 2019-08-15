@@ -1,6 +1,5 @@
 export default {
   columns: [
-    { name: 'button', title: ' ' },
     { name: 'avatar', title: 'Аватар' },
     { name: 'full_name', title: 'ФИО сотрудника' },
     { name: 'registration_date', title: 'Дата регистрации' },
@@ -11,8 +10,6 @@ export default {
     { name: 'sex', title: 'Пол' },
   ],
   defaultOrder: [
-    'button',
-    'avatar',
     'full_name',
     'registration_date',
     'phone',
@@ -20,9 +17,9 @@ export default {
     'date_of_birth',
     'age',
     'sex',
+    'avatar',
   ],
   defaultColumnWidths: [
-    { columnName: 'button', width: 100 },
     { columnName: 'avatar', width: 100 },
     { columnName: 'full_name', width: 300 },
     { columnName: 'registration_date', width: 250 },
@@ -34,7 +31,6 @@ export default {
   ],
   sortingStateColumnExtensions: [
     { columnName: 'avatar', sortingEnabled: false },
-    { columnName: 'button', sortingEnabled: false },
   ],
   textFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
   numberFilterOperations: [
@@ -58,6 +54,5 @@ export default {
   dateColumns: ['date_of_birth'],
   dateTimeColumns: ['registration_date'],
   avatarColumns: ['avatar'],
-  buttonColumns: ['button'],
   sexColumns: ['sex'],
 };

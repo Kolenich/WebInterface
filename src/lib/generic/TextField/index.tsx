@@ -1,4 +1,5 @@
-import { Grid, makeStyles, TextField as TextFieldBase } from '@material-ui/core';
+import { Grid, TextField as TextFieldBase } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React, { FunctionComponent } from 'react';
 import { validationMessages, validationMethods } from '../../validation';
 import { styles } from './styles';

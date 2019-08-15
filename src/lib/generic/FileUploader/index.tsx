@@ -1,4 +1,5 @@
-import { Grid, Typography, withStyles } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import 'filepond/dist/filepond.min.css';
 import React, { PureComponent, ReactNode } from 'react';
 import { File, FilePond } from 'react-filepond';

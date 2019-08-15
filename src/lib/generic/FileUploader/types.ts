@@ -1,5 +1,5 @@
-import { WithStyles } from '@material-ui/core';
 import { GridSize } from '@material-ui/core/Grid';
+import { WithStyles } from '@material-ui/styles';
 import { ComponentState } from 'react';
 import { IAvatar } from '../../types';
 import { styles } from './styles';

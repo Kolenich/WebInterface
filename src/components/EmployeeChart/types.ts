@@ -1,4 +1,5 @@
-import { Theme, WithStyles } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
+import { WithStyles } from '@material-ui/styles';
 import { IRouterProps } from '../../lib/types';
 import { styles } from './styles';
 

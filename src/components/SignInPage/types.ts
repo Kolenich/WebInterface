@@ -1,4 +1,4 @@
-import { WithStyles } from '@material-ui/core';
+import { WithStyles } from '@material-ui/styles';
 import { IStore } from '../../lib/context/types';
 import { IRouterProps } from '../../lib/types';
 import { styles } from './styles';

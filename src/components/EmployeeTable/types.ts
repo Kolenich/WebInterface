@@ -6,7 +6,7 @@ import {
   SortingState,
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
-import { WithStyles } from '@material-ui/core';
+import { WithStyles } from '@material-ui/styles';
 import { IRouterProps, ITableRow } from '../../lib/types';
 import { styles } from './styles';
 
@@ -14,7 +14,7 @@ export interface IProps extends WithStyles<typeof styles>, IRouterProps {
 }
 
 export interface ICustomDataTypeProviderProps extends DataTypeProviderProps {
-  /** Ключ списка кастомных пееопределений типов */
+  /** Ключ списка кастомных переопределений типов */
   key: number;
 }
 
@@ -41,12 +41,8 @@ export interface IState {
   numberColumns: string[];
   /** Список столбцов с аватаром */
   avatarColumns: string[];
-  /** Список столбцов с кнопкой */
-  buttonColumns: string[];
   /** Строки в таблице */
   rows: ITableRow[];
-  /** Номер текущей строки */
-  rowId: number;
   /** Общее количество строк в таблице */
   totalCount: number;
   /** Индекс текущей страницы */
@@ -67,8 +63,6 @@ export interface IState {
   pageSizes: number[];
   /** Текущий размер страницы */
   pageSize: number;
-  /** Указатель, открывающий/закрывающий форму для создания/редактирования */
-  addEmployee: boolean;
   /** Указатель загрузки */
   loading: boolean;
   /** Переменная, отвечающая за показ снэкбара */

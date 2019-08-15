@@ -6,7 +6,8 @@ import React, { FunctionComponent } from 'react';
  * @param props передаваемые пропсы
  * @constructor
  */
-const RootComponent: FunctionComponent<Grid.RootProps> = (props: Grid.RootProps): JSX.Element =>
-  <Grid.Root {...props} style={{ height: '100%' }} />;
+const RootComponent: FunctionComponent<Grid.RootProps> = (props: Grid.RootProps): JSX.Element => (
+  <Grid.Root {...props} style={{ height: '100%' }} />
+);
 
 export default RootComponent;

@@ -4,10 +4,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  makeStyles,
   Typography,
 } from '@material-ui/core';
 import { CheckCircle, Error, Warning } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
 import Button from '../Button';

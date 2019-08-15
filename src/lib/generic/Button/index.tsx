@@ -1,5 +1,6 @@
-import { Button as ButtonBase, makeStyles } from '@material-ui/core';
+import { Button as ButtonBase } from '@material-ui/core';
 import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import React, { FunctionComponent } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';

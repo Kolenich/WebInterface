@@ -1,6 +1,7 @@
 import { Theme } from '@material-ui/core';
+import { createStyles } from '@material-ui/styles';
 
-export const styles = (theme: Theme) => ({
+export const styles = (theme: Theme) => createStyles<string, {}>({
   button: {
     margin: theme.spacing(1),
   },
