@@ -35,21 +35,13 @@ import { filteringParams, sortingParams } from '../../lib/utils';
 import EmployeeForm from '../EmployeeForm';
 import columnSettings from './columnSettings';
 import AddButton from './components/AddButton';
-import DateEditorComponent from './components/DateEditorComponent';
-import DateTypeProvider from './components/DateFormatter';
-import DateTimeEditorComponent from './components/DateTimeEditorComponent';
-import DateTimeTypeProvider from './components/DateTimeFormatter';
-import IconTypeProvider from './components/IconFormatter';
-import ImageTypeProvider from './components/ImageFormatter';
-import NoFilterEditorComponent from './components/NoFilterEditorComponent';
-import NumberEditorComponent from './components/NumberEditorComponent';
+import NoFilterEditor from './components/EditorComponents/NoFilterEditor';
+import IconTypeProvider from './components/FormatterComponents/IconFormatter';
 import RootComponent from './components/RootComponent';
-import SexEditorComponent from './components/SexEditorComponent';
-import SexTypeProvider from './components/SexFormatter';
-import TextEditorComponent from './components/TextEditorComponent';
+import customDataTypes from './customDataTypes';
 import { styles } from './styles';
 import './styles.css';
-import { IProps, IState } from './types';
+import { ICustomDataTypeProviderProps, IProps, IState } from './types';
 
 /**
  * Компонент таблицы Сотрудников
@@ -209,34 +201,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   public render(): ReactNode {
     const { classes } = this.props;
     const {
-      rows,
-      columns,
-      defaultOrder,
-      defaultColumnWidths,
-      pageSizes,
-      pageSize,
-      addEmployee,
-      rowId,
-      loading,
-      totalCount,
-      currentPage,
-      sortingStateColumnExtensions,
-      sorting,
-      dateColumns,
-      sexColumns,
-      dateTimeColumns,
-      avatarColumns,
-      buttonColumns,
-      textFilterOperations,
-      numberFilterOperations,
-      dateFilterOperations,
-      dateTimeFilterOperations,
-      sexFilterOperations,
-      textFilterColumns,
-      numberFilterColumns,
-      snackbarOpen,
-      snackbarVariant,
-      snackbarMessage,
+      rows, columns, defaultOrder, defaultColumnWidths, pageSizes, pageSize, addEmployee, rowId,
+      loading, totalCount, currentPage, sortingStateColumnExtensions, sorting, buttonColumns,
+      snackbarOpen, snackbarVariant, snackbarMessage,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -261,41 +228,14 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             getRowId={this.getRowId}
             rootComponent={RootComponent}
           >
-            <DataTypeProvider
-              for={textFilterColumns}
-              availableFilterOperations={textFilterOperations}
-              editorComponent={TextEditorComponent}
-            />
-            <DataTypeProvider
-              for={numberFilterColumns}
-              availableFilterOperations={numberFilterOperations}
-              editorComponent={NumberEditorComponent}
-            />
-            <DateTypeProvider
-              for={dateColumns}
-              availableFilterOperations={dateFilterOperations}
-              editorComponent={DateEditorComponent}
-            />
-            <DateTimeTypeProvider
-              for={dateTimeColumns}
-              availableFilterOperations={dateTimeFilterOperations}
-              editorComponent={DateTimeEditorComponent}
-            />
-            <SexTypeProvider
-              for={sexColumns}
-              availableFilterOperations={sexFilterOperations}
-              editorComponent={SexEditorComponent}
-            />
-            <ImageTypeProvider
-              for={avatarColumns}
-              availableFilterOperations={[]}
-              editorComponent={NoFilterEditorComponent}
-            />
+            {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
+              <DataTypeProvider {...props} />
+            ))}
             <IconTypeProvider
               handleClick={this.openEditWindow}
               for={buttonColumns}
               availableFilterOperations={[]}
-              editorComponent={NoFilterEditorComponent}
+              editorComponent={NoFilterEditor}
             />
             <DragDropProvider />
             <SortingState

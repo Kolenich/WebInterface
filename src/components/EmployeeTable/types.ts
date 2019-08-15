@@ -1,5 +1,6 @@
 import {
   Column,
+  DataTypeProviderProps,
   Filter,
   Sorting,
   SortingState,
@@ -10,6 +11,11 @@ import { IRouterProps, ITableRow } from '../../lib/types';
 import { styles } from './styles';
 
 export interface IProps extends WithStyles<typeof styles>, IRouterProps {
+}
+
+export interface ICustomDataTypeProviderProps extends DataTypeProviderProps {
+  /** Ключ списка кастомных пееопределений типов */
+  key: number;
 }
 
 export interface IState {
@@ -30,9 +36,9 @@ export interface IState {
   /** Список допустимых операций фильтрации для полей даты/времени */
   dateTimeFilterOperations: string[];
   /** Список текстовых столбцов, которые можно фильтровать */
-  textFilterColumns: string[];
+  textColumns: string[];
   /** Список числовых столбцов, которые можно фильтровать */
-  numberFilterColumns: string[];
+  numberColumns: string[];
   /** Список столбцов с аватаром */
   avatarColumns: string[];
   /** Список столбцов с кнопкой */

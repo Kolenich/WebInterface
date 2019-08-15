@@ -6,8 +6,8 @@ import { IProps } from './types';
  * Компонент ячейки для столбцов без фильтрации
  * @param props базовые пропсы
  */
-const NoFilterEditorComponent: FunctionComponent<IProps> = (props: IProps): JSX.Element => (
+const NoFilterEditor: FunctionComponent<IProps> = (props: IProps): JSX.Element => (
   <Typography component="div" />
 );
 
-export default NoFilterEditorComponent;
+export default NoFilterEditor;

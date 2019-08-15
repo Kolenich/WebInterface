@@ -1,8 +1,8 @@
 import { FormControl, Input, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import { ISelectItem } from '../../../../lib/generic/Select/types';
-import { ISelectElement } from '../../../../lib/types';
-import { sexChoices } from '../../../../lib/utils';
+import { ISelectItem } from '../../../../../lib/generic/Select/types';
+import { ISelectElement } from '../../../../../lib/types';
+import { sexChoices } from '../../../../../lib/utils';
 import { styles } from './styles';
 import { IProps } from './types';
 
@@ -12,7 +12,7 @@ const useStyles = makeStyles(styles);
  * Компонент фильтрации по полу
  * @param props базовые пропсы
  */
-const SexEditorComponent: FunctionComponent<IProps> = (props: IProps) => {
+const SelectEditor: FunctionComponent<IProps> = (props: IProps) => {
   const { onValueChange, value } = props;
   const classes = useStyles();
   const onChange = (event: ChangeEvent<ISelectElement>) => {
@@ -43,4 +43,4 @@ const SexEditorComponent: FunctionComponent<IProps> = (props: IProps) => {
   );
 };
 
-export default SexEditorComponent;
+export default SelectEditor;

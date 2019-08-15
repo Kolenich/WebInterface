@@ -1,8 +1,11 @@
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core';
-import { DatePicker, MaterialUiPickersDate, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import {
+  DateTimePicker,
+  MaterialUiPickersDate,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 import ruLocale from 'date-fns/locale/ru';
-import moment from 'moment';
 import React, { FunctionComponent } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
@@ -10,21 +13,17 @@ import { IProps } from './types';
 const useStyles = makeStyles(styles);
 
 /**
- * Компонент фильтрации по дате
+ * Компонент фильтрации по дате/времени
  * @param onValueChange функция, обрабатывающая изменение в поле
  * @param value значение в поле
  * @param props остальные пропсы
  * @constructor
  */
-const DateEditorComponent: FunctionComponent<IProps> =
+const DateTimeEditor: FunctionComponent<IProps> =
   ({ onValueChange, value, ...props }: IProps): JSX.Element => {
     const classes = useStyles();
     const handleChange = (date: MaterialUiPickersDate) => {
-      let value: null | string = null;
-      if (date) {
-        value = moment(date as Date).format('YYYY-MM-DD');
-      }
-      onValueChange(value);
+      onValueChange(date);
     };
     let displayValue = null;
     if (value) {
@@ -32,13 +31,15 @@ const DateEditorComponent: FunctionComponent<IProps> =
     }
     return (
       <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
-        <DatePicker
+        <DateTimePicker
           {...props}
+          hideTabs
+          ampm={false}
           value={displayValue}
           label="Фильтр..."
           className={classes.datePicker}
           onChange={handleChange}
-          format="dd MMMM yyyy"
+          format="dd MMMM yyyy, HH:mm"
           disableFuture
           animateYearScrolling
           clearable
@@ -50,4 +51,4 @@ const DateEditorComponent: FunctionComponent<IProps> =
     );
   };
 
-export default DateEditorComponent;
+export default DateTimeEditor;

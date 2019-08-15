@@ -10,7 +10,7 @@ const useStyles = makeStyles(styles);
  * @param props передаваемые пропсы
  * @constructor
  */
-const NumberEditorComponent: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
+const NumberEditor: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value: targetValue } = event.target;
@@ -39,4 +39,4 @@ const NumberEditorComponent: FunctionComponent<IProps> = (props: IProps): JSX.El
   );
 };
 
-export default NumberEditorComponent;
+export default NumberEditor;

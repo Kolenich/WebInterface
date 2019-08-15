@@ -1,6 +1,6 @@
 import { makeStyles, TextField } from '@material-ui/core';
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import { ISelectElement } from '../../../../lib/types';
+import { ISelectElement } from '../../../../../lib/types';
 import { styles } from './styles';
 import { IProps } from './types';
 
@@ -10,7 +10,7 @@ const useStyles = makeStyles(styles);
  * Компонент фильтрации текстовых значений
  * @param props базовые пропсы
  */
-const TextEditorComponent: FunctionComponent<IProps> = (props: IProps) => {
+const TextEditor: FunctionComponent<IProps> = (props: IProps) => {
   const { onValueChange, value } = props;
   const classes = useStyles();
   const onChange = (event: ChangeEvent<ISelectElement>) => {
@@ -32,4 +32,4 @@ const TextEditorComponent: FunctionComponent<IProps> = (props: IProps) => {
   );
 };
 
-export default TextEditorComponent;
+export default TextEditor;
