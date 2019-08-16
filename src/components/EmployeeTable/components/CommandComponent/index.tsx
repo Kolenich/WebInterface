@@ -17,9 +17,7 @@ const commandComponents: ICommandComponents<IProps> = {
 const CommandComponent = (props: IProps): JSX.Element => {
   const CommandButton: FunctionComponent<IProps> = commandComponents[props.id];
   return (
-    <CommandButton
-      {...props}
-    />
+    <CommandButton {...props} />
   );
 };
 
