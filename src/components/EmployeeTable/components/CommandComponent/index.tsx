@@ -14,7 +14,7 @@ const commandComponents: ICommandComponents<IProps> = {
   cancel: CancelButton,
 };
 
-const CommandComponent = (props: IProps): JSX.Element => {
+const CommandComponent: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
   const CommandButton: FunctionComponent<IProps> = commandComponents[props.id];
   return (
     <CommandButton {...props} />
