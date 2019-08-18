@@ -37,7 +37,7 @@ import {
   tableHeaderRowMessage,
   tableMessages,
 } from '../../lib/translate';
-import { IApiResponse, IDRFGetConfig, ITableRow } from '../../lib/types';
+import { IApiResponse, IDRFGetConfig, IEmployee, ITableRow } from '../../lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from '../../lib/utils';
 import columnSettings from './columnSettings';
 import CommandComponent from './components/CommandComponent';
@@ -139,6 +139,37 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   }
 
   /**
+   * Функция обработки успешного ответа с сервера
+   * @param response объект ответа
+   */
+  private handleSuccess = (response: AxiosResponse) => {
+    this.setState((state: IState) => ({
+      ...state,
+      snackbarOpen: true,
+      snackbarMessage: SERVER_RESPONSES[response.status],
+      snackbarVariant: 'success',
+    }));
+    this.loadData();
+  }
+
+  /**
+   * Функция обработки неуспешного ответа с сервера
+   * @param error объект ответа
+   */
+  private handleError = (error: AxiosError) => {
+    if (error.response) {
+      const { status } = error.response;
+      this.setState((state: IState) => ({
+        ...state,
+        loading: false,
+        snackbarOpen: true,
+        snackbarVariant: 'error',
+        snackbarMessage: SERVER_RESPONSES[status],
+      }));
+    }
+  }
+
+  /**
    * Метод для обработки изменения числа строк на странице
    * @param pageSize
    */
@@ -192,80 +223,23 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   private commitChanges = ({ added, changed, deleted }: ChangeSet) => {
     this.setState((state: IState) => ({ ...state, loading: true }));
     if (added && added.length) {
-      const data = added[0];
+      const data: Partial<IEmployee> = added[0];
       api.sendContent('employee', data, 'post')
-        .then((response: AxiosResponse) => {
-          this.setState((state: IState) => ({
-            ...state,
-            snackbarOpen: true,
-            snackbarMessage: SERVER_RESPONSES[response.status],
-            snackbarVariant: 'success',
-          }));
-          this.loadData();
-        })
-        .catch((error: AxiosError) => {
-          if (error.response) {
-            const { status } = error.response;
-            this.setState((state: IState) => ({
-              ...state,
-              loading: false,
-              snackbarOpen: true,
-              snackbarVariant: 'error',
-              snackbarMessage: SERVER_RESPONSES[status],
-            }));
-          }
-        });
+        .then(this.handleSuccess)
+        .catch(this.handleError);
     }
     if (changed) {
       const id: ReactText = Object.keys(changed)[0];
-      const data = changed[id];
+      const data: Partial<IEmployee> = changed[id];
       api.sendContent(`employee/${id}`, data, 'patch')
-        .then((response: AxiosResponse) => {
-          this.setState((state: IState) => ({
-            ...state,
-            snackbarOpen: true,
-            snackbarMessage: SERVER_RESPONSES[response.status],
-            snackbarVariant: 'success',
-          }));
-          this.loadData();
-        })
-        .catch((error: AxiosError) => {
-          if (error.response) {
-            const { status } = error.response;
-            this.setState((state: IState) => ({
-              ...state,
-              loading: false,
-              snackbarOpen: true,
-              snackbarVariant: 'error',
-              snackbarMessage: SERVER_RESPONSES[status],
-            }));
-          }
-        });
+        .then(this.handleSuccess)
+        .catch(this.handleError);
     }
     if (deleted && deleted.length) {
       const id: ReactText = deleted[0];
       api.sendContent(`employee/${id}`, {}, 'delete')
-        .then((response: AxiosResponse) => {
-          this.setState((state: IState) => ({
-            ...state,
-            snackbarOpen: true,
-            snackbarMessage: SERVER_RESPONSES[response.status],
-            snackbarVariant: 'success',
-          }));
-          this.loadData();
-        })
-        .catch((error: AxiosError) => {
-          if (error.response) {
-            const { status } = error.response;
-            this.setState((state: IState) => ({
-              ...state,
-              loading: false,
-              snackbarOpen: true,
-              snackbarVariant: 'error',
-              snackbarMessage: SERVER_RESPONSES[status],
-            }));
-          }
-        });
+        .then(this.handleSuccess)
+        .catch(this.handleError);
     }
   }
 
