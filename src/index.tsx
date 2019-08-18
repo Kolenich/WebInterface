@@ -6,6 +6,7 @@ import MainPage from './components/MainPage';
 import { Provider } from './lib/context';
 import { theme } from './lib/theme';
 import { unregister } from './serviceWorker';
+import './styles.css';
 
 render(
   <BrowserRouter>
