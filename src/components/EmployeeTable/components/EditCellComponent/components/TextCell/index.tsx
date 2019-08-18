@@ -1,5 +1,7 @@
 import { TableCell, TextField } from '@material-ui/core';
+import { InputProps as StandardInputProps } from '@material-ui/core/Input';
 import React, { ChangeEvent, FunctionComponent } from 'react';
+import { EmailMask, PhoneMask } from '../../../../../../lib/masks';
 import { IProps } from '../../types';
 
 /**
@@ -12,7 +14,7 @@ import { IProps } from '../../types';
  * @constructor
  */
 const TextCell: FunctionComponent<IProps> =
-  ({ onValueChange, value, column, disabled }: IProps): JSX.Element => {
+  ({ onValueChange, value, column, disabled, isEmail, isPhone }: IProps): JSX.Element => {
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
       onValueChange(event.target.value);
     };
@@ -20,9 +22,17 @@ const TextCell: FunctionComponent<IProps> =
     if (value) {
       displayValue = value;
     }
+    const InputProps: Partial<StandardInputProps> = {};
+    if (isEmail) {
+      InputProps.inputComponent = EmailMask as FunctionComponent;
+    }
+    if (isPhone) {
+      InputProps.inputComponent = PhoneMask as FunctionComponent;
+    }
     return (
       <TableCell>
         <TextField
+          InputProps={InputProps}
           disabled={disabled}
           label={column.title}
           value={displayValue}

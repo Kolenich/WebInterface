@@ -42,4 +42,4 @@ export const tableEditColumnMessages: TableEditColumn.LocalizationMessages = {
   commitCommand: 'Сохранить',
   cancelCommand: 'Отмена',
   deleteCommand: 'Удалить',
-}
+};

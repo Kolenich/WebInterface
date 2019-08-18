@@ -35,8 +35,8 @@ const SelectCell: FunctionComponent<IProps> =
             input={<Input />}
             onChange={handleChange}
           >
-            {SEX_CHOICES.map((choice: ISexChoice) => (
-              <MenuItem key={choice.key} value={choice.value}>{choice.label}</MenuItem>
+            {SEX_CHOICES.map(({ label, ...choice }: ISexChoice) => (
+              <MenuItem {...choice}>{label}</MenuItem>
             ))}
           </Select>
         </FormControl>

@@ -4,6 +4,10 @@ import { FunctionComponent } from 'react';
 export interface IProps extends TableEditRow.CellProps {
   /** Флаг "только на чтение" */
   disabled?: boolean;
+  /** Указатель, что поле типа email */
+  isEmail?: boolean;
+  /** Указатель, что поле типа телефон */
+  isPhone?: boolean;
 }
 
 export interface IEditCells<IProps> {

@@ -3,7 +3,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import MainPage from './components/MainPage';
-import './index.css';
 import { Provider } from './lib/context';
 import { theme } from './lib/theme';
 import { unregister } from './serviceWorker';
