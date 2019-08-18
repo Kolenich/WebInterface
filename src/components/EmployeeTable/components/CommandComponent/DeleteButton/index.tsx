@@ -6,13 +6,13 @@ import { IProps } from '../types';
 
 const DeleteButton: FunctionComponent<IProps> = ({ onExecute, text }: IProps): JSX.Element => {
   const [open, setOpen] = useState(false);
-  const onClose = () => setOpen(false);
+  const closeDialog = () => setOpen(false);
   const openDialog = () => setOpen(true);
   return (
     <>
       <Dialog
         open={open}
-        onClose={onClose}
+        onClose={closeDialog}
         status="warning"
         message="Вы уверены?"
         closeCallback={onExecute}

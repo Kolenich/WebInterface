@@ -18,6 +18,12 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент окна статуса
+ * @param open флаг на открытие/закрытие
+ * @param status отображаемый статус
+ * @param message отображаемое сообщение
+ * @param onClose функция, закрывающая окно
+ * @param closeCallback функция-колбэк для отработки действий в случае, когда статус warning
+ * @constructor
  */
 const Dialog: FunctionComponent<IProps> =
   ({ open, status, message, onClose, closeCallback }: IProps): JSX.Element => {
