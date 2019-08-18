@@ -3,7 +3,9 @@ import { TableEditColumn } from '@devexpress/dx-react-grid-material-ui';
 export default {
   columns: [
     { name: 'avatar', title: 'Аватар' },
-    { name: 'full_name', title: 'ФИО сотрудника' },
+    { name: 'last_name', title: 'Фамилия сотрудника' },
+    { name: 'first_name', title: 'Имя сотрудника' },
+    { name: 'middle_name', title: 'Отчество сотрудника' },
     { name: 'registration_date', title: 'Дата регистрации' },
     { name: 'phone', title: 'Телефон' },
     { name: 'email', title: 'Электронная почта' },
@@ -12,7 +14,9 @@ export default {
     { name: 'sex', title: 'Пол' },
   ],
   defaultOrder: [
-    'full_name',
+    'last_name',
+    'first_name',
+    'middle_name',
     'registration_date',
     'phone',
     'email',
@@ -23,7 +27,9 @@ export default {
   ],
   defaultColumnWidths: [
     { columnName: 'avatar', width: 100 },
-    { columnName: 'full_name', width: 300 },
+    { columnName: 'last_name', width: 200 },
+    { columnName: 'first_name', width: 200 },
+    { columnName: 'middle_name', width: 200 },
     { columnName: 'registration_date', width: 250 },
     { columnName: 'phone', width: 200 },
     { columnName: 'email', width: 300 },
@@ -51,7 +57,7 @@ export default {
     'equal',
   ],
   dateTimeFilterOperations: ['greaterThan', 'greaterThanOrEqual', 'lessThan', 'lessThanOrEqual'],
-  textColumns: ['full_name', 'phone', 'email'],
+  textColumns: ['last_name', 'first_name', 'middle_name', 'phone', 'email'],
   numberColumns: ['age'],
   dateColumns: ['date_of_birth'],
   dateTimeColumns: ['registration_date'],

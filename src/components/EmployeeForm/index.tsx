@@ -7,11 +7,11 @@ import {
   Grid,
   IconButton,
   Typography,
-  withStyles,
 } from '@material-ui/core';
 import { GridSpacing } from '@material-ui/core/Grid';
 import { Cancel } from '@material-ui/icons';
 import { MaterialUiPickersDate } from '@material-ui/pickers';
+import { withStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import moment from 'moment';
 import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
@@ -237,7 +237,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   /**
    * Функция, обрабатывающая ошибку при вводе в поле даты
    */
-  handleDateError = (): ComponentState => (
+  private handleDateError = (): ComponentState => (
     this.setState((state: IState) => ({ ...state, dateOfBirthNotNull: false }))
   )
 

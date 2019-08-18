@@ -2,7 +2,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { Grid } from '@material-ui/core';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/styles';
-import ruLocale from 'date-fns/locale/ru';
+import { ru } from 'date-fns/locale';
 import React, { FunctionComponent } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
@@ -21,7 +21,7 @@ const DateField: FunctionComponent<IProps> = ({ xs, lg, ...props }: IProps): JSX
   const classes = useStyles();
   return (
     <Grid item xs={xs} lg={lg}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ru}>
         <KeyboardDatePicker
           autoOk
           openTo="year"
