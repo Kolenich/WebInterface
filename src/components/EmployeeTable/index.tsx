@@ -142,7 +142,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция обработки успешного ответа с сервера
    * @param response объект ответа
    */
-  private handleSuccess = (response: AxiosResponse) => {
+  private handleSuccess = (response: AxiosResponse): ComponentState => {
     this.setState((state: IState) => ({
       ...state,
       snackbarOpen: true,
@@ -156,7 +156,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция обработки неуспешного ответа с сервера
    * @param error объект ответа
    */
-  private handleError = (error: AxiosError) => {
+  private handleError = (error: AxiosError): ComponentState => {
     if (error.response) {
       const { status } = error.response;
       this.setState((state: IState) => ({
