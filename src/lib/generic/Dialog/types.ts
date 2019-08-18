@@ -6,7 +6,7 @@ export interface IProps {
   /** Функция-колбэк, закрывающая окно статуса */
   onClose: () => ComponentState;
   /** Функция-колбэк, срабатывающий после закрытия окна */
-  closeCallback?: () => ComponentState;
+  warningAcceptCallback?: () => ComponentState;
   /** Тип отображаемого статуса */
   status: 'success' | 'error' | 'warning' | 'loading';
   /** Отображаемое сообщеие */

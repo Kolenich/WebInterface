@@ -1,6 +1,7 @@
 import {
   Column,
   DataTypeProviderProps,
+  EditingState,
   Filter,
   Sorting,
   SortingState,
@@ -61,6 +62,8 @@ export interface IState {
   defaultColumnWidths: TableColumnWidthInfo[];
   /** Настройки столбцов по сортировке */
   sortingStateColumnExtensions: SortingState.ColumnExtension[];
+  /** Настройки ячеек по редактирования */
+  editingStateColumnExtensions: EditingState.ColumnExtension[];
   /** Допустимые размеры страниц */
   pageSizes: number[];
   /** Текущий размер страницы */

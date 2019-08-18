@@ -196,3 +196,19 @@ export interface IValidationMessages {
 
   [index: string]: string;
 }
+
+export interface ISelectEvent {
+  /** Имя HTML-элемента */
+  name?: string | undefined;
+  /** Значение селекта */
+  value: unknown;
+}
+
+export interface IFileObject {
+  /** Дата изменения */
+  readonly lastModified: number;
+  /** Имя файла */
+  readonly name: string;
+}
+
+export type IActualFileObject = Blob & IFileObject;

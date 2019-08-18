@@ -7,12 +7,18 @@ export const theme: Theme = createMuiTheme({
       contrastText: '#fff',
     },
     secondary: {
-      main: '#ff8a82',
+      main: '#c32f28',
       contrastText: '#fff',
     },
     error: {
       main: '#ff793a',
       contrastText: '#fff',
+    },
+  },
+  typography: {
+    h5: {
+      fontStyle: 'italic',
+      color: 'rgb(172, 170, 170)',
     },
   },
 });

@@ -22,12 +22,13 @@ import {
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
-import { LinearProgress, Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import { AxiosResponse } from 'axios';
-import React, { ComponentState, PureComponent, ReactNode } from 'react';
+import { AxiosError, AxiosResponse } from 'axios';
+import React, { ComponentState, PureComponent, ReactNode, ReactText } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import api from '../../lib/api';
+import Loading from '../../lib/generic/Loading';
 import Snackbar from '../../lib/generic/Snackbar';
 import {
   filterRowMessages,
@@ -37,9 +38,10 @@ import {
   tableMessages,
 } from '../../lib/translate';
 import { IApiResponse, IDRFGetConfig, ITableRow } from '../../lib/types';
-import { filteringParams, sortingParams } from '../../lib/utils';
+import { filteringParams, SERVER_RESPONSES, sortingParams } from '../../lib/utils';
 import columnSettings from './columnSettings';
 import CommandComponent from './components/CommandComponent';
+import EditCellComponent from './components/EditCellComponent';
 import RootComponent from './components/RootComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';
@@ -188,9 +190,83 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param deleted массив id удалённых строк
    */
   private commitChanges = ({ added, changed, deleted }: ChangeSet) => {
-    if (added) console.log(added);
-    if (changed) console.log(changed);
-    if (deleted) console.log(deleted);
+    this.setState((state: IState) => ({ ...state, loading: true }));
+    if (added && added.length) {
+      const data = added[0];
+      api.sendContent('employee', data, 'post')
+        .then((response: AxiosResponse) => {
+          this.setState((state: IState) => ({
+            ...state,
+            snackbarOpen: true,
+            snackbarMessage: SERVER_RESPONSES[response.status],
+            snackbarVariant: 'success',
+          }));
+          this.loadData();
+        })
+        .catch((error: AxiosError) => {
+          if (error.response) {
+            const { status } = error.response;
+            this.setState((state: IState) => ({
+              ...state,
+              loading: false,
+              snackbarOpen: true,
+              snackbarVariant: 'error',
+              snackbarMessage: SERVER_RESPONSES[status],
+            }));
+          }
+        });
+    }
+    if (changed) {
+      const id: ReactText = Object.keys(changed)[0];
+      const data = changed[id];
+      api.sendContent(`employee/${id}`, data, 'patch')
+        .then((response: AxiosResponse) => {
+          this.setState((state: IState) => ({
+            ...state,
+            snackbarOpen: true,
+            snackbarMessage: SERVER_RESPONSES[response.status],
+            snackbarVariant: 'success',
+          }));
+          this.loadData();
+        })
+        .catch((error: AxiosError) => {
+          if (error.response) {
+            const { status } = error.response;
+            this.setState((state: IState) => ({
+              ...state,
+              loading: false,
+              snackbarOpen: true,
+              snackbarVariant: 'error',
+              snackbarMessage: SERVER_RESPONSES[status],
+            }));
+          }
+        });
+    }
+    if (deleted && deleted.length) {
+      const id: ReactText = deleted[0];
+      api.sendContent(`employee/${id}`, {}, 'delete')
+        .then((response: AxiosResponse) => {
+          this.setState((state: IState) => ({
+            ...state,
+            snackbarOpen: true,
+            snackbarMessage: SERVER_RESPONSES[response.status],
+            snackbarVariant: 'success',
+          }));
+          this.loadData();
+        })
+        .catch((error: AxiosError) => {
+          if (error.response) {
+            const { status } = error.response;
+            this.setState((state: IState) => ({
+              ...state,
+              loading: false,
+              snackbarOpen: true,
+              snackbarVariant: 'error',
+              snackbarMessage: SERVER_RESPONSES[status],
+            }));
+          }
+        });
+    }
   }
 
   /**
@@ -201,7 +277,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     const {
       rows, columns, defaultOrder, defaultColumnWidths, pageSizes, pageSize, loading, totalCount,
       currentPage, sortingStateColumnExtensions, sorting, snackbarOpen, snackbarVariant,
-      snackbarMessage, leftFixedColumns,
+      snackbarMessage, leftFixedColumns, editingStateColumnExtensions,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -249,6 +325,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             />
             <EditingState
               onCommitChanges={this.commitChanges}
+              columnExtensions={editingStateColumnExtensions}
             />
             <VirtualTable
               height="auto"
@@ -268,7 +345,9 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               showFilterSelector
               messages={filterRowMessages}
             />
-            <TableEditRow />
+            <TableEditRow
+              cellComponent={EditCellComponent}
+            />
             <TableEditColumn
               showAddCommand
               showDeleteCommand
@@ -284,7 +363,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
               messages={pagingPanelMessages}
             />
           </Grid>
-          {loading && <LinearProgress />}
+          {loading && <Loading />}
         </Paper>
       </ReactCSSTransitionGroup>
     );

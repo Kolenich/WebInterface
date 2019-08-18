@@ -1,5 +1,11 @@
 import { ISelectItem } from './generic/Select/types';
-import { IEmployeeLabels, IFiltering, IServerResponses, ISorting } from './types';
+import {
+  IActualFileObject,
+  IEmployeeLabels,
+  IFiltering,
+  IServerResponses,
+  ISorting,
+} from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -111,3 +117,15 @@ export const sexChoices: ISelectItem[] = [
   { key: 0, label: 'Муж.', value: 'male' },
   { key: 1, label: 'Жен.', value: 'female' },
 ];
+
+/**
+ *
+ * @param file
+ * @returns {Promise<void>}
+ */
+export const toBase64 = (file: IActualFileObject) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = error => reject(error);
+});

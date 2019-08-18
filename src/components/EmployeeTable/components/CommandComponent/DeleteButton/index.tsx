@@ -14,8 +14,8 @@ const DeleteButton: FunctionComponent<IProps> = ({ onExecute, text }: IProps): J
         open={open}
         onClose={closeDialog}
         status="warning"
-        message="Вы уверены?"
-        closeCallback={onExecute}
+        message="Вы уверены? Данное действие нельзя отменить!"
+        warningAcceptCallback={onExecute}
       />
       <Tooltip title={text}>
         <IconButton

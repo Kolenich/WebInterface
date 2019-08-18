@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { CheckCircle, Error, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
 import Button from '../Button';
 import { styles } from './styles';
@@ -22,15 +22,15 @@ const useStyles = makeStyles(styles);
  * @param status отображаемый статус
  * @param message отображаемое сообщение
  * @param onClose функция, закрывающая окно
- * @param closeCallback функция-колбэк для отработки действий в случае, когда статус warning
+ * @param warningAcceptCallback функция-колбэк для отработки действий в случае, когда статус warning
  * @constructor
  */
 const Dialog: FunctionComponent<IProps> =
-  ({ open, status, message, onClose, closeCallback }: IProps): JSX.Element => {
+  ({ open, status, message, onClose, warningAcceptCallback }: IProps): JSX.Element => {
     const classes = useStyles();
     const handleClick = () => {
-      if (status === 'warning' && closeCallback) {
-        closeCallback();
+      if (status === 'warning' && warningAcceptCallback) {
+        warningAcceptCallback();
       }
       onClose();
     };
@@ -39,17 +39,17 @@ const Dialog: FunctionComponent<IProps> =
         <DialogTitle disableTypography>
           {status === 'success' &&
           <Typography variant="h5" className={classes.message}>
-            <CheckCircle className={classNames(classes.statusIcon, classes.successIcon)} />
+            <CheckCircle className={clsx(classes.statusIcon, classes.successIcon)} />
             Успешно
           </Typography>}
           {status === 'error' &&
           <Typography variant="h5" className={classes.message}>
-            <Error className={classNames(classes.statusIcon, classes.errorIcon)} />
+            <Error className={clsx(classes.statusIcon, classes.errorIcon)} />
             Ошибка
           </Typography>}
           {status === 'warning' &&
           <Typography variant="h5" className={classes.message}>
-            <Warning className={classNames(classes.statusIcon, classes.warningIcon)} />
+            <Warning className={clsx(classes.statusIcon, classes.warningIcon)} />
             Внимание
           </Typography>}
           {status === 'loading' &&

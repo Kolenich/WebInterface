@@ -26,13 +26,13 @@ export default {
     'avatar',
   ],
   defaultColumnWidths: [
-    { columnName: 'avatar', width: 100 },
-    { columnName: 'last_name', width: 200 },
-    { columnName: 'first_name', width: 200 },
-    { columnName: 'middle_name', width: 200 },
+    { columnName: 'avatar', width: 200 },
+    { columnName: 'last_name', width: 250 },
+    { columnName: 'first_name', width: 250 },
+    { columnName: 'middle_name', width: 250 },
     { columnName: 'registration_date', width: 250 },
     { columnName: 'phone', width: 200 },
-    { columnName: 'email', width: 300 },
+    { columnName: 'email', width: 250 },
     { columnName: 'date_of_birth', width: 200 },
     { columnName: 'age', width: 150 },
     { columnName: 'sex', width: 200 },
@@ -40,6 +40,7 @@ export default {
   sortingStateColumnExtensions: [
     { columnName: 'avatar', sortingEnabled: false },
   ],
+  editingStateColumnExtensions: [],
   textFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
   numberFilterOperations: [
     'greaterThan',
