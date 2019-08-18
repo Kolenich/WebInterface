@@ -1,6 +1,6 @@
 import {
   CircularProgress,
-  Dialog,
+  Dialog as DialogBase,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -19,11 +19,17 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент окна статуса
  */
-const StatusWindow: FunctionComponent<IProps> =
-  ({ open, status, message, onClose }: IProps): JSX.Element => {
+const Dialog: FunctionComponent<IProps> =
+  ({ open, status, message, onClose, closeCallback }: IProps): JSX.Element => {
     const classes = useStyles();
+    const handleClick = () => {
+      if (status === 'warning' && closeCallback) {
+        closeCallback();
+      }
+      onClose();
+    };
     return (
-      <Dialog open={open} scroll="paper" disableBackdropClick disableEscapeKeyDown>
+      <DialogBase open={open} scroll="paper" disableBackdropClick disableEscapeKeyDown>
         <DialogTitle disableTypography>
           {status === 'success' &&
           <Typography variant="h5" className={classes.message}>
@@ -55,12 +61,14 @@ const StatusWindow: FunctionComponent<IProps> =
             <Button
               color="primary"
               text="Ок"
-              onClick={onClose}
+              onClick={handleClick}
               icon="confirm"
             />
+            {status === 'warning' &&
+            <Button text="Отмена" color="secondary" icon="cancel" onClick={onClose} />}
           </DialogActions>
         </>}
-      </Dialog>);
+      </DialogBase>);
   };
 
-export default StatusWindow;
+export default Dialog;

@@ -1,6 +1,6 @@
 import {
   Avatar,
-  Dialog,
+  Dialog as DialogBase,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -19,8 +19,8 @@ import api from '../../lib/api';
 import Button from '../../lib/generic/Button';
 import { IButtonIcon } from '../../lib/generic/Button/types';
 import DateField from '../../lib/generic/DateField';
+import Dialog from '../../lib/generic/Dialog';
 import Select from '../../lib/generic/Select';
-import StatusWindow from '../../lib/generic/StatusWindow';
 import TextField from '../../lib/generic/TextField';
 import { HTTPMethods, IEmployee, ISelectElement, Sex } from '../../lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES, sexChoices } from '../../lib/utils';
@@ -256,7 +256,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
       saveButtonIcon = 'save';
     }
     return (
-      <Dialog open={open} onClose={onClose}>
+      <DialogBase open={open} onClose={onClose}>
         <DialogTitle>
           {title}
           <IconButton className={classes.cancelButton} onClick={onClose}>
@@ -264,7 +264,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
-          <StatusWindow
+          <Dialog
             open={statusWindowOpen}
             onClose={this.closeStatusModal}
             status={statusType}
@@ -367,7 +367,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
           {id !== -1 &&
           <Button color="secondary" text="Удалить" icon="delete" onClick={this.deleteForm} />}
         </DialogActions>
-      </Dialog>
+      </DialogBase>
     );
   }
 }
