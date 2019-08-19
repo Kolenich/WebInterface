@@ -1,7 +1,7 @@
 import { IconButton, Tooltip } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
+import Dialog from 'lib/generic/Dialog';
 import React, { FunctionComponent, useState } from 'react';
-import Dialog from '../../../../../lib/generic/Dialog';
 import { IProps } from '../types';
 
 const DeleteButton: FunctionComponent<IProps> = ({ onExecute, text }: IProps): JSX.Element => {

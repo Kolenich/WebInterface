@@ -1,8 +1,8 @@
 import { FormControl, Input, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { ISelectItem } from 'lib/generic/Select/types';
+import { ISelectElement } from 'lib/types';
+import { sexChoices } from 'lib/utils';
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import { ISelectItem } from '../../../../../lib/generic/Select/types';
-import { ISelectElement } from '../../../../../lib/types';
-import { sexChoices } from '../../../../../lib/utils';
 import { styles } from './styles';
 import { IProps } from './types';
 

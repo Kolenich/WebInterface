@@ -1,6 +1,6 @@
 import { WithStyles } from '@material-ui/core';
+import { IEmployee } from 'lib/types';
 import { ComponentState } from 'react';
-import { IEmployee } from '../../lib/types';
 import { styles } from './styles';
 
 export interface IProps extends WithStyles<typeof styles> {

@@ -1,8 +1,8 @@
 import { makeStyles, TableCell, Typography } from '@material-ui/core';
 import 'filepond/dist/filepond.min.css';
+import { toBase64 } from 'lib/utils';
 import React from 'react';
 import { File, FilePond } from 'react-filepond';
-import { toBase64 } from '../../../../../../lib/utils';
 import { IProps } from '../../types';
 import { styles } from './styles';
 

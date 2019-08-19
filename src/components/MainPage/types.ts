@@ -1,4 +1,4 @@
-import { IStore } from '../../lib/context/types';
+import { IStore } from 'lib/context/types';
 
 export interface IProps {
 }

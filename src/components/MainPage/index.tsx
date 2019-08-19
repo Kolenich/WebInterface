@@ -1,6 +1,6 @@
+import withContext from 'lib/context';
 import React, { FunctionComponent } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-import withContext from '../../lib/context';
 import EmployeeChart from '../EmployeeChart';
 import EmployeeTable from '../EmployeeTable';
 import SignInPage from '../SignInPage';

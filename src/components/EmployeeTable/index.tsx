@@ -25,20 +25,20 @@ import {
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import React, { ComponentState, PureComponent, ReactNode, ReactText } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import api from '../../lib/api';
-import Loading from '../../lib/generic/Loading';
-import Snackbar from '../../lib/generic/Snackbar';
+import api from 'lib/api';
+import Loading from 'lib/generic/Loading';
+import Snackbar from 'lib/generic/Snackbar';
 import {
   filterRowMessages,
   pagingPanelMessages,
   tableEditColumnMessages,
   tableHeaderRowMessage,
   tableMessages,
-} from '../../lib/translate';
-import { IApiResponse, IDRFGetConfig, IEmployee, ITableRow } from '../../lib/types';
-import { filteringParams, SERVER_RESPONSES, sortingParams } from '../../lib/utils';
+} from 'lib/translate';
+import { IApiResponse, IDRFGetConfig, IEmployee, ITableRow } from 'lib/types';
+import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
+import React, { ComponentState, PureComponent, ReactNode, ReactText } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import columnSettings from './columnSettings';
 import CommandComponent from './components/CommandComponent';
 import EditCellComponent from './components/EditCellComponent';

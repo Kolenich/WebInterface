@@ -1,6 +1,6 @@
 import { DataTypeProvider } from '@devexpress/dx-react-grid';
+import { dateTimeOptions } from 'lib/utils';
 import React from 'react';
-import { dateTimeOptions } from '../../../../../lib/utils';
 
 /**
  * Форматтер для даты с временем

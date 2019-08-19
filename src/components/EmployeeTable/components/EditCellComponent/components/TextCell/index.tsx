@@ -1,7 +1,7 @@
 import { TableCell, TextField } from '@material-ui/core';
 import { InputProps as StandardInputProps } from '@material-ui/core/Input';
+import { EmailMask, PhoneMask } from 'lib/masks';
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import { EmailMask, PhoneMask } from '../../../../../../lib/masks';
 import { IProps } from '../../types';
 
 /**

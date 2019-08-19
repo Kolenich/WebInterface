@@ -1,4 +1,4 @@
-import { IEmployee } from '../../lib/types';
+import { IEmployee } from 'lib/types';
 
 export const defaultEmployee: IEmployee = {
   first_name: '',

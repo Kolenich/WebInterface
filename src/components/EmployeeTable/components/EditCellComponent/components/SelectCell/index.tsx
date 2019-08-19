@@ -1,6 +1,6 @@
 import { FormControl, Input, InputLabel, MenuItem, Select, TableCell } from '@material-ui/core';
+import { ISelectEvent } from 'lib/types';
 import React, { ChangeEvent, FunctionComponent } from 'react';
-import { ISelectEvent } from '../../../../../../lib/types';
 import { IProps } from '../../types';
 import { ISexChoice } from './types';
 
