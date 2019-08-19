@@ -1,11 +1,5 @@
 import { ISelectItem } from './generic/Select/types';
-import {
-  IActualFileObject,
-  IEmployeeLabels,
-  IFiltering,
-  IServerResponses,
-  ISorting,
-} from './types';
+import { IActualFileObject, IFiltering, IServerResponses, ISorting } from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -21,17 +15,6 @@ export const dateTimeOptions = {
   day: '2-digit',
   hour: '2-digit',
   minute: '2-digit',
-};
-
-// Ярлыки для объекта Employee
-export const employeeLabels: IEmployeeLabels = {
-  first_name: 'Имя',
-  last_name: 'Фамилия',
-  middle_name: 'Отчество',
-  phone: 'Телефон',
-  email: 'Электронная почта',
-  date_of_birth: 'Дата рождения',
-  sex: 'Пол',
 };
 
 // Сообщения статусов

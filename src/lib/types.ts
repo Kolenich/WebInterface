@@ -63,25 +63,6 @@ export interface ITableRow {
 
 export type Sex = 'male' | 'female' | '';
 
-export interface IEmployeeLabels {
-  /** Ярлык для имени */
-  first_name: string;
-  /** Ярлык для фамилии */
-  last_name: string;
-  /** Ярлык для отчества */
-  middle_name: string;
-  /** Ярлык для телефона */
-  phone: string;
-  /** Ярлык для электронной почты */
-  email: string;
-  /** Ярлык для даты рождения */
-  date_of_birth: string;
-  /** Ярлык для пола сотрудника */
-  sex: string;
-
-  [index: string]: string;
-}
-
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
 export interface IApiResponse<DataType> {

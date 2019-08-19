@@ -5,7 +5,7 @@ import { IProps } from './types';
 
 /** Маска для номера телефона */
 const phoneMask: maskArray =
-  ['+', '7', '(', /[1-9]/, /\d/, /\d/, ')', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+  ['+', '7', '(', /[49]/, /\d/, /\d/, ')', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
 
 /**
  * Маска для поля с электронной почтой
@@ -18,7 +18,9 @@ export const EmailMask: FunctionComponent<IProps> =
   ({ inputRef, ...props }: IProps): JSX.Element => (
     <MaskedInput
       {...props}
-      ref={ref => inputRef(ref ? ref.inputElement : null)}
+      ref={ref => inputRef(ref
+        ? ref.inputElement
+        : null)}
       mask={emailMask}
       showMask
     />
@@ -35,8 +37,10 @@ export const PhoneMask: FunctionComponent<IProps> =
   ({ inputRef, ...props }: IProps): JSX.Element => (
     <MaskedInput
       {...props}
-      ref={ref => inputRef(ref ? ref.inputElement : null)}
+      ref={ref => inputRef(ref
+        ? ref.inputElement
+        : null)}
       mask={phoneMask}
-      showMask
+      showMask={false}
     />
   );
