@@ -108,15 +108,15 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       },
     };
     // Параметры для фильтрации
-    filters.map((filter: Filter): void => {
-      if (filter.operation) {
-        config.params[filter.columnName + filteringParams[filter.operation]] = filter.value;
+    filters.map(({ operation, columnName, value }: Filter): void => {
+      if (operation) {
+        config.params[columnName + filteringParams[operation]] = value;
       }
       return undefined;
     });
     // Параметры для сортировки
-    sorting.map((sort: Sorting): void => {
-      config.params.ordering = sortingParams[sort.direction] + sort.columnName;
+    sorting.map(({ direction, columnName }: Sorting): void => {
+      config.params.ordering = sortingParams[direction] + columnName;
       return undefined;
     });
     api.getContent<IApiResponse<ITableRow>>('employee-table', config)
@@ -126,15 +126,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           { ...state, rows: results, totalCount: count, loading: false }
         ));
       })
-      .catch(() => {
-        this.setState((state: IState) => ({
-          ...state,
-          loading: false,
-          snackbarOpen: true,
-          snackbarVariant: 'error',
-          snackbarMessage: 'При загрузке данных произошла ошибка',
-        }));
-      });
+      .catch(this.handleError);
   }
 
   /**
@@ -165,12 +157,20 @@ class EmployeeTable extends PureComponent<IProps, IState> {
         snackbarVariant: 'error',
         snackbarMessage: SERVER_RESPONSES[status],
       }));
+    } else {
+      this.setState((state: IState) => ({
+        ...state,
+        loading: false,
+        snackbarOpen: true,
+        snackbarVariant: 'error',
+        snackbarMessage: 'Сервер не доступен, попробуйте позже',
+      }));
     }
   }
 
   /**
    * Метод для обработки изменения числа строк на странице
-   * @param pageSize
+   * @param pageSize размер страницы
    */
   private changePageSize = (pageSize: number): void => (
     this.setState((state: IState) => ({ ...state, pageSize, loading: true, currentPage: 0 }))

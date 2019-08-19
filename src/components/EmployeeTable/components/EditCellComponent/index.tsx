@@ -28,7 +28,7 @@ const editorComponents: IEditCells<IProps> = {
 const EditCellComponent: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
   const { column, editingEnabled, row } = props;
   const EditorComponent: FunctionComponent<IProps> = editorComponents[column.name];
-  const editable = editingEnabled || !row.id;
+  const editable: boolean = editingEnabled || !row.id;
   const isEmail: boolean = column.name === 'email';
   const isPhone: boolean = column.name === 'phone';
   return (
