@@ -16,7 +16,7 @@ import { withStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import withContext from 'lib/context';
 import { session } from 'lib/session';
-import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
+import React, { ChangeEvent, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
@@ -43,7 +43,7 @@ class SignInPage extends PureComponent<IProps, IState> {
    * Метод, обрабатывающий изменение в текстовом поле
    * @param event объект события изменения
    */
-  handleTextChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
+  handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
@@ -52,7 +52,7 @@ class SignInPage extends PureComponent<IProps, IState> {
    * Метод, обрабатывающий изменение в чекбоксе
    * @param event объект события изменения
    */
-  handleBooleanChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
+  handleBooleanChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = event.target;
     this.setState({ [name]: checked });
   }
@@ -60,7 +60,7 @@ class SignInPage extends PureComponent<IProps, IState> {
   /**
    * Метод для обработки нажатия на кнопку "Войти"
    */
-  handleLogin = (): ComponentState => {
+  handleLogin = (): void => {
     this.setState({ loading: true });
     const { email, password } = this.state;
     session.post('auth/login/', { email, password })

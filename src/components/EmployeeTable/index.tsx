@@ -37,7 +37,7 @@ import {
 } from 'lib/translate';
 import { IApiResponse, IDRFGetConfig, IEmployee, ITableRow } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
-import React, { ComponentState, PureComponent, ReactNode, ReactText } from 'react';
+import React, { PureComponent, ReactNode, ReactText } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import columnSettings from './columnSettings';
 import CommandComponent from './components/CommandComponent';
@@ -74,7 +74,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   /**
    * Метод, вызываемый после монтирования компонента
    */
-  public componentDidMount(): ComponentState {
+  public componentDidMount(): void {
     this.loadData();
   }
 
@@ -83,8 +83,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param prevProps предыдущие пропсы
    * @param prevState предыдущее состояние
    */
-  public componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>):
-    ComponentState {
+  public componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>): void {
     const { pageSize, currentPage, filters, sorting } = this.state;
     if (
       prevState.currentPage !== currentPage ||
@@ -99,7 +98,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   /**
    * Метод для загрузи данных в таблицу с сервера
    */
-  private loadData = (): ComponentState => {
+  private loadData = (): void => {
     const { currentPage, pageSize, filters, sorting } = this.state;
     const config: IDRFGetConfig = {
       params: {
@@ -121,7 +120,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       return undefined;
     });
     api.getContent<IApiResponse<ITableRow>>('employee-table', config)
-      .then((response: AxiosResponse<IApiResponse<ITableRow>>): ComponentState => {
+      .then((response: AxiosResponse<IApiResponse<ITableRow>>): void => {
         const { results, count } = response.data;
         this.setState((state: IState) => (
           { ...state, rows: results, totalCount: count, loading: false }
@@ -142,7 +141,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция обработки успешного ответа с сервера
    * @param response объект ответа
    */
-  private handleSuccess = (response: AxiosResponse): ComponentState => {
+  private handleSuccess = (response: AxiosResponse): void => {
     this.setState((state: IState) => ({
       ...state,
       snackbarOpen: true,
@@ -156,7 +155,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция обработки неуспешного ответа с сервера
    * @param error объект ответа
    */
-  private handleError = (error: AxiosError): ComponentState => {
+  private handleError = (error: AxiosError): void => {
     if (error.response) {
       const { status } = error.response;
       this.setState((state: IState) => ({
@@ -173,7 +172,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Метод для обработки изменения числа строк на странице
    * @param pageSize
    */
-  private changePageSize = (pageSize: number): ComponentState => (
+  private changePageSize = (pageSize: number): void => (
     this.setState((state: IState) => ({ ...state, pageSize, loading: true, currentPage: 0 }))
   )
 
@@ -181,7 +180,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция обработки изменения текущей страницы
    * @param currentPage номер текущей страницы
    */
-  private changeCurrentPage = (currentPage: number): ComponentState => (
+  private changeCurrentPage = (currentPage: number): void => (
     this.setState((state: IState) => ({ ...state, currentPage, loading: true }))
   )
 
@@ -189,7 +188,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция изменения фильтров
    * @param filters массив фильтров
    */
-  private changeFilters = (filters: Filter[]): ComponentState => (
+  private changeFilters = (filters: Filter[]): void => (
     this.setState((state: IState) => ({ ...state, filters, loading: true }))
   )
 
@@ -197,7 +196,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Фугкция изменения сортировок
    * @param sorting массив сортировок
    */
-  private changeSorting = (sorting: Sorting[]): ComponentState => (
+  private changeSorting = (sorting: Sorting[]): void => (
     this.setState((state: IState) => ({ ...state, sorting, loading: true }))
   )
 
@@ -210,7 +209,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   /**
    * Функция, закрывающая снэкбар
    */
-  private closeSnackbar = (): ComponentState => (
+  private closeSnackbar = (): void => (
     this.setState((state: IState) => ({ ...state, snackbarOpen: false }))
   )
 
@@ -220,7 +219,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param changed массив изменённых строк
    * @param deleted массив id удалённых строк
    */
-  private commitChanges = ({ added, changed, deleted }: ChangeSet) => {
+  private commitChanges = ({ added, changed, deleted }: ChangeSet): void => {
     this.setState((state: IState) => ({ ...state, loading: true }));
     if (added && added.length) {
       const data: Partial<IEmployee> = added[0];

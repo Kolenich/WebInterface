@@ -23,7 +23,7 @@ import TextField from 'lib/generic/TextField';
 import { HTTPMethods, IEmployee, ISelectElement, Sex } from 'lib/types';
 import { deepCopy, employeeLabels, SERVER_RESPONSES, sexChoices } from 'lib/utils';
 import moment from 'moment';
-import React, { ChangeEvent, ComponentState, PureComponent, ReactNode } from 'react';
+import React, { ChangeEvent, PureComponent, ReactNode } from 'react';
 import { defaultEmployee } from './structure';
 import { styles } from './styles';
 import { IProps, IState } from './types';
@@ -49,7 +49,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   /**
    * Метод, вызываемый после обнолвения компонента
    */
-  public componentDidUpdate(prevProps: Readonly<IProps>): ComponentState {
+  public componentDidUpdate(prevProps: Readonly<IProps>): void {
     const { id } = this.props;
     if (prevProps.id !== id) {
       if (id !== -1) {
@@ -75,7 +75,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   /**
    * Функция-колбэк, закрывающая окно статуса
    */
-  private closeStatusModal = (): ComponentState => {
+  private closeStatusModal = (): void => {
     const { onClose } = this.props;
     const { statusType } = this.state;
     this.setState((state: IState) => ({ ...state, statusWindowOpen: false }));
@@ -92,7 +92,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * Функция, обрабатывающая изменения в селекторе
    * @param event - ивент изменения
    */
-  private handleSelectChange = (event: ChangeEvent<ISelectElement>): ComponentState => {
+  private handleSelectChange = (event: ChangeEvent<ISelectElement>): void => {
     const sex: Sex = event.target.value as Sex;
     this.setState((state: IState) => ({ ...state, employee: { ...state.employee, sex } }));
   }
@@ -101,8 +101,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * Функция, обрабатывающая изменения в компоненте выбора даты
    * @param name - имя поля для изменения
    */
-  private handleDateChange = (name: keyof IEmployee) => (date: MaterialUiPickersDate):
-    ComponentState => {
+  private handleDateChange = (name: keyof IEmployee) => (date: MaterialUiPickersDate): void => {
     this.setState((state: IState) => ({
       ...state,
       employee: {
@@ -117,7 +116,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
    * Функция, обрабатывающая изменения в поле ввода
    * @param event - ивент изменения
    */
-  private handleInputChange = (event: ChangeEvent<HTMLInputElement>): ComponentState => {
+  private handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = event.target;
     this.setState((state: IState) => ({
       ...state,
@@ -130,7 +129,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   /**
    * Функция, посылающая запрос на сервер для удаления записи из БД
    */
-  private deleteForm = (): ComponentState => {
+  private deleteForm = (): void => {
     this.setState({ statusWindowOpen: true, statusType: 'loading' });
     const { employee } = this.state;
     const { updateTable } = this.props;
@@ -162,7 +161,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   /**
    * Функция, отправляющая запрос на сервер для создания или обновления записи в БД
    */
-  private submitForm = (): ComponentState => {
+  private submitForm = (): void => {
     this.setState((state: IState) => ({
       ...state, statusWindowOpen: true, statusType: 'loading',
     }));
@@ -237,7 +236,7 @@ class EmployeeForm extends PureComponent<IProps, IState> {
   /**
    * Функция, обрабатывающая ошибку при вводе в поле даты
    */
-  private handleDateError = (): ComponentState => (
+  private handleDateError = (): void => (
     this.setState((state: IState) => ({ ...state, dateOfBirthNotNull: false }))
   )
 

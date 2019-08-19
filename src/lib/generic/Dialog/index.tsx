@@ -76,7 +76,8 @@ const Dialog: FunctionComponent<IProps> =
             <Button text="Отмена" color="secondary" icon="cancel" onClick={onClose} />}
           </DialogActions>
         </>}
-      </DialogBase>);
+      </DialogBase>
+    );
   };
 
 export default Dialog;
