@@ -61,7 +61,9 @@ const Dialog: FunctionComponent<IProps> =
         {status !== 'loading' &&
         <>
           <DialogContent>
-            {message}
+            <Typography>
+              {message}
+            </Typography>
           </DialogContent>
           <DialogActions>
             <Button
