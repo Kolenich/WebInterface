@@ -48,3 +48,4 @@ jspm_packages/
 .next
 
 .idea/
+build/
