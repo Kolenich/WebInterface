@@ -9,18 +9,22 @@
 
 .error-enter {
   opacity: 0.01;
+  max-height: 0;
 }
 
 .error-enter.error-enter-active {
   opacity: 1;
-  transition: opacity 250ms ease-in;
+  max-height: 200px;
+  transition: all 500ms linear;
 }
 
 .error-leave {
   opacity: 1;
+  max-height: 200px;
 }
 
 .error-leave.error-leave-active {
   opacity: 0.01;
-  transition: opacity 250ms ease-in;
+  max-height: 0;
+  transition: all 500ms linear;
 }

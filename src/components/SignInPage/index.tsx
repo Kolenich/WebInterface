@@ -158,8 +158,8 @@ class SignInPage extends PureComponent<IProps, IState> {
               <ReactCSSTransitionGroup
                 transitionName="error"
                 transitionAppear={false}
-                transitionEnterTimeout={250}
-                transitionLeaveTimeout={250}
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={500}
                 transitionEnter
                 transitionLeave
               >
