@@ -12,16 +12,14 @@ import { IProps, IPropsContext } from './types';
 /**
  * Основной роутер приложения
  */
-const Router: FunctionComponent<IPropsContext> = (): JSX.Element => {
-  return (
-    <Switch>
-      <Route exact path="/" render={() => <Redirect to="/employees" />} />
-      <PublicRoute path="/sign-up" component={SignUpPage} />
-      <PublicRoute path="/sign-in" component={SignInPage} />
-      <PrivateRoute path="/employees" component={EmployeeTable} />
-      <PrivateRoute path="/charts" component={EmployeeChart} />
-    </Switch>
-  );
-};
+const Router: FunctionComponent<IPropsContext> = (): JSX.Element => (
+  <Switch>
+    <Route exact path="/" render={() => <Redirect to="/employees" />} />
+    <PublicRoute path="/sign-up" component={SignUpPage} />
+    <PublicRoute path="/sign-in" component={SignInPage} />
+    <PrivateRoute path="/employees" component={EmployeeTable} />
+    <PrivateRoute path="/charts" component={EmployeeChart} />
+  </Switch>
+);
 
 export default withContext<IProps>(Router);
