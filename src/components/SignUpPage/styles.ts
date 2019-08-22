@@ -25,4 +25,7 @@ export const styles = (theme: Theme) => createStyles<string, any>({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+                                                                    circularProgress: {
+                                                                      marginLeft: theme.spacing(1),
+                                                                    },
 });
