@@ -192,4 +192,9 @@ export interface IFileObject {
   readonly name: string;
 }
 
+export interface IAuthResponse {
+  /** Возвращаемый токен */
+  key: string;
+}
+
 export type IActualFileObject = Blob & IFileObject;

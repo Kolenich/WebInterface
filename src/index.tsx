@@ -4,7 +4,7 @@ import { theme } from 'lib/theme';
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import MainPage from './components/MainPage';
+import Router from './router';
 import { unregister } from './serviceWorker';
 import './styles.css';
 
@@ -12,7 +12,7 @@ render(
   <BrowserRouter>
     <Provider>
       <MuiThemeProvider theme={theme}>
-        <MainPage />
+        <Router />
       </MuiThemeProvider>
     </Provider>
   </BrowserRouter>,

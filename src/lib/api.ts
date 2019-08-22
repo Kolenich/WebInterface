@@ -8,15 +8,15 @@ export default {
    * @param requestUrl - url запроса
    * @param sendData - параметры запроса
    */
-  getContent<dataType>(requestUrl: string, sendData?: any): AxiosPromise<dataType> {
-    return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
+  getContent<T>(requestUrl: string, sendData?: any): AxiosPromise<T> {
+    return new Promise<AxiosResponse<T>>((resolve, reject) => {
       let data = sendData;
       if (!sendData) {
         data = {};
       }
       session
-        .get<dataType>(`${API_URL}/${requestUrl}/`, data)
-        .then((response: AxiosResponse<dataType>) => resolve(response))
+        .get<T>(`${API_URL}/${requestUrl}/`, data)
+        .then((response: AxiosResponse<T>) => resolve(response))
         .catch((error: AxiosError) => reject(error));
     });
   },
@@ -26,17 +26,17 @@ export default {
    * @param sendData - параметры запроса
    * @param sendMethod - метод запроса
    */
-  sendContent<dataType>(requestUrl: string, sendData: dataType, sendMethod?: HTTPMethods):
-    AxiosPromise<dataType> {
-    return new Promise<AxiosResponse<dataType>>((resolve, reject) => {
+  sendContent<T>(requestUrl: string, sendData: T, sendMethod?: HTTPMethods):
+    AxiosPromise<T> {
+    return new Promise<AxiosResponse<T>>((resolve, reject) => {
       let method = sendMethod;
       if (!method) {
         method = 'post';
       }
-      const data: dataType = sendData;
+      const data: T = sendData;
       const url: string = `${API_URL}/${requestUrl}/`;
       session({ method, data, url })
-        .then((response: AxiosResponse<dataType>) => resolve(response))
+        .then((response: AxiosResponse<T>) => resolve(response))
         .catch((error: AxiosError) => reject(error));
     });
   },
