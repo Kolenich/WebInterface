@@ -1,5 +1,5 @@
 import { GridSize } from '@material-ui/core/Grid';
-import { ChangeEvent, ComponentState } from 'react';
+import { ChangeEvent } from 'react';
 import { ISelectElement } from '../../types';
 
 export interface IProps {
@@ -16,7 +16,7 @@ export interface IProps {
   /** Ярлык селекта */
   label: string;
   /** Функция, обрабатывающая изменение */
-  handleChange: (event: ChangeEvent<ISelectElement>) => ComponentState;
+  handleChange: (event: ChangeEvent<ISelectElement>) => void;
 }
 
 export interface ISelectItem {

@@ -1,5 +1,5 @@
 import { GridSize } from '@material-ui/core/Grid';
-import { ChangeEvent, ComponentState } from 'react';
+import { ChangeEvent } from 'react';
 import { Validation } from '../../types';
 
 export interface IProps {
@@ -18,5 +18,5 @@ export interface IProps {
   /** Ярлык для текстового поля */
   label: string;
   /** Функция для обработки изменения в текстовом поле */
-  onChange: (event: ChangeEvent<HTMLInputElement>) => ComponentState;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
