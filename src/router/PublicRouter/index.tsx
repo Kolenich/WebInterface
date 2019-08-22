@@ -1,4 +1,4 @@
-import auth, { TOKEN } from 'lib/auth';
+import auth from 'lib/auth';
 import React, { Attributes, createElement } from 'react';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { ICustomRoutingProps } from '../types';
@@ -13,14 +13,12 @@ import { ICustomRoutingProps } from '../types';
 const PublicRoute = ({ component, ...rest }: ICustomRoutingProps): any => (
   <Route
     {...rest}
-    render={(props: (RouteComponentProps & Attributes)) => {
-      const token: string | null = localStorage.getItem(TOKEN);
-      return (
-        auth.checkToken(token)
-          ? (<Redirect to={{ pathname: '/' }} />)
-          : (createElement(component, props))
-      );
-    }}
+    render={(props: (RouteComponentProps & Attributes)) => (
+      auth.checkToken()
+        ? (<Redirect to={{ pathname: '/' }} />)
+        : (createElement(component, props))
+    )
+    }
   />
 );
 

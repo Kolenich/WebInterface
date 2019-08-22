@@ -28,6 +28,7 @@ const useStyles = makeStyles(styles);
  * Компонента страницы входа в систему
  */
 const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
+  document.title = 'Войти в систему';
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
@@ -47,7 +48,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
   };
   const handleLogin = (): void => {
     setLoading(true);
-    auth.login(email, password)
+    auth.login(email, password, remember)
       .then((response) => {
         if (response) {
           setError(false);
@@ -58,6 +59,8 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       .catch(() => {
         setError(true);
         setLoading(false);
+        auth.delToken();
+        auth.delHeader();
         // Убираем ошибку через 3 секунды
         setTimeout(() => setError(false), 3000);
       });
