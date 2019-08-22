@@ -13,6 +13,7 @@ import {
 import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
+import auth from 'lib/auth';
 import withContext from 'lib/context';
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -26,7 +27,7 @@ const useStyles = makeStyles(styles);
 /**
  * Компонента страницы входа в систему
  */
-const SignInPage: FunctionComponent<IProps> = (): JSX.Element => {
+const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
@@ -43,6 +44,23 @@ const SignInPage: FunctionComponent<IProps> = (): JSX.Element => {
   };
   const handleRememberChange = (event: ChangeEvent<HTMLInputElement>) => {
     setRemember(event.target.checked);
+  };
+  const handleLogin = (): void => {
+    setLoading(true);
+    auth.login(email, password)
+      .then((response) => {
+        if (response) {
+          setError(false);
+          setLoading(false);
+          history.push('/');
+        }
+      })
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+        // Убираем ошибку через 3 секунды
+        setTimeout(() => setError(false), 3000);
+      });
   };
   return (
     <ReactCSSTransitionGroup
@@ -105,7 +123,7 @@ const SignInPage: FunctionComponent<IProps> = (): JSX.Element => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              // onClick={this.handleLogin}
+              onClick={handleLogin}
               disabled={loading}
             >
               Войти
@@ -125,12 +143,7 @@ const SignInPage: FunctionComponent<IProps> = (): JSX.Element => {
                 Неверный логин или пароль
               </Typography>}
             </ReactCSSTransitionGroup>
-            <Grid container>
-              <Grid item xs>
-                <Link variant="body2" component={RouterLink} to="/employees">
-                  Забыли пароль?
-                </Link>
-              </Grid>
+            <Grid container justify="flex-end">
               <Grid item>
                 <Link variant="body2" component={RouterLink} to="/sign-up">
                   Нет учётной записи? Зарегистрируйтесь!

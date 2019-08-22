@@ -10,7 +10,7 @@ export default {
       const { key } = data;
       this.saveToken(key);
       this.setHeader(key);
-      return true;
+      return data;
     }
     return false;
   },

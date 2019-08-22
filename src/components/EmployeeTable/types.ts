@@ -8,10 +8,11 @@ import {
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
 import { WithStyles } from '@material-ui/styles';
-import { IRouterProps, ITableRow } from 'lib/types';
+import { ITableRow } from 'lib/types';
+import { RouteComponentProps } from 'react-router-dom';
 import { styles } from './styles';
 
-export interface IProps extends WithStyles<typeof styles>, IRouterProps {
+export interface IProps extends WithStyles<typeof styles>, RouteComponentProps {
 }
 
 export interface ICustomDataTypeProviderProps extends DataTypeProviderProps {
