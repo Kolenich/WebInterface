@@ -41,8 +41,8 @@ const Select: FunctionComponent<IProps> =
             value={value}
             onChange={handleChange}
             input={<OutlinedInput labelWidth={labelWidth} id="sex" />}>
-            {items.map((item: ISelectItem) => (
-              <MenuItem value={item.value} key={item.key}>{item.label}</MenuItem>
+            {items.map(({ label, ...item }: ISelectItem) => (
+              <MenuItem {...item}>{label}</MenuItem>
             ))}
           </SelectBase>
         </FormControl>
