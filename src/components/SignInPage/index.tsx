@@ -6,15 +6,17 @@ import {
   Container,
   CssBaseline,
   FormControlLabel,
+  Grid,
   Link,
   TextField,
   Typography,
 } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import auth from 'lib/auth';
 import withContext from 'lib/context';
+import Snackbar from 'lib/generic/Snackbar';
+import { IVariantIcons } from 'lib/generic/Snackbar/types';
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
@@ -31,27 +33,30 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
   document.title = 'Войти в систему';
   const classes = useStyles();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [remember, setRemember] = useState(false);
-  const [error, setError] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+  const [snackbarVariant, setSnackbarVariant] = useState<keyof IVariantIcons>('info');
+  const [snackbarOpen, openSnackbar] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [remember, setRemember] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-  const handleRememberChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRemember(event.target.checked);
-  };
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => (
+    setEmail(event.target.value)
+  );
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => (
+    setPassword(event.target.value)
+  );
+  const handleRememberChange = (event: ChangeEvent<HTMLInputElement>) => (
+    setRemember(event.target.checked)
+  );
+  const closeSnackbar = () => openSnackbar(false);
   const handleLogin = (): void => {
     setLoading(true);
     auth.login(email, password, remember)
       .then((response) => {
         if (response) {
-          setError(false);
           setLoading(false);
           history.push('/');
         }
@@ -59,6 +64,9 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       .catch(() => {
         setError(true);
         setLoading(false);
+        openSnackbar(true);
+        setSnackbarMessage('Неверные логин или пароль');
+        setSnackbarVariant('error');
         auth.delToken();
         auth.delHeader();
         // Убираем ошибку через 3 секунды
@@ -73,6 +81,12 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       transitionEnter={false}
       transitionLeave={false}
     >
+      <Snackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        onClose={closeSnackbar}
+        variant={snackbarVariant}
+      />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>
@@ -133,19 +147,6 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
               {loading &&
               <CircularProgress size={15} className={classes.circularProgress} />}
             </Button>
-            <ReactCSSTransitionGroup
-              transitionName="error"
-              transitionAppear={false}
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={500}
-              transitionEnter
-              transitionLeave
-            >
-              {error &&
-              <Typography className={classes.errorMessage}>
-                Неверный логин или пароль
-              </Typography>}
-            </ReactCSSTransitionGroup>
             <Grid container justify="flex-end">
               <Grid item>
                 <Link variant="body2" component={RouterLink} to="/sign-up">
