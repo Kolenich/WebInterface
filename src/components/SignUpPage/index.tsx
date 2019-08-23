@@ -12,12 +12,12 @@ import {
 import { LockOutlined } from '@material-ui/icons';
 import { withStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
+import api from 'lib/api';
+import Snackbar from 'lib/generic/Snackbar';
+import { AUTH_API } from 'lib/session';
 import React, { ChangeEvent, PureComponent, ReactNode } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
-import api from '../../lib/api';
-import Snackbar from '../../lib/generic/Snackbar';
-import { AUTH_API } from '../../lib/session';
 import { styles } from './styles';
 import './styles.css';
 import { IProps, IState } from './types';
@@ -28,6 +28,7 @@ import { IProps, IState } from './types';
 class SignUpPage extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+    document.title = 'Зарегистрироваться в системе';
     this.state = {
       first_name: '',
       last_name: '',
