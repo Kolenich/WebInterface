@@ -26,6 +26,7 @@ import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import api from 'lib/api';
+import auth from 'lib/auth';
 import Loading from 'lib/generic/Loading';
 import Snackbar from 'lib/generic/Snackbar';
 import {
@@ -151,6 +152,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     let snackbarMessage: string = 'Сервер не доступен, попробуйте позже';
     if (error.response) {
       const { status } = error.response;
+      if (status === 401) {
+        const { history } = this.props;
+        auth.logout()
+          .then(() => history.push({ pathname: '/' }))
+          .catch(() => history.push({ pathname: '/' }));
+      }
       snackbarMessage = SERVER_RESPONSES[status];
     }
     this.setState((state: IState) => ({
@@ -159,7 +166,6 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       loading: false,
       snackbarOpen: true,
       snackbarVariant: 'error',
-
     }));
   }
 

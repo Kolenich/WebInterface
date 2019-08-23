@@ -26,13 +26,10 @@ export default {
    * Функция разлогина из системы
    */
   async logout(): Promise<boolean> {
+    this.delHeader();
+    this.delToken();
     const response = await session.post('auth/logout/', {});
-    if (response) {
-      this.delHeader();
-      this.delToken();
-      return true;
-    }
-    return false;
+    return !!response;
   },
 
   /**
