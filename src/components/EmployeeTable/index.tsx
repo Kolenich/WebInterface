@@ -148,24 +148,19 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param error объект ответа
    */
   private handleError = (error: AxiosError): void => {
+    let snackbarMessage: string = 'Сервер не доступен, попробуйте позже';
     if (error.response) {
       const { status } = error.response;
-      this.setState((state: IState) => ({
-        ...state,
-        loading: false,
-        snackbarOpen: true,
-        snackbarVariant: 'error',
-        snackbarMessage: SERVER_RESPONSES[status],
-      }));
-    } else {
-      this.setState((state: IState) => ({
-        ...state,
-        loading: false,
-        snackbarOpen: true,
-        snackbarVariant: 'error',
-        snackbarMessage: 'Сервер не доступен, попробуйте позже',
-      }));
+      snackbarMessage = SERVER_RESPONSES[status];
     }
+    this.setState((state: IState) => ({
+      ...state,
+      snackbarMessage,
+      loading: false,
+      snackbarOpen: true,
+      snackbarVariant: 'error',
+
+    }));
   }
 
   /**

@@ -1,10 +1,9 @@
-import EmployeeChart from 'components/EmployeeChart';
-import EmployeeTable from 'components/EmployeeTable';
 import SignInPage from 'components/SignInPage';
 import SignUpPage from 'components/SignUpPage';
 import withContext from 'lib/context';
 import React, { FunctionComponent } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
+import DashBoard from '../components/DashBoard';
 import PrivateRoute from './PrivateRouter';
 import PublicRoute from './PublicRouter';
 import { IProps, IPropsContext } from './types';
@@ -14,11 +13,10 @@ import { IProps, IPropsContext } from './types';
  */
 const Router: FunctionComponent<IPropsContext> = (): JSX.Element => (
   <Switch>
-    <Route exact path="/" render={() => <Redirect to="/employees" />} />
+    <Route exact path="/" render={() => <Redirect to="/main" />} />
     <PublicRoute path="/sign-up" component={SignUpPage} />
     <PublicRoute path="/sign-in" component={SignInPage} />
-    <PrivateRoute path="/employees" component={EmployeeTable} />
-    <PrivateRoute path="/charts" component={EmployeeChart} />
+    <PrivateRoute path="/main" component={DashBoard} />
   </Switch>
 );
 
