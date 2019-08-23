@@ -152,6 +152,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     let snackbarMessage: string = 'Сервер не доступен, попробуйте позже';
     if (error.response) {
       const { status } = error.response;
+      // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
       if (status === 401) {
         const { history } = this.props;
         auth.logout()
