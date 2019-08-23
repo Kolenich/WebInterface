@@ -65,4 +65,5 @@ export default {
   avatarColumns: ['avatar'],
   sexColumns: ['sex'],
   leftFixedColumns: [TableEditColumn.COLUMN_TYPE],
+  rightFixedColumns: ['avatar'],
 };

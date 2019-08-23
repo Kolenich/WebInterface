@@ -40,6 +40,7 @@ import { IApiResponse, IDRFGetConfig, IEmployee, ITableRow } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { PureComponent, ReactNode, ReactText } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { REST_API } from '../../lib/session';
 import columnSettings from './columnSettings';
 import CommandComponent from './components/CommandComponent';
 import EditCellComponent from './components/EditCellComponent';
@@ -225,20 +226,20 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     this.setState((state: IState) => ({ ...state, loading: true }));
     if (added && added.length) {
       const data: Partial<IEmployee> = added[0];
-      api.sendContent('employee', data, 'post')
+      api.sendContent('employee', data, REST_API, 'post')
         .then(this.handleSuccess)
         .catch(this.handleError);
     }
     if (changed) {
       const id: ReactText = Object.keys(changed)[0];
       const data: Partial<IEmployee> = changed[id];
-      api.sendContent(`employee/${id}`, data, 'patch')
+      api.sendContent(`employee/${id}`, data, REST_API, 'patch')
         .then(this.handleSuccess)
         .catch(this.handleError);
     }
     if (deleted && deleted.length) {
       const id: ReactText = deleted[0];
-      api.sendContent(`employee/${id}`, {}, 'delete')
+      api.sendContent(`employee/${id}`, {}, REST_API, 'delete')
         .then(this.handleSuccess)
         .catch(this.handleError);
     }
@@ -252,7 +253,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     const {
       rows, columns, defaultOrder, defaultColumnWidths, pageSizes, pageSize, loading, totalCount,
       currentPage, sortingStateColumnExtensions, sorting, snackbarOpen, snackbarVariant,
-      snackbarMessage, leftFixedColumns, editingStateColumnExtensions,
+      snackbarMessage, leftFixedColumns, editingStateColumnExtensions, rightFixedColumns,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -332,6 +333,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
             />
             <TableFixedColumns
               leftColumns={leftFixedColumns}
+              rightColumns={rightFixedColumns}
             />
             <PagingPanel
               pageSizes={pageSizes}

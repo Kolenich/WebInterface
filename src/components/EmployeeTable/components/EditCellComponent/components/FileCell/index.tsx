@@ -3,6 +3,7 @@ import 'filepond/dist/filepond.min.css';
 import { toBase64 } from 'lib/utils';
 import React from 'react';
 import { File, FilePond } from 'react-filepond';
+import { IAvatar } from '../../../../../../lib/types';
 import { IProps } from '../../types';
 import { styles } from './styles';
 
@@ -24,8 +25,14 @@ const FileCell = ({ onValueChange, disabled }: IProps) => {
       // Конвертируем его в base64 строку
       const base64: string = await toBase64(file) as string;
       const base64File: string = base64.split(';base64,')[1];
+      const avatar: IAvatar = {
+        file: base64File,
+        content_type: file.type,
+        size: file.size,
+        file_name: file.name,
+      };
       // Вызываем колбэк
-      onValueChange(base64File);
+      onValueChange(avatar);
     } else {
       onValueChange(undefined);
     }
