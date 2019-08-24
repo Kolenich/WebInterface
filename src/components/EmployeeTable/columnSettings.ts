@@ -26,7 +26,7 @@ export default {
     'avatar',
   ],
   defaultColumnWidths: [
-    { columnName: 'avatar', width: 200 },
+    { columnName: 'avatar', width: 100 },
     { columnName: 'last_name', width: 250 },
     { columnName: 'first_name', width: 250 },
     { columnName: 'middle_name', width: 250 },
