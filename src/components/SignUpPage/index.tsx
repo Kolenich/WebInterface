@@ -61,11 +61,11 @@ class SignUpPage extends PureComponent<IProps, IState> {
    * Функция отправки формы
    */
   private handleSubmit = (): void => {
+    const { history } = this.props;
     this.setState((state: IState) => ({ ...state, loading: true }));
     const { email, first_name, last_name, password } = this.state;
     const sendData = { email, first_name, last_name, password };
-    api.sendContent(
-      'user/registrate', sendData, AUTH_API)
+    api.sendContent('user/registrate', sendData, AUTH_API)
       .then((response: AxiosResponse) => {
         this.setState((state: IState) => ({
           ...state,
@@ -74,6 +74,8 @@ class SignUpPage extends PureComponent<IProps, IState> {
           snackbarMessage: response.data.message,
           loading: false,
         }));
+        // Через 2 секунды перенаправляем на страницу входа
+        setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
       })
       .catch((error: AxiosError) => {
         if (error.response) {

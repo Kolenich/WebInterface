@@ -31,7 +31,7 @@ const useStyles = makeStyles(styles);
  */
 const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
   const classes = useStyles();
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
