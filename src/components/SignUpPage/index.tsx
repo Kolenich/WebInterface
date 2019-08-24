@@ -20,7 +20,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
 import './styles.css';
-import { IProps, IState } from './types';
+import { IErrors, IProps, IState } from './types';
 
 /**
  * Компонент станицы регистрации
@@ -38,6 +38,12 @@ class SignUpPage extends PureComponent<IProps, IState> {
       snackbarOpen: false,
       snackbarMessage: '',
       snackbarVariant: 'info',
+      errors: {
+        email: false,
+        last_name: false,
+        first_name: false,
+        password: false,
+      },
     };
   }
 
@@ -56,6 +62,29 @@ class SignUpPage extends PureComponent<IProps, IState> {
   private closeSnackbar = (): void => (
     this.setState((state: IState) => ({ ...state, snackbarOpen: false }))
   )
+
+  /**
+   * Функция для выстановки ошибок в полях
+   * @param errorsList массив со списком полей
+   */
+  private setErrors = (errorsList: string[]): void => {
+    const errors: IErrors = {};
+    errorsList.map((field: string) => errors[field] = true);
+    this.setState((state: IState) => ({
+      ...state,
+      errors: { ...state.errors, ...errors },
+    }));
+    // Через 3 секунды гасим ошибки
+    setTimeout(
+      () => {
+        errorsList.map((field: string) => errors[field] = false);
+        this.setState((state: IState) => ({
+          ...state,
+          errors: { ...state.errors, ...errors },
+        }));
+      },
+      3000);
+  }
 
   /**
    * Функция отправки формы
@@ -79,7 +108,8 @@ class SignUpPage extends PureComponent<IProps, IState> {
       })
       .catch((error: AxiosError) => {
         if (error.response) {
-          const { message } = error.response.data;
+          const { message, errors } = error.response.data;
+          this.setErrors(errors);
           this.setState((state: IState) => ({
             ...state,
             snackbarOpen: true,
@@ -98,7 +128,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
     const { classes } = this.props;
     const {
       email, first_name, last_name, password, snackbarOpen, snackbarMessage, snackbarVariant,
-      loading,
+      loading, errors,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -131,6 +161,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
                     variant="outlined"
                     required
                     fullWidth
+                    error={errors.first_name}
                     label="Имя"
                     value={first_name}
                     onChange={this.handleTextChange}
@@ -142,6 +173,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
                     required
                     fullWidth
                     label="Фамилия"
+                    error={errors.last_name}
                     name="last_name"
                     value={last_name}
                     onChange={this.handleTextChange}
@@ -153,6 +185,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
                     required
                     fullWidth
                     label="Электронная почта"
+                    error={errors.email}
                     name="email"
                     autoComplete="email"
                     value={email}
@@ -164,6 +197,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
                     variant="outlined"
                     required
                     fullWidth
+                    error={errors.password}
                     name="password"
                     label="Пароль"
                     type="password"

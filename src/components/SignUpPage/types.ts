@@ -23,4 +23,19 @@ export interface IState {
   snackbarMessage: string;
   /** Статус снэкбара */
   snackbarVariant: keyof IVariantIcons;
+  /** Ошибки в полях */
+  errors: IErrors;
+}
+
+export interface IErrors {
+  /** Флаг ошибки для почты */
+  email?: boolean;
+  /** Флаг имени для почты */
+  first_name?: boolean;
+  /** Флаг фамилии для почты */
+  last_name?: boolean;
+  /** Флаг пароля для почты */
+  password?: boolean;
+
+  [index: string]: boolean | undefined;
 }
