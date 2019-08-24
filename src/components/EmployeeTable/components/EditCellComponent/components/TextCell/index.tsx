@@ -1,7 +1,7 @@
 import { TableCell, TextField } from '@material-ui/core';
 import { InputProps as StandardInputProps } from '@material-ui/core/Input';
 import { EmailMask, PhoneMask } from 'lib/masks';
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import React, { ChangeEvent, ComponentType, FunctionComponent } from 'react';
 import { IProps } from '../../types';
 
 /**
@@ -24,10 +24,10 @@ const TextCell: FunctionComponent<IProps> =
     }
     const InputProps: Partial<StandardInputProps> = {};
     if (isEmail) {
-      InputProps.inputComponent = EmailMask as FunctionComponent;
+      InputProps.inputComponent = EmailMask as ComponentType;
     }
     if (isPhone) {
-      InputProps.inputComponent = PhoneMask as FunctionComponent;
+      InputProps.inputComponent = PhoneMask as ComponentType;
     }
     return (
       <TableCell>

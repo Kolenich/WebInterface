@@ -1,9 +1,10 @@
-import { makeStyles, TableCell, Typography } from '@material-ui/core';
+import { TableCell, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import 'filepond/dist/filepond.min.css';
+import { IAvatar } from 'lib/types';
 import { toBase64 } from 'lib/utils';
 import React from 'react';
 import { File, FilePond } from 'react-filepond';
-import { IAvatar } from '../../../../../../lib/types';
 import { IProps } from '../../types';
 import { styles } from './styles';
 
@@ -18,7 +19,7 @@ const useStyles = makeStyles(styles);
  */
 const FileCell = ({ onValueChange, disabled }: IProps) => {
   const classes = useStyles();
-  const onFileUpdate = async (files: File[]) => {
+  const onFileUpdate = async (files: File[]): Promise<void> => {
     if (files.length) {
       // Достаем файл
       const { file } = files[0];
@@ -39,10 +40,8 @@ const FileCell = ({ onValueChange, disabled }: IProps) => {
   };
   const style = {
     display: disabled
-      ?
-      'none'
-      :
-      'block',
+      ? 'none'
+      : 'block',
   };
   return (
     <TableCell>

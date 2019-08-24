@@ -1,4 +1,5 @@
-import { Input, makeStyles } from '@material-ui/core';
+import { Input } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';

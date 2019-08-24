@@ -1,4 +1,5 @@
-import { FormControl, Input, InputLabel, makeStyles, MenuItem, Select } from '@material-ui/core';
+import { FormControl, Input, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { ISelectItem } from 'lib/generic/Select/types';
 import { ISelectElement } from 'lib/types';
 import { sexChoices } from 'lib/utils';

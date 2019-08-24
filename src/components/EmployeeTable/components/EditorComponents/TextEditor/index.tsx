@@ -1,4 +1,5 @@
-import { makeStyles, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { ISelectElement } from 'lib/types';
 import React, { ChangeEvent, FunctionComponent } from 'react';
 import { styles } from './styles';
