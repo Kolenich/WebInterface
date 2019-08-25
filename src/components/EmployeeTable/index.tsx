@@ -207,7 +207,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция получения уникального идентификатора строки
    * @param row строка
    */
-  private getRowId = (row: ITableRow) => row.id;
+  private getRowId = (row: ITableRow): ReactText => row.id;
 
   /**
    * Функция, закрывающая снэкбар
