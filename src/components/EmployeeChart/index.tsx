@@ -12,7 +12,7 @@ import {
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import React, { PureComponent, ReactNode } from 'react';
-import { SaleLabel, TransactionLabel } from './components/Label';
+import LabelComponent from './components/LabelComponent';
 import demoData from './demoData';
 import { styles } from './styles';
 import { IProps, IState } from './types';
@@ -47,7 +47,7 @@ class EmployeeChart extends PureComponent<IProps, IState> {
             showGrid={false}
             showLine
             showTicks
-            labelComponent={SaleLabel}
+            labelComponent={LabelComponent('тыс. руб.')}
           />
           <ValueAxis
             scaleName="total"
@@ -55,7 +55,7 @@ class EmployeeChart extends PureComponent<IProps, IState> {
             showGrid={false}
             showLine
             showTicks
-            labelComponent={TransactionLabel}
+            labelComponent={LabelComponent('ед.')}
           />
           <BarSeries
             name="Всего продано"
