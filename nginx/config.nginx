@@ -70,7 +70,7 @@ server {
   }
 
   location /nedia/ {
-    root /usr/share/nginx/html;
+    alias /usr/share/nginx/html/nmedia/;
     autoindex on;
   }
 }
