@@ -41,6 +41,10 @@ server {
     text/plain
     text/x-component;
 
+  location / {
+    try_files $uri $uri/ /index.html =404;
+  }
+
   location ~*/(rest_api|admin|auth|auth_api)/ {
     proxy_pass http://server:8000/$1/;
     proxy_set_header Host $http_host;
