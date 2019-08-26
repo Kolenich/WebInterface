@@ -62,4 +62,10 @@ server {
     proxy_set_header Host $http_host;
     proxy_set_header X-Forwarded-Proto $scheme;
   }
+
+  location /auth_api/ {
+    proxy_pass http://server:8000/auth_api/;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
 }
