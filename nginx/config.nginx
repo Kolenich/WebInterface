@@ -68,4 +68,9 @@ server {
     proxy_set_header Host $http_host;
     proxy_set_header X-Forwarded-Proto $scheme;
   }
+
+  location /nedia/ {
+    root /usr/share/nginx/html;
+    autoindex on;
+  }
 }
