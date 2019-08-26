@@ -19,7 +19,7 @@ import clsx from 'clsx';
 import auth from 'lib/auth';
 import React, { FunctionComponent, useState } from 'react';
 import { Link } from 'react-router-dom';
-import DashBoardRouter from '../../router/DashBoardRouter';
+import DashBoardRouter from 'router/DashBoardRouter';
 import { styles } from './styles';
 import { IProps } from './types';
 
