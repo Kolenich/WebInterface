@@ -16,13 +16,12 @@ import { makeStyles } from '@material-ui/styles';
 import auth from 'lib/auth';
 import withContext from 'lib/context';
 import Snackbar from 'lib/generic/Snackbar';
-import { IVariantIcons } from 'lib/generic/Snackbar/types';
 import React, { ChangeEvent, FunctionComponent, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
 import './styles.css';
-import { IProps } from './types';
+import { IProps, ISnackbarProps } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -35,9 +34,11 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
-  const [snackbarVariant, setSnackbarVariant] = useState<keyof IVariantIcons>('info');
-  const [snackbarOpen, openSnackbar] = useState<boolean>(false);
+  const [snackbarProps, setSnackbar] = useState<ISnackbarProps>({
+    open: false,
+    message: '',
+    variant: 'info',
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [remember, setRemember] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -51,7 +52,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
   const handleRememberChange = (event: ChangeEvent<HTMLInputElement>) => (
     setRemember(event.target.checked)
   );
-  const closeSnackbar = () => openSnackbar(false);
+  const closeSnackbar = () => setSnackbar({ ...snackbarProps, open: false });
   const handleLogin = (): void => {
     setLoading(true);
     auth.login(email, password, remember)
@@ -64,9 +65,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       .catch(() => {
         setError(true);
         setLoading(false);
-        openSnackbar(true);
-        setSnackbarMessage('Неверные логин или пароль');
-        setSnackbarVariant('error');
+        setSnackbar({ open: true, message: 'Неверные логин или пароль', variant: 'error' });
         auth.delToken();
         auth.delHeader();
         // Убираем ошибку через 3 секунды
@@ -81,12 +80,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       transitionEnter={false}
       transitionLeave={false}
     >
-      <Snackbar
-        open={snackbarOpen}
-        message={snackbarMessage}
-        onClose={closeSnackbar}
-        variant={snackbarVariant}
-      />
+      <Snackbar onClose={closeSnackbar} {...snackbarProps} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>
