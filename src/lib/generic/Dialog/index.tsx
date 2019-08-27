@@ -28,7 +28,7 @@ const useStyles = makeStyles(styles);
 const Dialog: FunctionComponent<IProps> =
   ({ open, status, message, onClose, warningAcceptCallback }: IProps): JSX.Element => {
     const classes = useStyles();
-    const handleClick = () => {
+    const handleClick = (): void => {
       if (status === 'warning' && warningAcceptCallback) {
         warningAcceptCallback();
       }

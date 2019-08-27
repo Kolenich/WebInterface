@@ -19,7 +19,7 @@ const useStyles = makeStyles(styles);
 const DateEditor: FunctionComponent<IProps> =
   ({ onValueChange, value, ...props }: IProps): JSX.Element => {
     const classes = useStyles();
-    const handleChange = (date: MaterialUiPickersDate) => {
+    const handleChange = (date: MaterialUiPickersDate): void => {
       let value: null | string = null;
       if (date) {
         value = moment(date as Date).format('YYYY-MM-DD');

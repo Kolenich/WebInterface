@@ -76,7 +76,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
     }));
     // Через 3 секунды гасим ошибки
     setTimeout(
-      () => {
+      (): void => {
         errorsList.map((field: string) => errors[field] = false);
         this.setState((state: IState) => ({
           ...state,
@@ -95,7 +95,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
     const { email, first_name, last_name, password } = this.state;
     const sendData = { email, first_name, last_name, password };
     api.sendContent('user/registrate', sendData, AUTH_API)
-      .then((response: AxiosResponse) => {
+      .then((response: AxiosResponse): void => {
         this.setState((state: IState) => ({
           ...state,
           snackbarOpen: true,
@@ -106,7 +106,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
         // Через 2 секунды перенаправляем на страницу входа
         setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
       })
-      .catch((error: AxiosError) => {
+      .catch((error: AxiosError): void => {
         if (error.response) {
           const { message, errors } = error.response.data;
           this.setErrors(errors);

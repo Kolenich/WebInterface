@@ -43,7 +43,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
   const [error, setError] = useState<boolean>(false);
 
   useEffect(
-    () => {
+    (): void => {
       document.title = 'Войти в систему';
     },
     [],
@@ -67,13 +67,13 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
   const handleLogin = (): void => {
     setLoading(true);
     auth.login(email, password, remember)
-      .then((response) => {
+      .then((response): void => {
         if (response) {
           setLoading(false);
           history.push({ pathname: '/' });
         }
       })
-      .catch(() => {
+      .catch((): void => {
         setError(true);
         setLoading(false);
         setSnackbar({ open: true, message: 'Неверные логин или пароль', variant: 'error' });

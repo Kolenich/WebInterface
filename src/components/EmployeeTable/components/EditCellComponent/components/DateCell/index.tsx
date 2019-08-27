@@ -16,7 +16,7 @@ import { IProps } from '../../types';
  */
 const DateCell: FunctionComponent<IProps> =
   ({ onValueChange, value, column, disabled }: IProps): JSX.Element => {
-    const handleChange = (date: MaterialUiPickersDate) => {
+    const handleChange = (date: MaterialUiPickersDate): void => {
       let dateValue = null;
       if (date) {
         dateValue = moment(date).format('YYYY-MM-DD');

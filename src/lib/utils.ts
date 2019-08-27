@@ -52,7 +52,7 @@ export const filteringParams: IFiltering = {
  * @param file
  */
 export function getBase64(file: Blob) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject): void => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
@@ -99,7 +99,7 @@ export const sexChoices: ISelectItem[] = [
  * @param file
  * @returns {Promise<void>}
  */
-export const toBase64 = (file: IActualFileObject) => new Promise((resolve, reject) => {
+export const toBase64 = (file: IActualFileObject) => new Promise((resolve, reject): void => {
   const reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onload = () => resolve(reader.result);

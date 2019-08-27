@@ -28,10 +28,10 @@ class FileUploader extends PureComponent<IProps, IState> {
    * Функция-колбэк, срабатывающая в момент добавления файла
    * @param file объект добавленного файла
    */
-  onAddFile = (file: File) => {
+  onAddFile = (file: File): void => {
     const { fileUploadCallback } = this.props;
     getBase64(file.file)
-      .then((data: unknown) => {
+      .then((data: unknown): void => {
         const metaData: string = data as string;
         const avatar: IAvatar = {
           file: metaData.split(';base64,')[1],
@@ -69,7 +69,7 @@ class FileUploader extends PureComponent<IProps, IState> {
    * Функция-колбэк, привязывающая экземпляр класса к ref
    * @param ref DOM-ссылка
    */
-  addRef = (ref: FilePond) => {
+  addRef = (ref: FilePond): void => {
     this.pond = ref;
   }
 
@@ -77,7 +77,7 @@ class FileUploader extends PureComponent<IProps, IState> {
    * Функция-колбэк, вызываемая после преобразования файла с сервера в base64
    * @param dataUrl преобразованный файл
    */
-  dataUrlCallback = (dataUrl: File) => {
+  dataUrlCallback = (dataUrl: File): void => {
     this.pond.addFile(dataUrl);
   }
 

@@ -10,7 +10,7 @@ export default {
    * @param sendData - параметры запроса
    */
   getContent<T>(requestUrl: string, sendData?: any, app?: string): AxiosPromise<T> {
-    return new Promise<AxiosResponse<T>>((resolve, reject) => {
+    return new Promise<AxiosResponse<T>>((resolve, reject): void => {
       let data = sendData;
       if (!sendData) {
         data = {};
@@ -34,7 +34,7 @@ export default {
    */
   sendContent<T>(requestUrl: string, sendData: T, app?: string, sendMethod?: HTTPMethods):
     AxiosPromise<T> {
-    return new Promise<AxiosResponse<T>>((resolve, reject) => {
+    return new Promise<AxiosResponse<T>>((resolve, reject): void => {
       let method = sendMethod;
       if (!method) {
         method = 'post';

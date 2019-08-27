@@ -23,11 +23,11 @@ export class Provider extends PureComponent<IProps, IState> {
    */
   private handleLogin = (email: string, password: string): boolean => {
     session.post('auth/login/', { email, password })
-      .then((response: AxiosResponse) => {
+      .then((response: AxiosResponse): boolean => {
         this.setState({ loggedIn: true });
         return true;
       })
-      .catch((error: AxiosError) => {
+      .catch((error: AxiosError): boolean => {
         this.setState({ loggedIn: false });
         return false;
       });

@@ -17,7 +17,7 @@ const useStyles = makeStyles(styles);
  * @returns {*}
  * @constructor
  */
-const FileCell = ({ onValueChange, disabled }: IProps) => {
+const FileCell = ({ onValueChange, disabled }: IProps): JSX.Element => {
   const classes = useStyles();
   const onFileUpdate = async (files: File[]): Promise<void> => {
     if (files.length) {

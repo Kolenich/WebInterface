@@ -9,7 +9,7 @@ import React from 'react';
  * @param value url файла
  * @constructor
  */
-const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps) => {
+const ImageFormatter = ({ value }: DataTypeProvider.ValueFormatterProps): JSX.Element => {
   if (value) {
     return <Avatar src={`${getBaseUrl()}${value}`} />;
   }

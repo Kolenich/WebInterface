@@ -32,20 +32,20 @@ const useStyles = makeStyles(styles);
 const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = (): void => {
     setOpen(true);
   };
-  const handleDrawerClose = () => {
+  const handleDrawerClose = (): void => {
     setOpen(false);
   };
   const handleLogout = (): void => {
     auth.logout()
-      .then((response) => {
+      .then((response): void => {
         if (response) {
           history.push({ pathname: '/' });
         }
       })
-      .catch(() => {
+      .catch((): void => {
         history.push({ pathname: '/' });
       });
   };

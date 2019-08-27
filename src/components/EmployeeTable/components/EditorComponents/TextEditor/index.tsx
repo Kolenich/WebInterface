@@ -11,10 +11,10 @@ const useStyles = makeStyles(styles);
  * Компонент фильтрации текстовых значений
  * @param props базовые пропсы
  */
-const TextEditor: FunctionComponent<IProps> = (props: IProps) => {
+const TextEditor: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
   const { onValueChange, value } = props;
   const classes = useStyles();
-  const onChange = (event: ChangeEvent<ISelectElement>) => {
+  const onChange = (event: ChangeEvent<ISelectElement>): void => {
     const { value } = event.target;
     onValueChange(value);
   };

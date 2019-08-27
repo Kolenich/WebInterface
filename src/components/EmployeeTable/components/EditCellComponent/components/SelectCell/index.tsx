@@ -19,7 +19,7 @@ const SEX_CHOICES: ISexChoice[] = [
  */
 const SelectCell: FunctionComponent<IProps> =
   ({ onValueChange, value, disabled }: IProps): JSX.Element => {
-    const handleChange = (event: ChangeEvent<ISelectEvent>) => {
+    const handleChange = (event: ChangeEvent<ISelectEvent>): void => {
       onValueChange(event.target.value);
     };
     let displayValue: string = '';

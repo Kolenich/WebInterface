@@ -13,7 +13,7 @@ const useStyles = makeStyles(styles);
  */
 const NumberEditor: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
   const classes = useStyles();
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { value: targetValue } = event.target;
     if (targetValue.trim() === '') {
       props.onValueChange(targetValue.trim());

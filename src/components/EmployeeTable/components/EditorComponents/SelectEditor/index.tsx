@@ -13,10 +13,10 @@ const useStyles = makeStyles(styles);
  * Компонент фильтрации по полу
  * @param props базовые пропсы
  */
-const SelectEditor: FunctionComponent<IProps> = (props: IProps) => {
+const SelectEditor: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
   const { onValueChange, value } = props;
   const classes = useStyles();
-  const onChange = (event: ChangeEvent<ISelectElement>) => {
+  const onChange = (event: ChangeEvent<ISelectElement>): void => {
     const { value } = event.target;
     onValueChange(value);
   };

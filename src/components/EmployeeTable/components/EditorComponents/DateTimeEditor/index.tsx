@@ -22,7 +22,7 @@ const useStyles = makeStyles(styles);
 const DateTimeEditor: FunctionComponent<IProps> =
   ({ onValueChange, value, ...props }: IProps): JSX.Element => {
     const classes = useStyles();
-    const handleChange = (date: MaterialUiPickersDate) => {
+    const handleChange = (date: MaterialUiPickersDate): void => {
       onValueChange(date);
     };
     let displayValue = null;
