@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/styles';
 import auth from 'lib/auth';
 import withContext from 'lib/context';
 import Snackbar from 'lib/generic/Snackbar';
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent, KeyboardEvent, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
@@ -29,7 +29,6 @@ const useStyles = makeStyles(styles);
  * Компонента страницы входа в систему
  */
 const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
-  document.title = 'Войти в систему';
   const classes = useStyles();
 
   const [email, setEmail] = useState<string>('');
@@ -43,15 +42,27 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
   const [remember, setRemember] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => (
+  useEffect(
+    () => {
+      document.title = 'Войти в систему';
+    },
+    [],
+  );
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>): void => (
     setEmail(event.target.value)
   );
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => (
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>): void => (
     setPassword(event.target.value)
   );
-  const handleRememberChange = (event: ChangeEvent<HTMLInputElement>) => (
+  const handleRememberChange = (event: ChangeEvent<HTMLInputElement>): void => (
     setRemember(event.target.checked)
   );
+  const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>): void => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
+  };
   const closeSnackbar = () => setSnackbar({ ...snackbarProps, open: false });
   const handleLogin = (): void => {
     setLoading(true);
@@ -59,7 +70,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       .then((response) => {
         if (response) {
           setLoading(false);
-          history.push('/');
+          history.push({ pathname: '/' });
         }
       })
       .catch(() => {
@@ -117,6 +128,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
               autoComplete="current-password"
               value={password}
               onChange={handlePasswordChange}
+              onKeyPress={handleEnterPress}
             />
             <FormControlLabel
               control={
