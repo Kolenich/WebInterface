@@ -63,7 +63,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       handleLogin();
     }
   };
-  const closeSnackbar = () => setSnackbar({ ...snackbarProps, open: false });
+  const closeSnackbar = (): void => setSnackbar({ ...snackbarProps, open: false });
   const handleLogin = (): void => {
     setLoading(true);
     auth.login(email, password, remember)
