@@ -1,17 +1,16 @@
 import SignInPage from 'components/SignInPage';
 import SignUpPage from 'components/SignUpPage';
-import withContext from 'lib/context';
 import React, { FunctionComponent } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import DashBoard from '../components/DashBoard';
 import PrivateRoute from './PrivateRouter';
 import PublicRoute from './PublicRouter';
-import { IProps, IPropsContext } from './types';
+import { IProps } from './types';
 
 /**
  * Основной роутер приложения
  */
-const Router: FunctionComponent<IPropsContext> = (): JSX.Element => (
+const Router: FunctionComponent<IProps> = (): JSX.Element => (
   <Switch>
     <Route exact path="/" render={() => <Redirect to="/main" />} />
     <PublicRoute path="/sign-up" component={SignUpPage} />
@@ -20,4 +19,4 @@ const Router: FunctionComponent<IPropsContext> = (): JSX.Element => (
   </Switch>
 );
 
-export default withContext<IProps>(Router);
+export default Router;

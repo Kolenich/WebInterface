@@ -1,15 +1,14 @@
 import EmployeeChart from 'components/EmployeeChart';
 import EmployeeTable from 'components/EmployeeTable';
-import withContext from 'lib/context';
 import React, { FunctionComponent } from 'react';
 import { Redirect, Switch } from 'react-router';
 import PrivateRoute from '../PrivateRouter';
-import { IProps, IPropsContext } from '../types';
+import { IProps } from '../types';
 
 /**
  * Роутер панели
  */
-const DashBoardRouter: FunctionComponent<IPropsContext> = (): JSX.Element => (
+const DashBoardRouter: FunctionComponent<IProps> = (): JSX.Element => (
   <Switch>
     <Redirect exact from="/main" to="/main/employees" />
     <PrivateRoute path="/main/employees" component={EmployeeTable} />
@@ -17,4 +16,4 @@ const DashBoardRouter: FunctionComponent<IPropsContext> = (): JSX.Element => (
   </Switch>
 );
 
-export default withContext<IProps>(DashBoardRouter);
+export default DashBoardRouter;
