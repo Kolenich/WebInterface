@@ -53,14 +53,14 @@ class SignUpPage extends PureComponent<IProps, IState> {
    */
   private handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
-    this.setState((state: IState) => ({ ...state, [name]: value }));
+    this.setState((state: IState): IState => ({ ...state, [name]: value }));
   }
 
   /**
    * Функция, закрывающая снэкбар
    */
   private closeSnackbar = (): void => (
-    this.setState((state: IState) => ({ ...state, snackbarOpen: false }))
+    this.setState((state: IState): IState => ({ ...state, snackbarOpen: false }))
   )
 
   /**
@@ -70,7 +70,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
   private setErrors = (errorsList: string[]): void => {
     const errors: IErrors = {};
     errorsList.map((field: string) => errors[field] = true);
-    this.setState((state: IState) => ({
+    this.setState((state: IState): IState => ({
       ...state,
       errors: { ...state.errors, ...errors },
     }));
@@ -78,7 +78,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
     setTimeout(
       (): void => {
         errorsList.map((field: string) => errors[field] = false);
-        this.setState((state: IState) => ({
+        this.setState((state: IState): IState => ({
           ...state,
           errors: { ...state.errors, ...errors },
         }));
@@ -91,12 +91,12 @@ class SignUpPage extends PureComponent<IProps, IState> {
    */
   private handleSubmit = (): void => {
     const { history } = this.props;
-    this.setState((state: IState) => ({ ...state, loading: true }));
+    this.setState((state: IState): IState => ({ ...state, loading: true }));
     const { email, first_name, last_name, password } = this.state;
     const sendData = { email, first_name, last_name, password };
     api.sendContent('user/registrate', sendData, AUTH_API)
       .then((response: AxiosResponse): void => {
-        this.setState((state: IState) => ({
+        this.setState((state: IState): IState => ({
           ...state,
           snackbarOpen: true,
           snackbarVariant: 'success',
@@ -110,7 +110,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
         if (error.response) {
           const { message, errors } = error.response.data;
           this.setErrors(errors);
-          this.setState((state: IState) => ({
+          this.setState((state: IState): IState => ({
             ...state,
             snackbarOpen: true,
             snackbarVariant: 'error',

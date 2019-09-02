@@ -124,7 +124,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     api.getContent<IApiResponse<ITableRow>>('employee-table', config)
       .then((response: AxiosResponse<IApiResponse<ITableRow>>): void => {
         const { results, count } = response.data;
-        this.setState((state: IState) => (
+        this.setState((state: IState): IState => (
           { ...state, rows: results, totalCount: count, loading: false }
         ));
       })
@@ -136,7 +136,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param response объект ответа
    */
   private handleSuccess = (response: AxiosResponse): void => {
-    this.setState((state: IState) => ({
+    this.setState((state: IState): IState => ({
       ...state,
       snackbarOpen: true,
       snackbarMessage: SERVER_RESPONSES[response.status],
@@ -157,12 +157,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       if (status === 401) {
         const { history } = this.props;
         auth.logout()
-          .then(() => history.push({ pathname: '/' }))
-          .catch(() => history.push({ pathname: '/' }));
+          .then((): void => history.push({ pathname: '/' }))
+          .catch((): void => history.push({ pathname: '/' }));
       }
       snackbarMessage = SERVER_RESPONSES[status];
     }
-    this.setState((state: IState) => ({
+    this.setState((state: IState): IState => ({
       ...state,
       snackbarMessage,
       loading: false,
@@ -176,7 +176,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param pageSize размер страницы
    */
   private changePageSize = (pageSize: number): void => (
-    this.setState((state: IState) => ({ ...state, pageSize, loading: true, currentPage: 0 }))
+    this.setState((state: IState): IState => ({
+      ...state,
+      pageSize,
+      loading: true,
+      currentPage: 0,
+    }))
   )
 
   /**
@@ -184,7 +189,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param currentPage номер текущей страницы
    */
   private changeCurrentPage = (currentPage: number): void => (
-    this.setState((state: IState) => ({ ...state, currentPage, loading: true }))
+    this.setState((state: IState): IState => ({ ...state, currentPage, loading: true }))
   )
 
   /**
@@ -192,7 +197,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param filters массив фильтров
    */
   private changeFilters = (filters: Filter[]): void => (
-    this.setState((state: IState) => ({ ...state, filters, loading: true }))
+    this.setState((state: IState): IState => ({ ...state, filters, loading: true }))
   )
 
   /**
@@ -200,7 +205,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param sorting массив сортировок
    */
   private changeSorting = (sorting: Sorting[]): void => (
-    this.setState((state: IState) => ({ ...state, sorting, loading: true }))
+    this.setState((state: IState): IState => ({ ...state, sorting, loading: true }))
   )
 
   /**
@@ -213,7 +218,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция, закрывающая снэкбар
    */
   private closeSnackbar = (): void => (
-    this.setState((state: IState) => ({ ...state, snackbarOpen: false }))
+    this.setState((state: IState): IState => ({ ...state, snackbarOpen: false }))
   )
 
   /**
@@ -223,7 +228,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param deleted массив id удалённых строк
    */
   private commitChanges = ({ added, changed, deleted }: ChangeSet): void => {
-    this.setState((state: IState) => ({ ...state, loading: true }));
+    this.setState((state: IState): IState => ({ ...state, loading: true }));
     if (added && added.length) {
       const data: Partial<IEmployee> = added[0];
       api.sendContent('employee', data, REST_API, 'post')
