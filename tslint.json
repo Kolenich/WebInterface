@@ -4,6 +4,7 @@
     "tslint-config-airbnb"
   ],
   "rules": {
+    "no-console": true,
     "member-ordering": true,
     "promise-function-async": true,
     "curly": true,
