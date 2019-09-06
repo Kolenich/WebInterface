@@ -1,30 +1,10 @@
 .sign-in-appear {
   opacity: 0.01;
+  transform: scale(0);
 }
 
 .sign-in-appear.sign-in-appear-active {
+  transform: scale(1);
   opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-
-.error-enter {
-  opacity: 0.01;
-  max-height: 0;
-}
-
-.error-enter.error-enter-active {
-  opacity: 1;
-  max-height: 200px;
-  transition: all 500ms linear;
-}
-
-.error-leave {
-  opacity: 1;
-  max-height: 200px;
-}
-
-.error-leave.error-leave-active {
-  opacity: 0.01;
-  max-height: 0;
   transition: all 500ms linear;
 }

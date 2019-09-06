@@ -1,8 +1,10 @@
 .sign-up-appear {
   opacity: 0.01;
+  transform: translate(500px, 0);
 }
 
 .sign-up-appear.sign-up-appear-active {
+  transform: translate(0);
   opacity: 1;
-  transition: opacity 500ms ease-in;
+  transition: all 500ms linear;
 }
