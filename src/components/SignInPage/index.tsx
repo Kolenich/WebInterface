@@ -14,7 +14,6 @@ import {
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import auth from 'lib/auth';
-import withContext from 'lib/context';
 import Snackbar from 'lib/generic/Snackbar';
 import { ISnackbarProps } from 'lib/types';
 import React, { ChangeEvent, FunctionComponent, KeyboardEvent, useEffect, useState } from 'react';
@@ -168,4 +167,4 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
   );
 };
 
-export default withContext<IProps>(SignInPage);
+export default SignInPage;

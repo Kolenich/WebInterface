@@ -1,5 +1,4 @@
 import { MuiThemeProvider } from '@material-ui/core';
-import { Provider } from 'lib/context';
 import { theme } from 'lib/theme';
 import React from 'react';
 import { render } from 'react-dom';
@@ -10,11 +9,9 @@ import './styles.css';
 
 render(
   <BrowserRouter>
-    <Provider>
-      <MuiThemeProvider theme={theme}>
-        <Router />
-      </MuiThemeProvider>
-    </Provider>
+    <MuiThemeProvider theme={theme}>
+      <Router />
+    </MuiThemeProvider>
   </BrowserRouter>,
   document.getElementById('root'),
 );
