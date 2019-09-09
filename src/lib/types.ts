@@ -25,7 +25,7 @@ export interface IEmployee {
   /** Аватар сотрудника */
   avatar: IAvatar | null;
 
-  [index: string]: string | number | undefined | null | boolean | IAvatar;
+  [index: string]: ReactText | undefined | null | boolean | IAvatar;
 }
 
 export interface IAvatar {
@@ -36,7 +36,7 @@ export interface IAvatar {
   /** Тип файла */
   content_type: string;
   /** Размер файла в байтах */
-  size: string | number;
+  size: ReactText;
   /** Имя файла */
   file_name: string;
 }

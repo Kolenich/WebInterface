@@ -1,5 +1,5 @@
 import { GridSize } from '@material-ui/core/Grid';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, ReactText } from 'react';
 import { ISelectElement } from '../../types';
 
 export interface IProps {
@@ -21,9 +21,9 @@ export interface IProps {
 
 export interface ISelectItem {
   /** Значение для селекта */
-  value: string | number;
+  value: ReactText;
   /** Ключ для массива */
-  key: string | number;
+  key: ReactText;
   /** Ярлык для селекта */
   label: string;
 }
