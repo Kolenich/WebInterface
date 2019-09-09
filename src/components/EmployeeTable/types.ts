@@ -8,7 +8,7 @@ import {
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
 import { WithStyles } from '@material-ui/styles';
-import { ITableRow } from 'lib/types';
+import { ISnackbarProps, ITableRow } from 'lib/types';
 import { RouteComponentProps } from 'react-router-dom';
 import { styles } from './styles';
 
@@ -73,10 +73,6 @@ export interface IState {
   pageSize: number;
   /** Указатель загрузки */
   loading: boolean;
-  /** Переменная, отвечающая за показ снэкбара */
-  snackbarOpen: boolean;
-  /** Переменная, отвечающая за тип снэкбара */
-  snackbarVariant: 'success' | 'error' | 'warning' | 'info';
-  /** Переменная, отвечающая за сообщение снэкбара */
-  snackbarMessage: string;
+  /** Конфиг для снэкбара */
+  snackbar: ISnackbarProps;
 }

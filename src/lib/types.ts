@@ -1,3 +1,6 @@
+import { ReactText } from 'react';
+import { IVariantIcons } from './generic/Snackbar/types';
+
 export interface IEmployee {
   /** id сотрудника */
   id?: number;
@@ -72,11 +75,6 @@ export interface IApiResponse<DataType> {
   previous: string;
   /** Записи для текущей страницы */
   results: DataType[];
-}
-
-export interface IDRFGetConfig {
-  /** Параметры GET-запроса */
-  params: any;
 }
 
 export interface ISorting {
@@ -187,3 +185,23 @@ export interface IAuthResponse {
 }
 
 export type IActualFileObject = Blob & IFileObject;
+
+export interface ISnackbarProps {
+  /** Флаг открытия/закрытия */
+  open: boolean;
+  /** Сообщение на снэкбаре */
+  message: string;
+  /** Статус снэкбара */
+  variant: keyof IVariantIcons;
+}
+
+export interface IGetConfig {
+  /** Предел выгружаемых данных */
+  limit?: number;
+  /** Крайняя запись */
+  offset?: number;
+  /** Сортировка */
+  ordering?: string;
+
+  [key: string]: ReactText | undefined;
+}

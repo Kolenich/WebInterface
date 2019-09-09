@@ -1,6 +1,6 @@
 import { WithStyles } from '@material-ui/styles';
-import { IVariantIcons } from 'lib/generic/Snackbar/types';
 import { RouteComponentProps } from 'react-router-dom';
+import { ISnackbarProps } from '../../lib/types';
 import { styles } from './styles';
 
 export interface IProps extends WithStyles<typeof styles>, RouteComponentProps {
@@ -17,12 +17,8 @@ export interface IState {
   password: string;
   /** Флаг загрузки */
   loading: boolean;
-  /** Флаг открытия снэкбара */
-  snackbarOpen: boolean;
-  /** Сообщение снэкбара */
-  snackbarMessage: string;
-  /** Статус снэкбара */
-  snackbarVariant: keyof IVariantIcons;
+  /** Конфиг для снэкбара */
+  snackbar: ISnackbarProps;
   /** Ошибки в полях */
   errors: IErrors;
 }

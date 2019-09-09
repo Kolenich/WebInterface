@@ -35,9 +35,11 @@ class SignUpPage extends PureComponent<IProps, IState> {
       email: '',
       password: '',
       loading: false,
-      snackbarOpen: false,
-      snackbarMessage: '',
-      snackbarVariant: 'info',
+      snackbar: {
+        open: false,
+        message: '',
+        variant: 'info',
+      },
       errors: {
         email: false,
         last_name: false,
@@ -60,7 +62,10 @@ class SignUpPage extends PureComponent<IProps, IState> {
    * Функция, закрывающая снэкбар
    */
   private closeSnackbar = (): void => (
-    this.setState((state: IState): IState => ({ ...state, snackbarOpen: false }))
+    this.setState((state: IState): IState => ({
+      ...state,
+      snackbar: { ...state.snackbar, open: false },
+    }))
   )
 
   /**
@@ -96,11 +101,15 @@ class SignUpPage extends PureComponent<IProps, IState> {
     const sendData = { email, first_name, last_name, password };
     api.sendContent('user/registrate', sendData, AUTH_API)
       .then((response: AxiosResponse): void => {
+        const { message } = response.data;
         this.setState((state: IState): IState => ({
           ...state,
-          snackbarOpen: true,
-          snackbarVariant: 'success',
-          snackbarMessage: response.data.message,
+          snackbar: {
+            ...state.snackbar,
+            message,
+            open: true,
+            variant: 'success',
+          },
           loading: false,
         }));
         // Через 2 секунды перенаправляем на страницу входа
@@ -112,9 +121,12 @@ class SignUpPage extends PureComponent<IProps, IState> {
           this.setErrors(errors);
           this.setState((state: IState): IState => ({
             ...state,
-            snackbarOpen: true,
-            snackbarVariant: 'error',
-            snackbarMessage: message,
+            snackbar: {
+              ...state.snackbar,
+              message,
+              open: true,
+              variant: 'error',
+            },
             loading: false,
           }));
         }
@@ -127,8 +139,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
   public render(): ReactNode {
     const { classes } = this.props;
     const {
-      email, first_name, last_name, password, snackbarOpen, snackbarMessage, snackbarVariant,
-      loading, errors,
+      email, first_name, last_name, password, snackbar, loading, errors,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -138,12 +149,7 @@ class SignUpPage extends PureComponent<IProps, IState> {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <Snackbar
-          open={snackbarOpen}
-          message={snackbarMessage}
-          onClose={this.closeSnackbar}
-          variant={snackbarVariant}
-        />
+        <Snackbar onClose={this.closeSnackbar} {...snackbar} />
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Typography component="div" className={classes.paper}>

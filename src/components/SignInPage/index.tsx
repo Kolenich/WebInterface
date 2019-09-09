@@ -16,12 +16,13 @@ import { makeStyles } from '@material-ui/styles';
 import auth from 'lib/auth';
 import withContext from 'lib/context';
 import Snackbar from 'lib/generic/Snackbar';
+import { ISnackbarProps } from 'lib/types';
 import React, { ChangeEvent, FunctionComponent, KeyboardEvent, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
 import './styles.css';
-import { IProps, ISnackbarProps } from './types';
+import { IProps } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -33,7 +34,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [snackbarProps, setSnackbar] = useState<ISnackbarProps>({
+  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
     open: false,
     message: '',
     variant: 'info',
@@ -63,7 +64,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       handleLogin();
     }
   };
-  const closeSnackbar = (): void => setSnackbar({ ...snackbarProps, open: false });
+  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
   const handleLogin = (): void => {
     setLoading(true);
     auth.login(email, password, remember)
@@ -91,7 +92,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
       transitionEnter={false}
       transitionLeave={false}
     >
-      <Snackbar onClose={closeSnackbar} {...snackbarProps} />
+      <Snackbar onClose={closeSnackbar} {...snackbar} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>

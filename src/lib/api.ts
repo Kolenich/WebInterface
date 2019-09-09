@@ -11,16 +11,16 @@ export default {
    */
   getContent<T>(requestUrl: string, sendData?: any, app?: string): AxiosPromise<T> {
     return new Promise<AxiosResponse<T>>((resolve, reject): void => {
-      let data = sendData;
+      let params = sendData;
       if (!sendData) {
-        data = {};
+        params = {};
       }
       let prefix = app;
       if (!prefix) {
         prefix = REST_API;
       }
       session
-        .get<T>(`${prefix}/${requestUrl}/`, data)
+        .get<T>(`${prefix}/${requestUrl}/`, { params })
         .then((response: AxiosResponse<T>) => resolve(response))
         .catch((error: AxiosError) => reject(error));
     });

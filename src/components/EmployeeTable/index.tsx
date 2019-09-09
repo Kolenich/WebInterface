@@ -36,7 +36,7 @@ import {
   tableHeaderRowMessage,
   tableMessages,
 } from 'lib/translate';
-import { IApiResponse, IDRFGetConfig, IEmployee, ITableRow } from 'lib/types';
+import { IApiResponse, IEmployee, IGetConfig, ITableRow } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { PureComponent, ReactNode, ReactText } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -67,9 +67,11 @@ class EmployeeTable extends PureComponent<IProps, IState> {
       totalCount: 0,
       currentPage: 0,
       loading: false,
-      snackbarOpen: false,
-      snackbarVariant: 'info',
-      snackbarMessage: '',
+      snackbar: {
+        open: false,
+        variant: 'info',
+        message: '',
+      },
     };
   }
 
@@ -102,23 +104,21 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    */
   private loadData = (): void => {
     const { currentPage, pageSize, filters, sorting } = this.state;
-    const config: IDRFGetConfig = {
-      params: {
-        // Параметры для пагинации
-        limit: pageSize,
-        offset: currentPage * pageSize,
-      },
+    const config: IGetConfig = {
+      // Параметры для пагинации
+      limit: pageSize,
+      offset: currentPage * pageSize,
     };
     // Параметры для фильтрации
     filters.map(({ operation, columnName, value }: Filter): void => {
       if (operation) {
-        config.params[columnName + filteringParams[operation]] = value;
+        config[columnName + filteringParams[operation]] = value;
       }
       return undefined;
     });
     // Параметры для сортировки
     sorting.map(({ direction, columnName }: Sorting): void => {
-      config.params.ordering = sortingParams[direction] + columnName;
+      config.ordering = sortingParams[direction] + columnName;
       return undefined;
     });
     api.getContent<IApiResponse<ITableRow>>('employee-table', config)
@@ -138,9 +138,12 @@ class EmployeeTable extends PureComponent<IProps, IState> {
   private handleSuccess = (response: AxiosResponse): void => {
     this.setState((state: IState): IState => ({
       ...state,
-      snackbarOpen: true,
-      snackbarMessage: SERVER_RESPONSES[response.status],
-      snackbarVariant: 'success',
+      snackbar: {
+        ...state.snackbar,
+        open: true,
+        message: SERVER_RESPONSES[response.status],
+        variant: 'success',
+      },
     }));
     this.loadData();
   }
@@ -150,7 +153,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param error объект ответа
    */
   private handleError = (error: AxiosError): void => {
-    let snackbarMessage: string = 'Сервер не доступен, попробуйте позже';
+    let message: string = 'Сервер не доступен, попробуйте позже';
     if (error.response) {
       const { status } = error.response;
       // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
@@ -160,14 +163,17 @@ class EmployeeTable extends PureComponent<IProps, IState> {
           .then((): void => history.push({ pathname: '/' }))
           .catch((): void => history.push({ pathname: '/' }));
       }
-      snackbarMessage = SERVER_RESPONSES[status];
+      message = SERVER_RESPONSES[status];
     }
     this.setState((state: IState): IState => ({
       ...state,
-      snackbarMessage,
+      snackbar: {
+        ...state.snackbar,
+        message,
+        open: true,
+        variant: 'error',
+      },
       loading: false,
-      snackbarOpen: true,
-      snackbarVariant: 'error',
     }));
   }
 
@@ -218,7 +224,10 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * Функция, закрывающая снэкбар
    */
   private closeSnackbar = (): void => (
-    this.setState((state: IState): IState => ({ ...state, snackbarOpen: false }))
+    this.setState((state: IState): IState => ({
+      ...state,
+      snackbar: { ...state.snackbar, open: false },
+    }))
   )
 
   /**
@@ -257,8 +266,8 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     const { classes } = this.props;
     const {
       rows, columns, defaultOrder, defaultColumnWidths, pageSizes, pageSize, loading, totalCount,
-      currentPage, sortingStateColumnExtensions, sorting, snackbarOpen, snackbarVariant,
-      snackbarMessage, leftFixedColumns, editingStateColumnExtensions, rightFixedColumns,
+      currentPage, sortingStateColumnExtensions, sorting, snackbar, leftFixedColumns,
+      editingStateColumnExtensions, rightFixedColumns,
     } = this.state;
     return (
       <ReactCSSTransitionGroup
@@ -268,12 +277,7 @@ class EmployeeTable extends PureComponent<IProps, IState> {
         transitionEnter={false}
         transitionLeave={false}
       >
-        <Snackbar
-          open={snackbarOpen}
-          variant={snackbarVariant}
-          message={snackbarMessage}
-          onClose={this.closeSnackbar}
-        />
+        <Snackbar {...snackbar} onClose={this.closeSnackbar} />
         <Paper
           className={classes.paper}
         >
