@@ -29,6 +29,7 @@ import api from 'lib/api';
 import auth from 'lib/auth';
 import Loading from 'lib/generic/Loading';
 import Snackbar from 'lib/generic/Snackbar';
+import { REST_API } from 'lib/session';
 import {
   filterRowMessages,
   pagingPanelMessages,
@@ -40,7 +41,6 @@ import { IApiResponse, IEmployee, IGetConfig, ITableRow } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { PureComponent, ReactNode, ReactText } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { REST_API } from '../../lib/session';
 import columnSettings from './columnSettings';
 import CommandComponent from './components/CommandComponent';
 import EditCellComponent from './components/EditCellComponent';
