@@ -23,7 +23,7 @@ import {
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
 import { Paper } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import api from 'lib/api';
 import auth from 'lib/auth';
@@ -37,9 +37,9 @@ import {
   tableHeaderRowMessage,
   tableMessages,
 } from 'lib/translate';
-import { IApiResponse, IEmployee, IGetConfig, ITableRow } from 'lib/types';
+import { IApiResponse, IEmployee, IGetConfig, ISnackbarProps, ITableRow } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
-import React, { PureComponent, ReactNode, ReactText } from 'react';
+import React, { FunctionComponent, ReactText, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import columnSettings from './columnSettings';
 import CommandComponent from './components/CommandComponent';
@@ -48,62 +48,87 @@ import RootComponent from './components/RootComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';
 import './styles.css';
-import { ICustomDataTypeProviderProps, IProps, IState } from './types';
+import { IColumnSettings, ICustomDataTypeProviderProps, IProps, ITable } from './types';
+
+const useStyles = makeStyles(styles);
 
 /**
- * Компонент таблицы Сотрудников
+ * Компонент таблицы сотрудников
+ * @param history история в браузере
+ * @param classes классы CSS
+ * @constructor
  */
-class EmployeeTable extends PureComponent<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    document.title = 'Сотрудники';
-    this.state = {
-      ...columnSettings,
-      rows: [],
-      filters: [],
-      sorting: [],
-      pageSizes: [5, 10, 20],
-      pageSize: 5,
-      totalCount: 0,
-      currentPage: 0,
-      loading: false,
-      snackbar: {
-        open: false,
-        variant: 'info',
-        message: '',
-      },
-    };
-  }
+const EmployeeTable: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
+  const classes = useStyles();
+  // Переменные состояния основной таблицы
+  const [table, setTable] = useState<ITable>({
+    rows: [],
+    filters: [],
+    sorting: [],
+    pageSizes: [5, 10, 20],
+    pageSize: 5,
+    totalCount: 0,
+    currentPage: 0,
+  });
+
+  // Переменная состояния загрузки
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // Переменные состояния снэкбара
+  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
+    open: false,
+    variant: 'info',
+    message: '',
+  });
+
+  // Переменные состояния настроек таблицы
+  const [settings] = useState<IColumnSettings>(columnSettings);
+
+  const { rows, filters, sorting, pageSizes, pageSize, totalCount, currentPage } = table;
+
+  const {
+    leftFixedColumns, rightFixedColumns, defaultColumnWidths, sortingStateColumnExtensions,
+    editingStateColumnExtensions, defaultOrder, columns,
+  } = settings;
 
   /**
-   * Метод, вызываемый после монтирования компонента
+   * Функция обработки неуспешного ответа с сервера
+   * @param error объект ответа
    */
-  public componentDidMount(): void {
-    this.loadData();
-  }
-
-  /**
-   * Метод, вызываемый после обновления компонента
-   * @param prevProps предыдущие пропсы
-   * @param prevState предыдущее состояние
-   */
-  public componentDidUpdate(prevProps: Readonly<IProps>, prevState: Readonly<IState>): void {
-    const { pageSize, currentPage, filters, sorting } = this.state;
-    if (
-      prevState.currentPage !== currentPage ||
-      prevState.pageSize !== pageSize ||
-      prevState.filters !== filters ||
-      prevState.sorting !== sorting
-    ) {
-      this.loadData();
+  const handleError = (error: AxiosError): void => {
+    let message: string = 'Сервер не доступен, попробуйте позже';
+    if (error.response) {
+      const { status } = error.response;
+      // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
+      if (status === 401) {
+        auth.logout()
+          .then((): void => history.push({ pathname: '/' }))
+          .catch((): void => history.push({ pathname: '/' }));
+      }
+      message = SERVER_RESPONSES[status];
     }
-  }
+    setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
+    setLoading(false);
+  };
+
+  /**
+   * Функция обработки успешного ответа с сервера
+   * @param response объект ответа
+   */
+  const handleSuccess = (response: AxiosResponse): void => {
+    setSnackbar({
+      ...snackbar,
+      open: true,
+      message: SERVER_RESPONSES[response.status],
+      variant: 'success',
+    });
+    loadData();
+  };
 
   /**
    * Метод для загрузи данных в таблицу с сервера
    */
-  private loadData = (): void => {
-    const { currentPage, pageSize, filters, sorting } = this.state;
+  const loadData = (): void => {
     const config: IGetConfig = {
       // Параметры для пагинации
       limit: pageSize,
@@ -124,111 +149,58 @@ class EmployeeTable extends PureComponent<IProps, IState> {
     api.getContent<IApiResponse<ITableRow>>('employee-table', config)
       .then((response: AxiosResponse<IApiResponse<ITableRow>>): void => {
         const { results, count } = response.data;
-        this.setState((state: IState): IState => (
-          { ...state, rows: results, totalCount: count, loading: false }
-        ));
+        setTable({ ...table, rows: results, totalCount: count });
+        setLoading(false);
       })
-      .catch(this.handleError);
-  }
-
-  /**
-   * Функция обработки успешного ответа с сервера
-   * @param response объект ответа
-   */
-  private handleSuccess = (response: AxiosResponse): void => {
-    this.setState((state: IState): IState => ({
-      ...state,
-      snackbar: {
-        ...state.snackbar,
-        open: true,
-        message: SERVER_RESPONSES[response.status],
-        variant: 'success',
-      },
-    }));
-    this.loadData();
-  }
-
-  /**
-   * Функция обработки неуспешного ответа с сервера
-   * @param error объект ответа
-   */
-  private handleError = (error: AxiosError): void => {
-    let message: string = 'Сервер не доступен, попробуйте позже';
-    if (error.response) {
-      const { status } = error.response;
-      // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
-      if (status === 401) {
-        const { history } = this.props;
-        auth.logout()
-          .then((): void => history.push({ pathname: '/' }))
-          .catch((): void => history.push({ pathname: '/' }));
-      }
-      message = SERVER_RESPONSES[status];
-    }
-    this.setState((state: IState): IState => ({
-      ...state,
-      snackbar: {
-        ...state.snackbar,
-        message,
-        open: true,
-        variant: 'error',
-      },
-      loading: false,
-    }));
-  }
+      .catch(handleError);
+  };
 
   /**
    * Метод для обработки изменения числа строк на странице
    * @param pageSize размер страницы
    */
-  private changePageSize = (pageSize: number): void => (
-    this.setState((state: IState): IState => ({
-      ...state,
-      pageSize,
-      loading: true,
-      currentPage: 0,
-    }))
-  )
+  const changePageSize = (pageSize: number): void => {
+    setTable({ ...table, pageSize, currentPage: 0 });
+    setLoading(true);
+  };
 
   /**
    * Функция обработки изменения текущей страницы
    * @param currentPage номер текущей страницы
    */
-  private changeCurrentPage = (currentPage: number): void => (
-    this.setState((state: IState): IState => ({ ...state, currentPage, loading: true }))
-  )
+  const changeCurrentPage = (currentPage: number): void => {
+    setTable({ ...table, currentPage });
+    setLoading(true);
+  };
 
   /**
    * Функция изменения фильтров
    * @param filters массив фильтров
    */
-  private changeFilters = (filters: Filter[]): void => (
-    this.setState((state: IState): IState => ({ ...state, filters, loading: true }))
-  )
+  const changeFilters = (filters: Filter[]): void => {
+    setTable({ ...table, filters });
+    setLoading(true);
+  };
 
   /**
    * Фугкция изменения сортировок
    * @param sorting массив сортировок
    */
-  private changeSorting = (sorting: Sorting[]): void => (
-    this.setState((state: IState): IState => ({ ...state, sorting, loading: true }))
-  )
+  const changeSorting = (sorting: Sorting[]): void => {
+    setTable({ ...table, sorting });
+    setLoading(true);
+  };
 
   /**
    * Функция получения уникального идентификатора строки
    * @param row строка
    */
-  private getRowId = (row: ITableRow): ReactText => row.id;
+  const getRowId = (row: ITableRow): ReactText => row.id;
 
   /**
    * Функция, закрывающая снэкбар
    */
-  private closeSnackbar = (): void => (
-    this.setState((state: IState): IState => ({
-      ...state,
-      snackbar: { ...state.snackbar, open: false },
-    }))
-  )
+  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
 
   /**
    * Функция подтверждения изменений
@@ -236,124 +208,127 @@ class EmployeeTable extends PureComponent<IProps, IState> {
    * @param changed массив изменённых строк
    * @param deleted массив id удалённых строк
    */
-  private commitChanges = ({ added, changed, deleted }: ChangeSet): void => {
-    this.setState((state: IState): IState => ({ ...state, loading: true }));
+  const commitChanges = ({ added, changed, deleted }: ChangeSet): void => {
+    setLoading(true);
     if (added && added.length) {
       const data: Partial<IEmployee> = added[0];
       api.sendContent('employee', data, REST_API, 'post')
-        .then(this.handleSuccess)
-        .catch(this.handleError);
+        .then(handleSuccess)
+        .catch(handleError);
     }
     if (changed) {
       const id: ReactText = Object.keys(changed)[0];
       const data: Partial<IEmployee> = changed[id];
       api.sendContent(`employee/${id}`, data, REST_API, 'patch')
-        .then(this.handleSuccess)
-        .catch(this.handleError);
+        .then(handleSuccess)
+        .catch(handleError);
     }
     if (deleted && deleted.length) {
       const id: ReactText = deleted[0];
       api.sendContent(`employee/${id}`, {}, REST_API, 'delete')
-        .then(this.handleSuccess)
-        .catch(this.handleError);
+        .then(handleSuccess)
+        .catch(handleError);
     }
-  }
+  };
 
-  /**
-   * Базовый метод рендера
-   */
-  public render(): ReactNode {
-    const { classes } = this.props;
-    const {
-      rows, columns, defaultOrder, defaultColumnWidths, pageSizes, pageSize, loading, totalCount,
-      currentPage, sortingStateColumnExtensions, sorting, snackbar, leftFixedColumns,
-      editingStateColumnExtensions, rightFixedColumns,
-    } = this.state;
-    return (
-      <ReactCSSTransitionGroup
-        transitionName="table"
-        transitionAppear
-        transitionAppearTimeout={500}
-        transitionEnter={false}
-        transitionLeave={false}
+  useEffect(
+    loadData,
+    [currentPage, pageSize, filters, sorting],
+  );
+
+  useEffect(
+    () => {
+      document.title = 'Сотрудники';
+    },
+    [],
+  );
+
+  console.log('render');
+
+  return (
+    <ReactCSSTransitionGroup
+      transitionName="table"
+      transitionAppear
+      transitionAppearTimeout={500}
+      transitionEnter={false}
+      transitionLeave={false}
+    >
+      <Snackbar {...snackbar} onClose={closeSnackbar} />
+      <Paper
+        className={classes.paper}
       >
-        <Snackbar {...snackbar} onClose={this.closeSnackbar} />
-        <Paper
-          className={classes.paper}
+        <Grid
+          rows={rows}
+          columns={columns}
+          getRowId={getRowId}
+          rootComponent={RootComponent}
         >
-          <Grid
-            rows={rows}
-            columns={columns}
-            getRowId={this.getRowId}
-            rootComponent={RootComponent}
-          >
-            {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
-              <DataTypeProvider {...props} />
-            ))}
-            <DragDropProvider />
-            <SortingState
-              sorting={sorting}
-              onSortingChange={this.changeSorting}
-              columnExtensions={sortingStateColumnExtensions}
-            />
-            <PagingState
-              currentPage={currentPage}
-              pageSize={pageSize}
-              onPageSizeChange={this.changePageSize}
-              onCurrentPageChange={this.changeCurrentPage}
-            />
-            <CustomPaging
-              totalCount={totalCount}
-            />
-            <FilteringState
-              onFiltersChange={this.changeFilters}
-            />
-            <EditingState
-              onCommitChanges={this.commitChanges}
-              columnExtensions={editingStateColumnExtensions}
-            />
-            <VirtualTable
-              height="auto"
-              messages={tableMessages}
-            />
-            <TableColumnReordering
-              defaultOrder={defaultOrder}
-            />
-            <TableColumnResizing
-              defaultColumnWidths={defaultColumnWidths}
-            />
-            <TableHeaderRow
-              showSortingControls
-              messages={tableHeaderRowMessage}
-            />
-            <TableFilterRow
-              showFilterSelector
-              messages={filterRowMessages}
-            />
-            <TableEditRow
-              cellComponent={EditCellComponent}
-            />
-            <TableEditColumn
-              showAddCommand
-              showDeleteCommand
-              showEditCommand
-              commandComponent={CommandComponent}
-              messages={tableEditColumnMessages}
-            />
-            <TableFixedColumns
-              leftColumns={leftFixedColumns}
-              rightColumns={rightFixedColumns}
-            />
-            <PagingPanel
-              pageSizes={pageSizes}
-              messages={pagingPanelMessages}
-            />
-          </Grid>
-          {loading && <Loading />}
-        </Paper>
-      </ReactCSSTransitionGroup>
-    );
-  }
-}
+          {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
+            <DataTypeProvider {...props} />
+          ))}
+          <DragDropProvider />
+          <SortingState
+            sorting={sorting}
+            onSortingChange={changeSorting}
+            columnExtensions={sortingStateColumnExtensions}
+          />
+          <PagingState
+            currentPage={currentPage}
+            pageSize={pageSize}
+            onPageSizeChange={changePageSize}
+            onCurrentPageChange={changeCurrentPage}
+          />
+          <CustomPaging
+            totalCount={totalCount}
+          />
+          <FilteringState
+            onFiltersChange={changeFilters}
+          />
+          <EditingState
+            onCommitChanges={commitChanges}
+            columnExtensions={editingStateColumnExtensions}
+          />
+          <VirtualTable
+            height="auto"
+            messages={tableMessages}
+          />
+          <TableColumnReordering
+            defaultOrder={defaultOrder}
+          />
+          <TableColumnResizing
+            defaultColumnWidths={defaultColumnWidths}
+          />
+          <TableHeaderRow
+            showSortingControls
+            messages={tableHeaderRowMessage}
+          />
+          <TableFilterRow
+            showFilterSelector
+            messages={filterRowMessages}
+          />
+          <TableEditRow
+            cellComponent={EditCellComponent}
+          />
+          <TableEditColumn
+            showAddCommand
+            showDeleteCommand
+            showEditCommand
+            commandComponent={CommandComponent}
+            messages={tableEditColumnMessages}
+          />
+          <TableFixedColumns
+            leftColumns={leftFixedColumns}
+            rightColumns={rightFixedColumns}
+          />
+          <PagingPanel
+            pageSizes={pageSizes}
+            messages={pagingPanelMessages}
+          />
+        </Grid>
+        {loading && <Loading />}
+      </Paper>
+    </ReactCSSTransitionGroup>
+  );
+};
 
-export default withStyles(styles)(EmployeeTable);
+export default EmployeeTable;
