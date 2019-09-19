@@ -243,8 +243,6 @@ const EmployeeTable: FunctionComponent<IProps> = ({ history }: IProps): JSX.Elem
     [],
   );
 
-  console.log('render');
-
   return (
     <ReactCSSTransitionGroup
       transitionName="table"
