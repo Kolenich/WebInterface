@@ -1,4 +1,4 @@
-import { Grid, TextField as TextFieldBase } from '@material-ui/core';
+import { TextField as TextFieldBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { FunctionComponent } from 'react';
 import { validationMessages, validationMethods } from '../../validation';
@@ -9,16 +9,14 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент кастомного текстового поля
- * @param xs размер в Grid-сетке на маденьких экранах
- * @param lg размер в Grid-сетке на больших экранах
- * @param classes классы CSS
  * @param validationType тип валидации
  * @param fieldValue значение текстового поля
  * @param props остальные пропсы
+ * @param onError колбэк, срабатывающий при ошибке валидации
  * @constructor
  */
 const TextField: FunctionComponent<IProps> =
-  ({ xs, lg, validationType, fieldValue, ...props }: IProps): JSX.Element => {
+  ({ validationType, fieldValue, onError, ...props }: IProps): JSX.Element => {
     const classes = useStyles();
     let valid: boolean = true;
     let helperText: string = '';
@@ -30,21 +28,22 @@ const TextField: FunctionComponent<IProps> =
       }
       if (!valid) {
         helperText = validationMessages[validationType];
+        if (onError) {
+          onError();
+        }
       }
     }
     return (
-      <Grid item xs={xs} lg={lg}>
-        <TextFieldBase
-          className={classes.textField}
-          error={!valid}
-          helperText={helperText}
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          value={value}
-          {...props}
-        />
-      </Grid>
+      <TextFieldBase
+        className={classes.textField}
+        error={!valid}
+        helperText={helperText}
+        fullWidth
+        margin="normal"
+        variant="outlined"
+        value={value}
+        {...props}
+      />
     );
   };
 
