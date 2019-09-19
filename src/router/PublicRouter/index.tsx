@@ -10,10 +10,10 @@ import { ICustomRoutingProps } from '../types';
  * @returns {*}
  * @constructor
  */
-const PublicRoute = ({ component, ...rest }: ICustomRoutingProps): any => (
+const PublicRoute = ({ component, ...rest }: ICustomRoutingProps): JSX.Element => (
   <Route
     {...rest}
-    render={(props: (RouteComponentProps & Attributes)) => (
+    render={(props: (RouteComponentProps & Attributes)): JSX.Element => (
       auth.checkToken()
         ? (<Redirect to={{ pathname: '/' }} />)
         : (createElement(component, props))
