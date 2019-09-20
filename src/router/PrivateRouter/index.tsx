@@ -1,6 +1,6 @@
+import auth from 'lib/auth';
 import React, { Attributes, createElement } from 'react';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
-import auth from '../../lib/auth';
 import { ICustomRoutingProps } from '../types';
 
 /**

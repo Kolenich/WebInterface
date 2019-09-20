@@ -3,12 +3,11 @@ import EmployeeTable from 'components/EmployeeTable';
 import React, { FunctionComponent } from 'react';
 import { Redirect, Switch } from 'react-router';
 import PrivateRoute from '../PrivateRouter';
-import { IProps } from '../types';
 
 /**
  * Роутер панели
  */
-const DashBoardRouter: FunctionComponent<IProps> = (): JSX.Element => (
+const DashBoardRouter: FunctionComponent<{}> = (): JSX.Element => (
   <Switch>
     <Redirect exact from="/main" to="/main/employees" />
     <PrivateRoute path="/main/employees" component={EmployeeTable} />
