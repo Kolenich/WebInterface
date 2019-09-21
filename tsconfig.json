@@ -7,6 +7,23 @@
       "esnext"
     ],
     "baseUrl": "./src",
+    "paths": {
+      "components/*": [
+        "components/*"
+      ],
+      "lib/*": [
+        "lib/*"
+      ],
+      "assets/*": [
+        "assets/*"
+      ],
+      "router/*": [
+        "router/*"
+      ],
+      "context/*": [
+        "context/*"
+      ]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
