@@ -15,9 +15,9 @@ import { IProps } from '../../types';
  */
 const TextCell: FunctionComponent<IProps> =
   ({ onValueChange, value, column, disabled, isEmail, isPhone }: IProps): JSX.Element => {
-    const onChange = (event: ChangeEvent<HTMLInputElement>): void => {
-      onValueChange(event.target.value);
-    };
+    const onChange = (event: ChangeEvent<HTMLInputElement>): void => (
+      onValueChange(event.target.value)
+    );
     let displayValue = '';
     if (value) {
       displayValue = value;

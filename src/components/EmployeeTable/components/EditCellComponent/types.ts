@@ -10,27 +10,27 @@ export interface IProps extends TableEditRow.CellProps {
   isPhone?: boolean;
 }
 
-export interface IEditCells<IProps> {
+export interface IEditCells<T> {
   /** Компонент для редактирования Аватара */
-  avatar: FunctionComponent<IProps>;
+  avatar: FunctionComponent<T>;
   /** Компонент для редактирования Фамилии */
-  last_name: FunctionComponent<IProps>;
+  last_name: FunctionComponent<T>;
   /** Компонент для редактирования Имени */
-  first_name: FunctionComponent<IProps>;
+  first_name: FunctionComponent<T>;
   /** Компонент для редактирования Отчества */
-  middle_name: FunctionComponent<IProps>;
+  middle_name: FunctionComponent<T>;
   /** Компонент для редактирования Даты регистрации */
-  registration_date: FunctionComponent<IProps>;
+  registration_date: FunctionComponent<T>;
   /** Компонент для редактирования Телефона */
-  phone: FunctionComponent<IProps>;
+  phone: FunctionComponent<T>;
   /** Компонент для редактирования Электроннр=ой почты */
-  email: FunctionComponent<IProps>;
+  email: FunctionComponent<T>;
   /** Компонент для редактирования Даты рождения */
-  date_of_birth: FunctionComponent<IProps>;
+  date_of_birth: FunctionComponent<T>;
   /** Компонент для редактирования Возраста */
-  age: FunctionComponent<IProps>;
+  age: FunctionComponent<T>;
   /** Компонент для редактирования Пола */
-  sex: FunctionComponent<IProps>;
+  sex: FunctionComponent<T>;
 
-  [index: string]: FunctionComponent<IProps>;
+  [index: string]: FunctionComponent<T>;
 }
