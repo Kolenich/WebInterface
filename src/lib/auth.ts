@@ -1,4 +1,6 @@
+import { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
 import { session } from './session';
+import { IAuthResponse } from './types';
 
 export const TOKEN = 'token';
 
@@ -11,27 +13,40 @@ export default {
    * @param password пароль
    * @param remember флаг для запоминания пользователя
    */
-  async login(username: string, password: string, remember?: boolean): Promise<boolean> {
-    const { data } = await session.post('auth/login/', { username, password });
-    if (data) {
-      const { key } = data;
-      this.saveToken(key, remember);
-      this.setHeader(key);
-      return data;
-    }
-    return false;
+  login(username: string, password: string, remember?: boolean): AxiosPromise<IAuthResponse> {
+    return new Promise<AxiosResponse<IAuthResponse>>(((resolve, reject) => {
+      session.post('auth/login/', { username, password })
+        .then((response: AxiosResponse<IAuthResponse>) => {
+          const { key } = response.data;
+          this.saveToken(key, remember);
+          this.setHeader(key);
+          resolve(response);
+        })
+        .catch((error: AxiosError) => {
+          this.delHeader();
+          this.delToken();
+          reject(error);
+        });
+    }));
   },
 
   /**
    * Функция разлогина из системы
    */
-  async logout(): Promise<boolean> {
-    const response = await session.post('auth/logout/', {});
-    if (response) {
-      this.delHeader();
-      this.delToken();
-    }
-    return !!response;
+  logout(): AxiosPromise {
+    return new Promise<AxiosResponse>(((resolve, reject) => {
+      session.post('auth/logout/', {})
+        .then((response: AxiosResponse) => {
+          this.delHeader();
+          this.delToken();
+          resolve(response);
+        })
+        .catch((error: AxiosError) => {
+          this.delHeader();
+          this.delToken();
+          reject(error);
+        });
+    }));
   },
 
   /**
