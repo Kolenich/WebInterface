@@ -19,8 +19,7 @@ export default {
       if (!prefix) {
         prefix = REST_API;
       }
-      session
-        .get<T>(`${prefix}/${requestUrl}/`, { params })
+      session.get<T>(`${prefix}/${requestUrl}/`, { params })
         .then((response: AxiosResponse<T>) => resolve(response))
         .catch((error: AxiosError) => reject(error));
     });

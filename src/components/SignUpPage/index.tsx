@@ -10,234 +10,214 @@ import {
   Typography,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
-import { withStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import api from 'lib/api';
 import Snackbar from 'lib/generic/Snackbar';
 import { AUTH_API } from 'lib/session';
-import React, { ChangeEvent, PureComponent, ReactNode } from 'react';
+import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
+import { ISnackbarProps } from '../../lib/types';
 import { styles } from './styles';
 import './styles.css';
-import { IErrors, IProps, IState } from './types';
+import { IAccount, IErrors, IProps } from './types';
+
+const useStyles = makeStyles(styles);
 
 /**
  * Компонент станицы регистрации
+ * @param history история в браузере
+ * @constructor
  */
-class SignUpPage extends PureComponent<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    document.title = 'Зарегистрироваться в системе';
-    this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
-      password: '',
-      loading: false,
-      snackbar: {
-        open: false,
-        message: '',
-        variant: 'info',
-      },
-      errors: {
-        email: false,
-        last_name: false,
-        first_name: false,
-        password: false,
-      },
-    };
-  }
+const SignUpPage: FunctionComponent<IProps> = ({ history }): JSX.Element => {
+  const classes = useStyles();
+
+  // Набор переменных состояния для пользовательских данных
+  const [account, setAccount] = useState<IAccount>({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+  });
+
+  // Переменная состояния для загрузки
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // Набор переменных состояния для снэкбара
+  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
+    open: false,
+    message: '',
+    variant: 'info',
+  });
+
+  // Набор переменных состояния для ошибок
+  const [errors, setErrors] = useState<IErrors>({
+    email: false,
+    last_name: false,
+    first_name: false,
+    password: false,
+  });
 
   /**
    * Функция обработки изменений в текстовом поле
    * @param event событие изменения
    */
-  private handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
-    this.setState((state: IState): IState => ({ ...state, [name]: value }));
-  }
+    setAccount({ ...account, [name]: value });
+  };
 
   /**
    * Функция, закрывающая снэкбар
    */
-  private closeSnackbar = (): void => (
-    this.setState((state: IState): IState => ({
-      ...state,
-      snackbar: { ...state.snackbar, open: false },
-    }))
-  )
+  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
 
   /**
    * Функция для выстановки ошибок в полях
    * @param errorsList массив со списком полей
    */
-  private setErrors = (errorsList: string[]): void => {
-    const errors: IErrors = {};
-    errorsList.map((field: string) => errors[field] = true);
-    this.setState((state: IState): IState => ({
-      ...state,
-      errors: { ...state.errors, ...errors },
-    }));
+  const setErrorsList = (errorsList: string[]): void => {
+    const list: IErrors = {};
+    errorsList.map((field: string) => list[field] = true);
+    setErrors({ ...errors, ...list });
     // Через 3 секунды гасим ошибки
     setTimeout(
       (): void => {
         errorsList.map((field: string) => errors[field] = false);
-        this.setState((state: IState): IState => ({
-          ...state,
-          errors: { ...state.errors, ...errors },
-        }));
+        setErrors({ ...errors, ...list });
       },
       3000);
-  }
+  };
 
   /**
    * Функция отправки формы
    */
-  private handleSubmit = (): void => {
-    const { history } = this.props;
-    this.setState((state: IState): IState => ({ ...state, loading: true }));
-    const { email, first_name, last_name, password } = this.state;
-    const sendData = { email, first_name, last_name, password };
+  const handleSubmit = (): void => {
+    setLoading(true);
+    const { email, first_name, last_name, password } = account;
+    const sendData: IAccount = { email, first_name, last_name, password };
     api.sendContent('user/registrate', sendData, AUTH_API)
       .then((response: AxiosResponse): void => {
         const { message } = response.data;
-        this.setState((state: IState): IState => ({
-          ...state,
-          snackbar: {
-            ...state.snackbar,
-            message,
-            open: true,
-            variant: 'success',
-          },
-          loading: false,
-        }));
+        setSnackbar({ ...snackbar, message, open: true, variant: 'success' });
+        setLoading(false);
         // Через 2 секунды перенаправляем на страницу входа
         setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
       })
       .catch((error: AxiosError): void => {
         if (error.response) {
           const { message, errors } = error.response.data;
-          this.setErrors(errors);
-          this.setState((state: IState): IState => ({
-            ...state,
-            snackbar: {
-              ...state.snackbar,
-              message,
-              open: true,
-              variant: 'error',
-            },
-            loading: false,
-          }));
+          setErrorsList(errors);
+          setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
+          setLoading(false);
         }
       });
-  }
+  };
 
-  /**
-   * Базовый метод рендера
-   */
-  public render(): ReactNode {
-    const { classes } = this.props;
-    const {
-      email, first_name, last_name, password, snackbar, loading, errors,
-    } = this.state;
-    return (
-      <ReactCSSTransitionGroup
-        transitionName="sign-up"
-        transitionAppear
-        transitionAppearTimeout={500}
-        transitionEnter={false}
-        transitionLeave={false}
-      >
-        <Snackbar onClose={this.closeSnackbar} {...snackbar} />
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Typography component="div" className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlined />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Зарегистрироваться
-            </Typography>
-            <Typography component="form" className={classes.form}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    name="first_name"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    error={errors.first_name}
-                    label="Имя"
-                    value={first_name}
-                    onChange={this.handleTextChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    label="Фамилия"
-                    error={errors.last_name}
-                    name="last_name"
-                    value={last_name}
-                    onChange={this.handleTextChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    label="Электронная почта"
-                    error={errors.email}
-                    name="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={this.handleTextChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    error={errors.password}
-                    name="password"
-                    label="Пароль"
-                    type="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={this.handleTextChange}
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                disabled={loading}
-                onClick={this.handleSubmit}
-              >
-                Зарегистрироваться
-                {loading &&
-                <CircularProgress size={15} className={classes.circularProgress} />}
-              </Button>
-              <Grid container justify="flex-end">
-                <Grid item>
-                  <Link variant="body2" component={RouterLink} to="/sign-in">
-                    Уже есть учётная запись? Войдите с её помощью
-                  </Link>
-                </Grid>
-              </Grid>
-            </Typography>
+  useEffect(
+    () => {
+      document.title = 'Зарегистрироваться в системе';
+    },
+    [],
+  );
+
+  return (
+    <ReactCSSTransitionGroup
+      transitionName="sign-up"
+      transitionAppear
+      transitionAppearTimeout={500}
+      transitionEnter={false}
+      transitionLeave={false}
+    >
+      <Snackbar onClose={closeSnackbar} {...snackbar} />
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Typography component="div" className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlined />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Зарегистрироваться
           </Typography>
-        </Container>
-      </ReactCSSTransitionGroup>
-    );
-  }
-}
+          <Typography component="form" className={classes.form}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  name="first_name"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  error={errors.first_name}
+                  label="Имя"
+                  value={account.first_name}
+                  onChange={handleTextChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="Фамилия"
+                  error={errors.last_name}
+                  name="last_name"
+                  value={account.last_name}
+                  onChange={handleTextChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  label="Электронная почта"
+                  error={errors.email}
+                  name="email"
+                  autoComplete="email"
+                  value={account.email}
+                  onChange={handleTextChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  error={errors.password}
+                  name="password"
+                  label="Пароль"
+                  type="password"
+                  autoComplete="current-password"
+                  value={account.password}
+                  onChange={handleTextChange}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              disabled={loading}
+              onClick={handleSubmit}
+            >
+              Зарегистрироваться
+              {loading &&
+              <CircularProgress size={15} className={classes.circularProgress} />}
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link variant="body2" component={RouterLink} to="/sign-in">
+                  Уже есть учётная запись? Войдите с её помощью
+                </Link>
+              </Grid>
+            </Grid>
+          </Typography>
+        </Typography>
+      </Container>
+    </ReactCSSTransitionGroup>
+  );
+};
 
-export default withStyles(styles)(SignUpPage);
+export default SignUpPage;

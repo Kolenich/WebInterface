@@ -6,6 +6,17 @@ import { styles } from './styles';
 export interface IProps extends WithStyles<typeof styles>, RouteComponentProps {
 }
 
+export interface IAccount {
+  /** Имя */
+  first_name: string;
+  /** Фамилия */
+  last_name: string;
+  /** Электронная почта */
+  email: string;
+  /** Пароль */
+  password: string;
+}
+
 export interface IState {
   /** Имя */
   first_name: string;

@@ -31,19 +31,21 @@ const useStyles = makeStyles(styles);
 const DashBoard: FunctionComponent<RouteComponentProps> =
   ({ history }: RouteComponentProps): JSX.Element => {
     const classes = useStyles();
+
     const [open, setOpen] = useState<boolean>(false);
-    const handleDrawerOpen = (): void => {
-      setOpen(true);
-    };
-    const handleDrawerClose = (): void => {
-      setOpen(false);
-    };
+
+    const handleDrawerOpen = (): void => setOpen(true);
+
+    const handleDrawerClose = (): void => setOpen(false);
+
     const handleLogout = (): void => {
       auth.logout()
         .then(redirectToMain)
         .catch(redirectToMain);
     };
+
     const redirectToMain = (): void => history.push({ pathname: '/' });
+
     return (
       <Typography component="div" className={classes.root}>
         <CssBaseline />

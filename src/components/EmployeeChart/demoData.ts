@@ -1,5 +1,5 @@
 export default {
-  chartData: [
+  data: [
     { month: 'Январь', sale: 50, total: 987 },
     { month: 'Февраль', sale: 100, total: 3000 },
     { month: 'Март', sale: 30, total: 1100 },

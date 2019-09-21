@@ -1,19 +1,12 @@
-import { Theme } from '@material-ui/core';
-import { WithStyles } from '@material-ui/styles';
-import { RouteComponentProps } from 'react-router-dom';
-import { styles } from './styles';
-
-export interface IProps extends WithStyles<typeof styles>, RouteComponentProps {
-  /** Тема Material UI */
-  theme: Theme;
+export interface IProps {
 }
 
-export interface IState {
+export interface IChart {
   /** Тип массива точек для графика */
-  chartData: IChartPoint[];
+  data: IPoint[];
 }
 
-export interface IChartPoint {
+export interface IPoint {
   /** Месяц */
   month: string;
   /** Объём продаж */
