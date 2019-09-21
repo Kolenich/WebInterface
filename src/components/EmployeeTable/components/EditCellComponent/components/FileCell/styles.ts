@@ -1,6 +1,7 @@
-import { createStyles, Theme } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
+import { createStyles, StyleRules } from '@material-ui/styles';
 
-export const styles = (theme: Theme) => createStyles<string, {}>({
+export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   fileUploader: {
     margin: theme.spacing(1),
     width: '100%',

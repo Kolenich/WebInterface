@@ -1,8 +1,8 @@
 import { Theme } from '@material-ui/core';
 import { amber, green } from '@material-ui/core/colors';
-import { createStyles } from '@material-ui/styles';
+import { createStyles, StyleRules } from '@material-ui/styles';
 
-export const styles = (theme: Theme) => createStyles<string, {}>({
+export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   success: {
     backgroundColor: green[600],
   },

@@ -40,14 +40,12 @@ import {
 import { IApiResponse, IEmployee, IGetConfig, ISnackbarProps, ITableRow } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { FunctionComponent, ReactText, useEffect, useState } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import columnSettings from './columnSettings';
 import CommandComponent from './components/CommandComponent';
 import EditCellComponent from './components/EditCellComponent';
 import RootComponent from './components/RootComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';
-import './styles.css';
 import { IColumnSettings, ICustomDataTypeProviderProps, IProps, ITable } from './types';
 
 const useStyles = makeStyles(styles);
@@ -244,17 +242,9 @@ const EmployeeTable: FunctionComponent<IProps> = ({ history }: IProps): JSX.Elem
   );
 
   return (
-    <ReactCSSTransitionGroup
-      transitionName="table"
-      transitionAppear
-      transitionAppearTimeout={500}
-      transitionEnter={false}
-      transitionLeave={false}
-    >
+    <>
       <Snackbar {...snackbar} onClose={closeSnackbar} />
-      <Paper
-        className={classes.paper}
-      >
+      <Paper className={classes.paper}>
         <Grid
           rows={rows}
           columns={columns}
@@ -325,7 +315,7 @@ const EmployeeTable: FunctionComponent<IProps> = ({ history }: IProps): JSX.Elem
         </Grid>
         {loading && <Loading />}
       </Paper>
-    </ReactCSSTransitionGroup>
+    </>
   );
 };
 

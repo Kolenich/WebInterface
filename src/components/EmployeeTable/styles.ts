@@ -1,6 +1,6 @@
-import { createStyles } from '@material-ui/styles';
+import { createStyles, StyleRules } from '@material-ui/styles';
 
-export const styles = () => createStyles<string, {}>({
+export const styles = (): StyleRules => createStyles<string, {}>({
   paper: {
     height: 800,
   },
