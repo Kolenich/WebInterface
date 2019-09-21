@@ -10,8 +10,7 @@ import { IProps } from './types';
 const useStyles = makeStyles(styles);
 
 /**
- * Компонент фильтрации по полу
- * @param items список значений для фильтрации
+ * Компонент фильтрации по булевскому значению
  * @param onValueChange функция для обработки изменений
  * @param value текущее значение
  */

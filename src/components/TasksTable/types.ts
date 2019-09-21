@@ -64,8 +64,6 @@ export interface ICustomLookUps {
   date_of_issue: string;
   /** Кастомный lookup для поля assigned_by */
   assigned_by: string;
-  /** Кастомный lookup для поля assigned_to */
-  assigned_to: string;
   /** Кастомный lookup для поля dead_line */
   dead_line: string;
   /** Кастомный lookup для поля comment */

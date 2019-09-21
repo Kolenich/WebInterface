@@ -12,9 +12,11 @@ const BooleanFormatter: FunctionComponent<DataTypeProvider.ValueFormatterProps> 
     const color: string = value
       ? '#65C888'
       : '#F26065';
+
     const label: string = value
       ? 'Да'
       : 'Нет';
+
     return <Chip label={label} style={{ background: color, textAlign: 'center', width: 50 }} />;
   };
 

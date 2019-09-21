@@ -1,19 +1,18 @@
 import { FormControl, Input, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
+import api from 'lib/api';
 import { ISelectItem } from 'lib/generic/Select/types';
+import { USERS_APP } from 'lib/session';
 import { IApiResponse, ISelectElement } from 'lib/types';
 import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
-import api from '../../../../../lib/api';
-import { USERS_APP } from '../../../../../lib/session';
 import { styles } from './styles';
 import { IProps } from './types';
 
 const useStyles = makeStyles(styles);
 
 /**
- * Компонент фильтрации по полу
- * @param items список значений для фильтрации
+ * Компонент фильтрации по заказчику
  * @param onValueChange функция для обработки изменений
  * @param value текущее значение
  */

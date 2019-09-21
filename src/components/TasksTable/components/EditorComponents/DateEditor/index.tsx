@@ -13,41 +13,38 @@ const useStyles = makeStyles(styles);
  * Компонент фильтрации по дате
  * @param onValueChange функция, обрабатывающая изменение в поле
  * @param value значение в поле
- * @param props остальные пропсы
  * @constructor
  */
-const DateEditor: FunctionComponent<IProps> =
-  ({ onValueChange, value, ...props }: IProps): JSX.Element => {
-    const classes = useStyles();
-    const handleChange = (date: MaterialUiPickersDate): void => {
-      let value: null | string = null;
-      if (date) {
-        value = moment(date as Date).format('YYYY-MM-DD');
-      }
-      onValueChange(value);
-    };
-    let displayValue = null;
-    if (value) {
-      displayValue = value;
+const DateEditor: FunctionComponent<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
+  const classes = useStyles();
+  const handleChange = (date: MaterialUiPickersDate): void => {
+    let value: null | string = null;
+    if (date) {
+      value = moment(date as Date).format('YYYY-MM-DD');
     }
-    return (
-      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
-        <DatePicker
-          {...props}
-          value={displayValue}
-          label="Фильтр..."
-          className={classes.datePicker}
-          onChange={handleChange}
-          format="dd MMMM yyyy"
-          disableFuture
-          animateYearScrolling
-          clearable
-          okLabel="Ок"
-          cancelLabel="Отмена"
-          clearLabel="Очистить"
-        />
-      </MuiPickersUtilsProvider>
-    );
+    onValueChange(value);
   };
+  let displayValue = null;
+  if (value) {
+    displayValue = value;
+  }
+  return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+      <DatePicker
+        value={displayValue}
+        label="Фильтр..."
+        className={classes.datePicker}
+        onChange={handleChange}
+        format="dd MMMM yyyy"
+        disableFuture
+        animateYearScrolling
+        clearable
+        okLabel="Ок"
+        cancelLabel="Отмена"
+        clearLabel="Очистить"
+      />
+    </MuiPickersUtilsProvider>
+  );
+};
 
 export default DateEditor;

@@ -9,19 +9,22 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент фильтрации текстовых значений
- * @param props базовые пропсы
+ * @param onValueChange функция, обрабатывающая изменение в поле
+ * @param value значение в поле
  */
-const TextEditor: FunctionComponent<IProps> = (props: IProps): JSX.Element => {
-  const { onValueChange, value } = props;
+const TextEditor: FunctionComponent<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
   const classes = useStyles();
+
   const onChange = (event: ChangeEvent<ISelectElement>): void => {
     const { value } = event.target;
     onValueChange(value);
   };
+
   let displayValue: string = '';
   if (value) {
     displayValue = value;
   }
+
   return (
     <TextField
       label="Фильтр..."
