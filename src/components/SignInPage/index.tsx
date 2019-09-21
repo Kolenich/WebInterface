@@ -21,7 +21,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
 import './styles.css';
-import { IProps } from './types';
+import { ILogin, IProps, IStatus } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -31,16 +31,29 @@ const useStyles = makeStyles(styles);
 const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
   const classes = useStyles();
 
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  // Набор переменных состояния для данных логина
+  const [login, setLogin] = useState<ILogin>({
+    email: '',
+    password: '',
+  });
+
+  // Набор переменных состояния для снэкбара
   const [snackbar, setSnackbar] = useState<ISnackbarProps>({
     open: false,
     message: '',
     variant: 'info',
   });
-  const [loading, setLoading] = useState<boolean>(false);
-  const [remember, setRemember] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
+
+  // Набор переменных состояния для статуса
+  const [status, setStatus] = useState<IStatus>({
+    error: false,
+    loading: false,
+    remember: false,
+  });
+
+  const { email, password } = login;
+
+  const { error, loading, remember } = status;
 
   useEffect(
     (): void => {
@@ -49,40 +62,41 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
     [],
   );
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>): void => (
-    setEmail(event.target.value)
-  );
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>): void => (
-    setPassword(event.target.value)
-  );
-  const handleRememberChange = (event: ChangeEvent<HTMLInputElement>): void => (
-    setRemember(event.target.checked)
-  );
+  const handleLoginChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = event.target;
+    setLogin({ ...login, [name]: value });
+  };
+
+  const handleStatusChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { name, checked } = event.target;
+    setStatus({ ...status, [name]: checked });
+  };
+
   const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
       handleLogin();
     }
   };
+
   const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
+
   const handleLogin = (): void => {
-    setLoading(true);
+    setStatus({ ...status, loading: true });
     auth.login(email, password, remember)
-      .then((response): void => {
-        if (response) {
-          setLoading(false);
-          history.push({ pathname: '/' });
-        }
+      .then((): void => {
+        setStatus({ ...status, loading: true });
+        history.push({ pathname: '/' });
       })
       .catch((): void => {
-        setError(true);
-        setLoading(false);
+        setStatus({ ...status, error: true });
         setSnackbar({ open: true, message: 'Неверные логин или пароль', variant: 'error' });
         auth.delToken();
         auth.delHeader();
         // Убираем ошибку через 3 секунды
-        setTimeout(() => setError(false), 3000);
+        setTimeout(() => setStatus({ ...status, error: false }), 3000);
       });
   };
+
   return (
     <ReactCSSTransitionGroup
       transitionName="sign-in"
@@ -113,7 +127,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
               error={error}
               autoComplete="email"
               value={email}
-              onChange={handleEmailChange}
+              onChange={handleLoginChange}
             />
             <TextField
               variant="outlined"
@@ -127,7 +141,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
               id="password"
               autoComplete="current-password"
               value={password}
-              onChange={handlePasswordChange}
+              onChange={handleLoginChange}
               onKeyPress={handleEnterPress}
             />
             <FormControlLabel
@@ -135,7 +149,7 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
                 <Checkbox
                   value={remember}
                   name="remember"
-                  onChange={handleRememberChange}
+                  onChange={handleStatusChange}
                   color="primary"
                 />
               }

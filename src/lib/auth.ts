@@ -36,12 +36,12 @@ export default {
   logout(): AxiosPromise {
     return new Promise<AxiosResponse>(((resolve, reject) => {
       session.post('auth/logout/', {})
-        .then((response: AxiosResponse) => {
+        .then((response: AxiosResponse): void => {
           this.delHeader();
           this.delToken();
           resolve(response);
         })
-        .catch((error: AxiosError) => {
+        .catch((error: AxiosError): void => {
           this.delHeader();
           this.delToken();
           reject(error);
