@@ -1,6 +1,6 @@
 import { session } from './session';
 
-export const TOKEN = 'kolenich';
+export const TOKEN = 'token';
 
 export default {
   // Имя токена авторизации
