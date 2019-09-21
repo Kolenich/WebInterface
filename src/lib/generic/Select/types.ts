@@ -1,6 +1,6 @@
 import { GridSize } from '@material-ui/core/Grid';
+import { ISelectElement } from 'lib/types';
 import { ChangeEvent, ReactText } from 'react';
-import { ISelectElement } from '../../types';
 
 export interface IProps {
   /** Размер в Grid-сетке на маленьих экранах */

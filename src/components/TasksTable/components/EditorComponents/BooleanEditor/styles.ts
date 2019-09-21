@@ -2,8 +2,10 @@ import { Theme } from '@material-ui/core';
 import { createStyles, StyleRules } from '@material-ui/styles';
 
 export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
-  fileUploader: {
-    margin: theme.spacing(1),
-    width: '100%',
+  sexSelect: {
+    margin: theme.spacing(2),
+  },
+  inputLabel: {
+    marginLeft: theme.spacing(2),
   },
 });

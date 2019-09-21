@@ -1,3 +1,4 @@
+import { DataTypeProviderProps, Filter, Sorting } from '@devexpress/dx-react-grid';
 import { ReactText } from 'react';
 import { IVariantIcons } from './generic/Snackbar/types';
 
@@ -41,26 +42,6 @@ export interface IAvatar {
   file_name: string;
 }
 
-export interface ITableRow {
-  /** id строки */
-  id: number;
-  /** Относительный URL для загрузки файла */
-  avatar: string;
-  /** ФИО сотрудника */
-  full_name: string;
-  /** Телефон */
-  phone: string | null;
-  /** Возраст */
-  age: number;
-  /** Электронная почта */
-  email: string;
-  /** Дата рождения */
-  date_of_birth: string;
-  /** Дата регистрации */
-  registration_date: string;
-  /** Пол сотрудника */
-  sex: string;
-}
 
 export type Sex = 'male' | 'female' | '';
 
@@ -195,6 +176,17 @@ export interface ISnackbarProps {
   variant: keyof IVariantIcons;
 }
 
+export type IDialogStatus = 'success' | 'error' | 'warning' | 'loading';
+
+export interface IDialogProps {
+  /** Флаг открытия/закрытия */
+  open: boolean;
+  /** Сообщение на снэкбаре */
+  message: string;
+  /** Статус снэкбара */
+  status: IDialogStatus;
+}
+
 export interface IGetConfig {
   /** Предел выгружаемых данных */
   limit?: number;
@@ -204,4 +196,26 @@ export interface IGetConfig {
   ordering?: string;
 
   [key: string]: ReactText | undefined;
+}
+
+export interface ITable<T> {
+  /** Строки в таблице */
+  rows: T[];
+  /** Список фильтров по колонкам */
+  filters?: Filter[];
+  /** Список сортировок по колонкам */
+  sorting?: Sorting[];
+  /** Допустимые размеры страниц */
+  pageSizes?: number[];
+  /** Текущий размер страницы */
+  pageSize?: number;
+  /** Общее количество строк в таблице */
+  totalCount?: number;
+  /** Индекс текущей страницы */
+  currentPage?: number;
+}
+
+export interface ICustomDataTypeProviderProps extends DataTypeProviderProps {
+  /** Ключ списка кастомных переопределений типов */
+  key: number;
 }

@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import api from 'lib/api';
 import Snackbar from 'lib/generic/Snackbar';
-import { AUTH_API } from 'lib/session';
+import { USERS_APP } from 'lib/session';
 import { ISnackbarProps } from 'lib/types';
 import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -97,7 +97,7 @@ const SignUpPage: FunctionComponent<IProps> = ({ history }): JSX.Element => {
     setLoading(true);
     const { email, first_name, last_name, password } = account;
     const sendData: IAccount = { email, first_name, last_name, password };
-    api.sendContent('user/registrate', sendData, AUTH_API)
+    api.sendContent('user/registrate', sendData, USERS_APP)
       .then((response: AxiosResponse): void => {
         const { message } = response.data;
         setSnackbar({ ...snackbar, message, open: true, variant: 'success' });

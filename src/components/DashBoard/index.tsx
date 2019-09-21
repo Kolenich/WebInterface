@@ -84,7 +84,7 @@ const DashBoard: FunctionComponent<RouteComponentProps> =
           </Typography>
           <Divider />
           <List>
-            <ListItem button component={Link} to="/main/employees">
+            <ListItem button component={Link} to="/main/tasks">
               <ListItemIcon>
                 <Person />
               </ListItemIcon>
