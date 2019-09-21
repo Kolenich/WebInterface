@@ -10,6 +10,7 @@ module.exports = customizer.override(
         '^lib/*': './src/lib/*',
         '^assets/*': './src/assets/*',
         '^router/*': './src/router/*',
+        '^context/*': './src/context/*',
       },
     },
   ]),
