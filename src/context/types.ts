@@ -1,4 +1,4 @@
 export interface IContext {
-  /** Имя */
-  name?: string;
+  /** Заголовок страницы */
+  documentTitle?: string;
 }

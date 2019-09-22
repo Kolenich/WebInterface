@@ -41,7 +41,9 @@ import {
   ITable,
 } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
-import React, { FunctionComponent, ReactText, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactText, useContext, useEffect, useState } from 'react';
+import { Context } from '../../context';
+import { IContext } from '../../context/types';
 import RootComponent from './components/RootComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';
@@ -51,6 +53,8 @@ const useStyles = makeStyles(styles);
 
 const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
   const classes = useStyles();
+
+  const context = useContext<IContext>(Context);
 
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
@@ -173,16 +177,18 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
    */
   const getRowId = (row: IRow): ReactText => row.id!;
 
+  const { documentTitle } = context;
+
   useEffect(
     loadData,
     [currentPage, pageSize, filters, sorting],
   );
 
   useEffect(
-    () => {
-      document.title = 'Сотрудники';
+    (): void => {
+      document.title = `${documentTitle} | Список заданий`;
     },
-    [],
+    [documentTitle],
   );
 
   return (
@@ -214,6 +220,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
             totalCount={totalCount}
           />
           <FilteringState
+            filters={filters}
             onFiltersChange={changeFilters}
             columnExtensions={filteringStateColumnExtensions}
           />

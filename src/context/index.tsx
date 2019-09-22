@@ -11,8 +11,9 @@ export const Context = createContext<IContext>({});
  */
 const Provider: FunctionComponent<{}> = (): JSX.Element => {
   const value: IContext = {
-    name: 'Jade',
+    documentTitle: 'Ежедневник',
   };
+
   return (
     <Context.Provider value={value}>
       <Router />

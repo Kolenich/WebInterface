@@ -16,9 +16,11 @@ import api from 'lib/api';
 import Snackbar from 'lib/generic/Snackbar';
 import { USERS_APP } from 'lib/session';
 import { ISnackbarProps } from 'lib/types';
-import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
+import { Context } from '../../context';
+import { IContext } from '../../context/types';
 import { styles } from './styles';
 import './styles.css';
 import { IAccount, IErrors, IProps } from './types';
@@ -32,6 +34,8 @@ const useStyles = makeStyles(styles);
  */
 const SignUpPage: FunctionComponent<IProps> = ({ history }): JSX.Element => {
   const classes = useStyles();
+
+  const context = useContext<IContext>(Context);
 
   // Набор переменных состояния для пользовательских данных
   const [account, setAccount] = useState<IAccount>({
@@ -115,11 +119,13 @@ const SignUpPage: FunctionComponent<IProps> = ({ history }): JSX.Element => {
       });
   };
 
+  const { documentTitle } = context;
+
   useEffect(
-    () => {
-      document.title = 'Зарегистрироваться в системе';
+    (): void => {
+      document.title = `${documentTitle} | Зарегистрироваться в системе`;
     },
-    [],
+    [documentTitle],
   );
 
   return (

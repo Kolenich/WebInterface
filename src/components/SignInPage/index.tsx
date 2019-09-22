@@ -16,9 +16,18 @@ import { makeStyles } from '@material-ui/styles';
 import auth from 'lib/auth';
 import Snackbar from 'lib/generic/Snackbar';
 import { ISnackbarProps } from 'lib/types';
-import React, { ChangeEvent, FunctionComponent, KeyboardEvent, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  KeyboardEvent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
+import { Context } from '../../context';
+import { IContext } from '../../context/types';
 import { styles } from './styles';
 import './styles.css';
 import { ILogin, IProps, IStatus } from './types';
@@ -30,6 +39,8 @@ const useStyles = makeStyles(styles);
  */
 const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
   const classes = useStyles();
+
+  const context = useContext<IContext>(Context);
 
   // Набор переменных состояния для данных логина
   const [login, setLogin] = useState<ILogin>({
@@ -55,11 +66,13 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
 
   const { error, loading, remember } = status;
 
+  const { documentTitle } = context;
+
   useEffect(
     (): void => {
-      document.title = 'Войти в систему';
+      document.title = `${documentTitle} | Войти в систему`;
     },
-    [],
+    [documentTitle],
   );
 
   const handleLoginChange = (event: ChangeEvent<HTMLInputElement>): void => {
