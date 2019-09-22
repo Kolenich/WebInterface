@@ -39,6 +39,8 @@ services:
     restart: always
     container_name: server
     image: kolenich/server
+    environment:
+      - PROJECT_MODE=production
     networks:
       - web-server
       - server-postgres
