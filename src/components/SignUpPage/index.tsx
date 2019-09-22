@@ -78,21 +78,11 @@ const SignUpPage: FunctionComponent<IProps> = ({ history }): JSX.Element => {
   const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
 
   /**
-   * Функция для выстановки ошибок в полях
-   * @param errorsList массив со списком полей
+   * Функция для сброса ошибок в полях
    */
-  const setErrorsList = (errorsList: string[]): void => {
-    const list: IErrors = {};
-    errorsList.map((field: string) => list[field] = true);
-    setErrors({ ...errors, ...list });
-    // Через 3 секунды гасим ошибки
-    setTimeout(
-      (): void => {
-        errorsList.map((field: string) => errors[field] = false);
-        setErrors({ ...errors, ...list });
-      },
-      3000);
-  };
+  const resetErrors = (): void => (
+    setErrors({ email: false, first_name: false, last_name: false, password: false })
+  );
 
   /**
    * Функция отправки формы
@@ -111,10 +101,12 @@ const SignUpPage: FunctionComponent<IProps> = ({ history }): JSX.Element => {
       })
       .catch((error: AxiosError): void => {
         if (error.response) {
-          const { message, errors } = error.response.data;
-          setErrorsList(errors);
-          setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
+          const { message, errors: errorsList } = error.response.data;
+          setErrors({ ...errors, ...errorsList });
           setLoading(false);
+          setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
+          // Через 3 секунды гасим ошибки
+          setTimeout(resetErrors, 3000);
         }
       });
   };
