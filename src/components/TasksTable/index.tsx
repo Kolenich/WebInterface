@@ -18,7 +18,8 @@ import {
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
-import { Paper } from '@material-ui/core';
+import { Fab, Paper, Tooltip } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { tableSettings, tasksCustomLookUps } from 'components/TasksTable/settings';
@@ -251,6 +252,11 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
           />
         </Grid>
         {loading && <Loading />}
+        <Tooltip title="Добавть задание">
+          <Fab variant="round" className={classes.fab} color="primary">
+            <Add />
+          </Fab>
+        </Tooltip>
       </Paper>
     </>
   );

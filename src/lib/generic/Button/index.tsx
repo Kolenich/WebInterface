@@ -19,7 +19,6 @@ const Button: FunctionComponent<IProps> = ({ text, icon, ...props }: IProps): JS
   return (
     <ButtonBase
       variant="contained"
-      className={classes.button}
       {...props}
     >
       {text}

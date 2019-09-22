@@ -2,52 +2,9 @@ import { DataTypeProviderProps, Filter, Sorting } from '@devexpress/dx-react-gri
 import { ReactText } from 'react';
 import { IVariantIcons } from './generic/Snackbar/types';
 
-export interface IEmployee {
-  /** id сотрудника */
-  id?: number;
-  /** Имя */
-  first_name: string;
-  /** Фамилия */
-  last_name: string;
-  /** Отчество */
-  middle_name: string | null;
-  /** Телефон */
-  phone: string | null;
-  /** Возраст */
-  age?: number;
-  /** Электронная почта */
-  email: string;
-  /** Дата рождения */
-  date_of_birth: string | null;
-  /** Дата регистрации */
-  registration_date: string | null;
-  /** Пол сотрудника */
-  sex: Sex;
-  /** Аватар сотрудника */
-  avatar: IAvatar | null;
-
-  [index: string]: ReactText | undefined | null | boolean | IAvatar;
-}
-
-export interface IAvatar {
-  /** id аватара */
-  id?: number;
-  /** Ссылка для загрузки файла или его base64 представление */
-  file: string;
-  /** Тип файла */
-  content_type: string;
-  /** Размер файла в байтах */
-  size: ReactText;
-  /** Имя файла */
-  file_name: string;
-}
-
-
-export type Sex = 'male' | 'female' | '';
-
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
-export interface IApiResponse<DataType> {
+export interface IApiResponse<T> {
   /** Общее количество записей в БД */
   count: number;
   /** Ссылка для следующей страницы */
@@ -55,7 +12,7 @@ export interface IApiResponse<DataType> {
   /** Ссылка для предыдущей страницы */
   previous: string;
   /** Записи для текущей страницы */
-  results: DataType[];
+  results: T[];
 }
 
 export interface ISorting {

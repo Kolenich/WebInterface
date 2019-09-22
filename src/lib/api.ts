@@ -1,5 +1,5 @@
 import { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
-import { REST_API, session } from './session';
+import { session, TASKS_APP } from './session';
 import { HTTPMethods } from './types';
 
 export default {
@@ -17,7 +17,7 @@ export default {
       }
       let prefix = app;
       if (!prefix) {
-        prefix = REST_API;
+        prefix = TASKS_APP;
       }
       session.get<T>(`${prefix}/${requestUrl}/`, { params })
         .then((response: AxiosResponse<T>) => resolve(response))
@@ -40,7 +40,7 @@ export default {
       }
       let prefix = app;
       if (!prefix) {
-        prefix = REST_API;
+        prefix = TASKS_APP;
       }
       const data: T = sendData;
       const url: string = `${prefix}/${requestUrl}/`;

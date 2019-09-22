@@ -1,5 +1,4 @@
-import { ISelectItem } from './generic/Select/types';
-import { IActualFileObject, IFiltering, IServerResponses, ISorting } from './types';
+import { IFiltering, IServerResponses, ISorting } from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -48,38 +47,6 @@ export const filteringParams: IFiltering = {
 };
 
 /**
- * Функция конвертации blob-Объекта файла в base64
- * @param file
- */
-export function getBase64(file: Blob) {
-  return new Promise((resolve, reject): void => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-
-/**
- * Функция конвертации файла с сервера в base64
- * @param url - url файла с сервера
- * @param callback функция-колбэк, возвращающая файл в формате base64
- */
-export function toDataURL(url: string, callback: (dataUrl: any) => void): void {
-  const xhr: XMLHttpRequest = new XMLHttpRequest();
-  xhr.onload = function () {
-    const reader: FileReader = new FileReader();
-    reader.onloadend = function () {
-      callback(reader.result);
-    };
-    reader.readAsDataURL(xhr.response);
-  };
-  xhr.open('GET', url);
-  xhr.responseType = 'blob';
-  xhr.send();
-}
-
-/**
  * Функция, генерирующая URL запроса для запросов на сервер
  */
 export function getBaseUrl(): string {
@@ -89,19 +56,5 @@ export function getBaseUrl(): string {
   return 'http://localhost:8080';
 }
 
-export const sexChoices: ISelectItem[] = [
-  { key: 0, label: 'Муж.', value: 'male' },
-  { key: 1, label: 'Жен.', value: 'female' },
-];
-
-/**
- *
- * @param file
- * @returns {Promise<void>}
- */
-export const toBase64 = (file: IActualFileObject) => new Promise((resolve, reject): void => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => resolve(reader.result);
-  reader.onerror = error => reject(error);
-});
+// Высота тулбара
+export const appBarHeight: number = 64;

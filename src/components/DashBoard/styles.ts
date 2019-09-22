@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { createStyles, StyleRules } from '@material-ui/styles';
 
-const drawerWidth: number = 240;
+const drawerWidth: number = 200;
 
 export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   root: {
@@ -66,11 +66,6 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-    width: '100%',
   },
   rightButton: {
     marginLeft: theme.spacing(1),

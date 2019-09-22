@@ -16,7 +16,7 @@ export const theme: Theme = createMuiTheme({
     },
   },
   typography: {
-    h5: {
+    h6: {
       fontStyle: 'italic',
       color: 'rgb(172, 170, 170)',
     },

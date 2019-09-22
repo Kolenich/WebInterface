@@ -97,11 +97,11 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
     setStatus({ ...status, loading: true });
     auth.login(email, password, remember)
       .then((): void => {
-        setStatus({ ...status, loading: true });
+        setStatus({ ...status, loading: false });
         history.push({ pathname: '/' });
       })
       .catch((): void => {
-        setStatus({ ...status, error: true });
+        setStatus({ ...status, error: true, loading: false });
         setSnackbar({ open: true, message: 'Неверные логин или пароль', variant: 'error' });
         auth.delToken();
         auth.delHeader();
