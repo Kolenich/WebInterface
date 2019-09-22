@@ -44,7 +44,6 @@ export const tableSettings: IColumnSettings = {
   dateColumns: ['date_of_issue', 'dead_line'],
   booleanColumns: ['done'],
   assignerColumns: ['assigned_by'],
-  rightFixedColumns: ['done'],
 };
 
 export const booleanItems: ISelectItem[] = [

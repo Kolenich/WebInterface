@@ -7,6 +7,7 @@ import PrivateRoute from '../PrivateRouter';
 
 /**
  * Роутер панели
+ * @constructor
  */
 const DashBoardRouter: FunctionComponent<{}> = (): JSX.Element => (
   <Switch>

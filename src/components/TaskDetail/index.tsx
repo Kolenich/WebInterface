@@ -17,6 +17,11 @@ import { IProps, ITaskDetail } from './types';
 
 const useStyles = makeStyles(styles);
 
+/**
+ * Компонент формы для отображения деталей задания
+ * @param match передаваемые параметры в адресную строку
+ * @constructor
+ */
 const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
   const classes = useStyles();
 

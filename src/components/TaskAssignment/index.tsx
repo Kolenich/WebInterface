@@ -28,6 +28,10 @@ import { IProps, ITask } from './types';
 
 const useStyles = makeStyles(styles);
 
+/**
+ * Компонент формы для назначения задания
+ * @constructor
+ */
 const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
   const classes = useStyles();
 

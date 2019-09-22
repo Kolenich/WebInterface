@@ -36,6 +36,8 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонента страницы входа в систему
+ * @param history история в браузере
+ * @constructor
  */
 const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
   const classes = useStyles();

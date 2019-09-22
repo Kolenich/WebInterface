@@ -14,7 +14,6 @@ import {
   TableColumnReordering,
   TableColumnResizing,
   TableFilterRow,
-  TableFixedColumns,
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
@@ -52,6 +51,11 @@ import { IColumnSettings, IProps, IRow } from './types';
 
 const useStyles = makeStyles(styles);
 
+/**
+ * Компонент таблицы для отображения всех заданий у пользователя
+ * @param history история в браузере
+ * @constructor
+ */
 const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
   const classes = useStyles();
 
@@ -83,7 +87,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
   const { rows, filters, sorting, pageSizes, pageSize, totalCount, currentPage } = table;
 
   const {
-    columns, sortingStateColumnExtensions, rightFixedColumns, defaultOrder, defaultColumnWidths,
+    columns, sortingStateColumnExtensions, defaultOrder, defaultColumnWidths,
     filteringStateColumnExtensions,
   } = settings;
 
@@ -243,9 +247,6 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
           <TableFilterRow
             showFilterSelector
             messages={filterRowMessages}
-          />
-          <TableFixedColumns
-            rightColumns={rightFixedColumns}
           />
           <PagingPanel
             pageSizes={pageSizes}

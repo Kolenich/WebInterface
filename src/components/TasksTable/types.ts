@@ -53,8 +53,6 @@ export interface IColumnSettings {
   booleanColumns?: string[];
   /** Список полей для назначившего задачу */
   assignerColumns?: string[];
-  /** Список список зафитксированных српава колонок */
-  rightFixedColumns?: string[];
 }
 
 export interface ICustomLookUps {

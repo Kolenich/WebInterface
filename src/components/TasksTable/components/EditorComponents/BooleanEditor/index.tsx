@@ -13,6 +13,7 @@ const useStyles = makeStyles(styles);
  * Компонент фильтрации по булевскому значению
  * @param onValueChange функция для обработки изменений
  * @param value текущее значение
+ * @constructor
  */
 const BooleanEditor: FunctionComponent<IProps> = ({ onValueChange, value }: IProps):
   JSX.Element => {

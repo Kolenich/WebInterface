@@ -8,6 +8,7 @@ import PublicRoute from './PublicRouter';
 
 /**
  * Основной роутер приложения
+ * @constructor
  */
 const Router: FunctionComponent<{}> = (): JSX.Element => (
   <Switch>
