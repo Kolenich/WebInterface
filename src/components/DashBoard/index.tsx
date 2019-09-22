@@ -92,7 +92,7 @@ const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element 
             <ListItemIcon>
               <Assignment />
             </ListItemIcon>
-            <ListItemText primary="Задачи" />
+            <ListItemText primary="Задания" />
           </ListItem>
           <ListItem button component={Link} to="/main/assign" onClick={handleDrawerClose}>
             <ListItemIcon>
