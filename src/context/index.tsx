@@ -11,7 +11,7 @@ export const Context = createContext<IContext>({});
  */
 const Provider: FunctionComponent<{}> = (): JSX.Element => {
   const value: IContext = {
-    documentTitle: 'Ежедневник',
+    documentTitle: document.title,
   };
 
   return (
