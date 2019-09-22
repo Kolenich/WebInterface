@@ -24,8 +24,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { tableSettings, tasksCustomLookUps } from 'components/TasksTable/settings';
 import api from 'lib/api';
 import auth from 'lib/auth';
-import Dialog from 'lib/generic/Dialog';
 import Loading from 'lib/generic/Loading';
+import Snackbar from 'lib/generic/Snackbar';
+import { TASKS_APP } from 'lib/session';
 import {
   filterRowMessages,
   pagingPanelMessages,
@@ -35,13 +36,12 @@ import {
 import {
   IApiResponse,
   ICustomDataTypeProviderProps,
-  IDialogProps,
   IGetConfig,
+  ISnackbarProps,
   ITable,
 } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { FunctionComponent, ReactText, useEffect, useState } from 'react';
-import { TASKS_APP } from '../../lib/session';
 import RootComponent from './components/RootComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';
@@ -67,9 +67,9 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // Переменные состояния диалогового окна
-  const [dialog, setDialog] = useState<IDialogProps>({
+  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
     open: false,
-    status: 'loading',
+    variant: 'info',
     message: '',
   });
 
@@ -119,29 +119,9 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
   };
 
   /**
-   * Функция, закрывающая диалоговое окна
+   * Функция, закрывающая снэкбар
    */
-  const closeDialog = (): void => setDialog({ ...dialog, open: false });
-
-  /**
-   * Функция обработки неуспешного ответа с сервера
-   * @param error объект ответа
-   */
-  const handleError = (error: AxiosError): void => {
-    let message: string = 'Сервер не доступен, попробуйте позже';
-    if (error.response) {
-      const { status } = error.response;
-      // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
-      if (status === 401) {
-        auth.logout()
-          .then((): void => history.push({ pathname: '/' }))
-          .catch((): void => history.push({ pathname: '/' }));
-      }
-      message = SERVER_RESPONSES[status];
-    }
-    setDialog({ ...dialog, message, open: true, status: 'error' });
-    setLoading(false);
-  };
+  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
 
   /**
    * Метод для загрузи данных в таблицу с сервера
@@ -170,7 +150,21 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
         setTable({ ...table, rows: results, totalCount: count });
         setLoading(false);
       })
-      .catch(handleError);
+      .catch((error: AxiosError): void => {
+        let message: string = 'Сервер не доступен, попробуйте позже';
+        if (error.response) {
+          const { status } = error.response;
+          // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
+          if (status === 401) {
+            auth.logout()
+              .then((): void => history.push({ pathname: '/' }))
+              .catch((): void => history.push({ pathname: '/' }));
+          }
+          message = SERVER_RESPONSES[status];
+        }
+        setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
+        setLoading(false);
+      });
   };
 
   /**
@@ -193,7 +187,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
 
   return (
     <>
-      <Dialog onClose={closeDialog} {...dialog} />
+      <Snackbar onClose={closeSnackbar} {...snackbar} />
       <Paper className={classes.paper}>
         <Grid
           rows={rows}
