@@ -1,8 +1,8 @@
+import DashBoard from 'components/DashBoard';
 import SignInPage from 'components/SignInPage';
 import SignUpPage from 'components/SignUpPage';
 import React, { FunctionComponent } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-import DashBoard from '../components/DashBoard';
 import PrivateRoute from './PrivateRouter';
 import PublicRoute from './PublicRouter';
 
