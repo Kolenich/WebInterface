@@ -22,6 +22,8 @@ import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { tableSettings, tasksCustomLookUps } from 'components/TasksTable/settings';
+import { Context } from 'context';
+import { IContext } from 'context/types';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import Loading from 'lib/generic/Loading';
@@ -42,8 +44,6 @@ import {
 } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { FunctionComponent, ReactText, useContext, useEffect, useState } from 'react';
-import { Context } from '../../context';
-import { IContext } from '../../context/types';
 import RootComponent from './components/RootComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';

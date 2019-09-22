@@ -12,6 +12,8 @@ import {
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
+import { Context } from 'context';
+import { IContext } from 'context/types';
 import api from 'lib/api';
 import Snackbar from 'lib/generic/Snackbar';
 import { USERS_APP } from 'lib/session';
@@ -19,8 +21,6 @@ import { ISnackbarProps } from 'lib/types';
 import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
-import { Context } from '../../context';
-import { IContext } from '../../context/types';
 import { styles } from './styles';
 import './styles.css';
 import { IAccount, IErrors, IProps } from './types';

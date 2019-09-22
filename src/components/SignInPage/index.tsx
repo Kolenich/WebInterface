@@ -13,6 +13,8 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
+import { Context } from 'context';
+import { IContext } from 'context/types';
 import auth from 'lib/auth';
 import Snackbar from 'lib/generic/Snackbar';
 import { ISnackbarProps } from 'lib/types';
@@ -26,8 +28,6 @@ import React, {
 } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
-import { Context } from '../../context';
-import { IContext } from '../../context/types';
 import { styles } from './styles';
 import './styles.css';
 import { ILogin, IProps, IStatus } from './types';
