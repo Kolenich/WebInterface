@@ -1,0 +1,21 @@
+.task-assignment-enter {
+  opacity: 0.01;
+  transform: translate(500px, 0);
+}
+
+.task-assignment-enter.task-assignment-enter-active {
+  transform: translate(0);
+  opacity: 1;
+  transition: all 500ms linear;
+}
+
+.task-assignment-leave {
+  transform: translate(0);
+  opacity: 1;
+}
+
+.task-assignment-leave.task-assignment-leave-active {
+  opacity: 0.01;
+  transform: translate(500px, 0);
+  transition: all 500ms linear;
+}

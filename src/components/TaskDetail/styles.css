@@ -1,0 +1,21 @@
+.task-detail-enter {
+  opacity: 0.01;
+  transform: scale(0);
+}
+
+.task-detail-enter.task-detail-enter-active {
+  transform: scale(1);
+  opacity: 1;
+  transition: all 500ms linear;
+}
+
+.task-detail-leave {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.task-detail-leave.task-detail-leave-active {
+  opacity: 0.01;
+  transform: scale(0);
+  transition: all 500ms linear;
+}

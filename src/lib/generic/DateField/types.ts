@@ -1,4 +1,4 @@
-import { KeyboardDatePickerProps } from '@material-ui/pickers';
+import { DatePickerProps } from '@material-ui/pickers';
 
-export interface IProps extends KeyboardDatePickerProps {
+export interface IProps extends DatePickerProps {
 }

@@ -18,8 +18,7 @@ import {
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
-import { Fab, Paper, Tooltip } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { tableSettings, tasksCustomLookUps } from 'components/TasksTable/settings';
@@ -46,6 +45,7 @@ import {
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { FunctionComponent, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
+import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';
 import { IColumnSettings, IProps, IRow } from './types';
@@ -228,6 +228,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
           <VirtualTable
             height="auto"
             messages={tableMessages}
+            rowComponent={RowComponent}
           />
           <TableColumnReordering
             defaultOrder={defaultOrder}
@@ -252,11 +253,6 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
           />
         </Grid>
         {loading && <Loading />}
-        <Tooltip title="Добавть задание">
-          <Fab variant="round" className={classes.fab} color="primary">
-            <Add />
-          </Fab>
-        </Tooltip>
       </Paper>
     </>
   );

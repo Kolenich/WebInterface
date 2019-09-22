@@ -18,10 +18,12 @@ import Select from 'lib/generic/Select';
 import { IApiResponse, IDialogProps, ISelectEvent } from 'lib/types';
 import moment from 'moment';
 import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { ISelectItem } from '../../lib/generic/Select/types';
 import { USERS_APP } from '../../lib/session';
 import { SERVER_RESPONSES } from '../../lib/utils';
 import { styles } from './styles';
+import './styles.css';
 import { IProps, ITask } from './types';
 
 const useStyles = makeStyles(styles);
@@ -40,7 +42,11 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
     assigned_to: '',
   });
 
+  // Список доступных к назначению пользователей
   const [users, setUsers] = useState<ISelectItem[]>([]);
+
+  // Флаги загрузки данных
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   // Набор переменных состояния для диалога
   const [dialog, setDialog] = useState<IDialogProps>({
@@ -63,7 +69,10 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
    */
   const loadUsers = (): void => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => setUsers(response.data.results))
+      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => {
+        setUsers(response.data.results);
+        setLoaded(true);
+      })
       .catch();
   };
 
@@ -137,80 +146,87 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
   return (
     <>
       <Dialog {...dialog} onClose={closeDialog} />
-      <Paper className={classes.paper}>
-        <Typography variant="h6" className={classes.title}>
-          Назначить задание
-        </Typography>
-        <Grid container alignContent="center" spacing={3} className={classes.container}>
-          <Grid item xs={12} lg={2}>
-            <CommentIcon />
-            <TextField
-              value={summary}
-              name="summary"
-              onChange={handleTextChange}
-              label="Краткое описание"
-              fullWidth
-              variant="outlined"
-            />
+      <ReactCSSTransitionGroup
+        transitionName="task-assignment"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={500}
+      >
+        {loaded &&
+        <Paper className={classes.paper}>
+          <Typography variant="h6" className={classes.title}>
+            Назначить задание
+          </Typography>
+          <Grid container alignContent="center" spacing={3} className={classes.container}>
+            <Grid item xs={12} lg={2}>
+              <CommentIcon />
+              <TextField
+                value={summary}
+                name="summary"
+                onChange={handleTextChange}
+                label="Краткое описание"
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} lg={10} />
+            <Grid item xs={12} lg={4}>
+              <DescriptionIcon />
+              <TextField
+                value={description}
+                name="description"
+                onChange={handleTextChange}
+                label="Полное описание"
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12} lg={8} />
+            <Grid item xs={12} lg={2}>
+              <DateIcon />
+              <DateField
+                value={dead_line}
+                name="dead_line"
+                onChange={handleDeadLineChange}
+                label="Срок исполнения"
+              />
+            </Grid>
+            <Grid item xs={12} lg={10} />
+            <Grid item xs={12} lg={4}>
+              <DescriptionIcon />
+              <TextField
+                value={comment}
+                name="comment"
+                onChange={handleTextChange}
+                label="Комментарий"
+                fullWidth
+                variant="outlined"
+                multiline
+                rows={3}
+              />
+            </Grid>
+            <Grid item xs={12} lg={8} />
+            <Grid item xs={12} lg={3}>
+              <AssignToIcon />
+              <Select
+                label="Кому назначить"
+                items={users}
+                value={assigned_to}
+                handleChange={handleSelectChange}
+              />
+            </Grid>
+            <Grid item xs={12} lg={9} />
+            <Grid item xs="auto">
+              <Button
+                text="Назначить"
+                icon="add"
+                color="primary"
+                onClick={submitTask}
+                disabled={dialog.open && dialog.status === 'loading'}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} lg={10} />
-          <Grid item xs={12} lg={4}>
-            <DescriptionIcon />
-            <TextField
-              value={description}
-              name="description"
-              onChange={handleTextChange}
-              label="Полное описание"
-              fullWidth
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={12} lg={8} />
-          <Grid item xs={12} lg={2}>
-            <DateIcon />
-            <DateField
-              value={dead_line}
-              name="dead_line"
-              onChange={handleDeadLineChange}
-              label="Срок исполнения"
-            />
-          </Grid>
-          <Grid item xs={12} lg={10} />
-          <Grid item xs={12} lg={4}>
-            <DescriptionIcon />
-            <TextField
-              value={comment}
-              name="comment"
-              onChange={handleTextChange}
-              label="Комментарий"
-              fullWidth
-              variant="outlined"
-              multiline
-              rows={3}
-            />
-          </Grid>
-          <Grid item xs={12} lg={8} />
-          <Grid item xs={12} lg={3}>
-            <AssignToIcon />
-            <Select
-              label="Кому назначить"
-              items={users}
-              value={assigned_to}
-              handleChange={handleSelectChange}
-            />
-          </Grid>
-          <Grid item xs={12} lg={9} />
-          <Grid item xs="auto">
-            <Button
-              text="Назначить"
-              icon="add"
-              color="primary"
-              onClick={submitTask}
-              disabled={dialog.open && dialog.status === 'loading'}
-            />
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>}
+      </ReactCSSTransitionGroup>
     </>
   );
 };
