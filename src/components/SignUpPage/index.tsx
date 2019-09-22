@@ -90,7 +90,7 @@ const SignUpPage: FunctionComponent<IProps> = ({ history }): JSX.Element => {
   const handleSubmit = (): void => {
     setLoading(true);
     const { email, first_name, last_name, password } = account;
-    const sendData: IAccount = { email, first_name, last_name, password };
+    const sendData: IAccount = { email, password, first_name, last_name };
     api.sendContent('user/registrate', sendData, USERS_APP)
       .then((response: AxiosResponse): void => {
         const { message } = response.data;
