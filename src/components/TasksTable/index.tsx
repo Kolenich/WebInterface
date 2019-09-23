@@ -138,6 +138,19 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
   const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
 
   /**
+   * Функция для выдачи фильтра в зависимости от параметра в урле
+   * @param filter
+   */
+  const taskFilter = (filter: 'completed' | 'in-process'): boolean => {
+    switch (filter) {
+      case 'in-process':
+        return false;
+      case 'completed':
+        return true;
+    }
+  };
+
+  /**
    * Метод для загрузи данных в таблицу с сервера
    */
   const loadData = (): void => {
@@ -147,16 +160,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
       offset: currentPage! * pageSize!,
     };
     // В зависимости от выбранного пункта меню фильтруем список заданий
-    switch (filter) {
-      case 'completed':
-        config.done = 'true';
-        break;
-      case 'in-process':
-        config.done = 'false';
-        break;
-      default:
-        break;
-    }
+    config.done = taskFilter(filter);
     // Параметры для фильтрации
     filters!.map(({ operation, columnName, value }: Filter): void => {
       if (operation) {

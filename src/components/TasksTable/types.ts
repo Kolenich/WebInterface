@@ -1,4 +1,9 @@
-import { Column, FilteringState, SortingState, TableColumnWidthInfo } from '@devexpress/dx-react-grid';
+import {
+  Column,
+  FilteringState,
+  SortingState,
+  TableColumnWidthInfo,
+} from '@devexpress/dx-react-grid';
 import { RouteComponentProps } from 'react-router';
 
 export interface IProps extends RouteComponentProps<IFilterParams> {
@@ -19,7 +24,7 @@ export interface IRow {
   comment: string;
 }
 
-interface IFilterParams {
+export interface IFilterParams {
   /** Фильтр заданий */
   filter: 'completed' | 'in-process';
 }

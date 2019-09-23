@@ -152,7 +152,7 @@ export interface IGetConfig {
   /** Сортировка */
   ordering?: string;
 
-  [key: string]: ReactText | undefined;
+  [key: string]: ReactText | undefined | boolean;
 }
 
 export interface ITable<T> {
