@@ -106,14 +106,15 @@ const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element 
   return (
     <Typography component="div" className={classes.root}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar position="absolute"
+              className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={openDrawer}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            className={clsx(classes.menuButton, drawerOpen && classes.menuButtonHidden)}
           >
             <MenuIcon />
           </IconButton>
