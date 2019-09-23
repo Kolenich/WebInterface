@@ -9,10 +9,18 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ListSubheader,
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { AddCircle, Assignment, ChevronLeft, ExitToApp, Menu } from '@material-ui/icons';
+import {
+  AddCircle,
+  Assessment as TasksInProcessIcon,
+  AssignmentTurnedIn as CompletedTasksIcon,
+  ChevronLeft,
+  ExitToApp,
+  Menu,
+} from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import auth from 'lib/auth';
@@ -88,11 +96,18 @@ const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element 
         </Typography>
         <Divider />
         <List>
-          <ListItem button component={Link} to="/main/tasks" onClick={handleDrawerClose}>
+          <ListSubheader inset disableGutters>Задания</ListSubheader>
+          <ListItem button component={Link} to="/main/tasks/in-process" onClick={handleDrawerClose}>
             <ListItemIcon>
-              <Assignment />
+              <TasksInProcessIcon />
             </ListItemIcon>
-            <ListItemText primary="Задания" />
+            <ListItemText primary="В процессе" />
+          </ListItem>
+          <ListItem button component={Link} to="/main/tasks/completed" onClick={handleDrawerClose}>
+            <ListItemIcon>
+              <CompletedTasksIcon />
+            </ListItemIcon>
+            <ListItemText primary="Выполненные" />
           </ListItem>
           <ListItem button component={Link} to="/main/assign" onClick={handleDrawerClose}>
             <ListItemIcon>

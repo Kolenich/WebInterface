@@ -1,12 +1,7 @@
-import {
-  Column,
-  FilteringState,
-  SortingState,
-  TableColumnWidthInfo,
-} from '@devexpress/dx-react-grid';
+import { Column, FilteringState, SortingState, TableColumnWidthInfo } from '@devexpress/dx-react-grid';
 import { RouteComponentProps } from 'react-router';
 
-export interface IProps extends RouteComponentProps {
+export interface IProps extends RouteComponentProps<IFilterParams> {
 }
 
 export interface IRow {
@@ -18,12 +13,15 @@ export interface IRow {
   description: string;
   /** Дата назначения */
   date_of_issue: string;
-  /** Указатель на выполненность задачи */
-  done: boolean;
   /** Срок выполнения */
   dead_line: string;
   /** Комментарий */
   comment: string;
+}
+
+interface IFilterParams {
+  /** Фильтр заданий */
+  filter: 'completed' | 'in-process';
 }
 
 export interface IColumnSettings {
@@ -39,8 +37,6 @@ export interface IColumnSettings {
   filteringStateColumnExtensions?: FilteringState.ColumnExtension[];
   /** Список допустимых операций фильтрации для текстовых полей */
   textFilterOperations?: string[];
-  /** Список допустимых операций фильтрации для булевских полей */
-  booleanFilterOperations?: string[];
   /** Список допустимых операций фильтрации для полей для назначившего задачу */
   assignerFilterOperations?: string[];
   /** Список допустимых операций фильтрации для полей даты */
@@ -49,8 +45,6 @@ export interface IColumnSettings {
   textColumns?: string[];
   /** Список полей с датой */
   dateColumns?: string[];
-  /** Список булевских полей */
-  booleanColumns?: string[];
   /** Список полей для назначившего задачу */
   assignerColumns?: string[];
 }
@@ -66,8 +60,6 @@ export interface ICustomLookUps {
   dead_line: string;
   /** Кастомный lookup для поля comment */
   comment: string;
-  /** Кастомный lookup для поля done */
-  done: string;
 
   [index: string]: string;
 }

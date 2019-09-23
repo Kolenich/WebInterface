@@ -8,7 +8,7 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: theme.spacing(3), // keep right padding when drawer closed
   },
   toolbarIcon: {
     display: 'flex',

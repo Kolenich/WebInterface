@@ -12,7 +12,8 @@ import PrivateRoute from '../PrivateRouter';
 const DashBoardRouter: FunctionComponent<{}> = (): JSX.Element => (
   <Switch>
     <Redirect exact from="/main" to="/main/tasks" />
-    <PrivateRoute path="/main/tasks" component={TasksTable} />
+    <Redirect exact from="/main/tasks" to="/main/tasks/in-process" />
+    <PrivateRoute path="/main/tasks/:filter(completed|in-process)" component={TasksTable} />
     <PrivateRoute path="/main/assign" component={TaskAssignment} />
     <PrivateRoute path="/main/task/:id" component={TaskDetail} />
   </Switch>

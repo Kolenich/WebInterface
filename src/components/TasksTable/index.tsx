@@ -20,7 +20,7 @@ import {
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import { tableSettings, tasksCustomLookUps } from 'components/TasksTable/settings';
+import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'components/TasksTable/settings';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
@@ -28,19 +28,8 @@ import auth from 'lib/auth';
 import Loading from 'lib/generic/Loading';
 import Snackbar from 'lib/generic/Snackbar';
 import { TASKS_APP } from 'lib/session';
-import {
-  filterRowMessages,
-  pagingPanelMessages,
-  tableHeaderRowMessage,
-  tableMessages,
-} from 'lib/translate';
-import {
-  IApiResponse,
-  ICustomDataTypeProviderProps,
-  IGetConfig,
-  ISnackbarProps,
-  ITable,
-} from 'lib/types';
+import { filterRowMessages, pagingPanelMessages, tableHeaderRowMessage, tableMessages } from 'lib/translate';
+import { IApiResponse, ICustomDataTypeProviderProps, IGetConfig, ISnackbarProps, ITable } from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { FunctionComponent, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
@@ -54,10 +43,13 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент таблицы для отображения всех заданий у пользователя
  * @param history история в браузере
+ * @param match передаваемые параметры в адресную строку
  * @constructor
  */
-const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
+const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element => {
   const classes = useStyles();
+
+  const { filter } = match.params;
 
   const context = useContext<IContext>(Context);
 
@@ -141,16 +133,27 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
       limit: pageSize,
       offset: currentPage! * pageSize!,
     };
+    // В зависимости от выбранного пункта меню фильтруем список заданий
+    switch (filter) {
+      case 'completed':
+        config.done = 'true';
+        break;
+      case 'in-process':
+        config.done = 'false';
+        break;
+      default:
+        break;
+    }
     // Параметры для фильтрации
     filters!.map(({ operation, columnName, value }: Filter): void => {
       if (operation) {
-        config[tasksCustomLookUps[columnName] + filteringParams[operation]] = value;
+        config[tasksFilterLookUps[columnName] + filteringParams[operation]] = value;
       }
       return undefined;
     });
     // Параметры для сортировки
     sorting!.map(({ direction, columnName }: Sorting): void => {
-      config.ordering = sortingParams[direction] + tasksCustomLookUps[columnName];
+      config.ordering = sortingParams[direction] + tasksSortingLookUps[columnName];
       return undefined;
     });
     api.getContent<IApiResponse<IRow>>('task-table', config, TASKS_APP)
@@ -186,7 +189,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history }): JSX.Element => {
 
   useEffect(
     loadData,
-    [currentPage, pageSize, filters, sorting],
+    [currentPage, pageSize, filters, sorting, filter],
   );
 
   useEffect(
