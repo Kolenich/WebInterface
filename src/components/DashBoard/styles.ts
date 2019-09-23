@@ -70,4 +70,30 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   rightButton: {
     marginLeft: theme.spacing(1),
   },
+  headerMenuButton: {
+    marginLeft: theme.spacing(2),
+    padding: theme.spacing(0.5),
+  },
+  headerMenu: {
+    marginTop: theme.spacing(7),
+    horizontal: 'right',
+  },
+  profileMenuUser: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(2),
+  },
+  profileMenuLink: {
+    fontSize: 16,
+    display: 'flex',
+    alignItems: 'center',
+    textDecoration: 'none',
+    '&:hover': {
+      cursor: 'pointer',
+      color: theme.palette.primary.dark,
+    },
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(1),
+  },
 });
