@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
+import { AxiosError } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import auth from 'lib/auth';
@@ -102,13 +103,18 @@ const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element
         setStatus({ ...status, loading: false });
         history.push({ pathname: '/' });
       })
-      .catch((): void => {
-        setStatus({ ...status, error: true, loading: false });
-        setSnackbar({ open: true, message: 'Неверные логин или пароль', variant: 'error' });
-        auth.delToken();
-        auth.delHeader();
-        // Убираем ошибку через 3 секунды
-        setTimeout(() => setStatus({ ...status, error: false }), 3000);
+      .catch((error: AxiosError): void => {
+        setStatus({ ...status, loading: false });
+        let message: string = 'Сервер недоступен, попробуйте позже';
+        if (error.response) {
+          auth.delToken();
+          auth.delHeader();
+          message = 'Неверные логин или пароль';
+          setStatus({ ...status, error: true });
+          // Убираем ошибку через 3 секунды
+          setTimeout(() => setStatus({ ...status, error: false }), 3000);
+        }
+        setSnackbar({ message, open: true, variant: 'error' });
       });
   };
 
