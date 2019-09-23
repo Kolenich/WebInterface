@@ -151,10 +151,6 @@ const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element 
               </Typography>
             </Typography>
           </Menu>
-          {/*<Button variant="text" color="inherit" onClick={handleLogout}>*/}
-          {/*  Выйти*/}
-          {/*  <ExitToApp className={classes.rightButton} />*/}
-          {/*</Button>*/}
         </Toolbar>
       </AppBar>
       <Drawer
