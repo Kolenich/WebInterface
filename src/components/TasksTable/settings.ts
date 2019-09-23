@@ -8,7 +8,6 @@ export const tableSettings: IColumnSettings = {
     { name: 'dead_line', title: 'Срок исполнения' },
     { name: 'comment', title: 'Комментарий' },
   ],
-  defaultColumnWidths: [],
   defaultOrder: [
     'summary',
     'date_of_issue',

@@ -12,7 +12,6 @@ import {
   Grid,
   PagingPanel,
   TableColumnReordering,
-  TableColumnResizing,
   TableFilterRow,
   TableHeaderRow,
   VirtualTable,
@@ -20,7 +19,11 @@ import {
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'components/TasksTable/settings';
+import {
+  tableSettings,
+  tasksFilterLookUps,
+  tasksSortingLookUps,
+} from 'components/TasksTable/settings';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
@@ -28,8 +31,19 @@ import auth from 'lib/auth';
 import Loading from 'lib/generic/Loading';
 import Snackbar from 'lib/generic/Snackbar';
 import { TASKS_APP } from 'lib/session';
-import { filterRowMessages, pagingPanelMessages, tableHeaderRowMessage, tableMessages } from 'lib/translate';
-import { IApiResponse, ICustomDataTypeProviderProps, IGetConfig, ISnackbarProps, ITable } from 'lib/types';
+import {
+  filterRowMessages,
+  pagingPanelMessages,
+  tableHeaderRowMessage,
+  tableMessages,
+} from 'lib/translate';
+import {
+  IApiResponse,
+  ICustomDataTypeProviderProps,
+  IGetConfig,
+  ISnackbarProps,
+  ITable,
+} from 'lib/types';
 import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { FunctionComponent, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
@@ -79,8 +93,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
   const { rows, filters, sorting, pageSizes, pageSize, totalCount, currentPage } = table;
 
   const {
-    columns, sortingStateColumnExtensions, defaultOrder, defaultColumnWidths,
-    filteringStateColumnExtensions,
+    columns, sortingStateColumnExtensions, defaultOrder, filteringStateColumnExtensions,
   } = settings;
 
   /**
@@ -239,9 +252,6 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
           />
           <TableColumnReordering
             defaultOrder={defaultOrder}
-          />
-          <TableColumnResizing
-            defaultColumnWidths={defaultColumnWidths}
           />
           <TableHeaderRow
             showSortingControls
