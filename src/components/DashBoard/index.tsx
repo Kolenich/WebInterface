@@ -43,8 +43,10 @@ const useStyles = makeStyles(styles);
 const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
   const classes = useStyles();
 
-  const [open, setOpen] = useState<boolean>(false);
+  // Переменная открытия/закрытия панели
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
+  // Набор данных и пользователе
   const [user, setUser] = useState<IProfileUser>({
     first_name: '',
     last_name: '',
@@ -53,22 +55,39 @@ const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element 
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const openDrawer = (): void => setOpen(true);
+  /**
+   * Функция, открывающая панель
+   */
+  const openDrawer = (): void => setDrawerOpen(true);
 
-  const closeDrawer = (): void => setOpen(false);
+  /**
+   * Функция, закрывающая панель
+   */
+  const closeDrawer = (): void => setDrawerOpen(false);
 
-  const openMenu = (event: MouseEvent<HTMLButtonElement>): void => (
-    setAnchorEl(event.currentTarget)
+  /**
+   * Функция, открывающая меню
+   * @param currentTarget текущий элемент для привязки
+   */
+  const openMenu = ({ currentTarget }: MouseEvent<HTMLButtonElement>): void => (
+    setAnchorEl(currentTarget)
   );
 
+  /**
+   * Функция, закрывающая меню
+   */
   const closeMenu = (): void => setAnchorEl(null);
 
+  /**
+   * Функция разлогинивания
+   */
   const handleLogout = (): void => {
-    auth.logout()
-      .then(redirectToMain)
-      .catch(redirectToMain);
+    auth.logout().finally(redirectToMain);
   };
 
+  /**
+   * Функция редиректа на главную стараницу
+   */
   const redirectToMain = (): void => history.push({ pathname: '/' });
 
   /**
@@ -76,7 +95,7 @@ const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element 
    */
   const loadUser = (): void => {
     api.getContent<IProfileUser>('user-profile/user', {}, USERS_APP)
-      .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
+      .then(({ data }: AxiosResponse<IProfileUser>) => setUser(data))
       .catch();
   };
 
@@ -156,9 +175,9 @@ const DashBoard: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element 
       <Drawer
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose),
         }}
-        open={open}
+        open={drawerOpen}
       >
         <Typography component="div" className={classes.toolbarIcon}>
           <IconButton onClick={closeDrawer}>
