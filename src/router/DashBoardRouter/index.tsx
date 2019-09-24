@@ -1,9 +1,9 @@
 import TaskAssignment from 'components/TaskAssignment';
+import TaskDetail from 'components/TaskDetail';
 import TasksTable from 'components/TasksTable';
 import React, { FunctionComponent } from 'react';
 import { Redirect, Switch } from 'react-router';
-import TaskDetail from '../../components/TaskDetail';
-import PrivateRoute from '../PrivateRouter';
+import PrivateRoute from 'router/PrivateRouter';
 
 /**
  * Роутер панели

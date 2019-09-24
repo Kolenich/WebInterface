@@ -1,5 +1,5 @@
+import { Validation } from 'lib/types';
 import { ChangeEvent } from 'react';
-import { Validation } from '../../types';
 
 export interface IProps {
   /** Имя поля в объекте */

@@ -1,7 +1,7 @@
 import auth from 'lib/auth';
 import React, { Attributes, createElement } from 'react';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
-import { ICustomRoutingProps } from '../types';
+import { ICustomRoutingProps } from 'router/types';
 
 /**
  * Роутер для авторизованных пользователей

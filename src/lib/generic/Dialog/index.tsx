@@ -9,8 +9,8 @@ import {
 import { CheckCircle, Error, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
+import Button from 'lib/generic/Button';
 import React, { FunctionComponent } from 'react';
-import Button from '../Button';
 import { styles } from './styles';
 import { IProps } from './types';
 

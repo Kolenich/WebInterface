@@ -1,7 +1,7 @@
 import { TextField as TextFieldBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { validationMessages, validationMethods } from 'lib/validation';
 import React, { FunctionComponent } from 'react';
-import { validationMessages, validationMethods } from '../../validation';
 import { styles } from './styles';
 import { IProps } from './types';
 
