@@ -111,37 +111,31 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
    * Фугкция изменения сортировок
    * @param sorting массив сортировок
    */
-  const changeSorting = (sorting: Sorting[]): void => {
-    setTable({ ...table, sorting });
-    setLoading(true);
-  };
+  const changeSorting = (sorting: Sorting[]): void => (
+    setTable({ ...table, sorting })
+  );
 
   /**
    * Метод для обработки изменения числа строк на странице
    * @param pageSize размер страницы
    */
-  const changePageSize = (pageSize: number): void => {
-    setTable({ ...table, pageSize, currentPage: 0 });
-    setLoading(true);
-  };
+  const changePageSize = (pageSize: number): void => (
+    setTable({ ...table, pageSize, currentPage: 0 })
+  );
 
   /**
    * Функция обработки изменения текущей страницы
    * @param currentPage номер текущей страницы
    */
-  const changeCurrentPage = (currentPage: number): void => {
-    setTable({ ...table, currentPage });
-    setLoading(true);
-  };
+  const changeCurrentPage = (currentPage: number): void => (
+    setTable({ ...table, currentPage })
+  );
 
   /**
    * Функция изменения фильтров
    * @param filters массив фильтров
    */
-  const changeFilters = (filters: Filter[]): void => {
-    setTable({ ...table, filters });
-    setLoading(true);
-  };
+  const changeFilters = (filters: Filter[]): void => setTable({ ...table, filters });
 
   /**
    * Функция, закрывающая снэкбар
@@ -165,6 +159,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
    * Метод для загрузи данных в таблицу с сервера
    */
   const loadData = (): void => {
+    setLoading(true);
     const config: IGetConfig = {
       // Параметры для пагинации
       limit: pageSize,
