@@ -8,9 +8,6 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     padding: theme.spacing(1),
     margin: theme.spacing(1),
   },
-  title: {
-    marginBottom: theme.spacing(1),
-  },
   container: {
     padding: theme.spacing(1),
   },

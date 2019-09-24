@@ -1,4 +1,4 @@
-import { Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, Paper, TextField } from '@material-ui/core';
 import {
   CalendarToday as DateIcon,
   Edit as DescriptionIcon,
@@ -36,6 +36,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
   const classes = useStyles();
 
   const context = useContext<IContext>(Context);
+
+  const { updateDashBoardTitle } = context;
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -135,6 +137,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
       });
   };
 
+  const setDashBoardTitle = (): void => updateDashBoardTitle!('Назначить задание');
+
   useEffect(
     () => {
       document.title = `${documentTitle} | Назначить задание`;
@@ -142,10 +146,9 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
     [documentTitle],
   );
 
-  useEffect(
-    loadUsers,
-    [],
-  );
+  useEffect(loadUsers, []);
+
+  useEffect(setDashBoardTitle, []);
 
   return (
     <>
@@ -157,9 +160,6 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
       >
         {loaded &&
         <Paper className={classes.paper}>
-          <Typography variant="h6" className={classes.title}>
-            Назначить задание
-          </Typography>
           <Grid container alignContent="center" spacing={3} className={classes.container}>
             <Grid item xs={12} lg={2}>
               <CommentIcon />
