@@ -19,7 +19,7 @@ const Provider: FunctionComponent<{}> = (): JSX.Element => {
   const value: IContext = {
     dashBoardTitle,
     updateDashBoardTitle,
-    documentTitle: document.title,
+    documentTitle: 'Ежедневник',
   };
 
   return (

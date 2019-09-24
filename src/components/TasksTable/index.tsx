@@ -224,7 +224,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
 
   useEffect(
     (): void => {
-      document.title = `${documentTitle} | Список заданий`;
+      document.title = `${documentTitle} | Мои задания`;
     },
     [documentTitle],
   );
