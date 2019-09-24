@@ -137,6 +137,9 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
       });
   };
 
+  /**
+   * Функция для установки заголовка панели
+   */
   const setDashBoardTitle = (): void => updateDashBoardTitle!('Назначить задание');
 
   useEffect(
@@ -160,8 +163,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
       >
         {loaded &&
         <Paper className={classes.paper}>
-          <Grid container alignContent="center" spacing={3} className={classes.container}>
-            <Grid item xs={12} lg={2}>
+          <Grid container alignContent="center">
+            <Grid item xs={12} lg={2} className={classes.item}>
               <CommentIcon />
               <TextField
                 value={summary}
@@ -172,8 +175,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12} lg={10} />
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} lg={10} className={classes.item} />
+            <Grid item xs={12} lg={4} className={classes.item}>
               <DescriptionIcon />
               <TextField
                 value={description}
@@ -184,8 +187,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12} lg={8} />
-            <Grid item xs={12} lg={2}>
+            <Grid item xs={12} lg={8} className={classes.item} />
+            <Grid item xs={12} lg={2} className={classes.item}>
               <DateIcon />
               <DateField
                 value={dead_line}
@@ -194,8 +197,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 label="Срок исполнения"
               />
             </Grid>
-            <Grid item xs={12} lg={10} />
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} lg={10} className={classes.item} />
+            <Grid item xs={12} lg={4} className={classes.item}>
               <DescriptionIcon />
               <TextField
                 value={comment}
@@ -208,8 +211,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 rows={3}
               />
             </Grid>
-            <Grid item xs={12} lg={8} />
-            <Grid item xs={12} lg={3}>
+            <Grid item xs={12} lg={8} className={classes.item} />
+            <Grid item xs={12} lg={3} className={classes.item}>
               <AssignToIcon />
               <Select
                 label="Кому назначить"
@@ -218,8 +221,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 handleChange={handleSelectChange}
               />
             </Grid>
-            <Grid item xs={12} lg={9} />
-            <Grid item xs="auto">
+            <Grid item xs={12} lg={9} className={classes.item} />
+            <Grid item xs="auto" className={classes.item}>
               <Button
                 text="Назначить"
                 icon="add"

@@ -4,7 +4,6 @@ import { appBarHeight } from 'lib/utils';
 
 export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   paper: {
-    height: window.innerHeight - appBarHeight - theme.spacing(2),
-    margin: theme.spacing(1),
+    height: window.innerHeight - appBarHeight,
   },
 });

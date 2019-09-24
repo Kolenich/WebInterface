@@ -1,4 +1,4 @@
-import { FormControlLabel, Grid, Paper, Switch, TextField, Typography } from '@material-ui/core';
+import { FormControlLabel, Grid, Paper, Switch, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
@@ -106,12 +106,16 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
 
   const { first_name, last_name } = assigned_by;
 
-  const { documentTitle } = context;
+  const { documentTitle, updateDashBoardTitle } = context;
 
-  useEffect(
-    loadTask,
-    [],
-  );
+  /**
+   * Функция для установки заголовка панели
+   */
+  const setDashBoardTitle = (): void => updateDashBoardTitle!('Посмотреть задание');
+
+  useEffect(loadTask, []);
+
+  useEffect(setDashBoardTitle, []);
 
   useEffect(
     () => {
@@ -130,11 +134,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
       >
         {loaded &&
         <Paper className={classes.paper}>
-          <Typography variant="h6" className={classes.title}>
-            Посмотреть задание
-          </Typography>
-          <Grid container spacing={3} alignItems="center">
-            <Grid item lg={3} xs={12}>
+          <Grid container alignItems="center">
+            <Grid item lg={3} xs={12} className={classes.item}>
               <TextField
                 value={summary}
                 variant="outlined"
@@ -143,8 +144,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 InputProps={{ readOnly: true }}
               />
             </Grid>
-            <Grid item lg={9} xs={12} />
-            <Grid item lg={3} xs={12}>
+            <Grid item lg={9} xs={12} className={classes.item} />
+            <Grid item lg={3} xs={12} className={classes.item}>
               <TextField
                 value={description}
                 variant="outlined"
@@ -155,8 +156,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 rows={2}
               />
             </Grid>
-            <Grid item lg={9} xs={12} />
-            <Grid item lg={2} xs={12}>
+            <Grid item lg={9} xs={12} className={classes.item} />
+            <Grid item lg={2} xs={12} className={classes.item}>
               <TextField
                 value={`${last_name} ${first_name}`}
                 variant="outlined"
@@ -165,8 +166,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 InputProps={{ readOnly: true }}
               />
             </Grid>
-            <Grid item lg={10} xs={12} />
-            <Grid item lg={2} xs={12}>
+            <Grid item lg={10} xs={12} className={classes.item} />
+            <Grid item lg={2} xs={12} className={classes.item}>
               <DateField
                 value={date_of_issue}
                 readOnly
@@ -174,8 +175,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 onChange={() => undefined}
               />
             </Grid>
-            <Grid item lg={10} xs={12} />
-            <Grid item lg={2} xs={12}>
+            <Grid item lg={10} xs={12} className={classes.item} />
+            <Grid item lg={2} xs={12} className={classes.item}>
               <DateField
                 value={dead_line}
                 readOnly
@@ -183,8 +184,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 onChange={() => undefined}
               />
             </Grid>
-            <Grid item lg={10} xs={12} />
-            <Grid item lg={3} xs={12}>
+            <Grid item lg={10} xs={12} className={classes.item} />
+            <Grid item lg={3} xs={12} className={classes.item}>
               <TextField
                 value={comment}
                 variant="outlined"
@@ -195,8 +196,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 rows={3}
               />
             </Grid>
-            <Grid item lg={9} xs={12} />
-            <Grid item lg={2} xs={12}>
+            <Grid item lg={9} xs={12} className={classes.item} />
+            <Grid item lg={2} xs={12} className={classes.item}>
               <FormControlLabel
                 control={
                   <Switch
