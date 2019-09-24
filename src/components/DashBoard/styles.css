@@ -1,0 +1,21 @@
+.sub-header-enter {
+  opacity: 0.01;
+  max-height: 0;
+}
+
+.sub-header-enter.sub-header-enter-active {
+  max-height: 48px;
+  opacity: 1;
+  transition: all 150ms linear;
+}
+
+.sub-header-leave {
+  opacity: 1;
+  max-height: 48px;
+}
+
+.sub-header-leave.sub-header-leave-active {
+  opacity: 0.01;
+  max-height: 0;
+  transition: all 150ms linear;
+}

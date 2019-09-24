@@ -96,4 +96,7 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   rightIcon: {
     marginLeft: theme.spacing(1),
   },
+  menuItemActive: {
+    backgroundColor: theme.palette.grey.A100,
+  },
 });

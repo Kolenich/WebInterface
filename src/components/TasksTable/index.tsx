@@ -44,7 +44,7 @@ import {
   ISnackbarProps,
   ITable,
 } from 'lib/types';
-import { filteringParams, SERVER_RESPONSES, sortingParams } from 'lib/utils';
+import { filteringParams, SERVER_NOT_AVAILABLE, SERVER_RESPONSES, sortingParams } from 'lib/utils';
 import React, { FunctionComponent, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
@@ -180,7 +180,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
         setLoading(false);
       })
       .catch((error: AxiosError): void => {
-        let message: string = 'Сервер не доступен, попробуйте позже';
+        let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           const { status } = error.response;
           // Если пришёл ответ Unauthorized, то разлогиниваем пользователя

@@ -58,3 +58,5 @@ export function getBaseUrl(): string {
 
 // Высота тулбара
 export const appBarHeight: number = 64;
+
+export const SERVER_NOT_AVAILABLE: string = 'Сервер не доступен, попробуйте позже';

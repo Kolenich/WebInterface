@@ -8,7 +8,7 @@ import DateField from 'lib/generic/DateField';
 import Snackbar from 'lib/generic/Snackbar';
 import { TASKS_APP } from 'lib/session';
 import { ISnackbarProps } from 'lib/types';
-import { SERVER_RESPONSES } from 'lib/utils';
+import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { styles } from './styles';
@@ -62,7 +62,7 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
         setLoaded(true);
       })
       .catch((error: AxiosError) => {
-        let message: string = 'Сервер не доступен, попробуйте позже';
+        let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
@@ -94,7 +94,7 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
         });
       })
       .catch((error: AxiosError) => {
-        let message: string = 'Сервер не доступен, попробуйте позже';
+        let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
