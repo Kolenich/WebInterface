@@ -1,4 +1,4 @@
-import React, { createContext, FunctionComponent } from 'react';
+import React, { createContext, FunctionComponent, useState } from 'react';
 import Router from 'router';
 import { IContext } from './types';
 
@@ -10,7 +10,15 @@ export const Context = createContext<IContext>({});
  * @constructor
  */
 const Provider: FunctionComponent<{}> = (): JSX.Element => {
+  // Заголовок для панели
+  const [dashBoardTitle, setDashBoardTitle] = useState<string>('');
+
+  // Функция-обертка для установки активного заголовка панели
+  const updateDashBoardTitle = (title: string) => setDashBoardTitle(title);
+
   const value: IContext = {
+    dashBoardTitle,
+    updateDashBoardTitle,
     documentTitle: document.title,
   };
 

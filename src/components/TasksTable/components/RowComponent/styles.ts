@@ -1,7 +1,11 @@
+import { Theme } from '@material-ui/core';
 import { createStyles, StyleRules } from '@material-ui/styles';
 
-export const styles = (): StyleRules => createStyles<string, {}>({
+export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   row: {
-    cursor: 'pointer',
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: theme.palette.grey.A100,
+    },
   },
 });

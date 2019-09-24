@@ -1,4 +1,4 @@
-import { IFiltering, IServerResponses, ISorting } from './types';
+import { IDashBoardTitles, IFiltering, IServerResponses, ISorting } from './types';
 
 // Опции для форматирования даты
 export const dateOptions = {
@@ -60,3 +60,8 @@ export function getBaseUrl(): string {
 export const appBarHeight: number = 64;
 
 export const SERVER_NOT_AVAILABLE: string = 'Сервер не доступен, попробуйте позже';
+
+export const DASH_BOARD_TITLES: IDashBoardTitles = {
+  completed: 'Выполненные',
+  'in-process': 'В процессе',
+};

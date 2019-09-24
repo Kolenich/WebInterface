@@ -25,13 +25,15 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
+import { Context } from 'context';
+import { IContext } from 'context/types';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import Snackbar from 'lib/generic/Snackbar';
 import { USERS_APP } from 'lib/session';
 import { ISnackbarProps } from 'lib/types';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
-import React, { FunctionComponent, MouseEvent, useEffect, useState } from 'react';
+import React, { FunctionComponent, MouseEvent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import DashBoardRouter from 'router/DashBoardRouter';
@@ -47,6 +49,8 @@ const useStyles = makeStyles(styles);
  */
 const DashBoard: FunctionComponent<IProps> = ({ history, location }: IProps): JSX.Element => {
   const classes = useStyles();
+
+  const context = useContext<IContext>(Context);
 
   const completedSection: boolean = location.pathname === '/main/tasks/completed';
   const inProcessSection: boolean = location.pathname === '/main/tasks/in-process';
@@ -128,6 +132,8 @@ const DashBoard: FunctionComponent<IProps> = ({ history, location }: IProps): JS
 
   const { first_name, last_name, email } = user;
 
+  const { dashBoardTitle } = context;
+
   useEffect(loadUser, []);
 
   return (
@@ -154,7 +160,7 @@ const DashBoard: FunctionComponent<IProps> = ({ history, location }: IProps): JS
               noWrap
               className={classes.title}
             >
-              Ежедневник
+              {dashBoardTitle}
             </Typography>
             <IconButton
               aria-haspopup="true"

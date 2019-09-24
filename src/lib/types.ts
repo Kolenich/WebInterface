@@ -176,3 +176,12 @@ export interface ICustomDataTypeProviderProps extends DataTypeProviderProps {
   /** Ключ списка кастомных переопределений типов */
   key: number;
 }
+
+export interface IDashBoardTitles {
+  /** Заголовок для раздела Выполненных задач */
+  completed: string;
+  /** Заголовок для раздела Задач в процессе */
+  'in-process': string;
+
+  [index: string]: string;
+}

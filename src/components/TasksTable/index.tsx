@@ -44,7 +44,13 @@ import {
   ISnackbarProps,
   ITable,
 } from 'lib/types';
-import { filteringParams, SERVER_NOT_AVAILABLE, SERVER_RESPONSES, sortingParams } from 'lib/utils';
+import {
+  DASH_BOARD_TITLES,
+  filteringParams,
+  SERVER_NOT_AVAILABLE,
+  SERVER_RESPONSES,
+  sortingParams,
+} from 'lib/utils';
 import React, { FunctionComponent, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
@@ -67,11 +73,16 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
 
   const context = useContext<IContext>(Context);
 
+  const { documentTitle, updateDashBoardTitle } = context;
+
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
     rows: [],
     filters: [],
-    sorting: [],
+    sorting: [
+      // Сортируем по умолчанию по сроку исполнения
+      { columnName: 'dead_line', direction: 'asc' },
+    ],
     pageSizes: [5, 10, 20],
     pageSize: 5,
     totalCount: 0,
@@ -197,17 +208,19 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
   };
 
   /**
+   * Функция для установки заголовка панели
+   */
+  const setDashBoardTitle = (): void => updateDashBoardTitle!(DASH_BOARD_TITLES[filter]);
+
+  /**
    * Функция получения уникального идентификатора строки
    * @param row строка
    */
   const getRowId = (row: IRow): ReactText => row.id!;
 
-  const { documentTitle } = context;
+  useEffect(loadData, [currentPage, pageSize, filters, sorting, filter]);
 
-  useEffect(
-    loadData,
-    [currentPage, pageSize, filters, sorting, filter],
-  );
+  useEffect(setDashBoardTitle, [filter]);
 
   useEffect(
     (): void => {
