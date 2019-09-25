@@ -134,8 +134,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
       >
         {loaded &&
         <Paper className={classes.paper}>
-          <Grid container alignItems="center">
-            <Grid item lg={3} xs={12} className={classes.item}>
+          <Grid container spacing={2} className={classes.container}>
+            <Grid item lg={3} xs={12}>
               <TextField
                 value={summary}
                 variant="outlined"
@@ -144,8 +144,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 InputProps={{ readOnly: true }}
               />
             </Grid>
-            <Grid item lg={9} xs={12} className={classes.item} />
-            <Grid item lg={3} xs={12} className={classes.item}>
+            <Grid item lg={9} xs={12} />
+            <Grid item lg={3} xs={12}>
               <TextField
                 value={description}
                 variant="outlined"
@@ -156,8 +156,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 rows={2}
               />
             </Grid>
-            <Grid item lg={9} xs={12} className={classes.item} />
-            <Grid item lg={2} xs={12} className={classes.item}>
+            <Grid item lg={9} xs={12} />
+            <Grid item lg={2} xs={12}>
               <TextField
                 value={`${last_name} ${first_name}`}
                 variant="outlined"
@@ -166,26 +166,28 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 InputProps={{ readOnly: true }}
               />
             </Grid>
-            <Grid item lg={10} xs={12} className={classes.item} />
-            <Grid item lg={2} xs={12} className={classes.item}>
+            <Grid item lg={10} xs={12} />
+            <Grid item lg={2} xs={12}>
               <DateField
                 value={date_of_issue}
+                withTime
                 readOnly
                 label="Дата назначения"
                 onChange={() => undefined}
               />
             </Grid>
-            <Grid item lg={10} xs={12} className={classes.item} />
-            <Grid item lg={2} xs={12} className={classes.item}>
+            <Grid item lg={10} xs={12} />
+            <Grid item lg={2} xs={12}>
               <DateField
                 value={dead_line}
+                withTime
                 readOnly
                 label="Срок исполнения"
                 onChange={() => undefined}
               />
             </Grid>
-            <Grid item lg={10} xs={12} className={classes.item} />
-            <Grid item lg={3} xs={12} className={classes.item}>
+            <Grid item lg={10} xs={12} />
+            <Grid item lg={3} xs={12}>
               <TextField
                 value={comment}
                 variant="outlined"
@@ -196,8 +198,8 @@ const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
                 rows={3}
               />
             </Grid>
-            <Grid item lg={9} xs={12} className={classes.item} />
-            <Grid item lg={2} xs={12} className={classes.item}>
+            <Grid item lg={9} xs={12} />
+            <Grid item lg={2} xs={12}>
               <FormControlLabel
                 control={
                   <Switch
