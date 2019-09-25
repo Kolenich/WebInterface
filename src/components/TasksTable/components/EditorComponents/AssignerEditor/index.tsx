@@ -15,7 +15,6 @@ const useStyles = makeStyles(styles);
  * Компонент фильтрации по заказчику
  * @param onValueChange функция для обработки изменений
  * @param value текущее значение
- * @constructor
  */
 const AssignerEditor: FunctionComponent<IProps> = ({ onValueChange, value }: IProps):
   JSX.Element => {
