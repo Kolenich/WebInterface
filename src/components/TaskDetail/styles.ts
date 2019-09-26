@@ -7,7 +7,7 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     minHeight: window.innerHeight - appBarHeight,
     padding: theme.spacing(1),
   },
-  item: {
+  container: {
     padding: theme.spacing(1),
   },
 });

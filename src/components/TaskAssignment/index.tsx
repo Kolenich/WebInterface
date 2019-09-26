@@ -19,7 +19,6 @@ import { ISelectItem } from 'lib/generic/Select/types';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse, IDialogProps, ISelectEvent } from 'lib/types';
 import { SERVER_RESPONSES } from 'lib/utils';
-import moment from 'moment';
 import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { styles } from './styles';
@@ -104,7 +103,7 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
    * @param date
    */
   const handleDeadLineChange = (date: MaterialUiPickersDate) => (
-    setTask({ ...task, dead_line: moment(date as Date).format('YYYY-MM-DD') })
+    setTask({ ...task, dead_line: date })
   );
 
   /**
@@ -163,8 +162,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
       >
         {loaded &&
         <Paper className={classes.paper}>
-          <Grid container alignContent="center">
-            <Grid item xs={12} lg={2} className={classes.item}>
+          <Grid container spacing={2} className={classes.container}>
+            <Grid item xs={12} lg={2}>
               <CommentIcon />
               <TextField
                 value={summary}
@@ -175,8 +174,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12} lg={10} className={classes.item} />
-            <Grid item xs={12} lg={4} className={classes.item}>
+            <Grid item xs={12} lg={10} />
+            <Grid item xs={12} lg={4}>
               <DescriptionIcon />
               <TextField
                 value={description}
@@ -187,18 +186,19 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12} lg={8} className={classes.item} />
-            <Grid item xs={12} lg={2} className={classes.item}>
+            <Grid item xs={12} lg={8} />
+            <Grid item xs={12} lg={2}>
               <DateIcon />
               <DateField
                 value={dead_line}
                 name="dead_line"
                 onChange={handleDeadLineChange}
                 label="Срок исполнения"
+                withTime
               />
             </Grid>
-            <Grid item xs={12} lg={10} className={classes.item} />
-            <Grid item xs={12} lg={4} className={classes.item}>
+            <Grid item xs={12} lg={10} />
+            <Grid item xs={12} lg={4}>
               <DescriptionIcon />
               <TextField
                 value={comment}
@@ -211,8 +211,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 rows={3}
               />
             </Grid>
-            <Grid item xs={12} lg={8} className={classes.item} />
-            <Grid item xs={12} lg={3} className={classes.item}>
+            <Grid item xs={12} lg={8} />
+            <Grid item xs={12} lg={3}>
               <AssignToIcon />
               <Select
                 label="Кому назначить"
@@ -221,8 +221,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 handleChange={handleSelectChange}
               />
             </Grid>
-            <Grid item xs={12} lg={9} className={classes.item} />
-            <Grid item xs="auto" className={classes.item}>
+            <Grid item xs={12} lg={9} />
+            <Grid item xs="auto">
               <Button
                 text="Назначить"
                 icon="add"

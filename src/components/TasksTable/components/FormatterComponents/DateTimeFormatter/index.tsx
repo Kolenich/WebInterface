@@ -1,5 +1,5 @@
 import { DataTypeProvider } from '@devexpress/dx-react-grid';
-import { dateOptions } from 'lib/utils';
+import { dateTimeOptions } from 'lib/utils';
 import React, { FunctionComponent } from 'react';
 
 /**
@@ -7,9 +7,9 @@ import React, { FunctionComponent } from 'react';
  * @param value значение
  * @constructor
  */
-const DateFormatter: FunctionComponent<DataTypeProvider.ValueFormatterProps> =
+const DateTimeFormatter: FunctionComponent<DataTypeProvider.ValueFormatterProps> =
   ({ value }: DataTypeProvider.ValueFormatterProps): JSX.Element => (
-    <>{new Date(value).toLocaleDateString('ru', dateOptions)}</>
+    <>{new Date(value).toLocaleDateString('ru', dateTimeOptions)}</>
   );
 
-export default DateFormatter;
+export default DateTimeFormatter;

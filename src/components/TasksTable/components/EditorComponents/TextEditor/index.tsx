@@ -11,7 +11,6 @@ const useStyles = makeStyles(styles);
  * Компонент фильтрации текстовых значений
  * @param onValueChange функция, обрабатывающая изменение в поле
  * @param value значение в поле
- * @constructor
  */
 const TextEditor: FunctionComponent<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
   const classes = useStyles();

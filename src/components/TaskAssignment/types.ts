@@ -12,7 +12,7 @@ export interface ITask {
   /** Кому назначено */
   assigned_to: ReactText;
   /** Срок исполнения */
-  dead_line: string | null;
+  dead_line: string | null | Date;
   /** Комментарий */
   comment: string;
 }

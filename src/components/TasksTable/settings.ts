@@ -19,15 +19,14 @@ export const tableSettings: IColumnSettings = {
   filteringStateColumnExtensions: [],
   textFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
   assignerFilterOperations: ['equal'],
-  dateFilterOperations: [
+  dateTimeFilterOperations: [
     'greaterThan',
     'greaterThanOrEqual',
     'lessThan',
     'lessThanOrEqual',
-    'equal',
   ],
   textColumns: ['summary', 'comment'],
-  dateColumns: ['date_of_issue', 'dead_line'],
+  dateTimeColumns: ['date_of_issue', 'dead_line'],
   assignerColumns: ['assigned_by'],
 };
 

@@ -1,8 +1,8 @@
 import { ICustomDataTypeProviderProps } from 'lib/types';
 import AssignerEditor from './components/EditorComponents/AssignerEditor';
-import DateEditor from './components/EditorComponents/DateEditor';
+import DateTimeEditor from './components/EditorComponents/DateTimeEditor';
 import TextEditor from './components/EditorComponents/TextEditor';
-import DateFormatter from './components/FormatterComponents/DateFormatter';
+import DateTimeFormatter from './components/FormatterComponents/DateTimeFormatter';
 import { tableSettings } from './settings';
 
 /**
@@ -11,10 +11,10 @@ import { tableSettings } from './settings';
 const customDataTypes: ICustomDataTypeProviderProps[] = [
   {
     key: 1,
-    for: tableSettings.dateColumns!,
-    formatterComponent: DateFormatter,
-    editorComponent: DateEditor,
-    availableFilterOperations: tableSettings.dateFilterOperations,
+    for: tableSettings.dateTimeColumns!,
+    formatterComponent: DateTimeFormatter,
+    editorComponent: DateTimeEditor,
+    availableFilterOperations: tableSettings.dateTimeFilterOperations,
   },
   {
     key: 2,

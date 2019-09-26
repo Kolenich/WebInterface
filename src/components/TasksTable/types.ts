@@ -44,12 +44,12 @@ export interface IColumnSettings {
   textFilterOperations?: string[];
   /** Список допустимых операций фильтрации для полей для назначившего задачу */
   assignerFilterOperations?: string[];
-  /** Список допустимых операций фильтрации для полей даты */
-  dateFilterOperations?: string[];
+  /** Список допустимых операций фильтрации для полей даты с временем */
+  dateTimeFilterOperations?: string[];
   /** Список текстовых полей */
   textColumns?: string[];
-  /** Список полей с датой */
-  dateColumns?: string[];
+  /** Список полей с датой и временем */
+  dateTimeColumns?: string[];
   /** Список полей для назначившего задачу */
   assignerColumns?: string[];
 }
