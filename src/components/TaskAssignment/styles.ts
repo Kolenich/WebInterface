@@ -8,6 +8,6 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     padding: theme.spacing(1),
   },
   container: {
-    margin: theme.spacing(1),
+    padding: theme.spacing(1),
   },
 });
