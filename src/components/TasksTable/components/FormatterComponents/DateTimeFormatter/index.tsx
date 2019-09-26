@@ -9,7 +9,11 @@ import React, { FunctionComponent } from 'react';
  */
 const DateTimeFormatter: FunctionComponent<DataTypeProvider.ValueFormatterProps> =
   ({ value }: DataTypeProvider.ValueFormatterProps): JSX.Element => (
-    <>{new Date(value).toLocaleDateString('ru', dateTimeOptions)}</>
+    <>
+      {value
+        ? new Date(value).toLocaleDateString('ru', dateTimeOptions)
+        : 'Не указана'}
+    </>
   );
 
 export default DateTimeFormatter;

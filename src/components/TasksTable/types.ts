@@ -4,6 +4,7 @@ import {
   SortingState,
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
+import { VirtualTable } from '@devexpress/dx-react-grid-material-ui';
 import { RouteComponentProps } from 'react-router';
 
 export interface IProps extends RouteComponentProps<IFilterParams> {
@@ -52,6 +53,8 @@ export interface IColumnSettings {
   dateTimeColumns?: string[];
   /** Список полей для назначившего задачу */
   assignerColumns?: string[];
+  /** Список объектов с настройками столбцов */
+  columnsExtensions?: VirtualTable.ColumnExtension[];
 }
 
 export interface ICustomLookUps {

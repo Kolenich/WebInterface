@@ -105,6 +105,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
 
   const {
     columns, sortingStateColumnExtensions, defaultOrder, filteringStateColumnExtensions,
+    columnsExtensions,
   } = settings;
 
   /**
@@ -261,6 +262,7 @@ const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element 
             height="auto"
             messages={tableMessages}
             rowComponent={RowComponent}
+            columnExtensions={columnsExtensions}
           />
           <TableColumnReordering
             defaultOrder={defaultOrder}

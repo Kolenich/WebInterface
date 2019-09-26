@@ -8,6 +8,13 @@ export const tableSettings: IColumnSettings = {
     { name: 'dead_line', title: 'Срок исполнения' },
     { name: 'comment', title: 'Комментарий' },
   ],
+  columnsExtensions: [
+    { columnName: 'summary', wordWrapEnabled: true, width: 350 },
+    { columnName: 'date_of_issue', wordWrapEnabled: true, width: 350 },
+    { columnName: 'assigned_by', wordWrapEnabled: true, width: 350 },
+    { columnName: 'dead_line', wordWrapEnabled: true, width: 350 },
+    { columnName: 'comment', wordWrapEnabled: true, width: 300 },
+  ],
   defaultOrder: [
     'summary',
     'date_of_issue',
