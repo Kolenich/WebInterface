@@ -27,7 +27,6 @@ const DateField: FunctionComponent<IProps> = ({ withTime, ...props }: IProps): J
           inputVariant="outlined"
           format="dd.MM.yyyy HH:mm"
           ampm={false}
-          disablePast
           {...props}
         />
         :
@@ -39,7 +38,6 @@ const DateField: FunctionComponent<IProps> = ({ withTime, ...props }: IProps): J
           variant="inline"
           inputVariant="outlined"
           format="dd.MM.yyyy"
-          disablePast
           {...props}
         />}
     </MuiPickersUtilsProvider>

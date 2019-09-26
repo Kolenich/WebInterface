@@ -192,6 +192,7 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
               <DateField
                 value={dead_line}
                 name="dead_line"
+                disablePast
                 onChange={handleDeadLineChange}
                 label="Срок исполнения"
                 withTime
