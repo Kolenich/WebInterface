@@ -5,12 +5,13 @@ import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
 import DateField from 'lib/generic/DateField';
-import Snackbar from 'lib/generic/Snackbar';
 import { TASKS_APP } from 'lib/session';
-import { ISnackbarProps } from 'lib/types';
+import { IDialogProps } from 'lib/types';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Dialog from '../../lib/generic/Dialog';
+import Loading from '../../lib/generic/Loading';
 import { styles } from './styles';
 import './styles.css';
 import { IProps, ITaskDetail } from './types';
@@ -44,9 +45,9 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
   const [loaded, setLoaded] = useState<boolean>(false);
 
   // Переменные состояния диалогового окна
-  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
+  const [dialog, setDialog] = useState<IDialogProps>({
     open: false,
-    variant: 'info',
+    status: 'loading',
     message: '',
   });
 
@@ -59,38 +60,43 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
     api.getContent<ITaskDetail>(`task-detail/${id}`)
       .then((response: AxiosResponse<ITaskDetail>) => {
         setTask(response.data);
-        setLoaded(true);
       })
       .catch((error: AxiosError) => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
-          message = SERVER_RESPONSES[error.response.status];
+          if (error.response.data.message) {
+            message = error.response.data.message;
+          } else {
+            message = SERVER_RESPONSES[error.response.status];
+          }
         }
-        setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
-      });
+        setDialog({ ...dialog, message, open: true, status: 'error' });
+      })
+      .finally(() => setLoaded(true));
   };
 
   /**
-   * Функция, закрывающая снэкбар
+   * Функция, закрывающая диалоговое окно
    */
-  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
+  const closeDialog = (): void => setDialog({ ...dialog, open: false });
 
   /**
    * Функция выставления выполнености задания через сервер
    * @param event
    */
   const handleSwitchChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setDialog({ ...dialog, open: true, status: 'loading' });
     const { name, checked } = event.target;
     const data = { [name]: checked } as ITaskDetail;
     const { id } = task;
     api.sendContent(`task/${id}`, data, TASKS_APP, 'patch')
       .then((response: AxiosResponse<ITaskDetail>) => {
         setTask({ ...task, ...response.data, assigned_by });
-        setSnackbar({
-          ...snackbar,
+        setDialog({
+          ...dialog,
           message: SERVER_RESPONSES[response.status],
           open: true,
-          variant: 'success',
+          status: 'success',
         });
       })
       .catch((error: AxiosError) => {
@@ -98,7 +104,7 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
+        setDialog({ ...dialog, message, open: true, status: 'error' });
       });
   };
 
@@ -126,7 +132,7 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
 
   return (
     <>
-      <Snackbar {...snackbar} onClose={closeSnackbar} />
+      <Dialog {...dialog} onClose={closeDialog} />
       <ReactCSSTransitionGroup
         transitionName="task-detail"
         transitionEnterTimeout={500}
@@ -215,6 +221,7 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
             </Grid>
           </Grid>
         </Paper>}
+        {!loaded && <Loading />}
       </ReactCSSTransitionGroup>
     </>
   );

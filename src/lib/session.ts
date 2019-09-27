@@ -7,7 +7,7 @@ const xsrfHeaderName: string = 'X-CSRFToken';
 
 const baseURL: string = getBaseUrl();
 
-const timeout: number = 1000;
+const timeout: number = 10000;
 
 const headers: OutgoingHttpHeaders = {
   'Content-Type': 'application/json',

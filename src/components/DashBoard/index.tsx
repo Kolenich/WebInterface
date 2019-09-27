@@ -52,8 +52,8 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
 
   const context = useContext<IContext>(Context);
 
-  const completedSection: boolean = location.pathname === '/main/tasks/completed';
-  const inProcessSection: boolean = location.pathname === '/main/tasks/in-process';
+  const completedSection: boolean = location.pathname === '/main/my-tasks/completed';
+  const inProcessSection: boolean = location.pathname === '/main/my-tasks/in-process';
   const assignSection: boolean = location.pathname === '/main/assign';
 
   // Переменная открытия/закрытия панели
@@ -234,7 +234,7 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
               className={clsx(inProcessSection && classes.menuItemActive)}
               button
               component={Link}
-              to="/main/tasks/in-process"
+              to="/main/my-tasks/in-process"
               onClick={closeDrawer}
             >
               <ListItemIcon>
@@ -246,7 +246,7 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
               button
               className={clsx(completedSection && classes.menuItemActive)}
               component={Link}
-              to="/main/tasks/completed"
+              to="/main/my-tasks/completed"
               onClick={closeDrawer}
             >
               <ListItemIcon>
