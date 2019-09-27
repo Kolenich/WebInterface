@@ -10,25 +10,23 @@ import { IProps } from './types';
  * @param innerRef внутренняя ссылка DOM
  * @param selectProps пропсы селекта
  */
-const Control: FC<IProps> =
-  ({ children, innerProps, innerRef, selectProps }: IProps): JSX.Element => {
-    const { classes, TextFieldProps } = selectProps;
-    return (
-      <TextField
-        fullWidth
-        variant="outlined"
-        InputProps={{
-          inputComponent: InputComponent,
-          inputProps: {
-            children,
-            className: classes.input,
-            ref: innerRef,
-            ...innerProps,
-          },
-        }}
-        {...TextFieldProps}
-      />
-    );
-  };
+const Control: FC<IProps> = (
+  { children, innerProps, innerRef, selectProps: { classes, TextFieldProps } }: IProps,
+): JSX.Element => (
+  <TextField
+    fullWidth
+    variant="outlined"
+    InputProps={{
+      inputComponent: InputComponent,
+      inputProps: {
+        children,
+        className: classes.input,
+        ref: innerRef,
+        ...innerProps,
+      },
+    }}
+    {...TextFieldProps}
+  />
+);
 
 export default Control;
