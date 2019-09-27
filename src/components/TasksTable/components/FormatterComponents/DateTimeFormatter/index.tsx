@@ -1,19 +1,19 @@
-import { DataTypeProvider } from '@devexpress/dx-react-grid';
+import { Typography } from '@material-ui/core';
 import { dateTimeOptions } from 'lib/utils';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
+import { IProps } from './types';
 
 /**
  * Форматтер для даты без времени
  * @param value значение
  * @constructor
  */
-const DateTimeFormatter: FunctionComponent<DataTypeProvider.ValueFormatterProps> =
-  ({ value }: DataTypeProvider.ValueFormatterProps): JSX.Element => (
-    <>
-      {value
-        ? new Date(value).toLocaleDateString('ru', dateTimeOptions)
-        : 'Не указана'}
-    </>
-  );
+const DateTimeFormatter: FC<IProps> = ({ value }: IProps): JSX.Element => (
+  <Typography component="div">
+    {value
+      ? new Date(value).toLocaleDateString('ru', dateTimeOptions)
+      : 'Не указана'}
+  </Typography>
+);
 
 export default DateTimeFormatter;

@@ -6,7 +6,7 @@ import {
   Select as SelectBase,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { styles } from './styles';
 import { IProps, ISelectItem } from './types';
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles(styles);
  * @param required пометка обязательного поля
  * @constructor
  */
-const Select: FunctionComponent<IProps> =
+const Select: FC<IProps> =
   ({ handleChange, items, value, label, required }: IProps): JSX.Element => {
     const classes = useStyles();
 

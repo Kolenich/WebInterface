@@ -1,7 +1,7 @@
 import DashBoard from 'components/DashBoard';
 import SignInPage from 'components/SignInPage';
 import SignUpPage from 'components/SignUpPage';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import PrivateRoute from './PrivateRouter';
 import PublicRoute from './PublicRouter';
@@ -10,7 +10,7 @@ import PublicRoute from './PublicRouter';
  * Основной роутер приложения
  * @constructor
  */
-const Router: FunctionComponent<{}> = (): JSX.Element => (
+const Router: FC<{}> = (): JSX.Element => (
   <Switch>
     <Route exact path="/" render={() => <Redirect to="/main" />} />
     <PublicRoute path="/sign-up" component={SignUpPage} />

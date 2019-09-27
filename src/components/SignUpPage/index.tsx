@@ -18,7 +18,7 @@ import api from 'lib/api';
 import Snackbar from 'lib/generic/Snackbar';
 import { USERS_APP } from 'lib/session';
 import { ISnackbarProps } from 'lib/types';
-import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
@@ -32,7 +32,7 @@ const useStyles = makeStyles(styles);
  * @param history история в браузере
  * @constructor
  */
-const SignUpPage: FunctionComponent<IProps> = ({ history }): JSX.Element => {
+const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
   const classes = useStyles();
 
   const context = useContext<IContext>(Context);

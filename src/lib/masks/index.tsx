@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import MaskedInput, { maskArray } from 'react-text-mask';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { IProps } from './types';
@@ -14,17 +14,16 @@ const phoneMask: maskArray =
  * @returns {*}
  * @constructor
  */
-export const EmailMask: FunctionComponent<IProps> =
-  ({ inputRef, ...props }: IProps): JSX.Element => (
-    <MaskedInput
-      {...props}
-      ref={ref => inputRef(ref
-        ? ref.inputElement
-        : null)}
-      mask={emailMask}
-      showMask
-    />
-  );
+export const EmailMask: FC<IProps> = ({ inputRef, ...props }: IProps): JSX.Element => (
+  <MaskedInput
+    {...props}
+    ref={ref => inputRef(ref
+      ? ref.inputElement
+      : null)}
+    mask={emailMask}
+    showMask
+  />
+);
 
 /**
  * Маска для поля с электронной почтой
@@ -33,14 +32,13 @@ export const EmailMask: FunctionComponent<IProps> =
  * @returns {*}
  * @constructor
  */
-export const PhoneMask: FunctionComponent<IProps> =
-  ({ inputRef, ...props }: IProps): JSX.Element => (
-    <MaskedInput
-      {...props}
-      ref={ref => inputRef(ref
-        ? ref.inputElement
-        : null)}
-      mask={phoneMask}
-      showMask={false}
-    />
-  );
+export const PhoneMask: FC<IProps> = ({ inputRef, ...props }: IProps): JSX.Element => (
+  <MaskedInput
+    {...props}
+    ref={ref => inputRef(ref
+      ? ref.inputElement
+      : null)}
+    mask={phoneMask}
+    showMask={false}
+  />
+);

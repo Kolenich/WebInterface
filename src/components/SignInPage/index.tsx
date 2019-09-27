@@ -19,14 +19,7 @@ import { IContext } from 'context/types';
 import auth from 'lib/auth';
 import Snackbar from 'lib/generic/Snackbar';
 import { ISnackbarProps } from 'lib/types';
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  KeyboardEvent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
 import { styles } from './styles';
@@ -40,7 +33,7 @@ const useStyles = makeStyles(styles);
  * @param history история в браузере
  * @constructor
  */
-const SignInPage: FunctionComponent<IProps> = ({ history }: IProps): JSX.Element => {
+const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
   const classes = useStyles();
 
   const context = useContext<IContext>(Context);

@@ -51,7 +51,7 @@ import {
   SERVER_RESPONSES,
   sortingParams,
 } from 'lib/utils';
-import React, { FunctionComponent, ReactText, useContext, useEffect, useState } from 'react';
+import React, { FC, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
@@ -66,7 +66,7 @@ const useStyles = makeStyles(styles);
  * @param match передаваемые параметры в адресную строку
  * @constructor
  */
-const TasksTable: FunctionComponent<IProps> = ({ history, match }): JSX.Element => {
+const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   const classes = useStyles();
 
   const { filter } = match.params;

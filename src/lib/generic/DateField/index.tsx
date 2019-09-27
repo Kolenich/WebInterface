@@ -2,7 +2,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/styles';
 import { ru } from 'date-fns/locale';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
 
@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles);
  * @param withTime флаг "С временем"
  * @constructor
  */
-const DateField: FunctionComponent<IProps> = ({ withTime, ...props }: IProps): JSX.Element => {
+const DateField: FC<IProps> = ({ withTime, ...props }: IProps): JSX.Element => {
   const classes = useStyles();
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ru}>

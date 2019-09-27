@@ -33,7 +33,7 @@ import Snackbar from 'lib/generic/Snackbar';
 import { USERS_APP } from 'lib/session';
 import { ISnackbarProps } from 'lib/types';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
-import React, { FunctionComponent, MouseEvent, useContext, useEffect, useState } from 'react';
+import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
 import DashBoardRouter from 'router/DashBoardRouter';
@@ -47,7 +47,7 @@ const useStyles = makeStyles(styles);
  * Компонент панели
  * @constructor
  */
-const DashBoard: FunctionComponent<IProps> = ({ history, location }: IProps): JSX.Element => {
+const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
   const classes = useStyles();
 
   const context = useContext<IContext>(Context);

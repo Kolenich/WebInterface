@@ -10,7 +10,7 @@ import { CheckCircle, Error, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import Button from 'lib/generic/Button';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles(styles);
  * @param warningAcceptCallback функция-колбэк для отработки действий в случае, когда статус warning
  * @constructor
  */
-const Dialog: FunctionComponent<IProps> =
+const Dialog: FC<IProps> =
   ({ open, status, message, onClose, warningAcceptCallback }: IProps): JSX.Element => {
     const classes = useStyles();
     const handleClick = (): void => {

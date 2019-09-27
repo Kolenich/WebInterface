@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/styles';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Select from 'react-select';
+import { SelectComponentsConfig } from 'react-select/src/components';
 import { ValueType } from 'react-select/src/types';
 import { ISelectItem } from '../Select/types';
 import Control from './components/Control';
@@ -15,7 +16,7 @@ import { IInputValue, IProps } from './types';
 
 const useStyles = makeStyles(styles);
 
-const components = {
+const components: SelectComponentsConfig<ISelectItem> = {
   Control,
   Menu,
   NoOptionsMessage,
@@ -32,7 +33,7 @@ const components = {
  * @param value текущее значение
  * @param onChange колбэк, возвращающий данные
  */
-export default ({ options, label, onChange, value }: IProps): JSX.Element => {
+const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProps): JSX.Element => {
   const classes = useStyles();
 
   const [option, setOption] = useState<ValueType<ISelectItem>>(null);
@@ -78,3 +79,5 @@ export default ({ options, label, onChange, value }: IProps): JSX.Element => {
     />
   );
 };
+
+export default SelectWithSearch;

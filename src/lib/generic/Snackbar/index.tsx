@@ -4,7 +4,7 @@ import { TransitionProps } from '@material-ui/core/transitions';
 import { CheckCircle, Error, Info, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import React, { ComponentType, FunctionComponent } from 'react';
+import React, { ComponentType, FC } from 'react';
 import { styles } from './styles';
 import { IProps, IVariantIcons, IWrapperProps } from './types';
 
@@ -25,10 +25,9 @@ export const variantIcon: IVariantIcons = {
  * @param props передаваемые пропсы
  * @constructor
  */
-const TransitionComponent: FunctionComponent<TransitionProps> =
-  (props: TransitionProps): JSX.Element => (
-    <Grow {...props} />
-  );
+const TransitionComponent: FC<TransitionProps> = (props: TransitionProps): JSX.Element => (
+  <Grow {...props} />
+);
 
 /**
  * Компонент-обертка для содержимого снэкбара
@@ -38,7 +37,7 @@ const TransitionComponent: FunctionComponent<TransitionProps> =
  * @param props остальные пропсы
  * @constructor
  */
-const SnackbarContentWrapper: FunctionComponent<IWrapperProps> =
+const SnackbarContentWrapper: FC<IWrapperProps> =
   ({ message, onClose, variant, ...props }: IWrapperProps): JSX.Element => {
     const classes = useStyles();
     const Icon: ComponentType<SvgIconProps> = variantIcon[variant];
@@ -65,7 +64,7 @@ const SnackbarContentWrapper: FunctionComponent<IWrapperProps> =
  * @param open переменная, отвечающая за открытие/закрытие снэкбара
  * @constructor
  */
-const Snackbar: FunctionComponent<IProps> = ({ message, variant, onClose, open }: IProps) => (
+const Snackbar: FC<IProps> = ({ message, variant, onClose, open }: IProps) => (
   <SnackbarBase
     anchorOrigin={{
       vertical: 'bottom',

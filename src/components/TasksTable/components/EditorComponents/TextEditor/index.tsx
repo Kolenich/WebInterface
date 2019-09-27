@@ -1,7 +1,7 @@
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { ISelectElement } from 'lib/types';
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
 
@@ -12,7 +12,7 @@ const useStyles = makeStyles(styles);
  * @param onValueChange функция, обрабатывающая изменение в поле
  * @param value значение в поле
  */
-const TextEditor: FunctionComponent<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
+const TextEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
   const classes = useStyles();
 
   const onChange = (event: ChangeEvent<ISelectElement>): void => {

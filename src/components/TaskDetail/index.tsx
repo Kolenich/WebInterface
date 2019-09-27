@@ -9,7 +9,7 @@ import Snackbar from 'lib/generic/Snackbar';
 import { TASKS_APP } from 'lib/session';
 import { ISnackbarProps } from 'lib/types';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
-import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { styles } from './styles';
 import './styles.css';
@@ -22,7 +22,7 @@ const useStyles = makeStyles(styles);
  * @param match передаваемые параметры в адресную строку
  * @constructor
  */
-const TaskDetail: FunctionComponent<IProps> = ({ match }): JSX.Element => {
+const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
   const classes = useStyles();
 
   const context = useContext<IContext>(Context);

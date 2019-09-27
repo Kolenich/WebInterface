@@ -5,7 +5,7 @@ import api from 'lib/api';
 import { ISelectItem } from 'lib/generic/Select/types';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse, ISelectElement } from 'lib/types';
-import React, { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
 
@@ -16,7 +16,7 @@ const useStyles = makeStyles(styles);
  * @param onValueChange функция для обработки изменений
  * @param value текущее значение
  */
-const AssignerEditor: FunctionComponent<IProps> = ({ onValueChange, value }: IProps):
+const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps):
   JSX.Element => {
   const classes = useStyles();
 

@@ -1,4 +1,4 @@
-import React, { createContext, FunctionComponent, useState } from 'react';
+import React, { createContext, FC, useState } from 'react';
 import Router from 'router';
 import { IContext } from './types';
 
@@ -9,7 +9,7 @@ export const Context = createContext<IContext>({});
  * Класс провайдер для контекста
  * @constructor
  */
-const Provider: FunctionComponent<{}> = (): JSX.Element => {
+const Provider: FC<{}> = (): JSX.Element => {
   // Заголовок для панели
   const [dashBoardTitle, setDashBoardTitle] = useState<string>('');
 

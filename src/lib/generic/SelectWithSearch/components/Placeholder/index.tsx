@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
-import React from 'react';
-import { MuiPlaceholderProps } from './types';
+import React, { FC } from 'react';
+import { IProps } from './types';
 
 /**
  * Подписи на селекте
@@ -8,8 +8,11 @@ import { MuiPlaceholderProps } from './types';
  * @param innerProps внутренние пропсы
  * @param children дочерние компоненты
  */
-export default ({ selectProps, innerProps = {}, children }: MuiPlaceholderProps): JSX.Element => (
-  <Typography color="textSecondary" className={selectProps.classes.placeholder} {...innerProps}>
-    {children}
-  </Typography>
-);
+const PlaceHolder: FC<IProps> =
+  ({ selectProps, innerProps = {}, children }: IProps): JSX.Element => (
+    <Typography color="textSecondary" className={selectProps.classes.placeholder} {...innerProps}>
+      {children}
+    </Typography>
+  );
+
+export default PlaceHolder;

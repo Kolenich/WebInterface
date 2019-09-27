@@ -1,7 +1,7 @@
 import { Button as ButtonBase } from '@material-ui/core';
 import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
 
@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles);
  * @param props
  * @constructor
  */
-const Button: FunctionComponent<IProps> = ({ text, icon, ...props }: IProps): JSX.Element => {
+const Button: FC<IProps> = ({ text, icon, ...props }: IProps): JSX.Element => {
   const classes = useStyles();
   return (
     <ButtonBase

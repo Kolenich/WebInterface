@@ -1,7 +1,6 @@
 import { Typography } from '@material-ui/core';
-import { ISelectItem } from 'lib/generic/Select/types';
-import React from 'react';
-import { NoticeProps } from 'react-select/src/components/Menu';
+import React, { FC } from 'react';
+import { IProps } from './types';
 
 /**
  * Компонент отображения сообщения "Данных нет"
@@ -9,12 +8,15 @@ import { NoticeProps } from 'react-select/src/components/Menu';
  * @param children дочерние компонеты
  * @param innerProps внутренние пропсы
  */
-export default ({ selectProps, children, innerProps }: NoticeProps<ISelectItem>): JSX.Element => (
-  <Typography
-    color="primary"
-    className={selectProps.classes.noOptionsMessage}
-    {...innerProps}
-  >
-    {children}
-  </Typography>
-);
+const NoOptionsMessage: FC<IProps> =
+  ({ selectProps, children, innerProps }: IProps): JSX.Element => (
+    <Typography
+      color="primary"
+      className={selectProps.classes.noOptionsMessage}
+      {...innerProps}
+    >
+      {children}
+    </Typography>
+  );
+
+export default NoOptionsMessage;

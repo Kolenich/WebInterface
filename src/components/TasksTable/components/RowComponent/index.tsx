@@ -1,6 +1,6 @@
 import { Table } from '@devexpress/dx-react-grid-material-ui';
 import { makeStyles } from '@material-ui/styles';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { withRouter } from 'react-router-dom';
 import { styles } from './styles';
 import { IProps } from './types';
@@ -13,7 +13,7 @@ const useStyles = makeStyles(styles);
  * @param props остальные пропсы
  * @constructor
  */
-const RowComponent: FunctionComponent<IProps> = ({ history, ...props }: IProps): JSX.Element => {
+const RowComponent: FC<IProps> = ({ history, ...props }: IProps): JSX.Element => {
   const classes = useStyles();
 
   // Обработка ошибки на переменную staticContext

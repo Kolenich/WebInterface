@@ -19,7 +19,7 @@ import SelectWithSearch from 'lib/generic/SelectWithSearch';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse, IDialogProps } from 'lib/types';
 import { SERVER_RESPONSES } from 'lib/utils';
-import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { ValueType } from 'react-select/src/types';
 import { styles } from './styles';
@@ -32,7 +32,7 @@ const useStyles = makeStyles(styles);
  * Компонент формы для назначения задания
  * @constructor
  */
-const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
+const TaskAssignment: FC<IProps> = (): JSX.Element => {
   const classes = useStyles();
 
   const context = useContext<IContext>(Context);

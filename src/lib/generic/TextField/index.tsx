@@ -1,7 +1,7 @@
 import { TextField as TextFieldBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { validationMessages, validationMethods } from 'lib/validation';
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import { styles } from './styles';
 import { IProps } from './types';
 
@@ -15,7 +15,7 @@ const useStyles = makeStyles(styles);
  * @param onError колбэк, срабатывающий при ошибке валидации
  * @constructor
  */
-const TextField: FunctionComponent<IProps> =
+const TextField: FC<IProps> =
   ({ validationType, fieldValue, onError, ...props }: IProps): JSX.Element => {
     const classes = useStyles();
     let valid: boolean = true;

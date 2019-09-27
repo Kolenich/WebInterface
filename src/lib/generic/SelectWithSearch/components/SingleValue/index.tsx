@@ -1,7 +1,6 @@
 import { Typography } from '@material-ui/core';
-import { ISelectItem } from 'lib/generic/Select/types';
-import React from 'react';
-import { SingleValueProps } from 'react-select/src/components/SingleValue';
+import React, { FC } from 'react';
+import { IProps } from './types';
 
 /**
  * Компонент для отображения единичного значения
@@ -9,9 +8,10 @@ import { SingleValueProps } from 'react-select/src/components/SingleValue';
  * @param innerProps внутренние пропсы
  * @param children дочерние компоненты
  */
-export default ({ selectProps, innerProps, children }: SingleValueProps<ISelectItem>)
-  : JSX.Element => (
+const SingleValue: FC<IProps> = ({ selectProps, innerProps, children }: IProps): JSX.Element => (
   <Typography className={selectProps.classes.singleValue} {...innerProps}>
     {children}
   </Typography>
 );
+
+export default SingleValue;

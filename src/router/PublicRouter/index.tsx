@@ -1,7 +1,7 @@
 import auth from 'lib/auth';
-import React, { Attributes, createElement } from 'react';
+import React, { Attributes, createElement, FC } from 'react';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
-import { ICustomRoutingProps } from 'router/types';
+import { IProps } from 'router/types';
 
 /**
  * Роутер для неавторизованных пользователей
@@ -10,7 +10,7 @@ import { ICustomRoutingProps } from 'router/types';
  * @returns {*}
  * @constructor
  */
-const PublicRoute = ({ component, ...rest }: ICustomRoutingProps): JSX.Element => (
+const PublicRoute: FC<IProps> = ({ component, ...rest }: IProps): JSX.Element => (
   <Route
     {...rest}
     render={(props: (RouteComponentProps & Attributes)): JSX.Element => (
