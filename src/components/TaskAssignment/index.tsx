@@ -174,7 +174,7 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 fullWidth
                 variant="outlined"
                 InputProps={{
-                  endAdornment: <CommentIcon />,
+                  endAdornment: <DescriptionIcon />,
                 }}
               />
             </Grid>
@@ -217,7 +217,7 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 fullWidth
                 variant="outlined"
                 InputProps={{
-                  endAdornment: <DescriptionIcon />,
+                  endAdornment: <CommentIcon />,
                 }}
               />
             </Grid>

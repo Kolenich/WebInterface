@@ -12,3 +12,8 @@ export interface IProps {
   /** Колбэк, передающий выбранное значение */
   onChange: (option: ValueType<ISelectItem>) => void;
 }
+
+export interface IInputValue {
+  /** Вводимое значение */
+  inputValue: string;
+}

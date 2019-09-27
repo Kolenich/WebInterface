@@ -11,7 +11,7 @@ import Placeholder from './components/Placeholder';
 import SingleValue from './components/SingleValue';
 import ValueContainer from './components/ValueContainer';
 import { styles } from './styles';
-import { IProps } from './types';
+import { IInputValue, IProps } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -55,7 +55,9 @@ export default ({ options, label, onChange, value }: IProps): JSX.Element => {
   /**
    * Функция сообщения для пустого селекта
    */
-  const noOptionsMessage = (): string => 'Совпадений не найдено';
+  const noOptionsMessage = ({ inputValue }: IInputValue): string => (
+    `Совпадений с ${inputValue} не найдено`
+  );
 
   return (
     <Select
