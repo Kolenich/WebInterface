@@ -83,7 +83,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
       // Сортируем по умолчанию по сроку исполнения
       { columnName: 'dead_line', direction: 'asc' },
     ],
-    pageSizes: [5, 10, 20],
+    pageSizes: [5, 10, 20, 0],
     pageSize: 5,
     totalCount: 0,
     currentPage: 0,

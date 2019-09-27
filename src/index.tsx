@@ -1,6 +1,6 @@
 import { MuiThemeProvider } from '@material-ui/core';
 import Provider from 'context';
-import { theme } from 'lib/theme';
+import theme from 'lib/theme';
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
