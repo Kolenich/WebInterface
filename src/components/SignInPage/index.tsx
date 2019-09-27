@@ -120,7 +120,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
       transitionLeave={false}
     >
       <Snackbar onClose={closeSnackbar} {...snackbar} />
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>
           <Avatar className={classes.avatar}>

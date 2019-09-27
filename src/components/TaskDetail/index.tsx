@@ -165,7 +165,11 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
             <Grid item lg={9} xs={12} />
             <Grid item lg={2} xs={12}>
               <TextField
-                value={`${last_name} ${first_name}`}
+                value={
+                  task.id
+                    ? `${last_name} ${first_name}`
+                    : ''
+                }
                 variant="outlined"
                 fullWidth
                 label="Назначил"
@@ -213,7 +217,7 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
                     onChange={handleSwitchChange}
                     name="done"
                     color="primary"
-                    disabled={done}
+                    disabled={done || !task.id}
                   />
                 }
                 label="Выполнено"

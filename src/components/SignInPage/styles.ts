@@ -12,7 +12,7 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    width: 500,
+    width: '100%',
   },
   avatar: {
     margin: theme.spacing(1),

@@ -1,9 +1,11 @@
 import {
   Avatar,
   Button,
+  Checkbox,
   CircularProgress,
   Container,
   CssBaseline,
+  FormControlLabel,
   Grid,
   Link,
   TextField,
@@ -43,6 +45,7 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
     last_name: '',
     email: '',
     password: '',
+    mailing: false,
   });
 
   // Переменная состояния для загрузки
@@ -73,6 +76,15 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
   };
 
   /**
+   * Функция обработки изменений булевских значений
+   * @param event событие изменения
+   */
+  const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const { name, checked } = event.target;
+    setAccount({ ...account, [name]: checked });
+  };
+
+  /**
    * Функция, закрывающая снэкбар
    */
   const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
@@ -89,8 +101,8 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
    */
   const handleSubmit = (): void => {
     setLoading(true);
-    const { email, first_name, last_name, password } = account;
-    const sendData: IAccount = { email, password, first_name, last_name };
+    const { email, first_name, last_name, password, mailing } = account;
+    const sendData: IAccount = { email, password, first_name, last_name, mailing };
     api.sendContent('user/registrate', sendData, USERS_APP)
       .then((response: AxiosResponse): void => {
         const { message } = response.data;
@@ -129,7 +141,7 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
       transitionLeave={false}
     >
       <Snackbar onClose={closeSnackbar} {...snackbar} />
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -189,6 +201,19 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
                   autoComplete="current-password"
                   value={account.password}
                   onChange={handleTextChange}
+                />
+              </Grid>
+              <Grid item xs="auto">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={account.mailing}
+                      onChange={handleBooleanChange}
+                      name="mailing"
+                      color="primary"
+                    />
+                  }
+                  label="Получать оповещения на почту"
                 />
               </Grid>
             </Grid>

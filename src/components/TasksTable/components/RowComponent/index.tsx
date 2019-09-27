@@ -25,7 +25,7 @@ const RowComponent: FC<IProps> = ({ history, ...props }: IProps): JSX.Element =>
    */
   const handleClick = (): void => {
     const { id } = props.row;
-    history.push({ pathname: `/main/my-tasks/${id}` });
+    history.push({ pathname: `/my-tasks/${id}` });
   };
 
   return (

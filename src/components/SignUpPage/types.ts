@@ -15,6 +15,8 @@ export interface IAccount {
   email: string;
   /** Пароль */
   password: string;
+  /** Рассылка на почту */
+  mailing: boolean;
 }
 
 export interface IState {
