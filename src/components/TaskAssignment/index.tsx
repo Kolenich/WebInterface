@@ -14,13 +14,14 @@ import api from 'lib/api';
 import Button from 'lib/generic/Button';
 import DateField from 'lib/generic/DateField';
 import Dialog from 'lib/generic/Dialog';
-import Select from 'lib/generic/Select';
 import { ISelectItem } from 'lib/generic/Select/types';
+import SelectWithSearch from 'lib/generic/SelectWithSearch';
 import { USERS_APP } from 'lib/session';
-import { IApiResponse, IDialogProps, ISelectEvent } from 'lib/types';
+import { IApiResponse, IDialogProps } from 'lib/types';
 import { SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FunctionComponent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { ValueType } from 'react-select/src/types';
 import { styles } from './styles';
 import './styles.css';
 import { IProps, ITask } from './types';
@@ -83,11 +84,12 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
 
   /**
    * Функция обработки изменени  в селекте
-   * @param event
+   * @param option
    */
-  const handleSelectChange = (event: ChangeEvent<ISelectEvent>): void => (
-    setTask({ ...task, assigned_to: event.target.value as number })
-  );
+  const handleSelectChange = (option: ValueType<ISelectItem>): void => {
+    const { value } = option as ISelectItem;
+    setTask({ ...task, assigned_to: value });
+  };
 
   /**
    * Функция обработки изменений в текстовых полях
@@ -162,9 +164,8 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
       >
         {loaded &&
         <Paper className={classes.paper}>
-          <Grid container spacing={2} className={classes.container}>
+          <Grid container spacing={2} alignItems="center" className={classes.container}>
             <Grid item xs={12} lg={2}>
-              <CommentIcon />
               <TextField
                 value={summary}
                 name="summary"
@@ -172,11 +173,14 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 label="Краткое описание"
                 fullWidth
                 variant="outlined"
+                InputProps={{
+                  endAdornment: <CommentIcon />,
+                }}
               />
             </Grid>
-            <Grid item xs={12} lg={10} />
+            <Grid item xs={12} lg={9} />
             <Grid item xs={12} lg={4}>
-              <DescriptionIcon />
+
               <TextField
                 value={description}
                 name="description"
@@ -184,11 +188,13 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 label="Полное описание"
                 fullWidth
                 variant="outlined"
+                InputProps={{
+                  endAdornment: <DescriptionIcon />,
+                }}
               />
             </Grid>
             <Grid item xs={12} lg={8} />
             <Grid item xs={12} lg={2}>
-              <DateIcon />
               <DateField
                 value={dead_line}
                 name="dead_line"
@@ -196,11 +202,13 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 onChange={handleDeadLineChange}
                 label="Срок исполнения"
                 withTime
+                InputProps={{
+                  endAdornment: <DateIcon />,
+                }}
               />
             </Grid>
             <Grid item xs={12} lg={10} />
             <Grid item xs={12} lg={4}>
-              <DescriptionIcon />
               <TextField
                 value={comment}
                 name="comment"
@@ -208,18 +216,19 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 label="Комментарий"
                 fullWidth
                 variant="outlined"
-                multiline
-                rows={3}
+                InputProps={{
+                  endAdornment: <DescriptionIcon />,
+                }}
               />
             </Grid>
             <Grid item xs={12} lg={8} />
             <Grid item xs={12} lg={3}>
               <AssignToIcon />
-              <Select
-                label="Кому назначить"
-                items={users}
+              <SelectWithSearch
                 value={assigned_to}
-                handleChange={handleSelectChange}
+                label="Кому назначить"
+                options={users}
+                onChange={handleSelectChange}
               />
             </Grid>
             <Grid item xs={12} lg={9} />
@@ -229,7 +238,7 @@ const TaskAssignment: FunctionComponent<IProps> = (): JSX.Element => {
                 icon="add"
                 color="primary"
                 onClick={submitTask}
-                disabled={dialog.open && dialog.status === 'loading'}
+                disabled={dialog.open}
               />
             </Grid>
           </Grid>

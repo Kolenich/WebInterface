@@ -19,11 +19,11 @@ const useStyles = makeStyles(styles);
  * @param items список выбора селекта
  * @param value текущее значение селекта
  * @param label ярлык селекта
- * @param props остальные пропсы
+ * @param required пометка обязательного поля
  * @constructor
  */
 const Select: FunctionComponent<IProps> =
-  ({ handleChange, items, value, label, ...props }: IProps): JSX.Element => {
+  ({ handleChange, items, value, label, required }: IProps): JSX.Element => {
     const classes = useStyles();
 
     const inputLabel = useRef<HTMLLabelElement>(null);
@@ -40,7 +40,7 @@ const Select: FunctionComponent<IProps> =
     );
 
     return (
-      <FormControl variant="outlined" className={classes.formControl} {...props}>
+      <FormControl variant="outlined" className={classes.formControl} required={required}>
         <InputLabel ref={inputLabel} htmlFor="select">{label}</InputLabel>
         <SelectBase
           value={value}
