@@ -56,9 +56,12 @@ const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProp
   /**
    * Функция сообщения для пустого селекта
    */
-  const noOptionsMessage = ({ inputValue }: IInputValue): string => (
-    `Совпадений с ${inputValue} не найдено`
-  );
+  const noOptionsMessage = ({ inputValue }: IInputValue): string => {
+    if (options.length) {
+      return `Совпадений с ${inputValue} не найдено`;
+    }
+    return 'Данные отсутствуют';
+  };
 
   return (
     <Select
