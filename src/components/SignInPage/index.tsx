@@ -183,7 +183,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link variant="body2" component={RouterLink} to="/sign-up">
+                <Link className={classes.link} component={RouterLink} to="/sign-up">
                   Нет учётной записи? Зарегистрируйтесь!
                 </Link>
               </Grid>

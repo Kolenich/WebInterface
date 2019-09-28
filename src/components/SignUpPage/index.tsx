@@ -231,7 +231,7 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link variant="body2" component={RouterLink} to="/sign-in">
+                <Link className={classes.link} component={RouterLink} to="/sign-in">
                   Уже есть учётная запись? Войдите с её помощью
                 </Link>
               </Grid>

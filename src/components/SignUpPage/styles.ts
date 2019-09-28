@@ -29,4 +29,10 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   circularProgress: {
     marginLeft: theme.spacing(1),
   },
+  link: {
+    '&:hover': {
+      textDecoration: 'none',
+      color: theme.palette.primary.dark,
+    },
+  },
 });

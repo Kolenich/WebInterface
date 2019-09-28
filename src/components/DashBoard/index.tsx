@@ -120,11 +120,11 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
    */
   const loadUser = (): void => {
     api.getContent<IProfileUser>('user-profile/user', {}, USERS_APP)
-      .then(({ data }: AxiosResponse<IProfileUser>) => setUser(data))
-      .catch(({ response }: AxiosError) => {
+      .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
+      .catch((error: AxiosError) => {
         let message: string = SERVER_NOT_AVAILABLE;
-        if (response) {
-          message = SERVER_RESPONSES[response.status];
+        if (error.response) {
+          message = SERVER_RESPONSES[error.response.status];
         }
         setSnackbar({ ...snackbar, message, open: false, variant: 'error' });
       });

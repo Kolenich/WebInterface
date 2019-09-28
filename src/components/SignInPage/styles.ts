@@ -33,4 +33,10 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     color: theme.palette.error.dark,
     marginBottom: theme.spacing(1),
   },
+  link: {
+    '&:hover': {
+      textDecoration: 'none',
+      color: theme.palette.primary.dark,
+    },
+  },
 });
