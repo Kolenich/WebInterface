@@ -1,0 +1,10 @@
+.task-table-appear {
+  opacity: 0.01;
+  transform: translate(750px);
+}
+
+.task-table-appear.task-table-appear-active {
+  transform: translate(0);
+  opacity: 1;
+  transition: all 500ms ease-out;
+}

@@ -52,10 +52,12 @@ import {
   sortingParams,
 } from 'lib/utils';
 import React, { FC, ReactText, useContext, useEffect, useState } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
 import { styles } from './styles';
+import './styles.css';
 import { IColumnSettings, IProps, IRow } from './types';
 
 const useStyles = makeStyles(styles);
@@ -217,7 +219,13 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   );
 
   return (
-    <>
+    <ReactCSSTransitionGroup
+      transitionName="task-table"
+      transitionEnter={false}
+      transitionLeave={false}
+      transitionAppear
+      transitionAppearTimeout={500}
+    >
       <Snackbar onClose={closeSnackbar} {...snackbar} />
       <Paper className={classes.paper}>
         <Grid
@@ -273,7 +281,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
         </Grid>
         {loading && <Loading />}
       </Paper>
-    </>
+    </ReactCSSTransitionGroup>
   );
 };
 
