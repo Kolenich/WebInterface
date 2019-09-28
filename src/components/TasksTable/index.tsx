@@ -147,14 +147,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * Функция для выдачи фильтра в зависимости от параметра в урле
    * @param filter
    */
-  const taskFilter = (filter: 'completed' | 'in-process'): boolean => {
-    switch (filter) {
-      case 'in-process':
-        return false;
-      case 'completed':
-        return true;
-    }
-  };
+  const taskFilter = (filter: 'completed' | 'in-process'): boolean => filter === 'completed';
 
   /**
    * Метод для загрузи данных в таблицу с сервера
@@ -192,9 +185,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
           const { status } = error.response;
           // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
           if (status === 401) {
-            auth.logout()
-              .then((): void => history.push({ pathname: '/' }))
-              .catch((): void => history.push({ pathname: '/' }));
+            auth.logout().finally((): void => history.push({ pathname: '/' }));
           }
           message = SERVER_RESPONSES[status];
         }
