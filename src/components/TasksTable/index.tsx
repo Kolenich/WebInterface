@@ -29,7 +29,6 @@ import { IContext } from 'context/types';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import Loading from 'lib/generic/Loading';
-import Snackbar from 'lib/generic/Snackbar';
 import { TASKS_APP } from 'lib/session';
 import {
   filterRowMessages,
@@ -37,13 +36,7 @@ import {
   tableHeaderRowMessage,
   tableMessages,
 } from 'lib/translate';
-import {
-  IApiResponse,
-  ICustomDataTypeProviderProps,
-  IGetConfig,
-  ISnackbarProps,
-  ITable,
-} from 'lib/types';
+import { IApiResponse, ICustomDataTypeProviderProps, IGetConfig, ITable } from 'lib/types';
 import {
   DASH_BOARD_TITLES,
   filteringParams,
@@ -75,7 +68,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
 
   const context = useContext<IContext>(Context);
 
-  const { documentTitle, updateDashBoardTitle } = context;
+  const { documentTitle, updateDashBoardTitle, openSnackbar } = context;
 
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
@@ -93,13 +86,6 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
 
   // Переменная состояния загрузки
   const [loading, setLoading] = useState<boolean>(false);
-
-  // Переменные состояния диалогового окна
-  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
-    open: false,
-    variant: 'info',
-    message: '',
-  });
 
   const [settings] = useState<IColumnSettings>(tableSettings);
 
@@ -139,11 +125,6 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * @param filters массив фильтров
    */
   const changeFilters = (filters: Filter[]): void => setTable({ ...table, filters });
-
-  /**
-   * Функция, закрывающая снэкбар
-   */
-  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
 
   /**
    * Функция для выдачи фильтра в зависимости от параметра в урле
@@ -191,7 +172,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
           }
           message = SERVER_RESPONSES[status];
         }
-        setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
+        openSnackbar!('error', message);
         setLoading(false);
       });
   };
@@ -226,7 +207,6 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
       transitionAppear
       transitionAppearTimeout={500}
     >
-      <Snackbar onClose={closeSnackbar} {...snackbar} />
       <Paper className={classes.paper}>
         <Grid
           rows={rows}

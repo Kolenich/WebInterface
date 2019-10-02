@@ -13,11 +13,10 @@ import { IContext } from 'context/types';
 import api from 'lib/api';
 import Button from 'lib/generic/Button';
 import DateField from 'lib/generic/DateField';
-import Dialog from 'lib/generic/Dialog';
 import { ISelectItem } from 'lib/generic/Select/types';
 import SelectWithSearch from 'lib/generic/SelectWithSearch';
 import { USERS_APP } from 'lib/session';
-import { IApiResponse, IDialogProps } from 'lib/types';
+import { IApiResponse } from 'lib/types';
 import { SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -54,21 +53,9 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
   // Флаги загрузки данных
   const [loaded, setLoaded] = useState<boolean>(false);
 
-  // Набор переменных состояния для диалога
-  const [dialog, setDialog] = useState<IDialogProps>({
-    open: false,
-    message: '',
-    status: 'loading',
-  });
-
-  const { documentTitle } = context;
+  const { documentTitle, openDialog } = context;
 
   const { summary, description, comment, dead_line, assigned_to } = task;
-
-  /**
-   * Функция, закрывающая снэкбар
-   */
-  const closeDialog = (): void => setDialog({ ...dialog, open: false });
 
   /**
    * Функция выгрузки всех юзеров, которым можно назначить задание
@@ -112,15 +99,10 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
    * Функция отправка задачи на сервер
    */
   const submitTask = (): void => {
-    setDialog({ ...dialog, open: true, status: 'loading' });
+    openDialog!('loading', '');
     api.sendContent('assign-task', task)
       .then((response: AxiosResponse) => {
-        setDialog({
-          ...dialog,
-          open: true,
-          status: 'success',
-          message: SERVER_RESPONSES[response.status],
-        });
+        openDialog!('success', SERVER_RESPONSES[response.status]);
         setTask({
           summary: '',
           description: '',
@@ -134,7 +116,7 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        setDialog({ ...dialog, message, open: true, status: 'error' });
+        openDialog!('error', message);
       });
   };
 
@@ -156,7 +138,6 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
 
   return (
     <>
-      <Dialog {...dialog} onClose={closeDialog} />
       <ReactCSSTransitionGroup
         transitionName="task-assignment"
         transitionEnterTimeout={500}
@@ -238,7 +219,6 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
                 icon="add"
                 color="primary"
                 onClick={submitTask}
-                disabled={dialog.open}
               />
             </Grid>
           </Grid>

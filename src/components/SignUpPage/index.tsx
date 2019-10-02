@@ -17,9 +17,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
-import Snackbar from 'lib/generic/Snackbar';
 import { USERS_APP } from 'lib/session';
-import { ISnackbarProps } from 'lib/types';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
@@ -51,13 +49,6 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
   // Переменная состояния для загрузки
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Набор переменных состояния для снэкбара
-  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
-    open: false,
-    message: '',
-    variant: 'info',
-  });
-
   // Набор переменных состояния для ошибок
   const [errors, setErrors] = useState<IErrors>({
     email: false,
@@ -65,6 +56,8 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
     first_name: false,
     password: false,
   });
+
+  const { documentTitle, openSnackbar } = context;
 
   /**
    * Функция обработки изменений в текстовом поле
@@ -85,11 +78,6 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
   };
 
   /**
-   * Функция, закрывающая снэкбар
-   */
-  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
-
-  /**
    * Функция для сброса ошибок в полях
    */
   const resetErrors = (): void => (
@@ -106,7 +94,7 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
     api.sendContent('user/registrate', sendData, USERS_APP)
       .then((response: AxiosResponse): void => {
         const { message } = response.data;
-        setSnackbar({ ...snackbar, message, open: true, variant: 'success' });
+        openSnackbar!('success', message);
         setLoading(false);
         // Через 2 секунды перенаправляем на страницу входа
         setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
@@ -116,14 +104,12 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
           const { message, errors: errorsList } = error.response.data;
           setErrors({ ...errors, ...errorsList });
           setLoading(false);
-          setSnackbar({ ...snackbar, message, open: true, variant: 'error' });
+          openSnackbar!('error', message);
           // Через 3 секунды гасим ошибки
           setTimeout(resetErrors, 3000);
         }
       });
   };
-
-  const { documentTitle } = context;
 
   useEffect(
     (): void => {
@@ -140,7 +126,6 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
       transitionEnter={false}
       transitionLeave={false}
     >
-      <Snackbar onClose={closeSnackbar} {...snackbar} />
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>

@@ -29,9 +29,7 @@ import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
 import auth from 'lib/auth';
-import Snackbar from 'lib/generic/Snackbar';
 import { USERS_APP } from 'lib/session';
-import { ISnackbarProps } from 'lib/types';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -52,6 +50,8 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
 
   const context = useContext<IContext>(Context);
 
+  const { dashBoardTitle, openSnackbar } = context;
+
   const completedSection: boolean = location.pathname === '/my-tasks/completed';
   const inProcessSection: boolean = location.pathname === '/my-tasks/in-process';
   const assignSection: boolean = location.pathname === '/assign';
@@ -66,24 +66,12 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
     email: '',
   });
 
-  // Набор переменных для состояния снэкбара
-  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
-    open: false,
-    variant: 'info',
-    message: '',
-  });
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   /**
    * Функция, открывающая панель
    */
   const openDrawer = (): void => setDrawerOpen(true);
-
-  /**
-   * Функция, закрывающая снэкбар
-   */
-  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
 
   /**
    * Функция, закрывающая панель
@@ -126,19 +114,16 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        setSnackbar({ ...snackbar, message, open: false, variant: 'error' });
+        openSnackbar!('error', message);
       });
   };
 
   const { first_name, last_name, email } = user;
 
-  const { dashBoardTitle } = context;
-
   useEffect(loadUser, []);
 
   return (
     <>
-      <Snackbar{...snackbar} onClose={closeSnackbar} />
       <Typography component="div" className={classes.root}>
         <CssBaseline />
         <AppBar position="absolute"

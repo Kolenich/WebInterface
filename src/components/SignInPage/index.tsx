@@ -17,8 +17,6 @@ import { AxiosError } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import auth from 'lib/auth';
-import Snackbar from 'lib/generic/Snackbar';
-import { ISnackbarProps } from 'lib/types';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
@@ -44,13 +42,6 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
     password: '',
   });
 
-  // Набор переменных состояния для снэкбара
-  const [snackbar, setSnackbar] = useState<ISnackbarProps>({
-    open: false,
-    message: '',
-    variant: 'info',
-  });
-
   // Набор переменных состояния для статуса
   const [status, setStatus] = useState<IStatus>({
     error: false,
@@ -62,7 +53,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
 
   const { error, loading, remember } = status;
 
-  const { documentTitle } = context;
+  const { documentTitle, openSnackbar } = context;
 
   useEffect(
     (): void => {
@@ -71,24 +62,37 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
     [documentTitle],
   );
 
+  /**
+   * Функция обработки изменений персональных данных
+   * @param event объект события изменения
+   */
   const handleLoginChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     setLogin({ ...login, [name]: value });
   };
 
+  /**
+   * Функция обработки изменения свича
+   * @param event объект события изменения
+   */
   const handleStatusChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = event.target;
     setStatus({ ...status, [name]: checked });
   };
 
+  /**
+   * Функция обработки нажатия на Enter
+   * @param event объект события изменения
+   */
   const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
       handleLogin();
     }
   };
 
-  const closeSnackbar = (): void => setSnackbar({ ...snackbar, open: false });
-
+  /**
+   * Функция логина
+   */
   const handleLogin = (): void => {
     setStatus({ ...status, loading: true });
     auth.login(email, password, remember)
@@ -107,7 +111,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
           // Убираем ошибку через 3 секунды
           setTimeout(() => setStatus({ ...status, error: false }), 3000);
         }
-        setSnackbar({ message, open: true, variant: 'error' });
+        openSnackbar!('error', message);
       });
   };
 
@@ -119,7 +123,6 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
       transitionEnter={false}
       transitionLeave={false}
     >
-      <Snackbar onClose={closeSnackbar} {...snackbar} />
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>
