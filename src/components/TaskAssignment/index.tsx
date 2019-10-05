@@ -218,11 +218,12 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
             <Grid item xs={12} lg={9} />
             <Grid item xs="auto">
               <Button
-                text="Назначить"
                 icon="add"
                 color="primary"
                 onClick={submitTask}
-              />
+              >
+                Назначить
+              </Button>
             </Grid>
           </Grid>
         </Paper>}

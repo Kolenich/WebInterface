@@ -1,9 +1,7 @@
-import { WithStyles } from '@material-ui/styles';
 import { ISnackbarProps } from 'lib/types';
 import { RouteComponentProps } from 'react-router-dom';
-import { styles } from './styles';
 
-export interface IProps extends WithStyles<typeof styles>, RouteComponentProps {
+export interface IProps extends RouteComponentProps {
 }
 
 export interface IAccount {
