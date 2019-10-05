@@ -218,6 +218,7 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
             <Grid item xs={12} lg={9} />
             <Grid item xs="auto">
               <Button
+                variant="contained"
                 icon="add"
                 color="primary"
                 onClick={submitTask}
