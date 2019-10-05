@@ -20,7 +20,7 @@ import auth from 'lib/auth';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
-import { styles } from './styles';
+import styles from './styles';
 import './styles.css';
 import { ILogin, IProps, IStatus } from './types';
 

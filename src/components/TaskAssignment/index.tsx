@@ -21,7 +21,7 @@ import { SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { ValueType } from 'react-select/src/types';
-import { styles } from './styles';
+import styles from './styles';
 import './styles.css';
 import { IProps, ITask } from './types';
 
@@ -35,8 +35,6 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
   const classes = useStyles();
 
   const context = useContext<IContext>(Context);
-
-  const { updateDashBoardTitle } = context;
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -53,9 +51,21 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
   // Флаги загрузки данных
   const [loaded, setLoaded] = useState<boolean>(false);
 
-  const { documentTitle, openDialog } = context;
+  const { documentTitle, openDialog, updateDashBoardTitle } = context;
 
   const { summary, description, comment, dead_line, assigned_to } = task;
+
+  /**
+   * Фунция обработки ошибок
+   * @param error объект ошибки
+   */
+  const handleError = (error: AxiosError) => {
+    let message: string = 'Сервер недоступен, попробуйте позже';
+    if (error.response) {
+      message = SERVER_RESPONSES[error.response.status];
+    }
+    openDialog!('error', message);
+  };
 
   /**
    * Функция выгрузки всех юзеров, которым можно назначить задание
@@ -66,7 +76,7 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
         setUsers(response.data.results);
         setLoaded(true);
       })
-      .catch();
+      .catch(handleError);
   };
 
   /**
@@ -111,13 +121,7 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
           assigned_to: '',
         });
       })
-      .catch((error: AxiosError) => {
-        let message: string = 'Сервер недоступен, попробуйте позже';
-        if (error.response) {
-          message = SERVER_RESPONSES[error.response.status];
-        }
-        openDialog!('error', message);
-      });
+      .catch(handleError);
   };
 
   /**
@@ -161,7 +165,6 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
             </Grid>
             <Grid item xs={12} lg={9} />
             <Grid item xs={12} lg={4}>
-
               <TextField
                 value={description}
                 name="description"

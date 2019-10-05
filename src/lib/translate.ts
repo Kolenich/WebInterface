@@ -1,10 +1,4 @@
-import {
-  PagingPanel,
-  Table,
-  TableEditColumn,
-  TableFilterRow,
-  TableHeaderRow,
-} from '@devexpress/dx-react-grid';
+import { PagingPanel, Table, TableFilterRow, TableHeaderRow } from '@devexpress/dx-react-grid';
 
 export const filterRowMessages: TableFilterRow.LocalizationMessages = {
   filterPlaceholder: 'Фильтр...',
@@ -34,12 +28,4 @@ export const tableMessages: Table.LocalizationMessages = {
 
 export const tableHeaderRowMessage: TableHeaderRow.LocalizationMessages = {
   sortingHint: 'Сортировать',
-};
-
-export const tableEditColumnMessages: TableEditColumn.LocalizationMessages = {
-  addCommand: 'Добавить',
-  editCommand: 'Редактировать',
-  commitCommand: 'Сохранить',
-  cancelCommand: 'Отмена',
-  deleteCommand: 'Удалить',
 };

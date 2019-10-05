@@ -2,7 +2,7 @@ import { Theme } from '@material-ui/core';
 import { amber, green } from '@material-ui/core/colors';
 import { createStyles, StyleRules } from '@material-ui/styles';
 
-export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
+const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   success: {
     backgroundColor: green[600],
   },
@@ -30,3 +30,5 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     margin: theme.spacing(1),
   },
 });
+
+export default styles;

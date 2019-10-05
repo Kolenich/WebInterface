@@ -5,12 +5,12 @@ import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
 import DateField from 'lib/generic/DateField';
+import Loading from 'lib/generic/Loading';
 import { TASKS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import Loading from '../../lib/generic/Loading';
-import { styles } from './styles';
+import styles from './styles';
 import './styles.css';
 import { IProps, ITaskDetail } from './types';
 

@@ -7,7 +7,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import ruLocale from 'date-fns/locale/ru';
 import React, { FC } from 'react';
-import { styles } from './styles';
+import styles from './styles';
 import { IProps } from './types';
 
 const useStyles = makeStyles(styles);

@@ -73,56 +73,10 @@ export interface ISelectElement {
   value: unknown;
 }
 
-export type Validation = 'latin' | 'cyrillic' | 'phone' | 'email';
-
-export type IValidationFunction = (value: string) => boolean;
-
-export interface IValidationMethods {
-  /** Функция валидации телефона */
-  phone: IValidationFunction;
-  /** Функция валидации электронной почты */
-  email: IValidationFunction;
-  /** Функция валидации латиницы */
-  latin: IValidationFunction;
-  /** Функция валидации кириллицы */
-  cyrillic: IValidationFunction;
-
-  [index: string]: IValidationFunction;
-}
-
-export interface IValidationMessages {
-  /** Сообщение об ошибке валидации телефона */
-  phone: string;
-  /** Сообщение об ошибке валидации электронной почты */
-  email: string;
-  /** Сообщение об ошибке валидации латиницы */
-  latin: string;
-  /** Сообщение об ошибке валидации кириллицы */
-  cyrillic: string;
-
-  [index: string]: string;
-}
-
-export interface ISelectEvent {
-  /** Имя HTML-элемента */
-  name?: string | undefined;
-  /** Значение селекта */
-  value: unknown;
-}
-
-export interface IFileObject {
-  /** Дата изменения */
-  readonly lastModified: number;
-  /** Имя файла */
-  readonly name: string;
-}
-
 export interface IAuthResponse {
   /** Возвращаемый токен */
   key: string;
 }
-
-export type IActualFileObject = Blob & IFileObject;
 
 export interface ISnackbarProps {
   /** Флаг открытия/закрытия */
