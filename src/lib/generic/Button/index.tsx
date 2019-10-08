@@ -2,26 +2,25 @@ import { Button as ButtonBase } from '@material-ui/core';
 import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import React, { FC } from 'react';
-import { styles } from './styles';
+import styles from './styles';
 import { IProps } from './types';
 
 const useStyles = makeStyles(styles);
 
 /**
  * Кастомная кнопка
- * @param text - текст кнопки
- * @param icon - иконка кнопки
+ * @param children дочерний элемент (текст)
+ * @param icon иконка кнопки
  * @param props
  * @constructor
  */
-const Button: FC<IProps> = ({ text, icon, ...props }: IProps): JSX.Element => {
+const Button: FC<IProps> = ({ icon, children, ...props }: IProps): JSX.Element => {
   const classes = useStyles();
   return (
     <ButtonBase
-      variant="contained"
       {...props}
     >
-      {text}
+      {children}
       {icon === 'save' &&
       <Save className={classes.rightIcon} />}
       {icon === 'add' &&

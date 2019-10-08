@@ -2,7 +2,7 @@ import { MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import React, { FC } from 'react';
-import { styles } from './styles';
+import styles from './styles';
 import { IProps } from './types';
 
 const useStyles = makeStyles(styles);

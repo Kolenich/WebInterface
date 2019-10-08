@@ -3,7 +3,7 @@ import { createStyles, StyleRules } from '@material-ui/styles';
 
 const drawerWidth: number = 200;
 
-export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
+const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   root: {
     display: 'flex',
   },
@@ -100,3 +100,5 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     backgroundColor: theme.palette.grey.A100,
   },
 });
+
+export default styles;

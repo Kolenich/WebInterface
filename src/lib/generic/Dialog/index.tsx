@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import Button from 'lib/generic/Button';
 import React, { FC } from 'react';
-import { styles } from './styles';
+import styles from './styles';
 import { IProps } from './types';
 
 const useStyles = makeStyles(styles);
@@ -66,14 +66,9 @@ const Dialog: FC<IProps> =
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button
-              color="primary"
-              text="Ок"
-              onClick={handleClick}
-              icon="confirm"
-            />
+            <Button color="primary" onClick={handleClick} icon="confirm">OK </Button>
             {status === 'warning' &&
-            <Button text="Отмена" color="secondary" icon="cancel" onClick={onClose} />}
+            <Button color="secondary" icon="cancel" onClick={onClose}>Отмена</Button>}
           </DialogActions>
         </>}
       </DialogBase>

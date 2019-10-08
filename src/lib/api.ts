@@ -1,4 +1,4 @@
-import { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
+import { AxiosPromise, AxiosResponse } from 'axios';
 import { session, TASKS_APP } from './session';
 import { HTTPMethods } from './types';
 
@@ -20,8 +20,8 @@ export default {
         prefix = TASKS_APP;
       }
       session.get<T>(`${prefix}/${requestUrl}/`, { params })
-        .then((response: AxiosResponse<T>) => resolve(response))
-        .catch((error: AxiosError) => reject(error));
+        .then(resolve)
+        .catch(reject);
     });
   },
   /**
@@ -45,8 +45,8 @@ export default {
       const data: T = sendData;
       const url: string = `${prefix}/${requestUrl}/`;
       session({ method, data, url })
-        .then((response: AxiosResponse<T>) => resolve(response))
-        .catch((error: AxiosError) => reject(error));
+        .then(resolve)
+        .catch(reject);
     });
   },
 };

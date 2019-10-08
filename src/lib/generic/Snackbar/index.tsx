@@ -5,7 +5,7 @@ import { CheckCircle, Error, Info, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import React, { ComponentType, FC } from 'react';
-import { styles } from './styles';
+import styles from './styles';
 import { IProps, IVariantIcons, IWrapperProps } from './types';
 
 const useStyles = makeStyles(styles);

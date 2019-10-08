@@ -2,7 +2,7 @@ import { Theme } from '@material-ui/core';
 import { amber, green } from '@material-ui/core/colors';
 import { createStyles, StyleRules } from '@material-ui/styles';
 
-export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
+const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   statusIcon: {
     fontSize: 35,
     opacity: 0.9,
@@ -28,3 +28,5 @@ export const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     marginLeft: theme.spacing(1),
   },
 });
+
+export default styles;

@@ -11,7 +11,7 @@ import Option from './components/Option';
 import Placeholder from './components/Placeholder';
 import SingleValue from './components/SingleValue';
 import ValueContainer from './components/ValueContainer';
-import { styles } from './styles';
+import styles from './styles';
 import { IInputValue, IProps } from './types';
 
 const useStyles = makeStyles(styles);

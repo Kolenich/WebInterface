@@ -6,7 +6,7 @@ import { ISelectItem } from 'lib/generic/Select/types';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse, ISelectElement } from 'lib/types';
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { styles } from './styles';
+import styles from './styles';
 import { IProps } from './types';
 
 const useStyles = makeStyles(styles);

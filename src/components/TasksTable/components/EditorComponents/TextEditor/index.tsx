@@ -2,7 +2,7 @@ import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { ISelectElement } from 'lib/types';
 import React, { ChangeEvent, FC } from 'react';
-import { styles } from './styles';
+import styles from './styles';
 import { IProps } from './types';
 
 const useStyles = makeStyles(styles);
