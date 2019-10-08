@@ -66,9 +66,23 @@ const Dialog: FC<IProps> =
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button color="primary" onClick={handleClick} icon="confirm">OK </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleClick}
+              icon="confirm"
+            >
+              OK
+            </Button>
             {status === 'warning' &&
-            <Button color="secondary" icon="cancel" onClick={onClose}>Отмена</Button>}
+            <Button
+              variant="contained"
+              color="secondary"
+              icon="cancel"
+              onClick={onClose}
+            >
+              Отмена
+            </Button>}
           </DialogActions>
         </>}
       </DialogBase>

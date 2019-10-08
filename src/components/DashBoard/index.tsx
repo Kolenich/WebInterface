@@ -27,6 +27,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import withNotification from 'decorators/notification';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';
@@ -45,13 +46,12 @@ const useStyles = makeStyles(styles);
  * Компонент панели
  * @constructor
  */
-const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
+const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX.Element => {
   const classes = useStyles();
 
-  const { setters, getters } = useContext<IContext>(Context);
+  const context = useContext<IContext>(Context);
 
-  const { openSnackbar } = setters;
-  const { dashBoardTitle } = getters;
+  const { dashBoardTitle } = context.getters;
 
   const completedSection: boolean = location.pathname === '/my-tasks/completed';
   const inProcessSection: boolean = location.pathname === '/my-tasks/in-process';
@@ -115,7 +115,7 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        openSnackbar!('error', message);
+        openSnackbar('error', message);
       });
   };
 
@@ -275,4 +275,4 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
   );
 };
 
-export default DashBoard;
+export default withNotification<IProps>(DashBoard);

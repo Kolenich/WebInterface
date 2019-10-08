@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import withNotification from 'decorators/notification';
 import api from 'lib/api';
 import DateField from 'lib/generic/DateField';
 import Loading from 'lib/generic/Loading';
@@ -10,7 +11,7 @@ import { TASKS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { styles } from './styles';
+import styles from './styles';
 import './styles.css';
 import { IProps, ITaskDetail } from './types';
 
@@ -19,12 +20,13 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент формы для отображения деталей задания
  * @param match передаваемые параметры в адресную строку
+ * @param openDialog Функция вызова диалогового окна
  * @constructor
  */
-const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
+const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
   const classes = useStyles();
 
-  const { setters, getters } = useContext<IContext>(Context);
+  const context = useContext<IContext>(Context);
 
   // Переменные состояния для задания
   const [task, setTask] = useState<ITaskDetail>({
@@ -44,8 +46,8 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
 
   const { id } = match.params;
 
-  const { updateDashBoardTitle, openDialog } = setters;
-  const { documentTitle } = getters;
+  const { updateDashBoardTitle } = context.setters;
+  const { documentTitle } = context.getters;
 
   const { summary, description, comment, dead_line, date_of_issue, done, assigned_by } = task;
 
@@ -68,7 +70,7 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
             message = SERVER_RESPONSES[error.response.status];
           }
         }
-        openDialog!('error', message);
+        openDialog('error', message);
       })
       .finally(() => setLoaded(true));
   };
@@ -78,21 +80,21 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
    * @param event
    */
   const handleSwitchChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    openDialog!('loading', '');
+    openDialog('loading', '');
     const { name, checked } = event.target;
     const data = { [name]: checked } as ITaskDetail;
     const { id } = task;
     api.sendContent(`task/${id}`, data, TASKS_APP, 'patch')
       .then((response: AxiosResponse<ITaskDetail>) => {
         setTask({ ...task, ...response.data, assigned_by });
-        openDialog!('success', SERVER_RESPONSES[response.status]);
+        openDialog('success', SERVER_RESPONSES[response.status]);
       })
       .catch((error: AxiosError) => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        openDialog!('error', message);
+        openDialog('error', message);
       });
   };
 
@@ -212,4 +214,4 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
   );
 };
 
-export default TaskDetail;
+export default withNotification<IProps>(TaskDetail);

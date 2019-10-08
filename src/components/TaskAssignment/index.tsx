@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import withNotification from 'decorators/notification';
 import api from 'lib/api';
 import Button from 'lib/generic/Button';
 import DateField from 'lib/generic/DateField';
@@ -21,7 +22,7 @@ import { SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { ValueType } from 'react-select/src/types';
-import { styles } from './styles';
+import styles from './styles';
 import './styles.css';
 import { IProps, ITask } from './types';
 
@@ -29,15 +30,16 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент формы для назначения задания
+ * @param openDialog функци вызова диалогового окна
  * @constructor
  */
-const TaskAssignment: FC<IProps> = (): JSX.Element => {
+const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   const classes = useStyles();
 
-  const { setters, getters } = useContext<IContext>(Context);
+  const context = useContext<IContext>(Context);
 
-  const { updateDashBoardTitle, openDialog } = setters;
-  const { documentTitle } = getters;
+  const { updateDashBoardTitle } = context.setters;
+  const { documentTitle } = context.getters;
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -98,10 +100,10 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
    * Функция отправка задачи на сервер
    */
   const submitTask = (): void => {
-    openDialog!('loading', '');
+    openDialog('loading', '');
     api.sendContent('assign-task', task)
       .then((response: AxiosResponse) => {
-        openDialog!('success', SERVER_RESPONSES[response.status]);
+        openDialog('success', SERVER_RESPONSES[response.status]);
         setTask({
           summary: '',
           description: '',
@@ -115,7 +117,7 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        openDialog!('error', message);
+        openDialog('error', message);
       });
   };
 
@@ -214,11 +216,13 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
             <Grid item xs={12} lg={9} />
             <Grid item xs="auto">
               <Button
-                text="Назначить"
+                variant="contained"
                 icon="add"
                 color="primary"
                 onClick={submitTask}
-              />
+              >
+                Назначить
+              </Button>
             </Grid>
           </Grid>
         </Paper>}
@@ -227,4 +231,4 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
   );
 };
 
-export default TaskAssignment;
+export default withNotification<IProps>(TaskAssignment);

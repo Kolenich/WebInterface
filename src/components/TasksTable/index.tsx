@@ -26,6 +26,7 @@ import {
 } from 'components/TasksTable/settings';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import withNotification from 'decorators/notification';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import Loading from 'lib/generic/Loading';
@@ -59,16 +60,17 @@ const useStyles = makeStyles(styles);
  * Компонент таблицы для отображения всех заданий у пользователя
  * @param history история в браузере
  * @param match передаваемые параметры в адресную строку
+ * @param openSnackbar функция вызова снэкбара
  * @constructor
  */
-const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
+const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element => {
   const classes = useStyles();
 
   const { filter } = match.params;
 
   const { setters, getters } = useContext<IContext>(Context);
 
-  const { updateDashBoardTitle, openSnackbar } = setters;
+  const { updateDashBoardTitle } = setters;
   const { documentTitle } = getters;
 
   // Переменные состояния основной таблицы
@@ -173,7 +175,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
           }
           message = SERVER_RESPONSES[status];
         }
-        openSnackbar!('error', message);
+        openSnackbar('error', message);
         setLoading(false);
       });
   };
@@ -268,4 +270,4 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   );
 };
 
-export default TasksTable;
+export default withNotification<IProps>(TasksTable);

@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import withNotification from 'decorators/notification';
 import auth from 'lib/auth';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -29,9 +30,10 @@ const useStyles = makeStyles(styles);
 /**
  * Компонента страницы входа в систему
  * @param history история в браузере
+ * @param openSnackbar функция для вызова снэкбара
  * @constructor
  */
-const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
+const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element => {
   const classes = useStyles();
 
   const context = useContext<IContext>(Context);
@@ -53,7 +55,6 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
 
   const { error, loading, remember } = status;
 
-  const { openSnackbar } = context.setters;
   const { documentTitle } = context.getters;
 
   useEffect(
@@ -112,7 +113,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
           // Убираем ошибку через 3 секунды
           setTimeout(() => setStatus({ ...status, error: false }), 3000);
         }
-        openSnackbar!('error', message);
+        openSnackbar('error', message);
       });
   };
 
@@ -199,4 +200,4 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
   );
 };
 
-export default SignInPage;
+export default withNotification<IProps>(SignInPage);

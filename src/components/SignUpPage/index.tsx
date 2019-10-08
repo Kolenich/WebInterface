@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import withNotification from 'decorators/notification';
 import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
@@ -30,12 +31,13 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент станицы регистрации
  * @param history история в браузере
+ * @param openSnackbar функция вызова снэкбара
  * @constructor
  */
-const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
+const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
   const classes = useStyles();
 
-  const { setters, getters } = useContext<IContext>(Context);
+  const context = useContext<IContext>(Context);
 
   // Набор переменных состояния для пользовательских данных
   const [account, setAccount] = useState<IAccount>({
@@ -57,8 +59,7 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
     password: false,
   });
 
-  const { openSnackbar } = setters;
-  const { documentTitle } = getters;
+  const { documentTitle } = context.getters;
 
   /**
    * Функция обработки изменений в текстовом поле
@@ -95,7 +96,7 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
     api.sendContent('user/registrate', sendData, USERS_APP)
       .then((response: AxiosResponse): void => {
         const { message } = response.data;
-        openSnackbar!('success', message);
+        openSnackbar('success', message);
         setLoading(false);
         // Через 2 секунды перенаправляем на страницу входа
         setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
@@ -105,7 +106,7 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
           const { message, errors: errorsList } = error.response.data;
           setErrors({ ...errors, ...errorsList });
           setLoading(false);
-          openSnackbar!('error', message);
+          openSnackbar('error', message);
           // Через 3 секунды гасим ошибки
           setTimeout(resetErrors, 3000);
         }
@@ -229,4 +230,4 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
   );
 };
 
-export default SignUpPage;
+export default withNotification<IProps>(SignUpPage);

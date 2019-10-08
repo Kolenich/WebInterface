@@ -11,6 +11,7 @@ module.exports = customizer.override(
         '^assets/*': './src/assets/*',
         '^router/*': './src/router/*',
         '^context/*': './src/context/*',
+        '^decorators/*': './src/decorators/*',
       },
     },
   ]),

@@ -1,7 +1,8 @@
+import { INotifications } from 'decorators/notification/types';
 import { ReactText } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-export interface IProps extends RouteComponentProps<IDetailParams> {
+export interface IProps extends RouteComponentProps<IDetailParams>, INotifications {
 }
 
 export interface ITaskDetail {
