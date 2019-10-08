@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
-import withNotification from 'decorators/notification';
+import { withNotification } from 'decorators';
 import api from 'lib/api';
 import Button from 'lib/generic/Button';
 import DateField from 'lib/generic/DateField';

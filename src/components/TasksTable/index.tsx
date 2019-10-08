@@ -26,7 +26,7 @@ import {
 } from 'components/TasksTable/settings';
 import { Context } from 'context';
 import { IContext } from 'context/types';
-import withNotification from 'decorators/notification';
+import { withNotification } from 'decorators';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import Loading from 'lib/generic/Loading';

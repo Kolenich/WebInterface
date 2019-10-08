@@ -27,7 +27,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { Context } from 'context';
 import { IContext } from 'context/types';
-import withNotification from 'decorators/notification';
+import { withNotification } from 'decorators';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';

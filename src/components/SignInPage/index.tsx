@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
-import withNotification from 'decorators/notification';
+import { withNotification } from 'decorators';
 import auth from 'lib/auth';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
