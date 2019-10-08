@@ -66,9 +66,10 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
 
   const { filter } = match.params;
 
-  const context = useContext<IContext>(Context);
+  const { setters, getters } = useContext<IContext>(Context);
 
-  const { documentTitle, updateDashBoardTitle, openSnackbar } = context;
+  const { updateDashBoardTitle, openSnackbar } = setters;
+  const { documentTitle } = getters;
 
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({

@@ -35,7 +35,7 @@ const useStyles = makeStyles(styles);
 const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
   const classes = useStyles();
 
-  const context = useContext<IContext>(Context);
+  const { setters, getters } = useContext<IContext>(Context);
 
   // Набор переменных состояния для пользовательских данных
   const [account, setAccount] = useState<IAccount>({
@@ -57,7 +57,8 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
     password: false,
   });
 
-  const { documentTitle, openSnackbar } = context;
+  const { openSnackbar } = setters;
+  const { documentTitle } = getters;
 
   /**
    * Функция обработки изменений в текстовом поле

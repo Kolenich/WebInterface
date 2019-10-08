@@ -48,9 +48,10 @@ const useStyles = makeStyles(styles);
 const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
   const classes = useStyles();
 
-  const context = useContext<IContext>(Context);
+  const { setters, getters } = useContext<IContext>(Context);
 
-  const { dashBoardTitle, openSnackbar } = context;
+  const { openSnackbar } = setters;
+  const { dashBoardTitle } = getters;
 
   const completedSection: boolean = location.pathname === '/my-tasks/completed';
   const inProcessSection: boolean = location.pathname === '/my-tasks/in-process';

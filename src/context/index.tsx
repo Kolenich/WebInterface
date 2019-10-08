@@ -1,13 +1,13 @@
+import Dialog from 'lib/generic/Dialog';
 import Snackbar from 'lib/generic/Snackbar';
 import { IVariantIcons } from 'lib/generic/Snackbar/types';
 import { IDialogProps, IDialogStatus, ISnackbarProps } from 'lib/types';
 import React, { createContext, FC, useState } from 'react';
 import Router from 'router';
-import Dialog from '../lib/generic/Dialog';
 import { IContext } from './types';
 
 // Глобальное хранилище (контекст)
-export const Context = createContext<IContext>({});
+export const Context = createContext<IContext>({} as IContext);
 
 /**
  * Класс провайдер для контекста
@@ -66,11 +66,15 @@ const Provider: FC<{}> = (): JSX.Element => {
   );
 
   const value: IContext = {
-    dashBoardTitle,
-    updateDashBoardTitle,
-    openSnackbar,
-    openDialog,
-    documentTitle: 'Ежедневник',
+    getters: {
+      dashBoardTitle,
+      documentTitle: 'Ежедневник',
+    },
+    setters: {
+      updateDashBoardTitle,
+      openSnackbar,
+      openDialog,
+    },
   };
 
   return (

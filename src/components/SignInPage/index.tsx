@@ -53,7 +53,8 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
 
   const { error, loading, remember } = status;
 
-  const { documentTitle, openSnackbar } = context;
+  const { openSnackbar } = context.setters;
+  const { documentTitle } = context.getters;
 
   useEffect(
     (): void => {

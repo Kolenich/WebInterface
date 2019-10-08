@@ -34,9 +34,10 @@ const useStyles = makeStyles(styles);
 const TaskAssignment: FC<IProps> = (): JSX.Element => {
   const classes = useStyles();
 
-  const context = useContext<IContext>(Context);
+  const { setters, getters } = useContext<IContext>(Context);
 
-  const { updateDashBoardTitle } = context;
+  const { updateDashBoardTitle, openDialog } = setters;
+  const { documentTitle } = getters;
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -52,8 +53,6 @@ const TaskAssignment: FC<IProps> = (): JSX.Element => {
 
   // Флаги загрузки данных
   const [loaded, setLoaded] = useState<boolean>(false);
-
-  const { documentTitle, openDialog } = context;
 
   const { summary, description, comment, dead_line, assigned_to } = task;
 

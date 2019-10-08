@@ -5,11 +5,11 @@ import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
 import DateField from 'lib/generic/DateField';
+import Loading from 'lib/generic/Loading';
 import { TASKS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import Loading from '../../lib/generic/Loading';
 import { styles } from './styles';
 import './styles.css';
 import { IProps, ITaskDetail } from './types';
@@ -24,7 +24,7 @@ const useStyles = makeStyles(styles);
 const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
   const classes = useStyles();
 
-  const context = useContext<IContext>(Context);
+  const { setters, getters } = useContext<IContext>(Context);
 
   // Переменные состояния для задания
   const [task, setTask] = useState<ITaskDetail>({
@@ -44,7 +44,8 @@ const TaskDetail: FC<IProps> = ({ match }): JSX.Element => {
 
   const { id } = match.params;
 
-  const { documentTitle, updateDashBoardTitle, openDialog } = context;
+  const { updateDashBoardTitle, openDialog } = setters;
+  const { documentTitle } = getters;
 
   const { summary, description, comment, dead_line, date_of_issue, done, assigned_by } = task;
 
