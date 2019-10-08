@@ -184,6 +184,13 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   const setDashBoardTitle = (): void => updateDashBoardTitle!(DASH_BOARD_TITLES[filter]);
 
   /**
+   * Функция установки заголовка HTML-страницы
+   */
+  const setDocumentTitle = (): void => {
+    document.title = `${documentTitle} | Мои задания`;
+  };
+
+  /**
    * Функция получения уникального идентификатора строки
    * @param row строка
    */
@@ -193,12 +200,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
 
   useEffect(setDashBoardTitle, [filter]);
 
-  useEffect(
-    (): void => {
-      document.title = `${documentTitle} | Мои задания`;
-    },
-    [documentTitle],
-  );
+  useEffect(setDocumentTitle, []);
 
   return (
     <ReactCSSTransitionGroup
