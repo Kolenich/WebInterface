@@ -1,4 +1,4 @@
-import { IVariantIcons } from 'lib/generic/Snackbar/types';
+import { IVariantIcons } from 'generic/Snackbar/types';
 import { IDialogStatus } from 'lib/types';
 
 export interface INotifications {

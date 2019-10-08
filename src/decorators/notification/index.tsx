@@ -1,6 +1,5 @@
-import Dialog from 'lib/generic/Dialog';
-import Snackbar from 'lib/generic/Snackbar';
-import { IVariantIcons } from 'lib/generic/Snackbar/types';
+import { Dialog, Snackbar } from 'generic';
+import { IVariantIcons } from 'generic/Snackbar/types';
 import { IDialogProps, IDialogStatus, ISnackbarProps } from 'lib/types';
 import React, { ComponentType, FC, useState } from 'react';
 import { INotifications } from './types';

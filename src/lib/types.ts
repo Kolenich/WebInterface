@@ -1,6 +1,6 @@
 import { DataTypeProviderProps, Filter, Sorting } from '@devexpress/dx-react-grid';
+import { IVariantIcons } from 'generic/Snackbar/types';
 import { ReactText } from 'react';
-import { IVariantIcons } from './generic/Snackbar/types';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
 

@@ -1,8 +1,8 @@
 import { FormControl, Input, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
+import { ISelectItem } from 'generic/Select/types';
 import api from 'lib/api';
-import { ISelectItem } from 'lib/generic/Select/types';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse, ISelectElement } from 'lib/types';
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';

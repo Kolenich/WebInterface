@@ -27,9 +27,9 @@ import {
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withNotification } from 'decorators';
+import { Loading } from 'generic';
 import api from 'lib/api';
 import auth from 'lib/auth';
-import Loading from 'lib/generic/Loading';
 import { TASKS_APP } from 'lib/session';
 import {
   filterRowMessages,
