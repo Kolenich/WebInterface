@@ -32,6 +32,8 @@ services:
       - 443:443
     networks:
       - web-server
+    depends_on:
+      - server
   server:
     volumes:
       - static:/app/static
@@ -45,6 +47,9 @@ services:
       - web-server
       - server-postgres
       - server-rabbitmq
+    depends_on:
+      - postgres
+      - rabbitmq
   postgres:
     restart: always
     container_name: postgres
