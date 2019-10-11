@@ -9,12 +9,12 @@
   transition: all 150ms linear;
 }
 
-.sub-header-leave {
+.sub-header-exit {
   opacity: 1;
   max-height: 48px;
 }
 
-.sub-header-leave.sub-header-leave-active {
+.sub-header-exit.sub-header-exit-active {
   opacity: 0.01;
   max-height: 0;
   transition: all 150ms linear;

@@ -1,10 +1,21 @@
-.task-table-appear {
+.task-table-enter {
   opacity: 0.01;
-  transform: translate(750px);
+  transform: translateY(750px);
 }
 
-.task-table-appear.task-table-appear-active {
-  transform: translate(0);
+.task-table-enter.task-table-enter-active {
+  transform: translateY(0);
   opacity: 1;
-  transition: all 500ms ease-out;
+  transition: all 500ms linear;
+}
+
+.task-table-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.task-table-exit.task-table-exit-active {
+  opacity: 0.01;
+  transform: translateY(750px);
+  transition: all 500ms linear;
 }

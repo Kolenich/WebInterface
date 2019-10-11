@@ -20,8 +20,8 @@ import { withNotification } from 'decorators';
 import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link as RouterLink } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styles from './styles';
 import './styles.css';
 import { IAccount, IErrors, IProps } from './types';
@@ -121,112 +121,108 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
   );
 
   return (
-    <ReactCSSTransitionGroup
-      transitionName="sign-up"
-      transitionAppear
-      transitionAppearTimeout={500}
-      transitionEnter={false}
-      transitionLeave={false}
-    >
-      <Container component="main" maxWidth="sm">
-        <CssBaseline />
-        <Typography component="div" className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlined />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Зарегистрироваться
-          </Typography>
-          <Typography component="form" className={classes.form}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="first_name"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  error={errors.first_name}
-                  label="Имя"
-                  value={account.first_name}
-                  onChange={handleTextChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="Фамилия"
-                  error={errors.last_name}
-                  name="last_name"
-                  value={account.last_name}
-                  onChange={handleTextChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="Электронная почта"
-                  error={errors.email}
-                  name="email"
-                  autoComplete="email"
-                  value={account.email}
-                  onChange={handleTextChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  error={errors.password}
-                  name="password"
-                  label="Пароль"
-                  type="password"
-                  autoComplete="current-password"
-                  value={account.password}
-                  onChange={handleTextChange}
-                />
-              </Grid>
-              <Grid item xs="auto">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={account.mailing}
-                      onChange={handleBooleanChange}
-                      name="mailing"
-                      color="primary"
-                    />
-                  }
-                  label="Получать оповещения на почту"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              disabled={loading}
-              onClick={handleSubmit}
-            >
+    <TransitionGroup>
+      <CSSTransition timeout={500} classNames="sign-up">
+        <Container component="main" maxWidth="sm">
+          <CssBaseline />
+          <Typography component="div" className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlined />
+            </Avatar>
+            <Typography component="h1" variant="h5">
               Зарегистрироваться
-              {loading &&
-              <CircularProgress size={15} className={classes.circularProgress} />}
-            </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link className={classes.link} component={RouterLink} to="/sign-in">
-                  Уже есть учётная запись? Войдите с её помощью
-                </Link>
+            </Typography>
+            <Typography component="form" className={classes.form}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    name="first_name"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    error={errors.first_name}
+                    label="Имя"
+                    value={account.first_name}
+                    onChange={handleTextChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    label="Фамилия"
+                    error={errors.last_name}
+                    name="last_name"
+                    value={account.last_name}
+                    onChange={handleTextChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    label="Электронная почта"
+                    error={errors.email}
+                    name="email"
+                    autoComplete="email"
+                    value={account.email}
+                    onChange={handleTextChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    error={errors.password}
+                    name="password"
+                    label="Пароль"
+                    type="password"
+                    autoComplete="current-password"
+                    value={account.password}
+                    onChange={handleTextChange}
+                  />
+                </Grid>
+                <Grid item xs="auto">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={account.mailing}
+                        onChange={handleBooleanChange}
+                        name="mailing"
+                        color="primary"
+                      />
+                    }
+                    label="Получать оповещения на почту"
+                  />
+                </Grid>
               </Grid>
-            </Grid>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                disabled={loading}
+                onClick={handleSubmit}
+              >
+                Зарегистрироваться
+                {loading &&
+                <CircularProgress size={15} className={classes.circularProgress} />}
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link className={classes.link} component={RouterLink} to="/sign-in">
+                    Уже есть учётная запись? Войдите с её помощью
+                  </Link>
+                </Grid>
+              </Grid>
+            </Typography>
           </Typography>
-        </Typography>
-      </Container>
-    </ReactCSSTransitionGroup>
+        </Container>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 

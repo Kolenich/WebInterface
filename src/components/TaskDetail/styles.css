@@ -9,12 +9,12 @@
   transition: all 500ms linear;
 }
 
-.task-detail-leave {
+.task-detail-exit {
   transform: translateY(-500px);
   opacity: 1;
 }
 
-.task-detail-leave.task-detail-leave-active {
+.task-detail-exit.task-detail-exit-active {
   opacity: 0.01;
   transform: translateY(0);
   transition: all 500ms linear;

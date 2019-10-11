@@ -18,8 +18,8 @@ import { USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
 import { SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { ValueType } from 'react-select/src/types';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styles from './styles';
 import './styles.css';
 import { IProps, ITask } from './types';
@@ -136,13 +136,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   useEffect(setDashBoardTitle, []);
 
   return (
-    <>
-      <ReactCSSTransitionGroup
-        transitionName="task-assignment"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}
-      >
-        {loaded &&
+    <TransitionGroup>
+      {loaded &&
+      <CSSTransition timeout={500} classNames="task-assignment">
         <Paper className={classes.paper}>
           <Grid container spacing={2} alignItems="center" className={classes.container}>
             <Grid item xs={12} lg={2}>
@@ -223,9 +219,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
               </Button>
             </Grid>
           </Grid>
-        </Paper>}
-      </ReactCSSTransitionGroup>
-    </>
+        </Paper>
+      </CSSTransition>}
+    </TransitionGroup>
   );
 };
 

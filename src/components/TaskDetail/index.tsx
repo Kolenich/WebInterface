@@ -9,7 +9,7 @@ import api from 'lib/api';
 import { TASKS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styles from './styles';
 import './styles.css';
 import { IProps, ITaskDetail } from './types';
@@ -114,13 +114,9 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
   );
 
   return (
-    <>
-      <ReactCSSTransitionGroup
-        transitionName="task-detail"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}
-      >
-        {loaded &&
+    <TransitionGroup appear>
+      {/*{loaded &&*/}
+      <CSSTransition timeout={500} classNames="task-detail">
         <Paper className={classes.paper}>
           <Grid container spacing={2} className={classes.container}>
             <Grid item lg={3} xs={12}>
@@ -206,10 +202,10 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
               />
             </Grid>
           </Grid>
-        </Paper>}
+        </Paper>
         {!loaded && <Loading />}
-      </ReactCSSTransitionGroup>
-    </>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 

@@ -46,7 +46,7 @@ import {
   sortingParams,
 } from 'lib/utils';
 import React, { FC, ReactText, useContext, useEffect, useState } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
@@ -205,13 +205,7 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
   useEffect(setDocumentTitle, []);
 
   return (
-    <ReactCSSTransitionGroup
-      transitionName="task-table"
-      transitionEnter={false}
-      transitionLeave={false}
-      transitionAppear
-      transitionAppearTimeout={500}
-    >
+    <CSSTransition timeout={500} classNames="task-table">
       <Paper className={classes.paper}>
         <Grid
           rows={rows}
@@ -266,7 +260,7 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
         </Grid>
         {loading && <Loading />}
       </Paper>
-    </ReactCSSTransitionGroup>
+    </CSSTransition>
   );
 };
 

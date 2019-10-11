@@ -8,14 +8,3 @@
   opacity: 1;
   transition: all 500ms linear;
 }
-
-.task-assignment-leave {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.task-assignment-leave.task-assignment-leave-active {
-  opacity: 0.01;
-  transform: translateY(500px);
-  transition: all 500ms linear;
-}

@@ -33,8 +33,8 @@ import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import DashBoardRouter from 'router/DashBoardRouter';
 import styles from './styles';
 import './styles.css';
@@ -208,14 +208,12 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
           </Typography>
           <Divider />
           <List>
-            <ReactCSSTransitionGroup
-              transitionName="sub-header"
-              transitionEnterTimeout={150}
-              transitionLeaveTimeout={150}
-            >
+            <TransitionGroup>
               {drawerOpen &&
-              <ListSubheader inset disableGutters>Мои задания</ListSubheader>}
-            </ReactCSSTransitionGroup>
+              <CSSTransition timeout={150} classNames="sub-header">
+                <ListSubheader inset disableGutters>Мои задания</ListSubheader>
+              </CSSTransition>}
+            </TransitionGroup>
             <ListItem
               className={clsx(inProcessSection && classes.menuItemActive)}
               button
@@ -244,14 +242,12 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
           </List>
           <Divider />
           <List>
-            <ReactCSSTransitionGroup
-              transitionName="sub-header"
-              transitionEnterTimeout={150}
-              transitionLeaveTimeout={150}
-            >
+            <TransitionGroup>
               {drawerOpen &&
-              <ListSubheader inset disableGutters>Управление</ListSubheader>}
-            </ReactCSSTransitionGroup>
+              <CSSTransition timeout={150} classNames="sub-header">
+                <ListSubheader inset disableGutters>Управление</ListSubheader>
+              </CSSTransition>}
+            </TransitionGroup>
             <ListItem
               button
               className={clsx(assignSection && classes.menuItemActive)}
