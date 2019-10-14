@@ -99,7 +99,7 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
         openSnackbar('success', message);
         setLoading(false);
         // Через 2 секунды перенаправляем на страницу входа
-        setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
+        setTimeout((): void => history.push({ pathname: '/sign-in' }), 2000);
       })
       .catch((error: AxiosError): void => {
         if (error.response) {

@@ -61,7 +61,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    */
   const loadUsers = (): void => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => {
+      .then((response: AxiosResponse<IApiResponse<ISelectItem>>): void => {
         setUsers(response.data.results);
         setLoaded(true);
       })
@@ -81,7 +81,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    * Функция обработки изменений в текстовых полях
    * @param event событие изменения
    */
-  const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
     setTask({ ...task, [name]: value });
   };
@@ -90,7 +90,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    * Функция для обработки изменений в поле даты (Срок исполнения)
    * @param date
    */
-  const handleDeadLineChange = (date: MaterialUiPickersDate) => (
+  const handleDeadLineChange = (date: MaterialUiPickersDate): void => (
     setTask({ ...task, dead_line: date })
   );
 
@@ -100,7 +100,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   const submitTask = (): void => {
     openDialog('loading', '');
     api.sendContent('assign-task', task)
-      .then((response: AxiosResponse) => {
+      .then((response: AxiosResponse): void => {
         openDialog('success', SERVER_RESPONSES[response.status]);
         setTask({
           summary: '',
@@ -110,7 +110,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
           assigned_to: '',
         });
       })
-      .catch((error: AxiosError) => {
+      .catch((error: AxiosError): void => {
         let message: string = 'Сервер недоступен, попробуйте позже';
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
@@ -125,7 +125,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   const setDashBoardTitle = (): void => updateDashBoardTitle!('Назначить задание');
 
   useEffect(
-    () => {
+    (): void => {
       document.title = `${documentTitle} | Назначить задание`;
     },
     [documentTitle],

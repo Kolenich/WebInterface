@@ -43,7 +43,7 @@ const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProp
    */
   const setSelectOption = (): void => {
     const option: ValueType<ISelectItem> =
-      options.find((x: ISelectItem) => x.value === value);
+      options.find((x: ISelectItem): boolean => x.value === value);
     if (!option) {
       setOption(null);
     } else {

@@ -213,7 +213,7 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
           getRowId={getRowId}
           rootComponent={RootComponent}
         >
-          {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
+          {customDataTypes.map((props: ICustomDataTypeProviderProps): JSX.Element => (
             <DataTypeProvider {...props} />
           ))}
           <DragDropProvider />

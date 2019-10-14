@@ -33,7 +33,7 @@ const Select: FC<IProps> =
     /**
      * Функция установки ширины разреза в контуре поля для ярлыка
      */
-    const setInitialLabelWidth = () => {
+    const setInitialLabelWidth = (): void => {
       if (inputLabel.current) {
         setLabelWidth(inputLabel.current.offsetWidth);
       }
@@ -48,7 +48,9 @@ const Select: FC<IProps> =
           value={value}
           onChange={handleChange}
           input={<OutlinedInput labelWidth={labelWidth} id="select" />}>
-          {items.map(({ label, ...item }: ISelectItem) => <MenuItem {...item}>{label}</MenuItem>)}
+          {items.map(({ label, ...item }: ISelectItem): JSX.Element => (
+            <MenuItem {...item}>{label}</MenuItem>
+          ))}
         </SelectBase>
       </FormControl>
     );

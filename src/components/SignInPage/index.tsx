@@ -111,7 +111,7 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
           message = 'Неверные логин или пароль';
           setStatus({ ...status, error: true });
           // Убираем ошибку через 3 секунды
-          setTimeout(() => setStatus({ ...status, error: false }), 3000);
+          setTimeout((): void => setStatus({ ...status, error: false }), 3000);
         }
         openSnackbar('error', message);
       });

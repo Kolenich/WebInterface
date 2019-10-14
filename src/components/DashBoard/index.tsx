@@ -109,8 +109,8 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
    */
   const loadUser = (): void => {
     api.getContent<IProfileUser>('user-profile/user', {}, USERS_APP)
-      .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
-      .catch((error: AxiosError) => {
+      .then((response: AxiosResponse<IProfileUser>): void => setUser(response.data))
+      .catch((error: AxiosError): void => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];

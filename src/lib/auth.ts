@@ -16,7 +16,7 @@ export default {
   login(username: string, password: string, remember?: boolean): AxiosPromise<IAuthResponse> {
     return new Promise<AxiosResponse<IAuthResponse>>(((resolve, reject) => {
       session.post('auth/login/', { username, password })
-        .then((response: AxiosResponse<IAuthResponse>) => {
+        .then((response: AxiosResponse<IAuthResponse>): void => {
           const { key } = response.data;
           this.saveToken(key, remember);
           this.setHeader(key);

@@ -57,10 +57,8 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
    */
   const loadTask = (): void => {
     api.getContent<ITaskDetail>(`task-detail/${id}`)
-      .then((response: AxiosResponse<ITaskDetail>) => {
-        setTask(response.data);
-      })
-      .catch((error: AxiosError) => {
+      .then((response: AxiosResponse<ITaskDetail>): void => setTask(response.data))
+      .catch((error: AxiosError): void => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           if (error.response.data.message) {
@@ -71,7 +69,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
         }
         openDialog('error', message);
       })
-      .finally(() => setLoaded(true));
+      .finally((): void => setLoaded(true));
   };
 
   /**
@@ -84,11 +82,11 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
     const data = { [name]: checked } as ITaskDetail;
     const { id } = task;
     api.sendContent(`task/${id}`, data, TASKS_APP, 'patch')
-      .then((response: AxiosResponse<ITaskDetail>) => {
+      .then((response: AxiosResponse<ITaskDetail>): void => {
         setTask({ ...task, ...response.data, assigned_by });
         openDialog('success', SERVER_RESPONSES[response.status]);
       })
-      .catch((error: AxiosError) => {
+      .catch((error: AxiosError): void => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
@@ -107,7 +105,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
   useEffect(setDashBoardTitle, []);
 
   useEffect(
-    () => {
+    (): void => {
       document.title = `${documentTitle} | Задание №${id}`;
     },
     [documentTitle, id],
@@ -161,7 +159,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
                 withTime
                 readOnly
                 label="Дата назначения"
-                onChange={() => undefined}
+                onChange={(): void => undefined}
               />
             </Grid>
             <Grid item lg={10} xs={12} />
@@ -171,7 +169,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
                 withTime
                 readOnly
                 label="Срок исполнения"
-                onChange={() => undefined}
+                onChange={(): void => undefined}
               />
             </Grid>
             <Grid item lg={10} xs={12} />

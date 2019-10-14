@@ -31,7 +31,9 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps):
 
   const loadUsers = (): void => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => setUsers(response.data.results))
+      .then((response: AxiosResponse<IApiResponse<ISelectItem>>): void => (
+        setUsers(response.data.results)
+      ))
       .catch();
   };
 
@@ -52,7 +54,7 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps):
         onChange={onChange}
       >
         <MenuItem value=""><em>Сброс</em></MenuItem>
-        {users.map(({ label, ...choice }: ISelectItem) => (
+        {users.map(({ label, ...choice }: ISelectItem): JSX.Element => (
           <MenuItem {...choice}>{label}</MenuItem>
         ))}
       </Select>
