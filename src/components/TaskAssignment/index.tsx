@@ -156,7 +156,6 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
             </Grid>
             <Grid item xs={12} lg={9} />
             <Grid item xs={12} lg={4}>
-
               <TextField
                 value={description}
                 name="description"

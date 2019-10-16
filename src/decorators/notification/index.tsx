@@ -22,6 +22,7 @@ const withNotification =
       open: false,
       status: 'loading',
       message: '',
+      warningAcceptCallback: undefined,
     });
 
     /**
@@ -38,9 +39,14 @@ const withNotification =
      * Функция вызова диалогового окна
      * @param status статус вызываемого окна
      * @param message сообщение
+     * @param warningAcceptCallback функция-колбэк для принятия предупреждения
      */
-    const openDialog = (status: IDialogStatus, message: string = ''): void => (
-      setDialog({ status, message, open: true })
+    const openDialog = (
+      status: IDialogStatus,
+      message: string = '',
+      warningAcceptCallback?: () => void,
+    ): void => (
+      setDialog({ status, message, warningAcceptCallback, open: true })
     );
 
     /**

@@ -96,6 +96,8 @@ export interface IDialogProps {
   message: string;
   /** Статус снэкбара */
   status: IDialogStatus;
+  /** Функция-колбэк для обработки принятия предупреждения */
+  warningAcceptCallback?: () => void;
 }
 
 export interface IGetConfig {
