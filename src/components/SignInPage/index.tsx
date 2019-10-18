@@ -74,7 +74,7 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
   };
 
   /**
-   * Функция обработки изменения свича
+   * Функция обработки изменения чекбокса
    * @param event объект события изменения
    */
   const handleStatusChange = (event: ChangeEvent<HTMLInputElement>): void => {
