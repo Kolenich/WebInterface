@@ -5,6 +5,10 @@ const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   container: {
     height: window.innerHeight - 64,
   },
+  root: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
   card: {
     backgroundColor: theme.palette.background.paper,
     transition: theme.transitions.create('transform', {
@@ -13,7 +17,7 @@ const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     }),
     overflow: 'hidden',
     '&:hover': {
-      transform: 'scale(1.1)',
+      transform: 'scale(1.05)',
       cursor: 'pointer',
       backgroundColor: theme.palette.background.default,
     },
