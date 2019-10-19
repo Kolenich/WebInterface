@@ -209,4 +209,4 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
   );
 };
 
-export default withNotification<IProps>(TaskDetail);
+export default withNotification<IProps>({ withDialog: true })(TaskDetail);

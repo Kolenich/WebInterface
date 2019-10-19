@@ -224,4 +224,4 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   );
 };
 
-export default withNotification<IProps>(TaskAssignment);
+export default withNotification<IProps>({ withDialog: true })(TaskAssignment);

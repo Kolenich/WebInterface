@@ -226,4 +226,4 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
   );
 };
 
-export default withNotification<IProps>(SignUpPage);
+export default withNotification<IProps>({ withSnackbar: true })(SignUpPage);

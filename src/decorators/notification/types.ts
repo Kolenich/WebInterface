@@ -7,3 +7,10 @@ export interface INotifications {
   /** Функция для открытия снэкбара */
   openSnackbar: (variant: keyof IVariantIcons, message: string) => void;
 }
+
+export interface IOptions {
+  /** Флаг на подмешивание диалогового окна */
+  withDialog?: boolean;
+  /** Флаг на подмешивание снэкбара */
+  withSnackbar?: boolean;
+}

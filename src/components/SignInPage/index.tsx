@@ -196,4 +196,4 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
   );
 };
 
-export default withNotification<IProps>(SignInPage);
+export default withNotification<IProps>({ withSnackbar: true })(SignInPage);

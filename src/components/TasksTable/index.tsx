@@ -264,4 +264,4 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
   );
 };
 
-export default withNotification<IProps>(TasksTable);
+export default withNotification<IProps>({ withSnackbar: true })(TasksTable);

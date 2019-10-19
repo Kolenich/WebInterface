@@ -286,4 +286,4 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
   );
 };
 
-export default withNotification<IProps>(DashBoard);
+export default withNotification<IProps>({ withSnackbar: true })(DashBoard);
