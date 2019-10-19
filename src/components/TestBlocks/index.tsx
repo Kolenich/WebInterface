@@ -32,11 +32,12 @@ const TestBlocks: FC<IProps> = ({ match }): JSX.Element => {
       <Grid
         container
         alignItems="center"
+        spacing={5}
         className={classes.container}
         justify="space-around"
       >
         {cards.map(({ key, icon, title, subheader, image, imageTitle }: ICard): JSX.Element => (
-          <Grid item key={key}>
+          <Grid item xs="auto" key={key}>
             <Card className={classes.card}>
               <CardActionArea>
                 <CardHeader

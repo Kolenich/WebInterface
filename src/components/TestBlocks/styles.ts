@@ -20,6 +20,9 @@ const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   },
   cardImage: {
     width: 500,
+    [theme.breakpoints.down('sm')]: {
+      width: 250,
+    },
     height: 'auto',
   },
 });
