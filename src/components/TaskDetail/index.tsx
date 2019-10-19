@@ -112,98 +112,100 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
   );
 
   return (
-    <TransitionGroup appear>
-      {/*{loaded &&*/}
-      <CSSTransition timeout={500} classNames="task-detail">
-        <Paper className={classes.paper}>
-          <Grid container spacing={2} className={classes.container}>
-            <Grid item lg={3} xs={12}>
-              <TextField
-                value={summary}
-                variant="outlined"
-                fullWidth
-                label="Краткое описание"
-                InputProps={{ readOnly: true }}
-              />
+    <>
+      <TransitionGroup>
+        {loaded &&
+        <CSSTransition timeout={500} classNames="task-detail">
+          <Paper className={classes.paper}>
+            <Grid container spacing={2} className={classes.container}>
+              <Grid item lg={3} xs={12}>
+                <TextField
+                  value={summary}
+                  variant="outlined"
+                  fullWidth
+                  label="Краткое описание"
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+              <Grid item lg={9} xs={12} />
+              <Grid item lg={3} xs={12}>
+                <TextField
+                  value={description}
+                  variant="outlined"
+                  fullWidth
+                  label="Полное описание"
+                  InputProps={{ readOnly: true }}
+                  multiline
+                  rows={2}
+                />
+              </Grid>
+              <Grid item lg={9} xs={12} />
+              <Grid item lg={2} xs={12}>
+                <TextField
+                  value={
+                    task.id
+                      ? `${last_name} ${first_name}`
+                      : ''
+                  }
+                  variant="outlined"
+                  fullWidth
+                  label="Назначил"
+                  InputProps={{ readOnly: true }}
+                />
+              </Grid>
+              <Grid item lg={10} xs={12} />
+              <Grid item lg={2} xs={12}>
+                <DateField
+                  value={date_of_issue}
+                  withTime
+                  readOnly
+                  label="Дата назначения"
+                  onChange={(): void => undefined}
+                />
+              </Grid>
+              <Grid item lg={10} xs={12} />
+              <Grid item lg={2} xs={12}>
+                <DateField
+                  value={dead_line}
+                  withTime
+                  readOnly
+                  label="Срок исполнения"
+                  onChange={(): void => undefined}
+                />
+              </Grid>
+              <Grid item lg={10} xs={12} />
+              <Grid item lg={3} xs={12}>
+                <TextField
+                  value={comment}
+                  variant="outlined"
+                  fullWidth
+                  label="Комментарий"
+                  InputProps={{ readOnly: true }}
+                  multiline
+                  rows={3}
+                />
+              </Grid>
+              <Grid item lg={9} xs={12} />
+              <Grid item lg={2} xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={done}
+                      onChange={handleSwitchChange}
+                      name="done"
+                      color="primary"
+                      disabled={done || !task.id}
+                    />
+                  }
+                  label="Выполнено"
+                />
+              </Grid>
             </Grid>
-            <Grid item lg={9} xs={12} />
-            <Grid item lg={3} xs={12}>
-              <TextField
-                value={description}
-                variant="outlined"
-                fullWidth
-                label="Полное описание"
-                InputProps={{ readOnly: true }}
-                multiline
-                rows={2}
-              />
-            </Grid>
-            <Grid item lg={9} xs={12} />
-            <Grid item lg={2} xs={12}>
-              <TextField
-                value={
-                  task.id
-                    ? `${last_name} ${first_name}`
-                    : ''
-                }
-                variant="outlined"
-                fullWidth
-                label="Назначил"
-                InputProps={{ readOnly: true }}
-              />
-            </Grid>
-            <Grid item lg={10} xs={12} />
-            <Grid item lg={2} xs={12}>
-              <DateField
-                value={date_of_issue}
-                withTime
-                readOnly
-                label="Дата назначения"
-                onChange={(): void => undefined}
-              />
-            </Grid>
-            <Grid item lg={10} xs={12} />
-            <Grid item lg={2} xs={12}>
-              <DateField
-                value={dead_line}
-                withTime
-                readOnly
-                label="Срок исполнения"
-                onChange={(): void => undefined}
-              />
-            </Grid>
-            <Grid item lg={10} xs={12} />
-            <Grid item lg={3} xs={12}>
-              <TextField
-                value={comment}
-                variant="outlined"
-                fullWidth
-                label="Комментарий"
-                InputProps={{ readOnly: true }}
-                multiline
-                rows={3}
-              />
-            </Grid>
-            <Grid item lg={9} xs={12} />
-            <Grid item lg={2} xs={12}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={done}
-                    onChange={handleSwitchChange}
-                    name="done"
-                    color="primary"
-                    disabled={done || !task.id}
-                  />
-                }
-                label="Выполнено"
-              />
-            </Grid>
-          </Grid>
-        </Paper>
-        {!loaded && <Loading />}
-      </CSSTransition>
-    </TransitionGroup>
+          </Paper>
+        </CSSTransition>}
+      </TransitionGroup>
+      {!loaded && <Loading />}
+    </>
   );
 };
 

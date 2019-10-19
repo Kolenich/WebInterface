@@ -3,6 +3,7 @@ import {
   CssBaseline,
   Divider,
   Drawer,
+  Hidden,
   IconButton,
   List,
   ListItem,
@@ -10,19 +11,19 @@ import {
   ListItemText,
   ListSubheader,
   Menu,
+  Theme,
   Toolbar,
   Typography,
 } from '@material-ui/core';
 import {
   AddCircle,
   AssignmentTurnedIn as CompletedTasksIcon,
-  ChevronLeft,
   ExitToApp as LogOutIcon,
   Menu as MenuIcon,
   Person as AccountIcon,
   WatchLater as ProcessIcon,
 } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { Context } from 'context';
@@ -34,7 +35,6 @@ import { USERS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import DashBoardRouter from 'router/DashBoardRouter';
 import styles from './styles';
 import './styles.css';
@@ -48,6 +48,7 @@ const useStyles = makeStyles(styles);
  */
 const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX.Element => {
   const classes = useStyles();
+  const theme: Theme = useTheme<Theme>();
 
   const context = useContext<IContext>(Context);
 
@@ -123,19 +124,70 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
 
   useEffect(loadUser, []);
 
+  const drawer = (
+    <>
+      <Typography component="div" className={classes.toolbar} />
+      <Divider />
+      <List>
+        <ListSubheader inset disableGutters>Мои задания</ListSubheader>
+        <ListItem
+          className={clsx(inProcessSection && classes.menuItemActive)}
+          button
+          component={Link}
+          to="/my-tasks/in-process"
+          onClick={closeDrawer}
+        >
+          <ListItemIcon>
+            <ProcessIcon />
+          </ListItemIcon>
+          <ListItemText primary="В процессе" />
+        </ListItem>
+        <ListItem
+          button
+          className={clsx(completedSection && classes.menuItemActive)}
+          component={Link}
+          to="/my-tasks/completed"
+          onClick={closeDrawer}
+        >
+          <ListItemIcon>
+            <CompletedTasksIcon />
+          </ListItemIcon>
+          <ListItemText primary="Выполненные" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListSubheader inset disableGutters>Управление</ListSubheader>
+        <ListItem
+          button
+          className={clsx(assignSection && classes.menuItemActive)}
+          component={Link}
+          to="/assign"
+          onClick={closeDrawer}
+        >
+          <ListItemIcon>
+            <AddCircle />
+          </ListItemIcon>
+          <ListItemText primary="Назначить" />
+        </ListItem>
+      </List>
+    </>
+  );
+
   return (
     <>
       <Typography component="div" className={classes.root}>
         <CssBaseline />
-        <AppBar position="absolute"
-                className={clsx(classes.appBar, drawerOpen && classes.appBarShift)}>
-          <Toolbar className={classes.toolbar}>
+        <AppBar
+          position="absolute"
+          className={classes.appBar}
+        >
+          <Toolbar>
             <IconButton
-              edge="start"
               color="inherit"
               aria-label="open drawer"
               onClick={openDrawer}
-              className={clsx(classes.menuButton, drawerOpen && classes.menuButtonHidden)}
+              className={classes.navIconHide}
             >
               <MenuIcon />
             </IconButton>
@@ -194,74 +246,37 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
             </Menu>
           </Toolbar>
         </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !drawerOpen && classes.drawerPaperClose),
-          }}
-          open={drawerOpen}
-        >
-          <Typography component="div" className={classes.toolbarIcon}>
-            <IconButton onClick={closeDrawer}>
-              <ChevronLeft />
-            </IconButton>
-          </Typography>
-          <Divider />
-          <List>
-            <TransitionGroup>
-              {drawerOpen &&
-              <CSSTransition timeout={150} classNames="sub-header">
-                <ListSubheader inset disableGutters>Мои задания</ListSubheader>
-              </CSSTransition>}
-            </TransitionGroup>
-            <ListItem
-              className={clsx(inProcessSection && classes.menuItemActive)}
-              button
-              component={Link}
-              to="/my-tasks/in-process"
-              onClick={closeDrawer}
-            >
-              <ListItemIcon>
-                <ProcessIcon />
-              </ListItemIcon>
-              <ListItemText primary="В процессе" />
-            </ListItem>
-            <ListItem
-              button
-              className={clsx(completedSection && classes.menuItemActive)}
-              component={Link}
-              to="/my-tasks/completed"
-              onClick={closeDrawer}
-            >
-              <ListItemIcon>
-                <CompletedTasksIcon />
-              </ListItemIcon>
-              <ListItemText primary="Выполненные" />
-            </ListItem>
-
-          </List>
-          <Divider />
-          <List>
-            <TransitionGroup>
-              {drawerOpen &&
-              <CSSTransition timeout={150} classNames="sub-header">
-                <ListSubheader inset disableGutters>Управление</ListSubheader>
-              </CSSTransition>}
-            </TransitionGroup>
-            <ListItem
-              button
-              className={clsx(assignSection && classes.menuItemActive)}
-              component={Link}
-              to="/assign"
-              onClick={closeDrawer}
-            >
-              <ListItemIcon>
-                <AddCircle />
-              </ListItemIcon>
-              <ListItemText primary="Назначить" />
-            </ListItem>
-          </List>
-        </Drawer>
+        <Hidden mdUp>
+          <Drawer
+            variant="temporary"
+            anchor={theme.direction === 'rtl'
+              ? 'right'
+              : 'left'}
+            classes={{
+              paper: classes.drawerPaper,
+              root: classes.drawerRoot,
+            }}
+            onClose={closeDrawer}
+            open={drawerOpen}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden smDown implementation="css">
+          <Drawer
+            variant="permanent"
+            open
+            classes={{
+              paper: classes.drawerPaper,
+              root: classes.drawerRoot,
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
         <Typography component="main" className={classes.content}>
           <Typography component="div" className={classes.appBarSpacer} />
           <DashBoardRouter />
