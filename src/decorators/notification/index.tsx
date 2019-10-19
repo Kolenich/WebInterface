@@ -10,7 +10,7 @@ import { INotifications, IOptions } from './types';
  * @param withDialog флаг на подмешивание диалогового окна
  */
 const withNotification =
-  <T extends INotifications>({ withSnackbar = false, withDialog = false }: IOptions) =>
+  <T extends INotifications>({ withSnackbar, withDialog }: IOptions) =>
     (Component: ComponentType<T>): FC<T> => (props: T): JSX.Element => {
       // Переменные состояния для снэкбара
       const [snackbar, setSnackbar] = useState<ISnackbarProps>({

@@ -68,7 +68,7 @@ export interface IServerResponses {
 
 export interface ISelectElement {
   /** Имя в DOM-элементе */
-  name?: string | undefined;
+  name?: string;
   /** Значение в DOM-элементе */
   value: unknown;
 }
