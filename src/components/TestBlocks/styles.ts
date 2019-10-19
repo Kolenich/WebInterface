@@ -13,10 +13,14 @@ const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
     }),
     overflow: 'hidden',
     '&:hover': {
-      transform: 'scale(1.2)',
+      transform: 'scale(1.1)',
       cursor: 'pointer',
       backgroundColor: theme.palette.background.default,
     },
+  },
+  cardImage: {
+    width: 500,
+    height: 'auto',
   },
 });
 

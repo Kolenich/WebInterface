@@ -2,13 +2,13 @@ import {
   AppBar,
   Avatar,
   Card,
+  CardActionArea,
   CardHeader,
+  CardMedia,
   Grid,
-  IconButton,
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { MoreVert } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import React, { createElement, FC } from 'react';
 import cards from './structure';
@@ -35,23 +35,27 @@ const TestBlocks: FC<IProps> = ({ match }): JSX.Element => {
         className={classes.container}
         justify="space-around"
       >
-        {cards.map(({ key, icon, title, subheader }: ICard): JSX.Element => (
+        {cards.map(({ key, icon, title, subheader, image, imageTitle }: ICard): JSX.Element => (
           <Grid item key={key}>
             <Card className={classes.card}>
-              <CardHeader
-                avatar={
-                  <Avatar className={classes.avatar}>
-                    {createElement(icon)}
-                  </Avatar>
-                }
-                action={
-                  <IconButton aria-label="settings">
-                    <MoreVert />
-                  </IconButton>
-                }
-                title={title}
-                subheader={subheader}
-              />
+              <CardActionArea>
+                <CardHeader
+                  avatar={
+                    <Avatar className={classes.avatar}>
+                      {createElement(icon)}
+                    </Avatar>
+                  }
+                  title={title}
+                  subheader={subheader}
+                />
+                <CardMedia
+                  className={classes.cardImage}
+                  component="img"
+                  alt={imageTitle}
+                  image={image}
+                  title={imageTitle}
+                />
+              </CardActionArea>
             </Card>
           </Grid>
         ))}

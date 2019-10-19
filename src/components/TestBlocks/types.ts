@@ -19,4 +19,8 @@ export interface ICard {
   title: string;
   /** Подзаголовок */
   subheader?: string;
+  /** Превью картинка */
+  image: string;
+  /** Заголовок при наведении на изображение */
+  imageTitle?: string;
 }
