@@ -15,9 +15,9 @@ server {
   index index.html;
   client_max_body_size 16M;
 
-  ssl_certificate /etc/letsencrypt/live/vps706754.ovh.net/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/vps706754.ovh.net/privkey.pem;
-  ssl_trusted_certificate /etc/letsencrypt/live/vps706754.ovh.net/chain.pem;
+  ssl_certificate /etc/letsencrypt/live/$server_name/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/$server_name/privkey.pem;
+  ssl_trusted_certificate /etc/letsencrypt/live/$server_name/chain.pem;
 
   gzip on;
   gzip_comp_level 5;
