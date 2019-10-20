@@ -44,11 +44,11 @@ const withNotification =
        * @param warningAcceptCallback функция-колбэк для принятия предупреждения
        */
       const openDialog = (
-        status: IDialogStatus,
-        message: string = '',
+        message: string,
+        status: IDialogStatus = 'success',
         warningAcceptCallback?: () => void,
       ): void => (
-        setDialog({ status, message, warningAcceptCallback, open: true })
+        setDialog({ message, status, warningAcceptCallback, open: true })
       );
 
       /**
@@ -56,8 +56,8 @@ const withNotification =
        * @param variant тип вызываемого снэкбара
        * @param message сообщение
        */
-      const openSnackbar = (variant: keyof IVariantIcons, message: string = ''): void => (
-        setSnackbar({ variant, message, open: true })
+      const openSnackbar = (message: string, variant: keyof IVariantIcons = 'info'): void => (
+        setSnackbar({ message, variant, open: true })
       );
 
       let notification: Partial<INotifications> = {};

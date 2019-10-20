@@ -98,10 +98,10 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    * Функция отправка задачи на сервер
    */
   const submitTask = (): void => {
-    openDialog('loading', '');
+    openDialog('', 'loading');
     api.sendContent('assign-task', task)
       .then((response: AxiosResponse): void => {
-        openDialog('success', SERVER_RESPONSES[response.status]);
+        openDialog(SERVER_RESPONSES[response.status], 'success');
         setTask({
           summary: '',
           description: '',
@@ -115,7 +115,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        openDialog('error', message);
+        openDialog(message, 'error');
       });
   };
 

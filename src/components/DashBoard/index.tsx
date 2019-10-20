@@ -116,7 +116,7 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        openSnackbar('error', message);
+        openSnackbar(message, 'error');
       });
   };
 

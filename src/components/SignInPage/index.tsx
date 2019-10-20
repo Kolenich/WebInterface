@@ -113,7 +113,7 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
           // Убираем ошибку через 3 секунды
           setTimeout((): void => setStatus({ ...status, error: false }), 3000);
         }
-        openSnackbar('error', message);
+        openSnackbar(message, 'error');
       });
   };
 

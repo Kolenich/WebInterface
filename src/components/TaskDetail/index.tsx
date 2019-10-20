@@ -67,7 +67,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
             message = SERVER_RESPONSES[error.response.status];
           }
         }
-        openDialog('error', message);
+        openDialog(message, 'error');
       })
       .finally((): void => setLoaded(true));
   };
@@ -77,21 +77,21 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
    * @param event
    */
   const handleSwitchChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    openDialog('loading', '');
+    openDialog('', 'loading');
     const { name, checked } = event.target;
     const data = { [name]: checked } as ITaskDetail;
     const { id } = task;
     api.sendContent(`task/${id}`, data, TASKS_APP, 'patch')
       .then((response: AxiosResponse<ITaskDetail>): void => {
         setTask({ ...task, ...response.data, assigned_by });
-        openDialog('success', SERVER_RESPONSES[response.status]);
+        openDialog(SERVER_RESPONSES[response.status], 'success');
       })
       .catch((error: AxiosError): void => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        openDialog('error', message);
+        openDialog(message, 'error');
       });
   };
 

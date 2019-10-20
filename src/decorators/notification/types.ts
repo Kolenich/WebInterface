@@ -3,9 +3,9 @@ import { IDialogStatus } from 'lib/types';
 
 export interface INotifications {
   /** Функция для открытия диалогового окна */
-  openDialog: (status: IDialogStatus, message: string, warningAcceptCallback?: () => void) => void;
+  openDialog: (message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => void;
   /** Функция для открытия снэкбара */
-  openSnackbar: (variant: keyof IVariantIcons, message: string) => void;
+  openSnackbar: (message: string, variant: keyof IVariantIcons) => void;
 }
 
 export interface IOptions {

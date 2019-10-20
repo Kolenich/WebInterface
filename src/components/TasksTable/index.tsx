@@ -163,7 +163,6 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
       .then((response: AxiosResponse<IApiResponse<IRow>>): void => {
         const { results, count } = response.data;
         setTable({ ...table, rows: results, totalCount: count });
-        setLoading(false);
       })
       .catch((error: AxiosError): void => {
         let message: string = SERVER_NOT_AVAILABLE;
@@ -175,9 +174,9 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
           }
           message = SERVER_RESPONSES[status];
         }
-        openSnackbar('error', message);
-        setLoading(false);
-      });
+        openSnackbar(message, 'error');
+      })
+      .finally(() => setLoading(false));
   };
 
   /**
