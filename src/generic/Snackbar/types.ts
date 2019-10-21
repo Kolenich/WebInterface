@@ -1,6 +1,5 @@
 import { SnackbarContentProps } from '@material-ui/core/SnackbarContent';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { ComponentType } from 'react';
+import { SvgIconComponent } from '@material-ui/icons';
 
 export interface IWrapperProps extends SnackbarContentProps {
   /** Сообщение снэкбара */
@@ -18,13 +17,13 @@ export interface IProps extends IWrapperProps {
 
 export interface IVariantIcons {
   /** Иконка для успешного статуса */
-  success: ComponentType<SvgIconProps>;
+  success: SvgIconComponent;
   /** Иконка для статуса с предупреждением */
-  warning: ComponentType<SvgIconProps>;
+  warning: SvgIconComponent;
   /** Иконка для статуса ошибки */
-  error: ComponentType<SvgIconProps>;
+  error: SvgIconComponent;
   /** Иконка для статуса с информацией */
-  info: ComponentType<SvgIconProps>;
+  info: SvgIconComponent;
 
-  [index: string]: ComponentType<SvgIconProps>;
+  [index: string]: SvgIconComponent;
 }

@@ -1,10 +1,9 @@
 import { Grow, Snackbar as SnackbarBase, SnackbarContent, Typography } from '@material-ui/core';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { CheckCircle, Error, Info, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import React, { ComponentType, FC } from 'react';
+import React, { FC } from 'react';
 import styles from './styles';
 import { IProps, IVariantIcons, IWrapperProps } from './types';
 
@@ -40,7 +39,7 @@ const TransitionComponent: FC<TransitionProps> = (props: TransitionProps): JSX.E
 const SnackbarContentWrapper: FC<IWrapperProps> =
   ({ message, onClose, variant, ...props }: IWrapperProps): JSX.Element => {
     const classes = useStyles();
-    const Icon: ComponentType<SvgIconProps> = variantIcon[variant];
+    const Icon: SvgIconComponent = variantIcon[variant];
     return (
       <SnackbarContent
         className={clsx(classes[variant], classes.snackbar)}

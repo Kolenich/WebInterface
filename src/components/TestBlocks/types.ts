@@ -1,5 +1,4 @@
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { ComponentType } from 'react';
+import { SvgIconComponent } from '@material-ui/icons';
 import { RouteComponentProps } from 'react-router';
 
 export interface IProps extends RouteComponentProps<IParams> {
@@ -14,7 +13,7 @@ export interface ICard {
   /** Ключ карточки в массиве */
   key: number;
   /** Иконка */
-  icon: ComponentType<SvgIconProps>;
+  icon: SvgIconComponent;
   /** Заголовок */
   title: string;
   /** Подзаголовок */
