@@ -125,7 +125,7 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
     [documentTitle],
   );
 
-  useEffect(() => setLoaded(true), []);
+  useEffect((): void => setLoaded(true), []);
 
   return (
     <Zoom in={loaded} timeout={750}>
