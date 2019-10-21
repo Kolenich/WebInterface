@@ -2,18 +2,22 @@ import {
   AppBar,
   Avatar,
   Card,
-  CardActionArea,
+  CardContent,
   CardHeader,
-  CardMedia,
   Grid,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   Toolbar,
   Typography,
 } from '@material-ui/core';
+import { Check, Close } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import React, { createElement, FC } from 'react';
 import cards from './structure';
 import styles from './styles';
-import { ICard, IProps } from './types';
+import { ICard, IProps, IStep } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -36,27 +40,39 @@ const TestBlocks: FC<IProps> = ({ match }): JSX.Element => {
           className={classes.container}
           justify="space-evenly"
         >
-          {cards.map(({ key, icon, title, subheader, image, imageTitle }: ICard): JSX.Element => (
+          {cards.map(({ key, icon, title, subheader, steps }: ICard): JSX.Element => (
             <Grid item xs="auto" key={key}>
               <Card className={classes.card}>
-                <CardActionArea>
-                  <CardHeader
-                    avatar={
-                      <Avatar className={classes.avatar}>
-                        {createElement(icon)}
-                      </Avatar>
-                    }
-                    title={title}
-                    subheader={subheader}
-                  />
-                  <CardMedia
-                    className={classes.cardImage}
-                    component="img"
-                    alt={imageTitle}
-                    image={image}
-                    title={imageTitle}
-                  />
-                </CardActionArea>
+                <CardHeader
+                  avatar={
+                    <Avatar className={classes.avatar}>
+                      {createElement(icon)}
+                    </Avatar>
+                  }
+                  title={title}
+                  subheader={subheader}
+                />
+                <CardContent>
+                  <List>
+                    {steps.map(({ title, completed, key }: IStep) => (
+                      <ListItem key={key}>
+                        <ListItemAvatar>
+                          <Avatar className={completed
+                            ? classes.completed
+                            : classes.inCompleted}
+                          >
+                            {completed
+                              ? <Check />
+                              : <Close />}
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText>
+                          {title}
+                        </ListItemText>
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
               </Card>
             </Grid>
           ))}

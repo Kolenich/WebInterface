@@ -18,8 +18,15 @@ export interface ICard {
   title: string;
   /** Подзаголовок */
   subheader?: string;
-  /** Превью картинка */
-  image: string;
-  /** Заголовок при наведении на изображение */
-  imageTitle?: string;
+  /** Показываемые шаги */
+  steps: IStep[];
+}
+
+export interface IStep {
+  /** Ключ шага */
+  key: number;
+  /** Заголовок */
+  title: string;
+  /** Выполнен ли шаг */
+  completed: boolean;
 }
