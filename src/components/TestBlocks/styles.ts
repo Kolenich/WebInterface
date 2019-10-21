@@ -12,6 +12,7 @@ const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   card: {
     borderRadius: 10,
     width: 350,
+    height: 400,
     backgroundColor: theme.palette.background.default,
     boxShadow: theme.shadows[0],
     transition: theme.transitions.create('all', {
