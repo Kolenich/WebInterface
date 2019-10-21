@@ -53,7 +53,7 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
   });
 
   // Переменная состояния загрузки страницы
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   const { email, password } = login;
 
@@ -121,10 +121,10 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
       });
   };
 
-  useEffect((): void => setLoaded(true), []);
+  useEffect((): void => setMounted(true), []);
 
   return (
-    <Zoom in={loaded} timeout={750}>
+    <Zoom in={mounted} timeout={750}>
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>

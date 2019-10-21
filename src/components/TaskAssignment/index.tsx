@@ -52,7 +52,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   const [users, setUsers] = useState<ISelectItem[]>([]);
 
   // Флаги загрузки данных
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   const { summary, description, comment, dead_line, assigned_to } = task;
 
@@ -63,7 +63,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
       .then((response: AxiosResponse<IApiResponse<ISelectItem>>): void => {
         setUsers(response.data.results);
-        setLoaded(true);
+        setMounted(true);
       })
       .catch();
   };
@@ -136,7 +136,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   useEffect(setDashBoardTitle, []);
 
   return (
-    <Collapse in={loaded} timeout={750}>
+    <Collapse in={mounted} timeout={750}>
       <Paper className={classes.paper}>
         <Grid container spacing={2} alignItems="center" className={classes.container}>
           <Grid item xs={12} lg={2}>

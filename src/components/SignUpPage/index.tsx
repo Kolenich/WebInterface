@@ -53,7 +53,7 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
 
   // Переменная состояния загрузки страницы
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   // Набор переменных состояния для ошибок
   const [errors, setErrors] = useState<IErrors>({
@@ -123,10 +123,10 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
     [documentTitle],
   );
 
-  useEffect((): void => setLoaded(true), []);
+  useEffect((): void => setMounted(true), []);
 
   return (
-    <Zoom in={loaded} timeout={750}>
+    <Zoom in={mounted} timeout={750}>
       <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Typography component="div" className={classes.paper}>

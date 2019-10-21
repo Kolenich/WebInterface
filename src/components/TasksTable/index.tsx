@@ -91,7 +91,7 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
   // Переменная состояния загрузки
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   const [settings] = useState<IColumnSettings>(tableSettings);
 
@@ -208,8 +208,8 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
       })
       .finally((): void => {
         setLoading(false);
-        if (!loaded) {
-          setLoaded(true);
+        if (!mounted) {
+          setMounted(true);
         }
       });
   };
@@ -241,7 +241,7 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
 
   return (
     <>
-      <Fade in={loaded} timeout={750}>
+      <Fade in={mounted} timeout={750}>
         <Paper className={classes.paper}>
           <Grid
             rows={rows}
