@@ -11,7 +11,7 @@ export const Context = createContext<IContext>({} as IContext);
  * @returns {JSX.Element}
  * @constructor
  */
-const Provider: FC<{}> = ({ children }): JSX.Element => {
+const ContextProvider: FC<{}> = ({ children }): JSX.Element => {
   // Заголовок для панели
   const [dashBoardTitle, setDashBoardTitle] = useState<string>('');
 
@@ -38,4 +38,4 @@ const Provider: FC<{}> = ({ children }): JSX.Element => {
   );
 };
 
-export default Provider;
+export default ContextProvider;
