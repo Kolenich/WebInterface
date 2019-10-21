@@ -51,7 +51,6 @@ import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
-import './styles.css';
 import { IColumnSettings, IProps, IRow } from './types';
 
 const useStyles = makeStyles(styles);

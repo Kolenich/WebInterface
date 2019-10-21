@@ -37,7 +37,6 @@ import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashBoardRouter from 'router/DashBoardRouter';
 import styles from './styles';
-import './styles.css';
 import { IProfileUser, IProps } from './types';
 
 const useStyles = makeStyles(styles);

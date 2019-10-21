@@ -23,7 +23,6 @@ import { USERS_APP } from 'lib/session';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
-import './styles.css';
 import { IAccount, IErrors, IProps } from './types';
 
 const useStyles = makeStyles(styles);
