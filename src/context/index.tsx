@@ -1,21 +1,23 @@
 import React, { createContext, FC, useState } from 'react';
-import Router from 'router';
 import { IContext } from './types';
 
 // Глобальное хранилище (контекст)
 export const Context = createContext<IContext>({} as IContext);
 
 /**
- * Класс провайдер для контекста
+ *
+ * @param {React.ReactElement<any, string | React.JSXElementConstructor<any>> children дочерний
+ * компонент, который получит данные из контекста
+ * @returns {JSX.Element}
  * @constructor
  */
-const Provider: FC<{}> = (): JSX.Element => {
+const Provider: FC<{}> = ({ children }): JSX.Element => {
   // Заголовок для панели
   const [dashBoardTitle, setDashBoardTitle] = useState<string>('');
 
   /**
    * Функция-обертка для установки активного заголовка панели
-   * @param title устанавливаемый заголовок
+   * @param {string} title устанавливаемый заголовок
    */
   const updateDashBoardTitle = (title: string): void => setDashBoardTitle(title);
 
@@ -31,7 +33,7 @@ const Provider: FC<{}> = (): JSX.Element => {
 
   return (
     <Context.Provider value={value}>
-      <Router />
+      {children}
     </Context.Provider>
   );
 };

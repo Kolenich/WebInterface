@@ -9,7 +9,8 @@ const useStyles = makeStyles(styles);
 
 /**
  * Кастомный компонент строки в таблице
- * @param props остальные пропсы
+ * @param {IProps} props остальные пропсы
+ * @returns {JSX.Element}
  * @constructor
  */
 const RowComponent: FC<IProps> = (props: IProps): JSX.Element => {

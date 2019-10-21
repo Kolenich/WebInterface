@@ -14,12 +14,18 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент фильтрации по дате
- * @param onValueChange функция, обрабатывающая изменение в поле
- * @param value значение в поле
+ * @param {(newValue: any) => void} onValueChange функция, обрабатывающая изменение в поле
+ * @param {any} value значение в поле
+ * @returns {JSX.Element}
  * @constructor
  */
 const DateTimeEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
   const classes = useStyles();
+
+  /**
+   * Функция обработки изменений в поле с датой
+   * @param {MaterialUiPickersDate} date новая дата
+   */
   const handleChange = (date: MaterialUiPickersDate): void => {
     let value: null | Date = null;
     if (date) {

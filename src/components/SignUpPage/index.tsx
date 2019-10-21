@@ -30,8 +30,10 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент станицы регистрации
- * @param history история в браузере
- * @param openSnackbar функция вызова снэкбара
+ * @param {History<LocationState>} history история в браузере
+ * @param {(message: string, variant: keyof IVariantIcons) => void} openSnackbar функция вызова
+ * снэкбара
+ * @returns {JSX.Element}
  * @constructor
  */
 const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
@@ -63,7 +65,7 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
 
   /**
    * Функция обработки изменений в текстовом поле
-   * @param event событие изменения
+   * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -72,7 +74,7 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
 
   /**
    * Функция обработки изменений булевских значений
-   * @param event событие изменения
+   * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = event.target;

@@ -14,12 +14,13 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент селекта
- * @param classes стили
- * @param handleChange функция, отвечающая за изменение значения селекта
- * @param items список выбора селекта
- * @param value текущее значение селекта
- * @param label ярлык селекта
- * @param required пометка обязательного поля
+ * @param {(event: React.ChangeEvent<ISelectElement>) => void} handleChange handleChange функция,
+ * отвечающая за изменение значения селекта
+ * @param {ISelectItem[]} items список выбора селекта
+ * @param {never} value текущее значение селекта
+ * @param {string} label ярлык селекта
+ * @param {boolean | undefined} required пометка обязательного поля
+ * @returns {JSX.Element}
  * @constructor
  */
 const Select: FC<IProps> =

@@ -44,6 +44,11 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент панели
+ * @param {History<LocationState>} history история в браузере
+ * @param {Location<{}> location текущий адрес с параметрами
+ * @param {(message: string, variant: keyof IVariantIcons) => void} openSnackbar функция вызова
+ * снэкбара
+ * @returns {JSX.Element}
  * @constructor
  */
 const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX.Element => {
@@ -82,11 +87,9 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
 
   /**
    * Функция, открывающая меню
-   * @param currentTarget текущий элемент для привязки
+   * @param {React.MouseEvent<HTMLButtonElement>} event текущий элемент для привязки
    */
-  const openMenu = ({ currentTarget }: MouseEvent<HTMLButtonElement>): void => (
-    setAnchorEl(currentTarget)
-  );
+  const openMenu = (event: MouseEvent<HTMLButtonElement>): void => setAnchorEl(event.currentTarget);
 
   /**
    * Функция, закрывающая меню

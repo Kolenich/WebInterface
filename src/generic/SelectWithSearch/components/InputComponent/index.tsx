@@ -2,9 +2,12 @@ import React, { FC } from 'react';
 import { IProps } from './types';
 
 /**
- * Комопнент ввода в селекте
- * @param inputRef сслыка в DOM
- * @param props остальные пропсы
+ * Компонент ввода в селекте
+ * @param {((instance: (any | null)) => void) | React.RefObject<any> | null | undefined} inputRef
+ * ссылка в DOM
+ * @param {IProps} props остальные пропсы
+ * @returns {JSX.Element}
+ * @constructor
  */
 const InputComponent: FC<IProps> = ({ inputRef, ...props }: IProps): JSX.Element => (
   <div ref={inputRef} {...props} />

@@ -29,8 +29,10 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонента страницы входа в систему
- * @param history история в браузере
- * @param openSnackbar функция для вызова снэкбара
+ * @param {History<LocationState>} history история в браузере
+ * @param {(message: string, variant: keyof IVariantIcons) => void} openSnackbar функция для вызова
+ * снэкбара
+ * @returns {JSX.Element}
  * @constructor
  */
 const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element => {
@@ -66,7 +68,7 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
 
   /**
    * Функция обработки изменений персональных данных
-   * @param event объект события изменения
+   * @param {React.ChangeEvent<HTMLInputElement>} event объект события изменения
    */
   const handleLoginChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -75,7 +77,7 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
 
   /**
    * Функция обработки изменения чекбокса
-   * @param event объект события изменения
+   * @param {React.ChangeEvent<HTMLInputElement>} event объект события изменения
    */
   const handleStatusChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = event.target;
@@ -84,7 +86,7 @@ const SignInPage: FC<IProps> = ({ history, openSnackbar }: IProps): JSX.Element 
 
   /**
    * Функция обработки нажатия на Enter
-   * @param event объект события изменения
+   * @param {React.KeyboardEvent<HTMLDivElement>} event объект события изменения
    */
   const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {

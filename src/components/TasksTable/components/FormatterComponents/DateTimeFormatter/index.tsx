@@ -5,7 +5,8 @@ import { IProps } from './types';
 
 /**
  * Форматтер для даты без времени
- * @param value значение
+ * @param {any} value значение
+ * @returns {JSX.Element}
  * @constructor
  */
 const DateTimeFormatter: FC<IProps> = ({ value }: IProps): JSX.Element => (

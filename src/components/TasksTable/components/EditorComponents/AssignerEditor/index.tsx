@@ -13,11 +13,12 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент фильтрации по заказчику
- * @param onValueChange функция для обработки изменений
- * @param value текущее значение
+ * @param {(newValue: any) => void} onValueChange функция для обработки изменений
+ * @param {any} value текущее значение
+ * @returns {JSX.Element}
+ * @constructor
  */
-const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps):
-  JSX.Element => {
+const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
   const classes = useStyles();
 
   const [users, setUsers] = useState<ISelectItem[]>([]);
@@ -27,8 +28,15 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps):
     displayValue = value;
   }
 
+  /**
+   * Функция обработки изменений
+   * @param {React.ChangeEvent<ISelectElement>} event объект события изменени/
+   */
   const onChange = (event: ChangeEvent<ISelectElement>): void => onValueChange(event.target.value);
 
+  /**
+   * Функция выгрущзки всех юзеров в селект
+   */
   const loadUsers = (): void => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
       .then((response: AxiosResponse<IApiResponse<ISelectItem>>): void => (
@@ -37,10 +45,7 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps):
       .catch();
   };
 
-  useEffect(
-    loadUsers,
-    [],
-  );
+  useEffect(loadUsers, []);
 
   return (
     <FormControl fullWidth>

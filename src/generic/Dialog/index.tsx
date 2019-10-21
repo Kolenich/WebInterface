@@ -18,11 +18,12 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент окна статуса
- * @param open флаг на открытие/закрытие
- * @param status отображаемый статус
- * @param message отображаемое сообщение
- * @param onClose функция, закрывающая окно
- * @param warningAcceptCallback функция-колбэк для отработки действий в случае, когда статус warning
+ * @param open {Boolean} флаг на открытие/закрытие
+ * @param status {'success'|'error'|'warning'|'loading'} отображаемый статус
+ * @param message {String} отображаемое сообщение
+ * @param onClose {Function} функция, закрывающая окно
+ * @param warningAcceptCallback {Function} функция-колбэк для отработки действий в случае,
+ * когда статус warning
  * @constructor
  */
 const Dialog: FC<IProps> =

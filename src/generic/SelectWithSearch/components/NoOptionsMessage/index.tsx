@@ -4,9 +4,12 @@ import { IProps } from './types';
 
 /**
  * Компонент отображения сообщения "Данных нет"
- * @param selectProps пропсы селекта
- * @param children дочерние компонеты
- * @param innerProps внутренние пропсы
+ * @param {Props<ISelectItem>} selectProps пропсы селекта
+ * @param {React.ReactElement<any, string | React.JSXElementConstructor<any>>} children дочерние
+ * компонеты
+ * @param {{[p: string]: any}} innerProps внутренние пропсы
+ * @returns {JSX.Element}
+ * @constructor
  */
 const NoOptionsMessage: FC<IProps> =
   ({ selectProps, children, innerProps }: IProps): JSX.Element => (

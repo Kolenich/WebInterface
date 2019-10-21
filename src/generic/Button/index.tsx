@@ -8,10 +8,13 @@ import { IProps } from './types';
 const useStyles = makeStyles(styles);
 
 /**
- * Кастомная кнопка
- * @param children дочерний элемент (текст)
- * @param icon иконка кнопки
- * @param props
+ *Кастомная кнопка
+ * @param {"save" | "add" | "confirm" | "update" | "edit" | "delete" | "cancel" | undefined} icon
+ * дочерний элемент (текст)
+ * @param {React.ReactElement<any, string | React.JSXElementConstructor<any>>} children иконка
+ * кнопки
+ * @param {Partial<IProps>} props остальные пропсы
+ * @returns {JSX.Element}
  * @constructor
  */
 const Button: FC<IProps> = ({ icon, children, ...props }: IProps): JSX.Element => {

@@ -28,7 +28,9 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент формы для назначения задания
- * @param openDialog функци вызова диалогового окна
+ * @param {(message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => void}
+ * openDialog функция вызова диалогового окна
+ * @returns {JSX.Element}
  * @constructor
  */
 const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
@@ -69,8 +71,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   };
 
   /**
-   * Функция обработки изменени  в селекте
-   * @param option
+   * Функция обработки изменени в селекте
+   * @param {ValueType<ISelectItem>} option выбранная опция
    */
   const handleSelectChange = (option: ValueType<ISelectItem>): void => {
     const { value } = option as ISelectItem;
@@ -79,7 +81,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
 
   /**
    * Функция обработки изменений в текстовых полях
-   * @param event событие изменения
+   * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
@@ -88,7 +90,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
 
   /**
    * Функция для обработки изменений в поле даты (Срок исполнения)
-   * @param date
+   * @param {MaterialUiPickersDate} date новая дата
    */
   const handleDeadLineChange = (date: MaterialUiPickersDate): void => (
     setTask({ ...task, dead_line: date })

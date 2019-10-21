@@ -1,6 +1,6 @@
 import { Grow, Snackbar as SnackbarBase, SnackbarContent, Typography } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
-import { CheckCircle, Error, Info, Warning } from '@material-ui/icons';
+import { CheckCircle, Error, Info, SvgIconComponent, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import React, { FC } from 'react';
@@ -21,7 +21,8 @@ export const variantIcon: IVariantIcons = {
 
 /**
  * Компонент, отвечающий за анимацию появления и исчезновения снэкбара
- * @param props передаваемые пропсы
+ * @param {TransitionProps} props передаваемые пропсы
+ * @returns {JSX.Element}
  * @constructor
  */
 const TransitionComponent: FC<TransitionProps> = (props: TransitionProps): JSX.Element => (
@@ -30,10 +31,11 @@ const TransitionComponent: FC<TransitionProps> = (props: TransitionProps): JSX.E
 
 /**
  * Компонент-обертка для содержимого снэкбара
- * @param message сообщение снэкбара
- * @param onClose функция, закрывающая снэкбар
- * @param variant тип отображаемого снэкбара
- * @param props остальные пропсы
+ * @param {string} message сообщение снэкбара
+ * @param {() => void} onClose функция, закрывающая снэкбар
+ * @param {"success" | "warning" | "error" | "info"} variant тип отображаемого снэкбара
+ * @param {Partial<IProps} props остальные пропсы
+ * @returns {JSX.Element}
  * @constructor
  */
 const SnackbarContentWrapper: FC<IWrapperProps> =
@@ -57,13 +59,14 @@ const SnackbarContentWrapper: FC<IWrapperProps> =
 
 /**
  * Основной компонент снэкбара
- * @param message сообщение снэкбара
- * @param variant тип отображаемого снэкбара
- * @param onClose функция, закрывающая снэкбар
- * @param open переменная, отвечающая за открытие/закрытие снэкбара
+ * @param {string} message message сообщение снэкбара
+ * @param {"success" | "warning" | "error" | "info"} variant тип отображаемого снэкбара
+ * @param {() => void} onClose функция, закрывающая снэкбар
+ * @param {boolean} open переменная, отвечающая за открытие/закрытие снэкбара
+ * @returns {JSX.Element}
  * @constructor
  */
-const Snackbar: FC<IProps> = ({ message, variant, onClose, open }: IProps) => (
+const Snackbar: FC<IProps> = ({ message, variant, onClose, open }: IProps): JSX.Element => (
   <SnackbarBase
     anchorOrigin={{
       vertical: 'bottom',

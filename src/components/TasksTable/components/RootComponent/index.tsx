@@ -8,7 +8,8 @@ const useStyles = makeStyles(styles);
 
 /**
  * Корневой компонент виртуальной таблицы
- * @param props передаваемые пропсы
+ * @param {IProps} props передаваемые пропсы
+ * @returns {JSX.Element}
  * @constructor
  */
 const RootComponent: FC<IProps> = (props: IProps): JSX.Element => {

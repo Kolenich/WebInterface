@@ -3,8 +3,11 @@ import { IProps } from './types';
 
 /**
  * Компонент контейнера со знаечнием селекта
- * @param selectProps пропсы селекта
- * @param children дочерние компоненты
+ * @param {Props<ISelectItem>} selectProps пропсы селекта
+ * @param {React.ReactElement<any, string | React.JSXElementConstructor<any>>} children дочерние
+ * компоненты
+ * @returns {JSX.Element}
+ * @constructor
  */
 const ValueContainer: FC<IProps> = ({ selectProps, children }: IProps): JSX.Element => (
   <div className={selectProps.classes.valueContainer}>{children}</div>

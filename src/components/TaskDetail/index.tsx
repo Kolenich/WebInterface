@@ -18,8 +18,10 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент формы для отображения деталей задания
- * @param match передаваемые параметры в адресную строку
- * @param openDialog Функция вызова диалогового окна
+ * @param {match<IDetailParams>} match передаваемые параметры в адресную строку
+ * @param {(message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => void}
+ * openDialog Функция вызова диалогового окна
+ * @returns {JSX.Element}
  * @constructor
  */
 const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
@@ -74,7 +76,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
 
   /**
    * Функция выставления выполнености задания через сервер
-   * @param event
+   * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
   const handleSwitchChange = (event: ChangeEvent<HTMLInputElement>): void => {
     openDialog('', 'loading');

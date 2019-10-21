@@ -4,13 +4,16 @@ import theme from 'lib/theme';
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import Router from './router';
 import { unregister } from './serviceWorker';
 import './styles.css';
 
 render(
   <BrowserRouter>
     <MuiThemeProvider theme={theme}>
-      <Provider />
+      <Provider>
+        <Router />
+      </Provider>
     </MuiThemeProvider>
   </BrowserRouter>,
   document.getElementById('root'),

@@ -28,10 +28,12 @@ const components: SelectComponentsConfig<ISelectItem> = {
 
 /**
  * Компонент выбора с поиском
- * @param options список для выбора
- * @param label ярлык селекта
- * @param value текущее значение
- * @param onChange колбэк, возвращающий данные
+ * @param {ISelectItem[]} options список для выбора
+ * @param {string} label ярлык селекта
+ * @param {(option: ValueType<ISelectItem>) => void} onChange текущее значение
+ * @param {string | number} value колбэк, возвращающий данные
+ * @returns {JSX.Element}
+ * @constructor
  */
 const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProps): JSX.Element => {
   const classes = useStyles();

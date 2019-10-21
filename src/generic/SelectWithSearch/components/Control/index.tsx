@@ -5,10 +5,16 @@ import { IProps } from './types';
 
 /**
  * Компонент текстового поля в селекте
- * @param children дочерние компоненты
- * @param innerProps внутренние пропсы
- * @param innerRef внутренняя ссылка DOM
- * @param selectProps пропсы селекта
+ * @param {React.ReactElement<any, string | React.JSXElementConstructor<any>>} children дочерние
+ * компоненты
+ * @param {{onMouseDown: (event: React.MouseEvent<HTMLElement>) => void}} innerProps внутренние
+ * пропсы
+ * @param {((instance: (any | null)) => void) | React.RefObject<any> | null} innerRef внутренняя
+ * ссылка DOM
+ * @param {any} classes пропсы селекта
+ * @param {any} TextFieldProps
+ * @returns {JSX.Element}
+ * @constructor
  */
 const Control: FC<IProps> = (
   { children, innerProps, innerRef, selectProps: { classes, TextFieldProps } }: IProps,

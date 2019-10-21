@@ -6,8 +6,9 @@ import { INotifications, IOptions } from './types';
 
 /**
  * Декоратор, подмешивающий компоненту диалоговое окно и снэкбар с функциями для их вызова
- * @param withSnackbar флаг на подмешивание снэкбара
- * @param withDialog флаг на подмешивание диалогового окна
+ * @param {any} withSnackbar флаг на подмешивание снэкбара
+ * @param {any} withDialog флаг на подмешивание диалогового окна
+ * @returns {(Component: React.ComponentType<T>) => React.FC<T>} компонент декоратора
  */
 const withNotification =
   <T extends INotifications>({ withSnackbar, withDialog }: IOptions) =>

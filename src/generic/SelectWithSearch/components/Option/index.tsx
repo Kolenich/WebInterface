@@ -9,11 +9,15 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент выбора в селекте
- * @param innerRef внутрення ссылка DOM
- * @param isFocused флаг на фокус
- * @param isSelected флаг на выбор
- * @param innerProps внутренние пропсы
- * @param children дочерние компоненты
+ * @param {((instance: (any | null)) => void) | React.RefObject<any> | null} innerRef внутрення
+ * ссылка DOM
+ * @param {boolean} isFocused флаг на фокус
+ * @param {boolean} isSelected флаг на выбор
+ * @param {InnerProps} innerProps внутренние пропсы
+ * @param {React.ReactElement<any, string | React.JSXElementConstructor<any>>} children дочерние
+ * компоненты
+ * @returns {JSX.Element}
+ * @constructor
  */
 const Option: FC<IProps> =
   ({ innerRef, isFocused, isSelected, innerProps, children }: IProps): JSX.Element => {

@@ -9,12 +9,18 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент фильтрации текстовых значений
- * @param onValueChange функция, обрабатывающая изменение в поле
- * @param value значение в поле
+ * @param {(newValue: any) => void} onValueChange функция, обрабатывающая изменение в поле
+ * @param {any} value значение в поле
+ * @returns {JSX.Element}
+ * @constructor
  */
 const TextEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
   const classes = useStyles();
 
+  /**
+   * Функция обработки изменений
+   * @param {React.ChangeEvent<ISelectElement>} event объект события изменения
+   */
   const onChange = (event: ChangeEvent<ISelectElement>): void => {
     const { value } = event.target;
     onValueChange(value);

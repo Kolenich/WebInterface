@@ -59,9 +59,11 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент таблицы для отображения всех заданий у пользователя
- * @param history история в браузере
- * @param match передаваемые параметры в адресную строку
- * @param openSnackbar функция вызова снэкбара
+ * @param {History<LocationState>} history история в браузере
+ * @param {match<IFilterParams>} match match передаваемые параметры в адресную строку
+ * @param {(message: string, variant: keyof IVariantIcons) => void} openSnackbar функция
+ * вызова снэкбара
+ * @returns {JSX.Element}
  * @constructor
  */
 const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element => {
@@ -101,8 +103,8 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
   } = settings;
 
   /**
-   * Фугкция изменения сортировок
-   * @param sorting массив сортировок
+   * Функция изменения сортировок
+   * @param {Sorting[]} sorting массив сортировок
    */
   const changeSorting = (sorting: Sorting[]): void => (
     setTable({ ...table, sorting })
@@ -110,7 +112,7 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
 
   /**
    * Метод для обработки изменения числа строк на странице
-   * @param pageSize размер страницы
+   * @param {number} pageSize размер страницы
    */
   const changePageSize = (pageSize: number): void => (
     setTable({ ...table, pageSize, currentPage: 0 })
@@ -118,7 +120,7 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
 
   /**
    * Функция обработки изменения текущей страницы
-   * @param currentPage номер текущей страницы
+   * @param {number} currentPage номер текущей страницы
    */
   const changeCurrentPage = (currentPage: number): void => (
     setTable({ ...table, currentPage })
@@ -126,13 +128,14 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
 
   /**
    * Функция изменения фильтров
-   * @param filters массив фильтров
+   * @param {Filter[]} filters массив фильтров
    */
   const changeFilters = (filters: Filter[]): void => setTable({ ...table, filters });
 
   /**
    * Функция для выдачи фильтра в зависимости от параметра в урле
-   * @param filter
+   * @param {"completed" | "in-process"} filter параметр для фильтра
+   * @returns {boolean} фильтр
    */
   const taskFilter = (filter: 'completed' | 'in-process'): boolean => filter === 'completed';
 
@@ -220,7 +223,8 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
 
   /**
    * Функция получения уникального идентификатора строки
-   * @param row строка
+   * @param {IRow} row строка
+   * @returns {React.ReactText} уникальный идентификатор строки
    */
   const getRowId = (row: IRow): ReactText => row.id!;
 
