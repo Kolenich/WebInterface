@@ -1,4 +1,4 @@
-import { Grid, Paper, TextField } from '@material-ui/core';
+import { Collapse, Grid, Paper, TextField } from '@material-ui/core';
 import {
   CalendarToday as DateIcon,
   Edit as DescriptionIcon,
@@ -19,9 +19,7 @@ import { IApiResponse } from 'lib/types';
 import { SERVER_RESPONSES } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import { ValueType } from 'react-select/src/types';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styles from './styles';
-import './styles.css';
 import { IProps, ITask } from './types';
 
 const useStyles = makeStyles(styles);
@@ -138,91 +136,88 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   useEffect(setDashBoardTitle, []);
 
   return (
-    <TransitionGroup>
-      {loaded &&
-      <CSSTransition timeout={500} classNames="task-assignment">
-        <Paper className={classes.paper}>
-          <Grid container spacing={2} alignItems="center" className={classes.container}>
-            <Grid item xs={12} lg={2}>
-              <TextField
-                value={summary}
-                name="summary"
-                onChange={handleTextChange}
-                label="Краткое описание"
-                fullWidth
-                variant="outlined"
-                InputProps={{
-                  endAdornment: <DescriptionIcon />,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} lg={9} />
-            <Grid item xs={12} lg={4}>
-              <TextField
-                value={description}
-                name="description"
-                onChange={handleTextChange}
-                label="Полное описание"
-                fullWidth
-                variant="outlined"
-                InputProps={{
-                  endAdornment: <DescriptionIcon />,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} lg={8} />
-            <Grid item xs={12} lg={2}>
-              <DateField
-                value={dead_line}
-                name="dead_line"
-                disablePast
-                onChange={handleDeadLineChange}
-                label="Срок исполнения"
-                withTime
-                InputProps={{
-                  endAdornment: <DateIcon />,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} lg={10} />
-            <Grid item xs={12} lg={4}>
-              <TextField
-                value={comment}
-                name="comment"
-                onChange={handleTextChange}
-                label="Комментарий"
-                fullWidth
-                variant="outlined"
-                InputProps={{
-                  endAdornment: <CommentIcon />,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} lg={8} />
-            <Grid item xs={12} lg={3}>
-              <AssignToIcon />
-              <SelectWithSearch
-                value={assigned_to}
-                label="Кому назначить"
-                options={users}
-                onChange={handleSelectChange}
-              />
-            </Grid>
-            <Grid item xs={12} lg={9} />
-            <Grid item xs="auto">
-              <Button
-                variant="contained"
-                icon="add"
-                color="primary"
-                onClick={submitTask}
-              >
-                Назначить
-              </Button>
-            </Grid>
+    <Collapse in={loaded} timeout={750}>
+      <Paper className={classes.paper}>
+        <Grid container spacing={2} alignItems="center" className={classes.container}>
+          <Grid item xs={12} lg={2}>
+            <TextField
+              value={summary}
+              name="summary"
+              onChange={handleTextChange}
+              label="Краткое описание"
+              fullWidth
+              variant="outlined"
+              InputProps={{
+                endAdornment: <DescriptionIcon />,
+              }}
+            />
           </Grid>
-        </Paper>
-      </CSSTransition>}
-    </TransitionGroup>
+          <Grid item xs={12} lg={9} />
+          <Grid item xs={12} lg={4}>
+            <TextField
+              value={description}
+              name="description"
+              onChange={handleTextChange}
+              label="Полное описание"
+              fullWidth
+              variant="outlined"
+              InputProps={{
+                endAdornment: <DescriptionIcon />,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} lg={8} />
+          <Grid item xs={12} lg={2}>
+            <DateField
+              value={dead_line}
+              name="dead_line"
+              disablePast
+              onChange={handleDeadLineChange}
+              label="Срок исполнения"
+              withTime
+              InputProps={{
+                endAdornment: <DateIcon />,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} lg={10} />
+          <Grid item xs={12} lg={4}>
+            <TextField
+              value={comment}
+              name="comment"
+              onChange={handleTextChange}
+              label="Комментарий"
+              fullWidth
+              variant="outlined"
+              InputProps={{
+                endAdornment: <CommentIcon />,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} lg={8} />
+          <Grid item xs={12} lg={3}>
+            <AssignToIcon />
+            <SelectWithSearch
+              value={assigned_to}
+              label="Кому назначить"
+              options={users}
+              onChange={handleSelectChange}
+            />
+          </Grid>
+          <Grid item xs={12} lg={9} />
+          <Grid item xs="auto">
+            <Button
+              variant="contained"
+              icon="add"
+              color="primary"
+              onClick={submitTask}
+            >
+              Назначить
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
+    </Collapse>
   );
 };
 

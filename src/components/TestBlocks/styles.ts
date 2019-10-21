@@ -11,23 +11,32 @@ const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   },
   card: {
     backgroundColor: theme.palette.background.paper,
-    transition: theme.transitions.create('transform', {
+    boxShadow: theme.shadows[0],
+    transition: theme.transitions.create('all', {
       easing: theme.transitions.easing.easeIn,
-      duration: theme.transitions.duration.shortest,
+      duration: theme.transitions.duration.enteringScreen,
     }),
     overflow: 'hidden',
     '&:hover': {
       transform: 'scale(1.05)',
+      boxShadow: theme.shadows[10],
       cursor: 'pointer',
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.paper,
     },
   },
   cardImage: {
-    width: 500,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.up('xs')]: {
       width: 250,
     },
-    height: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      width: 300,
+    },
+    [theme.breakpoints.up('md')]: {
+      width: 350,
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: 450,
+    },
   },
 });
 

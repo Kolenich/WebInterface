@@ -16,7 +16,7 @@ import {
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
-import { Paper } from '@material-ui/core';
+import { Fade, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import {
@@ -47,7 +47,6 @@ import {
   unpackArrayOfObjects,
 } from 'lib/utils';
 import React, { FC, ReactText, useContext, useEffect, useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
@@ -92,6 +91,8 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
 
   // Переменная состояния загрузки
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   const [settings] = useState<IColumnSettings>(tableSettings);
 
@@ -206,7 +207,12 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
         }
         openSnackbar(message, 'error');
       })
-      .finally(() => setLoading(false));
+      .finally((): void => {
+        setLoading(false);
+        if (!loaded) {
+          setLoaded(true);
+        }
+      });
   };
 
   /**
@@ -235,62 +241,64 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
   useEffect(setDocumentTitle, []);
 
   return (
-    <CSSTransition timeout={500} classNames="task-table">
-      <Paper className={classes.paper}>
-        <Grid
-          rows={rows}
-          columns={columns}
-          getRowId={getRowId}
-          rootComponent={RootComponent}
-        >
-          {customDataTypes.map((props: ICustomDataTypeProviderProps): JSX.Element => (
-            <DataTypeProvider {...props} />
-          ))}
-          <DragDropProvider />
-          <SortingState
-            sorting={sorting}
-            onSortingChange={changeSorting}
-            columnExtensions={sortingStateColumnExtensions}
-          />
-          <PagingState
-            currentPage={currentPage}
-            pageSize={pageSize}
-            onPageSizeChange={changePageSize}
-            onCurrentPageChange={changeCurrentPage}
-          />
-          <CustomPaging
-            totalCount={totalCount}
-          />
-          <FilteringState
-            filters={filters}
-            onFiltersChange={changeFilters}
-            columnExtensions={filteringStateColumnExtensions}
-          />
-          <VirtualTable
-            height="auto"
-            messages={tableMessages}
-            rowComponent={RowComponent}
-            columnExtensions={columnsExtensions}
-          />
-          <TableColumnReordering
-            defaultOrder={defaultOrder}
-          />
-          <TableHeaderRow
-            showSortingControls
-            messages={tableHeaderRowMessage}
-          />
-          <TableFilterRow
-            showFilterSelector
-            messages={filterRowMessages}
-          />
-          <PagingPanel
-            pageSizes={pageSizes}
-            messages={pagingPanelMessages}
-          />
-        </Grid>
-        {loading && <Loading />}
-      </Paper>
-    </CSSTransition>
+    <>
+      <Fade in={loaded} timeout={750}>
+        <Paper className={classes.paper}>
+          <Grid
+            rows={rows}
+            columns={columns}
+            getRowId={getRowId}
+            rootComponent={RootComponent}
+          >
+            {customDataTypes.map((props: ICustomDataTypeProviderProps): JSX.Element => (
+              <DataTypeProvider {...props} />
+            ))}
+            <DragDropProvider />
+            <SortingState
+              sorting={sorting}
+              onSortingChange={changeSorting}
+              columnExtensions={sortingStateColumnExtensions}
+            />
+            <PagingState
+              currentPage={currentPage}
+              pageSize={pageSize}
+              onPageSizeChange={changePageSize}
+              onCurrentPageChange={changeCurrentPage}
+            />
+            <CustomPaging
+              totalCount={totalCount}
+            />
+            <FilteringState
+              filters={filters}
+              onFiltersChange={changeFilters}
+              columnExtensions={filteringStateColumnExtensions}
+            />
+            <VirtualTable
+              height="auto"
+              messages={tableMessages}
+              rowComponent={RowComponent}
+              columnExtensions={columnsExtensions}
+            />
+            <TableColumnReordering
+              defaultOrder={defaultOrder}
+            />
+            <TableHeaderRow
+              showSortingControls
+              messages={tableHeaderRowMessage}
+            />
+            <TableFilterRow
+              showFilterSelector
+              messages={filterRowMessages}
+            />
+            <PagingPanel
+              pageSizes={pageSizes}
+              messages={pagingPanelMessages}
+            />
+          </Grid>
+        </Paper>
+      </Fade>
+      {loading && <Loading />}
+    </>
   );
 };
 
