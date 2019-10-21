@@ -29,4 +29,6 @@ export interface IStep {
   title: string;
   /** Выполнен ли шаг */
   completed: boolean;
+  /** Описание шага */
+  description?: string;
 }

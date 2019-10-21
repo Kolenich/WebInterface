@@ -54,7 +54,7 @@ const TestBlocks: FC<IProps> = ({ match }): JSX.Element => {
                 />
                 <CardContent>
                   <List>
-                    {steps.map(({ title, completed, key }: IStep) => (
+                    {steps.map(({ title, completed, key, description }: IStep) => (
                       <ListItem key={key}>
                         <ListItemAvatar>
                           <Avatar className={completed
@@ -66,9 +66,7 @@ const TestBlocks: FC<IProps> = ({ match }): JSX.Element => {
                               : <Close />}
                           </Avatar>
                         </ListItemAvatar>
-                        <ListItemText>
-                          {title}
-                        </ListItemText>
+                        <ListItemText primary={title} secondary={description} />
                       </ListItem>
                     ))}
                   </List>
