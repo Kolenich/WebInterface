@@ -44,6 +44,7 @@ import {
   SERVER_NOT_AVAILABLE,
   SERVER_RESPONSES,
   sortingParams,
+  unpackArrayOfObjects,
 } from 'lib/utils';
 import React, { FC, ReactText, useContext, useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
@@ -136,30 +137,56 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
   const taskFilter = (filter: 'completed' | 'in-process'): boolean => filter === 'completed';
 
   /**
+   * Функция получения конфига для пагинации
+   * @returns {IGetConfig} конфиг для пагинации
+   */
+  const getPaginationConfig = (): IGetConfig => (
+    { limit: pageSize, offset: currentPage! * pageSize! }
+  );
+
+  /**
+   * Функция для получения конфига для фильтрации
+   * @returns {Partial<IGetConfig>} конфиг для фильтрации
+   */
+  const getFilteringConfig = (): Partial<IGetConfig> => {
+    return {
+      ...unpackArrayOfObjects<Partial<IGetConfig>>(
+        filters!.map(({ operation, columnName, value }: Filter): Partial<IGetConfig> => {
+          return {
+            [tasksFilterLookUps[columnName] + filteringParams[operation!]]: value,
+          };
+        }),
+      ),
+    };
+  };
+
+  /**
+   * Функция для получения конфига сортировки
+   * @returns {Partial<IGetConfig>} конфиг сортировки
+   */
+  const getSortingConfig = (): Partial<IGetConfig> => {
+    return {
+      ...unpackArrayOfObjects<Partial<IGetConfig>>(
+        sorting!.map(({ direction, columnName }: Sorting): Partial<IGetConfig> => {
+          return { ordering: sortingParams[direction] + tasksSortingLookUps[columnName] };
+        }),
+      ),
+    };
+  };
+
+  /**
    * Метод для загрузи данных в таблицу с сервера
    */
   const loadData = (): void => {
     setLoading(true);
-    const config: IGetConfig = {
-      // Параметры для пагинации
-      limit: pageSize,
-      offset: currentPage! * pageSize!,
+    const params: IGetConfig = {
+      ...getPaginationConfig(),
+      ...getFilteringConfig(),
+      ...getSortingConfig(),
     };
     // В зависимости от выбранного пункта меню фильтруем список заданий
-    config.done = taskFilter(filter);
-    // Параметры для фильтрации
-    filters!.map(({ operation, columnName, value }: Filter): void => {
-      if (operation) {
-        config[tasksFilterLookUps[columnName] + filteringParams[operation]] = value;
-      }
-      return undefined;
-    });
-    // Параметры для сортировки
-    sorting!.map(({ direction, columnName }: Sorting): void => {
-      config.ordering = sortingParams[direction] + tasksSortingLookUps[columnName];
-      return undefined;
-    });
-    api.getContent<IApiResponse<IRow>>('task-table', config, TASKS_APP)
+    params.done = taskFilter(filter);
+    api.getContent<IApiResponse<IRow>>('task-table', params, TASKS_APP)
       .then((response: AxiosResponse<IApiResponse<IRow>>): void => {
         const { results, count } = response.data;
         setTable({ ...table, rows: results, totalCount: count });

@@ -66,3 +66,17 @@ export const DASH_BOARD_TITLES: IDashBoardTitles = {
   completed: 'Выполненные',
   'in-process': 'В процессе',
 };
+
+/**
+ * Функция для распаковки массива объектов в один объект.
+ * Используется для формирования конфига фильтрации при щзапросе на сервер
+ * @param {T[]} arr массив из объектов
+ * @returns {{}} единый объект
+ */
+export function unpackArrayOfObjects<T>(arr: T[]): T {
+  let obj = {} as T;
+  for (const elem of arr) {
+    obj = { ...obj, ...elem };
+  }
+  return obj;
+}
