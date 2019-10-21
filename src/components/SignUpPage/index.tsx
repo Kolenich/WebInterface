@@ -102,7 +102,6 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
       .then((response: AxiosResponse): void => {
         const { message } = response.data;
         openSnackbar(message, 'success');
-        setLoading(false);
         // Через 2 секунды перенаправляем на страницу входа
         setTimeout((): void => history.push({ pathname: '/sign-in' }), 2000);
       })
@@ -110,12 +109,12 @@ const SignUpPage: FC<IProps> = ({ history, openSnackbar }): JSX.Element => {
         if (error.response) {
           const { message, errors: errorsList } = error.response.data;
           setErrors({ ...errors, ...errorsList });
-          setLoading(false);
           openSnackbar(message, 'error');
           // Через 3 секунды гасим ошибки
           setTimeout(resetErrors, 3000);
         }
-      });
+      })
+      .finally((): void => setLoading(false));
   };
 
   useEffect(
