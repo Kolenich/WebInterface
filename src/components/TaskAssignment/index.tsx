@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
-import { withNotification } from 'decorators';
+import { withDialog } from 'decorators';
 import { Button, DateField, SelectWithSearch } from 'generic';
 import { ISelectItem } from 'generic/Select/types';
 import api from 'lib/api';
@@ -221,4 +221,4 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   );
 };
 
-export default withNotification<IProps>(TaskAssignment);
+export default withDialog<IProps>(TaskAssignment);

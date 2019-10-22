@@ -1,4 +1,3 @@
-import { ISnackbarProps } from 'lib/types';
 import { RouteComponentProps } from 'react-router-dom';
 
 export interface IProps extends RouteComponentProps {
@@ -15,23 +14,6 @@ export interface IAccount {
   password: string;
   /** Рассылка на почту */
   mailing: boolean;
-}
-
-export interface IState {
-  /** Имя */
-  first_name: string;
-  /** Фамилия */
-  last_name: string;
-  /** Электронная почта */
-  email: string;
-  /** Пароль */
-  password: string;
-  /** Флаг загрузки */
-  loading: boolean;
-  /** Конфиг для снэкбара */
-  snackbar: ISnackbarProps;
-  /** Ошибки в полях */
-  errors: IErrors;
 }
 
 export interface IErrors {

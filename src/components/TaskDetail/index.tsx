@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
-import { withNotification } from 'decorators';
+import { withDialog } from 'decorators';
 import { DateField, Loading } from 'generic';
 import api from 'lib/api';
 import { TASKS_APP } from 'lib/session';
@@ -204,4 +204,4 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
   );
 };
 
-export default withNotification<IProps>(TaskDetail);
+export default withDialog<IProps>(TaskDetail);

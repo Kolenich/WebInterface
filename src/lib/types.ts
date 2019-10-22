@@ -1,5 +1,4 @@
 import { DataTypeProviderProps, Filter, Sorting } from '@devexpress/dx-react-grid';
-import { IVariantIcons } from 'generic/Snackbar/types';
 import { ReactText } from 'react';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
@@ -76,15 +75,6 @@ export interface ISelectElement {
 export interface IAuthResponse {
   /** Возвращаемый токен */
   key: string;
-}
-
-export interface ISnackbarProps {
-  /** Флаг открытия/закрытия */
-  open: boolean;
-  /** Сообщение на снэкбаре */
-  message: string;
-  /** Статус снэкбара */
-  variant: keyof IVariantIcons;
 }
 
 export type IDialogStatus = 'success' | 'error' | 'warning' | 'loading';

@@ -1,5 +1,5 @@
-import withNotification from './notification';
+import withDialog from './notification';
 
 export {
-  withNotification,
+  withDialog,
 };

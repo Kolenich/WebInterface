@@ -4,11 +4,11 @@ import React, { ComponentType, FC, useState } from 'react';
 import { INotifications } from './types';
 
 /**
- * Декоратор, подмешивающий компоненту диалоговое окно и снэкбар с функциями для их вызова
- * @param {ComponentType} Component оборачиваемый компонент
- * @returns {(Component: React.ComponentType<T>) => React.FC<T>} компонент декоратора
+ * Декоратор, подмешивающий компоненту диалоговое окно с функцией для его вызова
+ * @param {React.ComponentType<{}>} Component оборачиваемый компонент
+ * @returns {React.FC<{}>} компонент с подмшаным диалоговым окном и функцией вызова
  */
-const withNotification =
+const withDialog =
   <T extends INotifications>(Component: ComponentType<T>): FC<T> => (props: T): JSX.Element => {
     // Переменные состояния для снэкбара
     const [dialog, setDialog] = useState<IDialogProps>({
@@ -46,4 +46,4 @@ const withNotification =
 
   };
 
-export default withNotification;
+export default withDialog;
