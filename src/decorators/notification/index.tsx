@@ -1,5 +1,5 @@
 import { Dialog } from 'generic';
-import { IDialogProps, IDialogStatus } from 'lib/types';
+import { IDialogProps, IDialogStatus } from 'generic/Dialog/types';
 import React, { ComponentType, FC, useState } from 'react';
 import { INotifications } from './types';
 

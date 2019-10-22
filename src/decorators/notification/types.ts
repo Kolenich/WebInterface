@@ -1,4 +1,4 @@
-import { IDialogStatus } from 'lib/types';
+import { IDialogStatus } from 'generic/Dialog/types';
 
 export interface INotifications {
   /** Функция для открытия диалогового окна */

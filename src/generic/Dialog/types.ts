@@ -6,7 +6,20 @@ export interface IProps {
   /** Функция-колбэк, срабатывающий после закрытия окна */
   warningAcceptCallback?: () => void;
   /** Тип отображаемого статуса */
-  status: 'success' | 'error' | 'warning' | 'loading';
+  status: IDialogStatus;
   /** Отображаемое сообщеие */
   message: string;
+}
+
+export type IDialogStatus = 'success' | 'error' | 'warning' | 'loading';
+
+export interface IDialogProps {
+  /** Флаг открытия/закрытия */
+  open: boolean;
+  /** Сообщение на снэкбаре */
+  message: string;
+  /** Статус снэкбара */
+  status: IDialogStatus;
+  /** Функция-колбэк для обработки принятия предупреждения */
+  warningAcceptCallback?: () => void;
 }
