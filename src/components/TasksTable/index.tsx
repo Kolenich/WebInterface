@@ -26,7 +26,6 @@ import {
 } from 'components/TasksTable/settings';
 import { Context } from 'context';
 import { IContext } from 'context/types';
-import { withNotification } from 'decorators';
 import { Loading } from 'generic';
 import api from 'lib/api';
 import auth from 'lib/auth';
@@ -46,6 +45,7 @@ import {
   sortingParams,
   unpackArrayOfObjects,
 } from 'lib/utils';
+import { useSnackbar } from 'notistack';
 import React, { FC, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
@@ -59,13 +59,13 @@ const useStyles = makeStyles(styles);
  * Компонент таблицы для отображения всех заданий у пользователя
  * @param {History<LocationState>} history история в браузере
  * @param {match<IFilterParams>} match match передаваемые параметры в адресную строку
- * @param {(message: string, variant: keyof IVariantIcons) => void} openSnackbar функция
- * вызова снэкбара
  * @returns {JSX.Element}
  * @constructor
  */
-const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element => {
+const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   const classes = useStyles();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const { filter } = match.params;
 
@@ -204,7 +204,7 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
           }
           message = SERVER_RESPONSES[status];
         }
-        openSnackbar(message, 'error');
+        enqueueSnackbar(message, { variant: 'error' });
       })
       .finally((): void => {
         setLoading(false);
@@ -301,4 +301,4 @@ const TasksTable: FC<IProps> = ({ history, match, openSnackbar }): JSX.Element =
   );
 };
 
-export default withNotification<IProps>({ withSnackbar: true })(TasksTable);
+export default TasksTable;

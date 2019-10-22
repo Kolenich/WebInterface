@@ -1,3 +1,6 @@
+import { Done, Error } from '@material-ui/icons';
+import { SnackbarProviderProps } from 'notistack';
+import { createElement } from 'react';
 import { IDashBoardTitles, IFiltering, IServerResponses, ISorting } from './types';
 
 // Опции для форматирования даты
@@ -80,3 +83,13 @@ export function unpackArrayOfObjects<T>(arr: T[]): T {
   }
   return obj;
 }
+
+export const snackbarProviderProps: SnackbarProviderProps = {
+  maxSnack: 5,
+  anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+  autoHideDuration: 3000,
+  iconVariant: {
+    success: createElement(Done, { style: { paddingRight: 10 } }),
+    error: createElement(Error, { style: { paddingRight: 10 } }),
+  },
+};

@@ -1,6 +1,8 @@
 import { MuiThemeProvider } from '@material-ui/core';
 import ContextProvider from 'context';
 import theme from 'lib/theme';
+import { snackbarProviderProps } from 'lib/utils';
+import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,11 +12,13 @@ import './styles.css';
 
 render(
   <BrowserRouter>
-    <MuiThemeProvider theme={theme}>
-      <ContextProvider>
-        <Router />
-      </ContextProvider>
-    </MuiThemeProvider>
+    <SnackbarProvider {...snackbarProviderProps}>
+      <MuiThemeProvider theme={theme}>
+        <ContextProvider>
+          <Router />
+        </ContextProvider>
+      </MuiThemeProvider>
+    </SnackbarProvider>
   </BrowserRouter>,
   document.getElementById('root'),
 );

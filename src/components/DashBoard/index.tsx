@@ -28,11 +28,11 @@ import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { Context } from 'context';
 import { IContext } from 'context/types';
-import { withNotification } from 'decorators';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
+import { useSnackbar } from 'notistack';
 import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashBoardRouter from 'router/DashBoardRouter';
@@ -45,14 +45,14 @@ const useStyles = makeStyles(styles);
  * Компонент панели
  * @param {History<LocationState>} history история в браузере
  * @param {Location<{}> location текущий адрес с параметрами
- * @param {(message: string, variant: keyof IVariantIcons) => void} openSnackbar функция вызова
- * снэкбара
  * @returns {JSX.Element}
  * @constructor
  */
-const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX.Element => {
+const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
   const classes = useStyles();
   const theme: Theme = useTheme<Theme>();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const context = useContext<IContext>(Context);
 
@@ -118,7 +118,7 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
         }
-        openSnackbar(message, 'error');
+        enqueueSnackbar(message, { variant: 'error' });
       });
   };
 
@@ -288,4 +288,4 @@ const DashBoard: FC<IProps> = ({ history, location, openSnackbar }: IProps): JSX
   );
 };
 
-export default withNotification<IProps>({ withSnackbar: true })(DashBoard);
+export default DashBoard;
