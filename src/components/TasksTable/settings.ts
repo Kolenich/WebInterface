@@ -10,8 +10,8 @@ export const tableSettings: IColumnSettings = {
   ],
   columnsExtensions: [
     { columnName: 'summary', wordWrapEnabled: true, width: 350 },
-    { columnName: 'date_of_issue', wordWrapEnabled: true, width: 350 },
-    { columnName: 'assigned_by', wordWrapEnabled: true, width: 350 },
+    { columnName: 'date_of_issue', wordWrapEnabled: true, width: 300 },
+    { columnName: 'assigned_by', wordWrapEnabled: true, width: 300 },
     { columnName: 'dead_line', wordWrapEnabled: true, width: 300 },
     { columnName: 'comment', wordWrapEnabled: true, width: 300 },
   ],
