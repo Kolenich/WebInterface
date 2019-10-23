@@ -1,5 +1,5 @@
 import { TextField } from '@material-ui/core';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import InputComponent from '../InputComponent';
 import { IProps } from './types';
 
@@ -35,4 +35,4 @@ const Control: FC<IProps> = (
   />
 );
 
-export default Control;
+export default memo<IProps>(Control);

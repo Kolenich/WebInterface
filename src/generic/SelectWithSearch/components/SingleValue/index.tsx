@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { IProps } from './types';
 
 /**
@@ -17,4 +17,4 @@ const SingleValue: FC<IProps> = ({ selectProps, innerProps, children }: IProps):
   </Typography>
 );
 
-export default SingleValue;
+export default memo<IProps>(SingleValue);

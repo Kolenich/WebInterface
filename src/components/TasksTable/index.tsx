@@ -46,7 +46,7 @@ import {
   unpackArrayOfObjects,
 } from 'lib/utils';
 import { useSnackbar } from 'notistack';
-import React, { FC, ReactText, useContext, useEffect, useState } from 'react';
+import React, { FC, memo, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
@@ -301,4 +301,4 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   );
 };
 
-export default TasksTable;
+export default memo<IProps>(TasksTable);

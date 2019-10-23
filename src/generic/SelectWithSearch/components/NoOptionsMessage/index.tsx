@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { IProps } from './types';
 
 /**
@@ -22,4 +22,4 @@ const NoOptionsMessage: FC<IProps> =
     </Typography>
   );
 
-export default NoOptionsMessage;
+export default memo<IProps>(NoOptionsMessage);

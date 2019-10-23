@@ -1,5 +1,5 @@
 import { Paper } from '@material-ui/core';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { IProps } from './types';
 
 /**
@@ -17,4 +17,4 @@ const Menu: FC<IProps> = ({ selectProps, innerProps, children }: IProps): JSX.El
   </Paper>
 );
 
-export default Menu;
+export default memo<IProps>(Menu);

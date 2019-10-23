@@ -6,7 +6,7 @@ import {
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/styles';
 import ruLocale from 'date-fns/locale/ru';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -57,4 +57,4 @@ const DateTimeEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Eleme
   );
 };
 
-export default DateTimeEditor;
+export default memo<IProps>(DateTimeEditor);

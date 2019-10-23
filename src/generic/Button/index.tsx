@@ -1,7 +1,7 @@
 import { Button as ButtonBase } from '@material-ui/core';
 import { Add, Cancel, Delete, Done, Save, Update } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -40,4 +40,4 @@ const Button: FC<IProps> = ({ icon, children, ...props }: IProps): JSX.Element =
   );
 };
 
-export default Button;
+export default memo<IProps>(Button);

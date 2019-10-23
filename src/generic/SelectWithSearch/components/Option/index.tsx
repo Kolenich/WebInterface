@@ -1,7 +1,7 @@
 import { MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -36,4 +36,4 @@ const Option: FC<IProps> =
     );
   };
 
-export default Option;
+export default memo<IProps>(Option);

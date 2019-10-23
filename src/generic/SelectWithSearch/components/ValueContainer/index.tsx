@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { IProps } from './types';
 
 /**
@@ -13,4 +13,4 @@ const ValueContainer: FC<IProps> = ({ selectProps, children }: IProps): JSX.Elem
   <div className={selectProps.classes.valueContainer}>{children}</div>
 );
 
-export default ValueContainer;
+export default memo<IProps>(ValueContainer);

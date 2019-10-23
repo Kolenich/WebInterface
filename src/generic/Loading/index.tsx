@@ -1,5 +1,5 @@
 import { CircularProgress, Typography } from '@material-ui/core';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import './styles.css';
 
 /**
@@ -13,4 +13,4 @@ const Loading: FC<{}> = (): JSX.Element => (
   </Typography>
 );
 
-export default Loading;
+export default memo<{}>(Loading);

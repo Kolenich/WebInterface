@@ -17,7 +17,7 @@ import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
 import { SERVER_RESPONSES } from 'lib/utils';
-import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
 import { ValueType } from 'react-select/src/types';
 import styles from './styles';
 import { IProps, ITask } from './types';
@@ -221,4 +221,4 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   );
 };
 
-export default withDialog<IProps>(TaskAssignment);
+export default withDialog<IProps>(memo<IProps>(TaskAssignment));

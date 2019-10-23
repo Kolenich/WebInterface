@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { IProps } from './types';
 
 /**
@@ -13,4 +13,4 @@ const InputComponent: FC<IProps> = ({ inputRef, ...props }: IProps): JSX.Element
   <div ref={inputRef} {...props} />
 );
 
-export default InputComponent;
+export default memo<IProps>(InputComponent);

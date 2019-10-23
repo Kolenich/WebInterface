@@ -1,7 +1,7 @@
 import TaskAssignment from 'components/TaskAssignment';
 import TaskDetail from 'components/TaskDetail';
 import TasksTable from 'components/TasksTable';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { Redirect, Switch } from 'react-router';
 import PrivateRoute from 'router/PrivateRouter';
 
@@ -18,4 +18,4 @@ const DashBoardRouter: FC<{}> = (): JSX.Element => (
   </Switch>
 );
 
-export default DashBoardRouter;
+export default memo<{}>(DashBoardRouter);

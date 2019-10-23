@@ -6,7 +6,7 @@ import {
   Select as SelectBase,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, memo, useEffect, useRef, useState } from 'react';
 import styles from './styles';
 import { IProps, ISelectItem } from './types';
 
@@ -57,4 +57,4 @@ const Select: FC<IProps> =
     );
   };
 
-export default Select;
+export default memo<IProps>(Select);

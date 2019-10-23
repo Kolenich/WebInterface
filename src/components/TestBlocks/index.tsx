@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { Check, Close } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import React, { createElement, FC } from 'react';
+import React, { createElement, FC, memo } from 'react';
 import cards from './structure';
 import styles from './styles';
 import { ICard, IProps, IStep } from './types';
@@ -80,4 +80,4 @@ const TestBlocks: FC<IProps> = ({ match }): JSX.Element => {
   );
 };
 
-export default TestBlocks;
+export default memo<IProps>(TestBlocks);

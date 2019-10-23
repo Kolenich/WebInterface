@@ -1,6 +1,6 @@
 import { Table } from '@devexpress/dx-react-grid-material-ui';
 import { makeStyles } from '@material-ui/styles';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { useHistory } from 'react-router';
 import styles from './styles';
 import { IProps } from './types';
@@ -28,4 +28,4 @@ const RowComponent: FC<IProps> = (props: IProps): JSX.Element => {
   );
 };
 
-export default RowComponent;
+export default memo<IProps>(RowComponent);

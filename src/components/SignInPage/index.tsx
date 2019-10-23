@@ -19,7 +19,15 @@ import { Context } from 'context';
 import { IContext } from 'context/types';
 import auth from 'lib/auth';
 import { useSnackbar } from 'notistack';
-import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FC,
+  KeyboardEvent,
+  memo,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
 import { ILogin, IProps, IStatus } from './types';
@@ -200,4 +208,4 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
   );
 };
 
-export default SignInPage;
+export default memo<IProps>(SignInPage);

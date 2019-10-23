@@ -2,7 +2,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/styles';
 import { ru } from 'date-fns/locale';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -45,4 +45,4 @@ const DateField: FC<IProps> = ({ withTime, ...props }: IProps): JSX.Element => {
   );
 };
 
-export default DateField;
+export default memo<IProps>(DateField);

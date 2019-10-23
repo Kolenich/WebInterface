@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/styles';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, memo, useEffect, useState } from 'react';
 import Select from 'react-select';
 import { SelectComponentsConfig } from 'react-select/src/components';
 import { ValueType } from 'react-select/src/types';
@@ -85,4 +85,4 @@ const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProp
   );
 };
 
-export default SelectWithSearch;
+export default memo<IProps>(SelectWithSearch);

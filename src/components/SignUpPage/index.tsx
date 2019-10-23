@@ -20,7 +20,7 @@ import { IContext } from 'context/types';
 import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
 import { useSnackbar } from 'notistack';
-import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
 import { IAccount, IErrors, IProps } from './types';
@@ -229,4 +229,4 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
   );
 };
 
-export default SignUpPage;
+export default memo<IProps>(SignUpPage);

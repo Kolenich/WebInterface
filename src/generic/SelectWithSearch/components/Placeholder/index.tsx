@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { IProps } from './types';
 
 /**
@@ -18,4 +18,4 @@ const PlaceHolder: FC<IProps> =
     </Typography>
   );
 
-export default PlaceHolder;
+export default memo<IProps>(PlaceHolder);

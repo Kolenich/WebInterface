@@ -8,7 +8,7 @@ import { DateField, Loading } from 'generic';
 import api from 'lib/api';
 import { TASKS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
-import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
 
@@ -204,4 +204,4 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
   );
 };
 
-export default withDialog<IProps>(TaskDetail);
+export default withDialog<IProps>(memo<IProps>(TaskDetail));

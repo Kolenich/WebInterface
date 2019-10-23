@@ -1,5 +1,5 @@
 import auth from 'lib/auth';
-import React, { Attributes, createElement, FC } from 'react';
+import React, { Attributes, createElement, FC, memo } from 'react';
 import { Redirect, Route, RouteComponentProps } from 'react-router-dom';
 import { IProps } from 'router/types';
 
@@ -22,4 +22,4 @@ const PublicRoute: FC<IProps> = ({ component, ...rest }: IProps): JSX.Element =>
   />
 );
 
-export default PublicRoute;
+export default memo<IProps>(PublicRoute);

@@ -33,7 +33,7 @@ import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/utils';
 import { useSnackbar } from 'notistack';
-import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
+import React, { FC, memo, MouseEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashBoardRouter from 'router/DashBoardRouter';
 import styles from './styles';
@@ -288,4 +288,4 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
   );
 };
 
-export default DashBoard;
+export default memo<IProps>(DashBoard);

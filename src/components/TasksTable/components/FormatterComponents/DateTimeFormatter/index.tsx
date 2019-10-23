@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { dateTimeOptions } from 'lib/utils';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { IProps } from './types';
 
 /**
@@ -17,4 +17,4 @@ const DateTimeFormatter: FC<IProps> = ({ value }: IProps): JSX.Element => (
   </Typography>
 );
 
-export default DateTimeFormatter;
+export default memo<IProps>(DateTimeFormatter);
