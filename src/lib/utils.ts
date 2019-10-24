@@ -51,14 +51,23 @@ export const filteringParams: IFiltering = {
 };
 
 /**
+ * Функция получения текущего хоста для запроса на сервер.
+ * @returns {string} имя хоста с протоколом
+ */
+const getCurrentHost: Function = (): string => {
+  const url: string = window.location.href;
+  const arr: string[] = url.split('/');
+  return `${arr[0]}//${arr[2]}`;
+};
+
+/**
  * Функция, генерирующая URL запроса для запросов на сервер
  */
-export function getBaseUrl(): string {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://vps706754.ovh.net';
-  }
-  return 'http://localhost:8080';
-}
+export const getBaseUrl: Function = (): string => (
+  process.env.NODE_ENV === 'production'
+    ? getCurrentHost()
+    : 'http://localhost:8080'
+);
 
 // Высота тулбара
 export const appBarHeight: number = 64;
@@ -76,20 +85,20 @@ export const DASH_BOARD_TITLES: IDashBoardTitles = {
  * @param {T[]} arr массив из объектов
  * @returns {{}} единый объект
  */
-export function unpackArrayOfObjects<T>(arr: T[]): T {
+export const unpackArrayOfObjects = <T>(arr: T[]): T => {
   let obj = {} as T;
   for (const elem of arr) {
     obj = { ...obj, ...elem };
   }
   return obj;
-}
+};
 
 export const snackbarProviderProps: SnackbarProviderProps = {
   maxSnack: 5,
   anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
   autoHideDuration: 3000,
   iconVariant: {
-    success: createElement(Done, { style: { paddingRight: 10 } }),
-    error: createElement(Error, { style: { paddingRight: 10 } }),
+    success: createElement(Done, { style: { paddingRight: 10 }, fontSize: 'large' }),
+    error: createElement(Error, { style: { paddingRight: 10 }, fontSize: 'large' }),
   },
 };

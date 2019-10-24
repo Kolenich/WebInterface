@@ -5,12 +5,13 @@ import { HTTPMethods } from './types';
 export default {
   /**
    * API-функция для получения данных с сервера
-   * @param requestUrl - url запроса
-   * @param app - запрашиваемое приложение
-   * @param sendData - параметры запроса
+   * @param {string} requestUrl  url запроса
+   * @param sendData запрашиваемое приложение
+   * @param {string} app параметры запроса
+   * @returns {AxiosPromise<T>}
    */
-  getContent<T>(requestUrl: string, sendData?: any, app?: string): AxiosPromise<T> {
-    return new Promise<AxiosResponse<T>>((resolve, reject): void => {
+  getContent: <T>(requestUrl: string, sendData?: any, app?: string): AxiosPromise<T> => (
+    new Promise<AxiosResponse<T>>((resolve, reject): void => {
       let params = sendData;
       if (!sendData) {
         params = {};
@@ -22,18 +23,20 @@ export default {
       session.get<T>(`${prefix}/${requestUrl}/`, { params })
         .then(resolve)
         .catch(reject);
-    });
-  },
+    })
+  ),
   /**
    * API-функция для отправки данных на сервер
-   * @param requestUrl - url запроса
-   * @param sendData - параметры запроса
-   * @param app - запрашиваемое приложение
-   * @param sendMethod - метод запроса
+   * @param {string} requestUrl url запроса
+   * @param {T} sendData параметры запроса
+   * @param {string} app запрашиваемое приложение
+   * @param {HTTPMethods} sendMethod  метод запроса
+   * @returns {AxiosPromise<T>}
    */
-  sendContent<T>(requestUrl: string, sendData: T, app?: string, sendMethod?: HTTPMethods):
-    AxiosPromise<T> {
-    return new Promise<AxiosResponse<T>>((resolve, reject): void => {
+  sendContent: <T>(
+    requestUrl: string, sendData: T, app?: string, sendMethod?: HTTPMethods,
+  ): AxiosPromise<T> => (
+    new Promise<AxiosResponse<T>>((resolve, reject): void => {
       let method = sendMethod;
       if (!method) {
         method = 'post';
@@ -47,6 +50,6 @@ export default {
       session({ method, data, url })
         .then(resolve)
         .catch(reject);
-    });
-  },
+    })
+  ),
 };

@@ -7,11 +7,13 @@ export const TOKEN = 'token';
 export default {
   // Имя токена авторизации
   TOKEN,
+
   /**
    * Функция для логина в систему
-   * @param username имя пользователя
-   * @param password пароль
-   * @param remember флаг для запоминания пользователя
+   * @param {string} username имя пользователя
+   * @param {string} password пароль
+   * @param {boolean} remember флаг для запоминания пользователя
+   * @returns {AxiosPromise<IAuthResponse>}
    */
   login(username: string, password: string, remember?: boolean): AxiosPromise<IAuthResponse> {
     return new Promise<AxiosResponse<IAuthResponse>>(((resolve, reject) => {
@@ -32,6 +34,7 @@ export default {
 
   /**
    * Функция разлогина из системы
+   * @returns {AxiosPromise}
    */
   logout(): AxiosPromise {
     return new Promise<AxiosResponse>(((resolve, reject) => {
@@ -51,7 +54,7 @@ export default {
 
   /**
    * Функция, устанавливающая заголовок авторизации в сессию
-   * @param token токен авторизации
+   * @param {string} token токен авторизации
    */
   setHeader(token: string): void {
     session.defaults.headers.common.Authorization = `Token ${token}`;
@@ -74,8 +77,8 @@ export default {
 
   /**
    * Функция, сохраняющая токен авторизации в локальное хранилище
-   * @param token токен авторизации
-   * @param remember флаг для запоминания пользователя
+   * @param {string} token токен авторизации
+   * @param {boolean} remember флаг для запоминания пользователя
    */
   saveToken(token: string, remember?: boolean): void {
     if (remember) {
@@ -89,6 +92,7 @@ export default {
   /**
    * Функция проверки наличия в локальном хранилище токена авторизации
    * В случае успешной проверки устанавливает заголовок авторизации в сессию
+   * @returns {boolean}
    */
   checkToken(): boolean {
     let token: string | null = localStorage.getItem(TOKEN);
