@@ -9,6 +9,7 @@ import PublicRoute from './PublicRouter';
 
 /**
  * Основной роутер приложения
+ * @returns {JSX.Element}
  * @constructor
  */
 const Router: FC<{}> = (): JSX.Element => (

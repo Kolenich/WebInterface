@@ -54,7 +54,7 @@ export const filteringParams: IFiltering = {
  * Функция получения текущего хоста для запроса на сервер.
  * @returns {string} имя хоста с протоколом
  */
-const getCurrentHost: Function = (): string => {
+const getCurrentHost = (): string => {
   const url: string = window.location.href;
   const arr: string[] = url.split('/');
   return `${arr[0]}//${arr[2]}`;
@@ -63,7 +63,7 @@ const getCurrentHost: Function = (): string => {
 /**
  * Функция, генерирующая URL запроса для запросов на сервер
  */
-export const getBaseUrl: Function = (): string => (
+export const getBaseUrl = (): string => (
   process.env.NODE_ENV === 'production'
     ? getCurrentHost()
     : 'http://localhost:8080'

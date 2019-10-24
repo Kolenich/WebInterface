@@ -5,9 +5,10 @@ import { IProps } from 'router/types';
 
 /**
  * Роутер для авторизованных пользователей
- * @param component компонент для редиректа
- * @param rest остальные пропсы
- * @returns {*}
+ * @param {React.ComponentClass<any> | React.FunctionComponent<any>} component компонент для
+ * редиректа
+ * @param {IProps} rest остальные пропсы
+ * @returns {JSX.Element}
  * @constructor
  */
 const PrivateRoute: FC<IProps> = ({ component, ...rest }: IProps): JSX.Element => (

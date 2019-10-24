@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент селекта
- * @param {(event: React.ChangeEvent<ISelectElement>) => void} handleChange handleChange функция,
+ * @param {(event: React.ChangeEvent<ISelectElement>) => void} handleChange функция,
  * отвечающая за изменение значения селекта
  * @param {ISelectItem[]} items список выбора селекта
  * @param {never} value текущее значение селекта

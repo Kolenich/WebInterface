@@ -17,6 +17,7 @@ const useStyles = makeStyles(styles);
  */
 const DateField: FC<IProps> = ({ withTime, ...props }: IProps): JSX.Element => {
   const classes = useStyles();
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ru}>
       {withTime

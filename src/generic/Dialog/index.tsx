@@ -29,12 +29,17 @@ const useStyles = makeStyles(styles);
 const Dialog: FC<IProps> =
   ({ open, status, message, onClose, warningAcceptCallback }: IProps): JSX.Element => {
     const classes = useStyles();
+
+    /**
+     * Функция обработки нажатия на кнопку
+     */
     const handleClick = (): void => {
       if (status === 'warning' && warningAcceptCallback) {
         warningAcceptCallback();
       }
       onClose();
     };
+
     return (
       <DialogBase open={open} scroll="paper" disableBackdropClick disableEscapeKeyDown>
         <DialogTitle disableTypography>
