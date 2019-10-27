@@ -1,14 +1,6 @@
-export interface IProps {
-  /** Указатель открыто окно статуса или нет */
-  open: boolean;
+export interface IProps extends IDialogProps {
   /** Функция-колбэк, закрывающая окно статуса */
   onClose: () => void;
-  /** Функция-колбэк, срабатывающий после закрытия окна */
-  warningAcceptCallback?: () => void;
-  /** Тип отображаемого статуса */
-  status: IDialogStatus;
-  /** Отображаемое сообщеие */
-  message: string;
 }
 
 export type IDialogStatus = 'success' | 'error' | 'warning' | 'loading';

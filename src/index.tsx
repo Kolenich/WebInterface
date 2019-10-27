@@ -12,13 +12,13 @@ import './styles.css';
 
 render(
   <BrowserRouter>
-    <SnackbarProvider {...snackbarProviderProps}>
-      <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider theme={theme}>
+      <SnackbarProvider {...snackbarProviderProps}>
         <ContextProvider>
           <Router />
         </ContextProvider>
-      </MuiThemeProvider>
-    </SnackbarProvider>
+      </SnackbarProvider>
+    </MuiThemeProvider>
   </BrowserRouter>,
   document.getElementById('root'),
 );
