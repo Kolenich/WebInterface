@@ -99,13 +99,8 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
    * Функция разлогинивания
    */
   const handleLogout = (): void => {
-    auth.logout().finally(redirectToMain);
+    auth.logout().finally((): void => history.push({ pathname: '/' }));
   };
-
-  /**
-   * Функция редиректа на главную стараницу
-   */
-  const redirectToMain = (): void => history.push({ pathname: '/' });
 
   /**
    * Функция выгрузки данных о пользователе
