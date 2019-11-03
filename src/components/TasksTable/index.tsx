@@ -19,16 +19,13 @@ import {
 import { Fade, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import {
-  tableSettings,
-  tasksFilterLookUps,
-  tasksSortingLookUps,
-} from 'components/TasksTable/settings';
+import { tableSettings, tasksFilterLookUps } from 'components/TasksTable/settings';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { Loading } from 'generic';
 import api from 'lib/api';
 import auth from 'lib/auth';
+import { DASH_BOARD_TITLES, SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
 import {
   filterRowMessages,
@@ -37,14 +34,7 @@ import {
   tableMessages,
 } from 'lib/translate';
 import { IApiResponse, ICustomDataTypeProviderProps, IGetConfig, ITable } from 'lib/types';
-import {
-  DASH_BOARD_TITLES,
-  filteringParams,
-  SERVER_NOT_AVAILABLE,
-  SERVER_RESPONSES,
-  sortingParams,
-  unpackArrayOfObjects,
-} from 'lib/utils';
+import { getFilteringConfig, getPaginationConfig, getSortingConfig } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, { FC, memo, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
@@ -140,55 +130,17 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   const taskFilter = (filter: 'completed' | 'in-process'): boolean => filter === 'completed';
 
   /**
-   * Функция получения конфига для пагинации
-   * @returns {IGetConfig} конфиг для пагинации
-   */
-  const getPaginationConfig = (): IGetConfig => (
-    { limit: pageSize, offset: currentPage! * pageSize! }
-  );
-
-  /**
-   * Функция для получения конфига для фильтрации
-   * @returns {Partial<IGetConfig>} конфиг для фильтрации
-   */
-  const getFilteringConfig = (): Partial<IGetConfig> => {
-    return {
-      ...unpackArrayOfObjects<Partial<IGetConfig>>(
-        filters!.map(({ operation, columnName, value }: Filter): Partial<IGetConfig> => {
-          return {
-            [tasksFilterLookUps[columnName] + filteringParams[operation!]]: value,
-          };
-        }),
-      ),
-    };
-  };
-
-  /**
-   * Функция для получения конфига сортировки
-   * @returns {Partial<IGetConfig>} конфиг сортировки
-   */
-  const getSortingConfig = (): Partial<IGetConfig> => {
-    return {
-      ...unpackArrayOfObjects<Partial<IGetConfig>>(
-        sorting!.map(({ direction, columnName }: Sorting): Partial<IGetConfig> => {
-          return { ordering: sortingParams[direction] + tasksSortingLookUps[columnName] };
-        }),
-      ),
-    };
-  };
-
-  /**
    * Метод для загрузи данных в таблицу с сервера
    */
   const loadData = (): void => {
     setLoading(true);
     const params: IGetConfig = {
-      ...getPaginationConfig(),
-      ...getFilteringConfig(),
-      ...getSortingConfig(),
+      ...getPaginationConfig(pageSize!, currentPage!),
+      ...getFilteringConfig(filters!, tasksFilterLookUps),
+      ...getSortingConfig(sorting!, tasksFilterLookUps),
+      // В зависимости от выбранного пункта меню фильтруем список заданий
+      done: taskFilter(filter),
     };
-    // В зависимости от выбранного пункта меню фильтруем список заданий
-    params.done = taskFilter(filter);
     api.getContent<IApiResponse<IRow>>('task-table', params, TASKS_APP)
       .then((response: AxiosResponse<IApiResponse<IRow>>): void => {
         const { results, count } = response.data;

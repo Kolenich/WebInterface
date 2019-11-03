@@ -1,7 +1,7 @@
 import { MuiThemeProvider } from '@material-ui/core';
 import ContextProvider from 'context';
+import { snackbarProviderProps } from 'lib/constants';
 import theme from 'lib/theme';
-import { snackbarProviderProps } from 'lib/utils';
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { render } from 'react-dom';

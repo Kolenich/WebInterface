@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import { dateTimeOptions } from 'lib/utils';
+import { DATETIME_OPTIONS } from 'lib/constants';
 import React, { FC, memo } from 'react';
 import { IProps } from './types';
 
@@ -12,7 +12,7 @@ import { IProps } from './types';
 const DateTimeFormatter: FC<IProps> = ({ value }: IProps): JSX.Element => (
   <Typography component="div">
     {value
-      ? new Date(value).toLocaleDateString('ru', dateTimeOptions)
+      ? new Date(value).toLocaleDateString('ru', DATETIME_OPTIONS)
       : 'Не указана'}
   </Typography>
 );

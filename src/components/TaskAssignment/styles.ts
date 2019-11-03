@@ -1,10 +1,10 @@
 import { Theme } from '@material-ui/core';
 import { createStyles, StyleRules } from '@material-ui/styles';
-import { appBarHeight } from 'lib/utils';
+import { APPBAR_HEIGHT } from 'lib/constants';
 
 const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   paper: {
-    minHeight: window.innerHeight - appBarHeight,
+    minHeight: window.innerHeight - APPBAR_HEIGHT,
     padding: theme.spacing(1),
   },
   container: {
