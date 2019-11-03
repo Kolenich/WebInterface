@@ -10,8 +10,8 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент поля с выбором даты
- * @param {boolean | undefined} withTime остальные пропсы
- * @param {Partial<IProps>} props флаг "С временем"
+ * @param {boolean | undefined} withTime флаг "С временем"
+ * @param {Partial<IProps>} props остальные пропсы
  * @returns {JSX.Element}
  * @constructor
  */

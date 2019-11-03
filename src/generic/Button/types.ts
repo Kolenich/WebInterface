@@ -1,8 +1,9 @@
 import { ButtonProps } from '@material-ui/core/Button';
+import { SvgIconComponent } from '@material-ui/icons';
 
 export interface IProps extends ButtonProps {
   /** Тип иконки */
-  icon?: IButtonIcon;
+  icon?: SvgIconComponent;
+  /** Расположение иконки */
+  iconPlacement?: 'left' | 'right';
 }
-
-export type IButtonIcon = 'save' | 'add' | 'confirm' | 'update' | 'edit' | 'delete' | 'cancel';

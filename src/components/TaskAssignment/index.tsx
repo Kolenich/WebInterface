@@ -1,5 +1,6 @@
 import { Collapse, Grid, Paper, TextField } from '@material-ui/core';
 import {
+  Add,
   CalendarToday as DateIcon,
   Edit as DescriptionIcon,
   InsertCommentRounded as CommentIcon,
@@ -208,7 +209,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
           <Grid item xs="auto">
             <Button
               variant="contained"
-              icon="add"
+              icon={Add}
               color="primary"
               onClick={submitTask}
             >

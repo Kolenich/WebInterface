@@ -6,7 +6,7 @@ import {
   DialogTitle,
   Typography,
 } from '@material-ui/core';
-import { CheckCircle, Error, Warning } from '@material-ui/icons';
+import { Cancel, CheckCircle, Done, Error, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import { Button } from 'generic';
@@ -76,7 +76,7 @@ const Dialog: FC<IProps> =
               variant="contained"
               color="primary"
               onClick={handleClick}
-              icon="confirm"
+              icon={Done}
             >
               OK
             </Button>
@@ -84,8 +84,8 @@ const Dialog: FC<IProps> =
             <Button
               variant="contained"
               color="secondary"
-              icon="cancel"
               onClick={onClose}
+              icon={Cancel}
             >
               Отмена
             </Button>}

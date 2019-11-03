@@ -4,7 +4,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
-import { DateField, Loading } from 'generic';
+import { Loading } from 'generic';
 import api from 'lib/api';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
@@ -152,22 +152,20 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
           </Grid>
           <Grid item lg={10} xs={12} />
           <Grid item lg={2} xs={12}>
-            <DateField
-              value={date_of_issue}
-              withTime
-              readOnly
+            <TextField
+              value={new Date(date_of_issue!).toLocaleDateString('ru')}
               label="Дата назначения"
-              onChange={(): void => undefined}
+              fullWidth
+              InputProps={{ readOnly: true }}
             />
           </Grid>
           <Grid item lg={10} xs={12} />
           <Grid item lg={2} xs={12}>
-            <DateField
-              value={dead_line}
-              withTime
-              readOnly
+            <TextField
+              value={new Date(dead_line!).toLocaleDateString('ru')}
               label="Срок исполнения"
-              onChange={(): void => undefined}
+              fullWidth
+              InputProps={{ readOnly: true }}
             />
           </Grid>
           <Grid item lg={10} xs={12} />
