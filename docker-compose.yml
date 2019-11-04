@@ -1,4 +1,5 @@
 version: "3.7"
+
 networks:
   web-server:
     name: web-server
@@ -9,6 +10,7 @@ networks:
   server-rabbitmq:
     name: server-rabbitmq
     driver: bridge
+
 volumes:
   static:
     name: static
@@ -18,6 +20,7 @@ volumes:
       type: none
       o: bind
       device: $PWD/postgres_data
+
 services:
   web:
     volumes:
@@ -34,6 +37,7 @@ services:
       - web-server
     depends_on:
       - server
+
   server:
     volumes:
       - static:/app/static
@@ -50,6 +54,7 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+
   postgres:
     restart: always
     container_name: postgres
@@ -62,6 +67,7 @@ services:
       - POSTGRES_PASSWORD=Crowel_16
     networks:
       - server-postgres
+
   rabbitmq:
     restart: always
     container_name: rabbitmq
