@@ -21,7 +21,9 @@ const withDialog =
     /**
      * Функция, закрывающая диалог
      */
-    const closeDialog = (): void => setDialog({ ...dialog, open: false });
+    const closeDialog = (): void => (
+      setDialog((oldDialog: IDialogProps): IDialogProps => ({ ...oldDialog, open: false }))
+    );
 
     /**
      * Функция вызова диалогового окна
@@ -34,7 +36,12 @@ const withDialog =
       status: IDialogStatus = 'success',
       warningAcceptCallback?: () => void,
     ): void => (
-      setDialog({ message, status, warningAcceptCallback, open: true })
+      setDialog((oldDialog: IDialogProps): IDialogProps => ({
+        message,
+        status,
+        warningAcceptCallback,
+        open: true,
+      }))
     );
 
     return (

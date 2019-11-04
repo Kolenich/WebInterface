@@ -19,7 +19,9 @@ const ContextProvider: FC<{}> = ({ children }): JSX.Element => {
    * Функция-обертка для установки активного заголовка панели
    * @param {string} title устанавливаемый заголовок
    */
-  const updateDashBoardTitle = (title: string): void => setDashBoardTitle(title);
+  const updateDashBoardTitle = (title: string): void => (
+    setDashBoardTitle((): string => title)
+  );
 
   const value: IContext = {
     getters: {

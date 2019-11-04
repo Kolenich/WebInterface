@@ -72,28 +72,32 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
     email: '',
   });
 
+  const { first_name, last_name, email } = user;
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   /**
    * Функция, открывающая панель
    */
-  const openDrawer = (): void => setDrawerOpen(true);
+  const openDrawer = (): void => setDrawerOpen((): boolean => true);
 
   /**
    * Функция, закрывающая панель
    */
-  const closeDrawer = (): void => setDrawerOpen(false);
+  const closeDrawer = (): void => setDrawerOpen((): boolean => false);
 
   /**
    * Функция, открывающая меню
    * @param {React.MouseEvent<HTMLButtonElement>} event текущий элемент для привязки
    */
-  const openMenu = (event: MouseEvent<HTMLButtonElement>): void => setAnchorEl(event.currentTarget);
+  const openMenu = (event: MouseEvent<HTMLButtonElement>): void => (
+    setAnchorEl((): HTMLElement => event.currentTarget)
+  );
 
   /**
    * Функция, закрывающая меню
    */
-  const closeMenu = (): void => setAnchorEl(null);
+  const closeMenu = (): void => setAnchorEl((): null => null);
 
   /**
    * Функция разлогинивания
@@ -107,7 +111,7 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
    */
   const loadUser = (): void => {
     api.getContent<IProfileUser>('user-profile/user', {}, USERS_APP)
-      .then((response: AxiosResponse<IProfileUser>): void => setUser(response.data))
+      .then((response: AxiosResponse<IProfileUser>): void => setUser(() => response.data))
       .catch((error: AxiosError): void => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
@@ -116,8 +120,6 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
         enqueueSnackbar(message, { variant: 'error' });
       });
   };
-
-  const { first_name, last_name, email } = user;
 
   useEffect(loadUser, []);
 

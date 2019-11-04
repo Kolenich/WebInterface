@@ -8,7 +8,7 @@ import {
 } from '@material-ui/icons';
 import { MaterialUiPickersDate } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
@@ -63,10 +63,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   const loadUsers = (): void => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
       .then((response: AxiosResponse<IApiResponse<ISelectItem>>): void => {
-        setUsers(response.data.results);
-        setMounted(true);
-      })
-      .catch();
+        setUsers((): ISelectItem[] => response.data.results);
+        setMounted((): boolean => true);
+      });
   };
 
   /**
@@ -75,7 +74,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    */
   const handleSelectChange = (option: ValueType<ISelectItem>): void => {
     const { value } = option as ISelectItem;
-    setTask({ ...task, assigned_to: value });
+    setTask((oldTask: ITask): ITask => ({ ...oldTask, assigned_to: value }));
   };
 
   /**
@@ -84,7 +83,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    */
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
-    setTask({ ...task, [name]: value });
+    setTask((oldTask: ITask): ITask => ({ ...oldTask, [name]: value }));
   };
 
   /**
@@ -92,32 +91,31 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    * @param {MaterialUiPickersDate} date новая дата
    */
   const handleDeadLineChange = (date: MaterialUiPickersDate): void => (
-    setTask({ ...task, dead_line: date })
+    setTask((oldTask: ITask): ITask => ({ ...oldTask, dead_line: date }))
   );
 
   /**
    * Функция отправка задачи на сервер
    */
-  const submitTask = (): void => {
+  const submitTask = async (): Promise<void> => {
     openDialog('', 'loading');
-    api.sendContent('assign-task', task)
-      .then((response: AxiosResponse): void => {
-        openDialog(SERVER_RESPONSES[response.status], 'success');
-        setTask({
-          summary: '',
-          description: '',
-          comment: '',
-          dead_line: null,
-          assigned_to: '',
-        });
-      })
-      .catch((error: AxiosError): void => {
-        let message: string = 'Сервер недоступен, попробуйте позже';
-        if (error.response) {
-          message = SERVER_RESPONSES[error.response.status];
-        }
-        openDialog(message, 'error');
-      });
+    try {
+      const response: AxiosResponse = await api.sendContent('assign-task', task);
+      openDialog(SERVER_RESPONSES[response.status], 'success');
+      setTask((): ITask => ({
+        summary: '',
+        description: '',
+        comment: '',
+        dead_line: null,
+        assigned_to: '',
+      }));
+    } catch (error) {
+      let message: string = 'Сервер недоступен, попробуйте позже';
+      if (error.response) {
+        message = SERVER_RESPONSES[error.response.status];
+      }
+      openDialog(message, 'error');
+    }
   };
 
   /**

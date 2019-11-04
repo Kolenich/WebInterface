@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
@@ -22,6 +22,7 @@ import { USERS_APP } from 'lib/session';
 import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { SERVER_NOT_AVAILABLE } from '../../lib/constants';
 import styles from './styles';
 import { IAccount, IErrors, IProps } from './types';
 
@@ -39,6 +40,8 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
   const { enqueueSnackbar } = useSnackbar();
 
   const context = useContext<IContext>(Context);
+
+  const { documentTitle } = context.getters;
 
   // Набор переменных состояния для пользовательских данных
   const [account, setAccount] = useState<IAccount>({
@@ -63,15 +66,13 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
     password: false,
   });
 
-  const { documentTitle } = context.getters;
-
   /**
    * Функция обработки изменений в текстовом поле
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
-    setAccount({ ...account, [name]: value });
+    setAccount((oldAccount: IAccount): IAccount => ({ ...oldAccount, [name]: value }));
   };
 
   /**
@@ -80,40 +81,41 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
    */
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = event.target;
-    setAccount({ ...account, [name]: checked });
+    setAccount((oldAccount: IAccount): IAccount => ({ ...oldAccount, [name]: checked }));
   };
 
   /**
    * Функция для сброса ошибок в полях
    */
   const resetErrors = (): void => (
-    setErrors({ email: false, first_name: false, last_name: false, password: false })
+    setErrors(() => ({ email: false, first_name: false, last_name: false, password: false }))
   );
 
   /**
    * Функция отправки формы
    */
-  const handleSubmit = (): void => {
-    setLoading(true);
+  const handleSubmit = async (): Promise<void> => {
+    setLoading((): boolean => true);
     const { email, first_name, last_name, password, mailing } = account;
     const sendData: IAccount = { email, password, first_name, last_name, mailing };
-    api.sendContent('user/registrate', sendData, USERS_APP)
-      .then((response: AxiosResponse): void => {
-        const { message } = response.data;
-        enqueueSnackbar(message, { variant: 'success' });
-        // Через 2 секунды перенаправляем на страницу входа
-        setTimeout((): void => history.push({ pathname: '/sign-in' }), 2000);
-      })
-      .catch((error: AxiosError): void => {
-        if (error.response) {
-          const { message, errors: errorsList } = error.response.data;
-          setErrors({ ...errors, ...errorsList });
-          enqueueSnackbar(message, { variant: 'error' });
-          // Через 3 секунды гасим ошибки
-          setTimeout(resetErrors, 3000);
-        }
-      })
-      .finally((): void => setLoading(false));
+    try {
+      const response: AxiosResponse = await api.sendContent('user/registrate', sendData, USERS_APP);
+      const { message } = response.data;
+      enqueueSnackbar(message, { variant: 'success' });
+      // Через 2 секунды перенаправляем на страницу входа
+      setTimeout((): void => history.push({ pathname: '/sign-in' }), 2000);
+    } catch (error) {
+      let message: string = SERVER_NOT_AVAILABLE;
+      if (error.response) {
+        const { errors: errorsList } = error.response.data;
+        message = error.response.data.message;
+        setErrors((oldErrors: IErrors): IErrors => ({ ...oldErrors, ...errorsList }));
+      }
+      enqueueSnackbar(message, { variant: 'error' });
+      // Через 3 секунды гасим ошибки
+      setTimeout(resetErrors, 3000);
+      setLoading((): boolean => false);
+    }
   };
 
   useEffect(

@@ -97,7 +97,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * @param {Sorting[]} sorting массив сортировок
    */
   const changeSorting = (sorting: Sorting[]): void => (
-    setTable({ ...table, sorting })
+    setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, sorting }))
   );
 
   /**
@@ -105,7 +105,11 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * @param {number} pageSize размер страницы
    */
   const changePageSize = (pageSize: number): void => (
-    setTable({ ...table, pageSize, currentPage: 0 })
+    setTable((oldTable: ITable<IRow>): ITable<IRow> => ({
+      ...oldTable,
+      pageSize,
+      currentPage: 0,
+    }))
   );
 
   /**
@@ -113,14 +117,16 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * @param {number} currentPage номер текущей страницы
    */
   const changeCurrentPage = (currentPage: number): void => (
-    setTable({ ...table, currentPage })
+    setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, currentPage }))
   );
 
   /**
    * Функция изменения фильтров
    * @param {Filter[]} filters массив фильтров
    */
-  const changeFilters = (filters: Filter[]): void => setTable({ ...table, filters });
+  const changeFilters = (filters: Filter[]): void => (
+    setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, filters }))
+  );
 
   /**
    * Функция для выдачи фильтра в зависимости от параметра в урле
@@ -133,7 +139,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * Метод для загрузи данных в таблицу с сервера
    */
   const loadData = (): void => {
-    setLoading(true);
+    setLoading((): boolean => true);
     const params: IGetConfig = {
       ...getPaginationConfig(pageSize!, currentPage!),
       ...getFilteringConfig(filters!, tasksFilterLookUps),
@@ -159,9 +165,9 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
         enqueueSnackbar(message, { variant: 'error' });
       })
       .finally((): void => {
-        setLoading(false);
+        setLoading((): boolean => false);
         if (!mounted) {
-          setMounted(true);
+          setMounted((): boolean => true);
         }
       });
   };

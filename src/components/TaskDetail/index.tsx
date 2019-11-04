@@ -57,7 +57,9 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
    */
   const loadTask = (): void => {
     api.getContent<ITaskDetail>(`task-detail/${id}`)
-      .then((response: AxiosResponse<ITaskDetail>): void => setTask(response.data))
+      .then((response: AxiosResponse<ITaskDetail>): void => (
+        setTask((): ITaskDetail => response.data)
+      ))
       .catch((error: AxiosError): void => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
@@ -69,30 +71,34 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
         }
         openDialog(message, 'error');
       })
-      .finally((): void => setLoaded(true));
+      .finally((): void => setLoaded((): boolean => true));
   };
 
   /**
    * Функция выставления выполнености задания через сервер
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
-  const handleSwitchChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleSwitchChange = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
     openDialog('', 'loading');
     const { name, checked } = event.target;
-    const data = { [name]: checked } as ITaskDetail;
+    const sendData = { [name]: checked } as ITaskDetail;
     const { id } = task;
-    api.sendContent(`task/${id}`, data, TASKS_APP, 'patch')
-      .then((response: AxiosResponse<ITaskDetail>): void => {
-        setTask({ ...task, ...response.data, assigned_by });
-        openDialog(SERVER_RESPONSES[response.status], 'success');
-      })
-      .catch((error: AxiosError): void => {
-        let message: string = SERVER_NOT_AVAILABLE;
-        if (error.response) {
-          message = SERVER_RESPONSES[error.response.status];
-        }
-        openDialog(message, 'error');
-      });
+    try {
+      const { data, status }: AxiosResponse<ITaskDetail> = await api.sendContent(
+        `task/${id}`,
+        sendData,
+        TASKS_APP,
+        'patch',
+      );
+      setTask((oldTask: ITaskDetail): ITaskDetail => ({ ...oldTask, ...data, assigned_by }));
+      openDialog(SERVER_RESPONSES[status], 'success');
+    } catch (error) {
+      let message: string = SERVER_NOT_AVAILABLE;
+      if (error.response) {
+        message = SERVER_RESPONSES[error.response.status];
+      }
+      openDialog(message, 'error');
+    }
   };
 
   /**
@@ -157,6 +163,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
               label="Дата назначения"
               fullWidth
               InputProps={{ readOnly: true }}
+              variant="outlined"
             />
           </Grid>
           <Grid item lg={10} xs={12} />
@@ -166,6 +173,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
               label="Срок исполнения"
               fullWidth
               InputProps={{ readOnly: true }}
+              variant="outlined"
             />
           </Grid>
           <Grid item lg={10} xs={12} />

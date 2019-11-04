@@ -14,7 +14,6 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosError } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import auth from 'lib/auth';
@@ -82,7 +81,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
    */
   const handleLoginChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target;
-    setLogin({ ...login, [name]: value });
+    setLogin((oldLogin: ILogin): ILogin => ({ ...oldLogin, [name]: value }));
   };
 
   /**
@@ -91,7 +90,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
    */
   const handleStatusChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { name, checked } = event.target;
-    setStatus({ ...status, [name]: checked });
+    setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, [name]: checked }));
   };
 
   /**
@@ -100,36 +99,31 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
    */
   const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>): void => {
     if (event.key === 'Enter') {
-      handleLogin();
+      handleLogin().finally();
     }
   };
 
   /**
    * Функция логина
    */
-  const handleLogin = (): void => {
-    setStatus({ ...status, loading: true });
-    auth.login(email, password, remember)
-      .then((): void => {
-        setStatus({ ...status, loading: false });
-        history.push({ pathname: '/' });
-      })
-      .catch((error: AxiosError): void => {
-        setStatus({ ...status, loading: false });
-        let message: string = 'Сервер недоступен, попробуйте позже';
-        if (error.response) {
-          auth.delToken();
-          auth.delHeader();
-          message = 'Неверные логин или пароль';
-          setStatus({ ...status, error: true });
-          // Убираем ошибку через 3 секунды
-          setTimeout((): void => setStatus({ ...status, error: false }), 3000);
-        }
-        enqueueSnackbar(message, { variant: 'error' });
-      });
+  const handleLogin = async (): Promise<void> => {
+    setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, loading: true }));
+    try {
+      await auth.login(email, password, remember);
+      history.push({ pathname: '/' });
+    } catch (error) {
+      let message: string = 'Сервер недоступен, попробуйте позже';
+      auth.delToken();
+      auth.delHeader();
+      if (error.response) {
+        message = 'Неверные логин или пароль';
+      }
+      enqueueSnackbar(message, { variant: 'error' });
+    }
+    setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, loading: false }));
   };
 
-  useEffect((): void => setMounted(true), []);
+  useEffect((): void => setMounted(() => true), []);
 
   return (
     <Zoom in={mounted} timeout={750}>
