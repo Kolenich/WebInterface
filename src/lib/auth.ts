@@ -23,7 +23,7 @@ export default {
     } catch (error) {
       this.delHeader();
       this.delToken();
-      return error;
+      throw error;
     }
   },
 
@@ -37,7 +37,7 @@ export default {
     try {
       return await session.post('auth/logout/');
     } catch (error) {
-      return error;
+      throw error;
     }
   },
 

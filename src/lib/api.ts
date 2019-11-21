@@ -21,7 +21,7 @@ export default {
     try {
       return await session.get<T>(`${prefix}/${requestUrl}/`, { params });
     } catch (error) {
-      return error;
+      throw error;
     }
   },
   /**
@@ -48,7 +48,7 @@ export default {
     try {
       return await session({ method, data, url });
     } catch (error) {
-      return error;
+      throw error;
     }
   },
 };

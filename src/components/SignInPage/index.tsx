@@ -113,8 +113,8 @@ const SignInPage: FC<IProps> = ({ history }: IProps) => {
         message = 'Неверные логин или пароль';
       }
       enqueueSnackbar(message, { variant: 'error' });
+      setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, loading: false }));
     }
-    setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, loading: false }));
   };
 
   useEffect(() => setMounted(() => true), []);
