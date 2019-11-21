@@ -35,7 +35,7 @@ export default {
     this.delHeader();
     this.delToken();
     try {
-      return await session.post('auth/logout/', {});
+      return await session.post('auth/logout/');
     } catch (error) {
       return error;
     }
