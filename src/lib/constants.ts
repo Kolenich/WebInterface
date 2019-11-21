@@ -58,6 +58,7 @@ export const DASH_BOARD_TITLES: IDashBoardTitles = {
   completed: 'Выполненные',
   'in-process': 'В процессе',
 };
+
 export const snackbarProviderProps: SnackbarProviderProps = {
   maxSnack: 5,
   anchorOrigin: { vertical: 'bottom', horizontal: 'right' },

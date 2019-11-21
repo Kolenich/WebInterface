@@ -3,7 +3,6 @@ import { ICustomLookUps } from '../components/TasksTable/types';
 import { FILTERING_PARAMS, SORTING_PARAMS } from './constants';
 import { IGetConfig } from './types';
 
-
 /**
  * Функция получения текущего хоста для запроса на сервер.
  * @returns {string} имя хоста с протоколом
@@ -22,7 +21,6 @@ export const getBaseUrl = (): string => (
     ? getCurrentHost()
     : 'http://localhost:8080'
 );
-
 
 /**
  * Функция для распаковки массива объектов в один объект.
@@ -44,9 +42,9 @@ export const unpackArrayOfObjects = <T>(arr: T[]): T => {
  * @param {number} currentPage индекс текущей страницы
  * @returns {IGetConfig} конфиг для пагинации
  */
-export const getPaginationConfig = (pageSize: number, currentPage: number): IGetConfig => (
-  { limit: pageSize, offset: currentPage! * pageSize! }
-);
+export const getPaginationConfig = (pageSize: number, currentPage: number): IGetConfig => ({
+  limit: pageSize, offset: currentPage! * pageSize!,
+});
 
 /**
  * Функция для получения конфига для фильтрации

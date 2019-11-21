@@ -1,4 +1,4 @@
-import { INotifications } from 'decorators/notification/types';
+import { INotifications } from 'decorators/withDialog/types';
 import { ReactText } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 

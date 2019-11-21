@@ -1,4 +1,4 @@
-import withDialog from './notification';
+import withDialog from './withDialog';
 
 export {
   withDialog,
