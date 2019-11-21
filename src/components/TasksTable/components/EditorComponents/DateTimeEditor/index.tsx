@@ -1,11 +1,8 @@
 import DateFnsUtils from '@date-io/date-fns';
-import {
-  DateTimePicker,
-  MaterialUiPickersDate,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
-import ruLocale from 'date-fns/locale/ru';
+import { ru } from 'date-fns/locale';
 import React, { FC, memo } from 'react';
 import styles from './styles';
 import { IProps } from './types';
@@ -40,7 +37,7 @@ const DateTimeEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   }
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ru}>
       <DateTimePicker
         value={displayValue}
         label="Фильтр..."

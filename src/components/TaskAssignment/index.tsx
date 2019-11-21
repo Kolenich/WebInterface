@@ -6,7 +6,7 @@ import {
   InsertCommentRounded as CommentIcon,
   Person as AssignToIcon,
 } from '@material-ui/icons';
-import { MaterialUiPickersDate } from '@material-ui/pickers';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
 import { Context } from 'context';
