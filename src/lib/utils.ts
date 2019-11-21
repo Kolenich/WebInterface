@@ -7,7 +7,7 @@ import { IGetConfig } from './types';
  * Функция получения текущего хоста для запроса на сервер.
  * @returns {string} имя хоста с протоколом
  */
-const getCurrentHost = (): string => {
+const getCurrentHost = () => {
   const url: string = window.location.href;
   const arr: string[] = url.split('/');
   return `${arr[0]}//${arr[2]}`;
@@ -16,7 +16,7 @@ const getCurrentHost = (): string => {
 /**
  * Функция, генерирующая URL запроса для запросов на сервер
  */
-export const getBaseUrl = (): string => (
+export const getBaseUrl = () => (
   process.env.NODE_ENV === 'production'
     ? getCurrentHost()
     : 'http://localhost:8080'

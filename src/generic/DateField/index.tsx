@@ -15,7 +15,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const DateField: FC<IProps> = ({ withTime, ...props }: IProps): JSX.Element => {
+const DateField: FC<IProps> = ({ withTime, ...props }: IProps) => {
   const classes = useStyles();
 
   return (

@@ -11,7 +11,7 @@ import { IProps } from './types';
  * @returns {JSX.Element}
  * @constructor
  */
-const SingleValue: FC<IProps> = ({ selectProps, innerProps, children }: IProps): JSX.Element => (
+const SingleValue: FC<IProps> = ({ selectProps, innerProps, children }: IProps) => (
   <Typography className={selectProps.classes.singleValue} {...innerProps}>
     {children}
   </Typography>

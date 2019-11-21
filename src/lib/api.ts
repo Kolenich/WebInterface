@@ -1,30 +1,29 @@
-import { AxiosPromise, AxiosResponse } from 'axios';
 import { session, TASKS_APP } from './session';
 import { HTTPMethods } from './types';
 
 export default {
   /**
    * API-функция для получения данных с сервера
-   * @param {string} requestUrl  url запроса
+   * @param {string} requestUrl url запроса
    * @param sendData запрашиваемое приложение
    * @param {string} app параметры запроса
    * @returns {AxiosPromise<T>}
    */
-  getContent: <T>(requestUrl: string, sendData?: any, app?: string): AxiosPromise<T> => (
-    new Promise<AxiosResponse<T>>((resolve, reject): void => {
-      let params = sendData;
-      if (!sendData) {
-        params = {};
-      }
-      let prefix = app;
-      if (!prefix) {
-        prefix = TASKS_APP;
-      }
-      session.get<T>(`${prefix}/${requestUrl}/`, { params })
-        .then(resolve)
-        .catch(reject);
-    })
-  ),
+  getContent: async <T>(requestUrl: string, sendData?: any, app?: string) => {
+    let params = sendData;
+    if (!sendData) {
+      params = {};
+    }
+    let prefix = app;
+    if (!prefix) {
+      prefix = TASKS_APP;
+    }
+    try {
+      return await session.get<T>(`${prefix}/${requestUrl}/`, { params });
+    } catch (error) {
+      return error;
+    }
+  },
   /**
    * API-функция для отправки данных на сервер
    * @param {string} requestUrl url запроса
@@ -33,23 +32,23 @@ export default {
    * @param {HTTPMethods} sendMethod  метод запроса
    * @returns {AxiosPromise<T>}
    */
-  sendContent: <T>(
+  sendContent: async <T>(
     requestUrl: string, sendData: T, app?: string, sendMethod?: HTTPMethods,
-  ): AxiosPromise<T> => (
-    new Promise<AxiosResponse<T>>((resolve, reject): void => {
-      let method = sendMethod;
-      if (!method) {
-        method = 'post';
-      }
-      let prefix = app;
-      if (!prefix) {
-        prefix = TASKS_APP;
-      }
-      const data: T = sendData;
-      const url: string = `${prefix}/${requestUrl}/`;
-      session({ method, data, url })
-        .then(resolve)
-        .catch(reject);
-    })
-  ),
+  ) => {
+    let method = sendMethod;
+    if (!method) {
+      method = 'post';
+    }
+    let prefix = app;
+    if (!prefix) {
+      prefix = TASKS_APP;
+    }
+    const data: T = sendData;
+    const url: string = `${prefix}/${requestUrl}/`;
+    try {
+      return await session({ method, data, url });
+    } catch (error) {
+      return error;
+    }
+  },
 };

@@ -18,12 +18,12 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
+const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   const classes = useStyles();
 
   const [users, setUsers] = useState<ISelectItem[]>([]);
 
-  let displayValue: string = '';
+  let displayValue = '';
   if (value) {
     displayValue = value;
   }
@@ -32,14 +32,14 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Eleme
    * Функция обработки изменений
    * @param {React.ChangeEvent<ISelectElement>} event объект события изменени/
    */
-  const onChange = (event: ChangeEvent<ISelectElement>): void => onValueChange(event.target.value);
+  const onChange = (event: ChangeEvent<ISelectElement>) => onValueChange(event.target.value);
 
   /**
    * Функция выгрущзки всех юзеров в селект
    */
-  const loadUsers = (): void => {
+  const loadUsers = () => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<IApiResponse<ISelectItem>>): void => (
+      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => (
         setUsers(response.data.results)
       ))
       .catch();
@@ -59,7 +59,7 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Eleme
         onChange={onChange}
       >
         <MenuItem value=""><em>Сброс</em></MenuItem>
-        {users.map(({ label, ...choice }: ISelectItem): JSX.Element => (
+        {users.map(({ label, ...choice }: ISelectItem) => (
           <MenuItem {...choice}>{label}</MenuItem>
         ))}
       </Select>

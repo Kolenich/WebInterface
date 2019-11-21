@@ -9,8 +9,8 @@ import { INotifications } from './types';
  * @returns {React.FC<{}>} компонент с подмшаным диалоговым окном и функцией вызова
  */
 const withDialog =
-  <T extends INotifications>(Component: ComponentType<T>): FC<T> => (props: T): JSX.Element => {
-    // Переменные состояния для снэкбара
+  <T extends INotifications>(Component: ComponentType<T>): FC<T> => (props: T) => {
+    // Переменные состояния для диалогового окна
     const [dialog, setDialog] = useState<IDialogProps>({
       open: false,
       status: 'loading',
@@ -21,27 +21,22 @@ const withDialog =
     /**
      * Функция, закрывающая диалог
      */
-    const closeDialog = (): void => (
-      setDialog((oldDialog: IDialogProps): IDialogProps => ({ ...oldDialog, open: false }))
+    const closeDialog = () => (
+      setDialog((oldDialog: IDialogProps) => ({ ...oldDialog, open: false }))
     );
 
     /**
      * Функция вызова диалогового окна
-     * @param status статус вызываемого окна
-     * @param message сообщение
-     * @param warningAcceptCallback функция-колбэк для принятия предупреждения
+     * @param {string} message сообщение
+     * @param {IDialogStatus} status статус вызываемого окна
+     * @param {() => void} warningAcceptCallback функция-колбэк для принятия предупреждения
      */
     const openDialog = (
       message: string,
       status: IDialogStatus = 'success',
       warningAcceptCallback?: () => void,
-    ): void => (
-      setDialog((oldDialog: IDialogProps): IDialogProps => ({
-        message,
-        status,
-        warningAcceptCallback,
-        open: true,
-      }))
+    ) => (
+      setDialog(() => ({ message, status, warningAcceptCallback, open: true }))
     );
 
     return (

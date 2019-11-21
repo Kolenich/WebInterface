@@ -35,7 +35,7 @@ const components: SelectComponentsConfig<ISelectItem> = {
  * @returns {JSX.Element}
  * @constructor
  */
-const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProps): JSX.Element => {
+const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProps) => {
   const classes = useStyles();
 
   const [option, setOption] = useState<ValueType<ISelectItem>>(null);
@@ -43,7 +43,7 @@ const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProp
   /**
    * Функция, которая устанавливает значение в селект
    */
-  const setSelectOption = (): void => {
+  const setSelectOption = () => {
     const option: ValueType<ISelectItem> =
       options.find((x: ISelectItem): boolean => x.value === value);
     if (!option) {

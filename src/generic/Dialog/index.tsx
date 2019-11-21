@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   Typography,
 } from '@material-ui/core';
 import { Cancel, CheckCircle, Done, Error, Warning } from '@material-ui/icons';
@@ -27,13 +28,13 @@ const useStyles = makeStyles(styles);
  * @constructor
  */
 const Dialog: FC<IProps> =
-  ({ open, status, message, onClose, warningAcceptCallback }: IProps): JSX.Element => {
+  ({ open, status, message, onClose, warningAcceptCallback }: IProps) => {
     const classes = useStyles();
 
     /**
      * Функция обработки нажатия на кнопку
      */
-    const handleClick = (): void => {
+    const handleClick = () => {
       if (status === 'warning' && warningAcceptCallback) {
         warningAcceptCallback();
       }
@@ -42,27 +43,29 @@ const Dialog: FC<IProps> =
 
     return (
       <DialogBase open={open} scroll="paper" disableBackdropClick disableEscapeKeyDown>
-        <DialogTitle disableTypography>
-          {status === 'success' &&
-          <Typography variant="h5" className={classes.message}>
-            <CheckCircle className={clsx(classes.statusIcon, classes.successIcon)} />
-            Успешно
-          </Typography>}
-          {status === 'error' &&
-          <Typography variant="h5" className={classes.message}>
-            <Error className={clsx(classes.statusIcon, classes.errorIcon)} />
-            Ошибка
-          </Typography>}
-          {status === 'warning' &&
-          <Typography variant="h5" className={classes.message}>
-            <Warning className={clsx(classes.statusIcon, classes.warningIcon)} />
-            Внимание
-          </Typography>}
-          {status === 'loading' &&
-          <Typography variant="h5" className={classes.message}>
-            <CircularProgress className={classes.statusIcon} />
-            Пожалуйста, подождите...
-          </Typography>}
+        <DialogTitle>
+          <Grid container alignItems="center">
+            {status === 'success' &&
+            <>
+              <CheckCircle className={clsx(classes.statusIcon, classes.successIcon)} />
+              Успешно
+            </>}
+            {status === 'error' &&
+            <>
+              <Error className={clsx(classes.statusIcon, classes.errorIcon)} />
+              Ошибка
+            </>}
+            {status === 'warning' &&
+            <>
+              <Warning className={clsx(classes.statusIcon, classes.warningIcon)} />
+              Внимание
+            </>}
+            {status === 'loading' &&
+            <>
+              <CircularProgress className={classes.statusIcon} />
+              Пожалуйста, подождите...
+            </>}
+          </Grid>
         </DialogTitle>
         {status !== 'loading' &&
         <>

@@ -11,10 +11,10 @@ import { IProps } from 'router/types';
  * @returns {JSX.Element}
  * @constructor
  */
-const PrivateRoute: FC<IProps> = ({ component, ...rest }: IProps): JSX.Element => (
+const PrivateRoute: FC<IProps> = ({ component, ...rest }: IProps) => (
   <Route
     {...rest}
-    render={(props: (RouteComponentProps & Attributes)): JSX.Element => (
+    render={(props: (RouteComponentProps & Attributes)) => (
       auth.checkToken()
         ? (createElement(component, props))
         : <Redirect to={{ pathname: '/sign-in', state: { from: props.location } }} />

@@ -1,6 +1,4 @@
-import { AxiosError, AxiosPromise, AxiosResponse } from 'axios';
 import { session } from './session';
-import { IAuthResponse } from './types';
 
 export const TOKEN = 'token';
 
@@ -15,62 +13,53 @@ export default {
    * @param {boolean} remember флаг для запоминания пользователя
    * @returns {AxiosPromise<IAuthResponse>}
    */
-  login(username: string, password: string, remember?: boolean): AxiosPromise<IAuthResponse> {
-    return new Promise<AxiosResponse<IAuthResponse>>(((resolve, reject) => {
-      session.post('auth/login/', { username, password })
-        .then((response: AxiosResponse<IAuthResponse>): void => {
-          const { key } = response.data;
-          this.saveToken(key, remember);
-          this.setHeader(key);
-          resolve(response);
-        })
-        .catch((error: AxiosError) => {
-          this.delHeader();
-          this.delToken();
-          reject(error);
-        });
-    }));
+  async login(username: string, password: string, remember?: boolean) {
+    try {
+      const response = await session.post('auth/login/', { username, password });
+      const { key } = response.data;
+      this.saveToken(key, remember);
+      this.setHeader(key);
+      return response;
+    } catch (error) {
+      this.delHeader();
+      this.delToken();
+      return error;
+    }
   },
 
   /**
    * Функция разлогина из системы
    * @returns {AxiosPromise}
    */
-  logout(): AxiosPromise {
-    return new Promise<AxiosResponse>(((resolve, reject) => {
-      session.post('auth/logout/', {})
-        .then((response: AxiosResponse): void => {
-          this.delHeader();
-          this.delToken();
-          resolve(response);
-        })
-        .catch((error: AxiosError): void => {
-          this.delHeader();
-          this.delToken();
-          reject(error);
-        });
-    }));
+  async logout() {
+    this.delHeader();
+    this.delToken();
+    try {
+      return await session.post('auth/logout/', {});
+    } catch (error) {
+      return error;
+    }
   },
 
   /**
    * Функция, устанавливающая заголовок авторизации в сессию
    * @param {string} token токен авторизации
    */
-  setHeader(token: string): void {
+  setHeader(token: string) {
     session.defaults.headers.common.Authorization = `Token ${token}`;
   },
 
   /**
    * Функция, удаляющая заголовок авторизации в сессию
    */
-  delHeader(): void {
+  delHeader() {
     delete (session.defaults.headers.common.Authorization);
   },
 
   /**
    * Функция, удаляющая токен авторизации из локального хранилища
    */
-  delToken(): void {
+  delToken() {
     sessionStorage.removeItem(TOKEN);
     localStorage.removeItem(TOKEN);
   },
@@ -80,7 +69,7 @@ export default {
    * @param {string} token токен авторизации
    * @param {boolean} remember флаг для запоминания пользователя
    */
-  saveToken(token: string, remember?: boolean): void {
+  saveToken(token: string, remember?: boolean) {
     if (remember) {
       localStorage.setItem(TOKEN, token);
     } else {
@@ -94,7 +83,7 @@ export default {
    * В случае успешной проверки устанавливает заголовок авторизации в сессию
    * @returns {boolean}
    */
-  checkToken(): boolean {
+  checkToken() {
     let token: string | null = localStorage.getItem(TOKEN);
     if (!token) {
       token = sessionStorage.getItem(TOKEN);

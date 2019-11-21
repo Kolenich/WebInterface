@@ -48,19 +48,17 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
+const DashBoard: FC<IProps> = ({ history, location }: IProps) => {
   const classes = useStyles();
-  const theme: Theme = useTheme<Theme>();
+  const theme: Theme = useTheme();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const context = useContext<IContext>(Context);
+  const { getters } = useContext<IContext>(Context);
 
-  const { dashBoardTitle } = context.getters;
-
-  const completedSection: boolean = location.pathname === '/my-tasks/completed';
-  const inProcessSection: boolean = location.pathname === '/my-tasks/in-process';
-  const assignSection: boolean = location.pathname === '/assign';
+  const completedSection = location.pathname === '/my-tasks/completed';
+  const inProcessSection = location.pathname === '/my-tasks/in-process';
+  const assignSection = location.pathname === '/assign';
 
   // Переменная открытия/закрытия панели
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -72,47 +70,45 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
     email: '',
   });
 
-  const { first_name, last_name, email } = user;
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   /**
    * Функция, открывающая панель
    */
-  const openDrawer = (): void => setDrawerOpen((): boolean => true);
+  const openDrawer = () => setDrawerOpen(() => true);
 
   /**
    * Функция, закрывающая панель
    */
-  const closeDrawer = (): void => setDrawerOpen((): boolean => false);
+  const closeDrawer = () => setDrawerOpen(() => false);
 
   /**
    * Функция, открывающая меню
    * @param {React.MouseEvent<HTMLButtonElement>} event текущий элемент для привязки
    */
-  const openMenu = (event: MouseEvent<HTMLButtonElement>): void => (
-    setAnchorEl((): HTMLElement => event.currentTarget)
+  const openMenu = (event: MouseEvent<HTMLButtonElement>) => (
+    setAnchorEl(() => event.currentTarget)
   );
 
   /**
    * Функция, закрывающая меню
    */
-  const closeMenu = (): void => setAnchorEl((): null => null);
+  const closeMenu = () => setAnchorEl((): null => null);
 
   /**
    * Функция разлогинивания
    */
-  const handleLogout = (): void => {
-    auth.logout().finally((): void => history.push({ pathname: '/' }));
+  const handleLogout = () => {
+    auth.logout().finally(() => history.push({ pathname: '/' }));
   };
 
   /**
    * Функция выгрузки данных о пользователе
    */
-  const loadUser = (): void => {
+  const loadUser = () => {
     api.getContent<IProfileUser>('user-profile/user', {}, USERS_APP)
-      .then((response: AxiosResponse<IProfileUser>): void => setUser(() => response.data))
-      .catch((error: AxiosError): void => {
+      .then((response: AxiosResponse<IProfileUser>) => setUser(() => response.data))
+      .catch((error: AxiosError) => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           message = SERVER_RESPONSES[error.response.status];
@@ -197,7 +193,7 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
               noWrap
               className={classes.title}
             >
-              {dashBoardTitle}
+              {getters.dashBoardTitle}
             </Typography>
             <IconButton
               aria-haspopup="true"
@@ -223,13 +219,13 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps): JSX.Element => {
                   color="primary"
                   style={{ marginLeft: 0, fontStyle: 'normal' }}
                 >
-                  {first_name} {last_name}
+                  {user.first_name} {user.last_name}
                 </Typography>
                 <Typography
                   className={classes.profileMenuLink}
                   color="primary"
                 >
-                  {email}
+                  {user.email}
                 </Typography>
               </Typography>
               <Typography component="div" className={classes.profileMenuUser}>

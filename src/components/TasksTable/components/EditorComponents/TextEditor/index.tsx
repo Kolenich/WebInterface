@@ -14,19 +14,19 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TextEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
+const TextEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   const classes = useStyles();
 
   /**
    * Функция обработки изменений
    * @param {React.ChangeEvent<ISelectElement>} event объект события изменения
    */
-  const onChange = (event: ChangeEvent<ISelectElement>): void => {
+  const onChange = (event: ChangeEvent<ISelectElement>) => {
     const { value } = event.target;
     onValueChange(value);
   };
 
-  let displayValue: string = '';
+  let displayValue = '';
   if (value) {
     displayValue = value;
   }

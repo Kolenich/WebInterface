@@ -11,7 +11,7 @@ import { IProps } from './types';
  * @returns {JSX.Element}
  * @constructor
  */
-const Menu: FC<IProps> = ({ selectProps, innerProps, children }: IProps): JSX.Element => (
+const Menu: FC<IProps> = ({ selectProps, innerProps, children }: IProps) => (
   <Paper square className={selectProps.classes.paper} {...innerProps}>
     {children}
   </Paper>

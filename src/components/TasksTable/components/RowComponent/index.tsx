@@ -13,7 +13,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const RowComponent: FC<IProps> = (props: IProps): JSX.Element => {
+const RowComponent: FC<IProps> = (props: IProps) => {
   const classes = useStyles();
 
   const history = useHistory();
@@ -21,7 +21,7 @@ const RowComponent: FC<IProps> = (props: IProps): JSX.Element => {
   /**
    * Функция, перенаправляющая на страницу деталей задания
    */
-  const handleClick = (): void => history.push({ pathname: `/my-tasks/${props.row.id}` });
+  const handleClick = () => history.push({ pathname: `/my-tasks/${props.row.id}` });
 
   return (
     <Table.Row {...props} onClick={handleClick} className={classes.row} />

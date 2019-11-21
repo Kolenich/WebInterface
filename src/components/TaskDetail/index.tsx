@@ -22,10 +22,10 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
+const TaskDetail: FC<IProps> = ({ match, openDialog }) => {
   const classes = useStyles();
 
-  const context = useContext<IContext>(Context);
+  const { getters, setters } = useContext<IContext>(Context);
 
   // Переменные состояния для задания
   const [task, setTask] = useState<ITaskDetail>({
@@ -43,24 +43,16 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
 
   const [loaded, setLoaded] = useState<boolean>(false);
 
-  const { id } = match.params;
-
-  const { updateDashBoardTitle } = context.setters;
-  const { documentTitle } = context.getters;
-
-  const { summary, description, comment, dead_line, date_of_issue, done, assigned_by } = task;
-
-  const { first_name, last_name } = assigned_by;
-
   /**
    * Функция загрузки задания с сервера
    */
-  const loadTask = (): void => {
+  const loadTask = () => {
+    const { id } = match.params;
     api.getContent<ITaskDetail>(`task-detail/${id}`)
-      .then((response: AxiosResponse<ITaskDetail>): void => (
+      .then((response: AxiosResponse<ITaskDetail>) => (
         setTask((): ITaskDetail => response.data)
       ))
-      .catch((error: AxiosError): void => {
+      .catch((error: AxiosError) => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           if (error.response.data.message) {
@@ -71,14 +63,14 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
         }
         openDialog(message, 'error');
       })
-      .finally((): void => setLoaded((): boolean => true));
+      .finally(() => setLoaded((): boolean => true));
   };
 
   /**
    * Функция выставления выполнености задания через сервер
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
-  const handleSwitchChange = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const handleSwitchChange = async (event: ChangeEvent<HTMLInputElement>) => {
     openDialog('', 'loading');
     const { name, checked } = event.target;
     const sendData = { [name]: checked } as ITaskDetail;
@@ -90,7 +82,11 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
         TASKS_APP,
         'patch',
       );
-      setTask((oldTask: ITaskDetail): ITaskDetail => ({ ...oldTask, ...data, assigned_by }));
+      setTask((oldTask: ITaskDetail): ITaskDetail => ({
+        ...oldTask,
+        ...data,
+        assigned_by: oldTask.assigned_by,
+      }));
       openDialog(SERVER_RESPONSES[status], 'success');
     } catch (error) {
       let message: string = SERVER_NOT_AVAILABLE;
@@ -104,17 +100,17 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
   /**
    * Функция для установки заголовка панели
    */
-  const setDashBoardTitle = (): void => updateDashBoardTitle!('Посмотреть задание');
+  const setDashBoardTitle = () => setters.updateDashBoardTitle!('Посмотреть задание');
 
   useEffect(loadTask, []);
 
   useEffect(setDashBoardTitle, []);
 
   useEffect(
-    (): void => {
-      document.title = `${documentTitle} | Задание №${id}`;
+    () => {
+      document.title = `${getters.documentTitle} | Задание №${match.params.id}`;
     },
-    [documentTitle, id],
+    [getters.documentTitle, match.params.id],
   );
 
   return (
@@ -123,7 +119,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
         <Grid container spacing={2} className={classes.container}>
           <Grid item lg={3} xs={12}>
             <TextField
-              value={summary}
+              value={task.summary}
               variant="outlined"
               fullWidth
               label="Краткое описание"
@@ -133,7 +129,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
           <Grid item lg={9} xs={12} />
           <Grid item lg={3} xs={12}>
             <TextField
-              value={description}
+              value={task.description}
               variant="outlined"
               fullWidth
               label="Полное описание"
@@ -147,7 +143,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
             <TextField
               value={
                 task.id
-                  ? `${last_name} ${first_name}`
+                  ? `${task.assigned_by.last_name} ${task.assigned_by.first_name}`
                   : ''
               }
               variant="outlined"
@@ -159,7 +155,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
           <Grid item lg={10} xs={12} />
           <Grid item lg={2} xs={12}>
             <TextField
-              value={new Date(date_of_issue!).toLocaleDateString('ru')}
+              value={new Date(task.date_of_issue!).toLocaleDateString('ru')}
               label="Дата назначения"
               fullWidth
               InputProps={{ readOnly: true }}
@@ -169,7 +165,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
           <Grid item lg={10} xs={12} />
           <Grid item lg={2} xs={12}>
             <TextField
-              value={new Date(dead_line!).toLocaleDateString('ru')}
+              value={new Date(task.dead_line!).toLocaleDateString('ru')}
               label="Срок исполнения"
               fullWidth
               InputProps={{ readOnly: true }}
@@ -179,7 +175,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
           <Grid item lg={10} xs={12} />
           <Grid item lg={3} xs={12}>
             <TextField
-              value={comment}
+              value={task.comment}
               variant="outlined"
               fullWidth
               label="Комментарий"
@@ -193,11 +189,11 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }): JSX.Element => {
             <FormControlLabel
               control={
                 <Switch
-                  checked={done}
+                  checked={task.done}
                   onChange={handleSwitchChange}
                   name="done"
                   color="primary"
-                  disabled={done || !task.id}
+                  disabled={task.done || !task.id}
                 />
               }
               label="Выполнено"

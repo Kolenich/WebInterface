@@ -7,7 +7,7 @@ import './styles.css';
  * @returns {JSX.Element}
  * @constructor
  */
-const Loading: FC<{}> = (): JSX.Element => (
+const Loading: FC<{}> = () => (
   <Typography component="div" className="loading-shading">
     <CircularProgress className="loading-icon" />
   </Typography>

@@ -9,7 +9,7 @@ import { IProps } from './types';
  * @returns {JSX.Element}
  * @constructor
  */
-const InputComponent: FC<IProps> = ({ inputRef, ...props }: IProps): JSX.Element => (
+const InputComponent: FC<IProps> = ({ inputRef, ...props }: IProps) => (
   <div ref={inputRef} {...props} />
 );
 

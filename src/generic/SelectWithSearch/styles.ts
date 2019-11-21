@@ -1,8 +1,8 @@
 import { Theme } from '@material-ui/core';
 import { emphasize } from '@material-ui/core/styles';
-import { createStyles, StyleRules } from '@material-ui/styles';
+import { createStyles } from '@material-ui/styles';
 
-const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
+const styles = (theme: Theme) => createStyles({
   root: {
     flexGrow: 1,
     height: 250,

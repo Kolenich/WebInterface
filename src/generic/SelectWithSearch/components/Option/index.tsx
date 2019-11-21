@@ -19,21 +19,20 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const Option: FC<IProps> =
-  ({ innerRef, isFocused, isSelected, innerProps, children }: IProps): JSX.Element => {
-    const classes = useStyles();
+const Option: FC<IProps> = ({ innerRef, isFocused, isSelected, innerProps, children }: IProps) => {
+  const classes = useStyles();
 
-    return (
-      <MenuItem
-        ref={innerRef}
-        selected={isFocused}
-        component="div"
-        className={clsx(isSelected && classes.itemSelected)}
-        {...innerProps}
-      >
-        {children}
-      </MenuItem>
-    );
-  };
+  return (
+    <MenuItem
+      ref={innerRef}
+      selected={isFocused}
+      component="div"
+      className={clsx(isSelected && classes.itemSelected)}
+      {...innerProps}
+    >
+      {children}
+    </MenuItem>
+  );
+};
 
 export default memo<IProps>(Option);

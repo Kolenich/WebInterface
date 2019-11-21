@@ -10,7 +10,7 @@ import PrivateRoute from 'router/PrivateRouter';
  * @returns {JSX.Element}
  * @constructor
  */
-const DashBoardRouter: FC<{}> = (): JSX.Element => (
+const DashBoardRouter: FC<{}> = () => (
   <Switch>
     <Redirect exact from="/" to="/my-tasks/in-process" />
     <PrivateRoute path="/my-tasks/:filter(completed|in-process)" component={TasksTable} />

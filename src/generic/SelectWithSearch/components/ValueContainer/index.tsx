@@ -9,7 +9,7 @@ import { IProps } from './types';
  * @returns {JSX.Element}
  * @constructor
  */
-const ValueContainer: FC<IProps> = ({ selectProps, children }: IProps): JSX.Element => (
+const ValueContainer: FC<IProps> = ({ selectProps, children }: IProps) => (
   <div className={selectProps.classes.valueContainer}>{children}</div>
 );
 

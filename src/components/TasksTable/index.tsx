@@ -52,17 +52,12 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
+const TasksTable: FC<IProps> = ({ history, match }) => {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { filter } = match.params;
-
   const { setters, getters } = useContext<IContext>(Context);
-
-  const { updateDashBoardTitle } = setters;
-  const { documentTitle } = getters;
 
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
@@ -85,18 +80,11 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
 
   const [settings] = useState<IColumnSettings>(tableSettings);
 
-  const { rows, filters, sorting, pageSizes, pageSize, totalCount, currentPage } = table;
-
-  const {
-    columns, sortingStateColumnExtensions, defaultOrder, filteringStateColumnExtensions,
-    columnsExtensions,
-  } = settings;
-
   /**
    * Функция изменения сортировок
    * @param {Sorting[]} sorting массив сортировок
    */
-  const changeSorting = (sorting: Sorting[]): void => (
+  const changeSorting = (sorting: Sorting[]) => (
     setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, sorting }))
   );
 
@@ -104,7 +92,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * Метод для обработки изменения числа строк на странице
    * @param {number} pageSize размер страницы
    */
-  const changePageSize = (pageSize: number): void => (
+  const changePageSize = (pageSize: number) => (
     setTable((oldTable: ITable<IRow>): ITable<IRow> => ({
       ...oldTable,
       pageSize,
@@ -116,7 +104,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * Функция обработки изменения текущей страницы
    * @param {number} currentPage номер текущей страницы
    */
-  const changeCurrentPage = (currentPage: number): void => (
+  const changeCurrentPage = (currentPage: number) => (
     setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, currentPage }))
   );
 
@@ -124,7 +112,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    * Функция изменения фильтров
    * @param {Filter[]} filters массив фильтров
    */
-  const changeFilters = (filters: Filter[]): void => (
+  const changeFilters = (filters: Filter[]) => (
     setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, filters }))
   );
 
@@ -138,33 +126,37 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   /**
    * Метод для загрузи данных в таблицу с сервера
    */
-  const loadData = (): void => {
+  const loadData = () => {
     setLoading((): boolean => true);
     const params: IGetConfig = {
-      ...getPaginationConfig(pageSize!, currentPage!),
-      ...getFilteringConfig(filters!, tasksFilterLookUps),
-      ...getSortingConfig(sorting!, tasksFilterLookUps),
+      ...getPaginationConfig(table.pageSize!, table.currentPage!),
+      ...getFilteringConfig(table.filters!, tasksFilterLookUps),
+      ...getSortingConfig(table.sorting!, tasksFilterLookUps),
       // В зависимости от выбранного пункта меню фильтруем список заданий
-      done: taskFilter(filter),
+      done: taskFilter(match.params.filter),
     };
     api.getContent<IApiResponse<IRow>>('task-table', params, TASKS_APP)
-      .then((response: AxiosResponse<IApiResponse<IRow>>): void => {
+      .then((response: AxiosResponse<IApiResponse<IRow>>) => {
         const { results, count } = response.data;
-        setTable({ ...table, rows: results, totalCount: count });
+        setTable((oldTable: ITable<IRow>) => ({
+          ...oldTable,
+          rows: results,
+          totalCount: count,
+        }));
       })
-      .catch((error: AxiosError): void => {
-        let message: string = SERVER_NOT_AVAILABLE;
+      .catch((error: AxiosError) => {
+        let message = SERVER_NOT_AVAILABLE;
         if (error.response) {
           const { status } = error.response;
           // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
           if (status === 401) {
-            auth.logout().finally((): void => history.push({ pathname: '/' }));
+            auth.logout().finally(() => history.push({ pathname: '/' }));
           }
           message = SERVER_RESPONSES[status];
         }
         enqueueSnackbar(message, { variant: 'error' });
       })
-      .finally((): void => {
+      .finally(() => {
         setLoading((): boolean => false);
         if (!mounted) {
           setMounted((): boolean => true);
@@ -175,13 +167,15 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
   /**
    * Функция для установки заголовка панели
    */
-  const setDashBoardTitle = (): void => updateDashBoardTitle!(DASH_BOARD_TITLES[filter]);
+  const setDashBoardTitle = () => (
+    setters.updateDashBoardTitle!(DASH_BOARD_TITLES[match.params.filter])
+  );
 
   /**
    * Функция установки заголовка HTML-страницы
    */
-  const setDocumentTitle = (): void => {
-    document.title = `${documentTitle} | Мои задания`;
+  const setDocumentTitle = () => {
+    document.title = `${getters.documentTitle} | Мои задания`;
   };
 
   /**
@@ -191,9 +185,12 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
    */
   const getRowId = (row: IRow): ReactText => row.id!;
 
-  useEffect(loadData, [currentPage, pageSize, filters, sorting, filter]);
+  useEffect(
+    loadData,
+    [table.currentPage, table.pageSize, table.filters, table.sorting, match.params.filter],
+  );
 
-  useEffect(setDashBoardTitle, [filter]);
+  useEffect(setDashBoardTitle, [match.params.filter]);
 
   useEffect(setDocumentTitle, []);
 
@@ -202,42 +199,42 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
       <Fade in={mounted} timeout={750}>
         <Paper className={classes.paper}>
           <Grid
-            rows={rows}
-            columns={columns}
+            rows={table.rows}
+            columns={settings.columns}
             getRowId={getRowId}
             rootComponent={RootComponent}
           >
-            {customDataTypes.map((props: ICustomDataTypeProviderProps): JSX.Element => (
+            {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
               <DataTypeProvider {...props} />
             ))}
             <DragDropProvider />
             <SortingState
-              sorting={sorting}
+              sorting={table.sorting}
               onSortingChange={changeSorting}
-              columnExtensions={sortingStateColumnExtensions}
+              columnExtensions={settings.sortingStateColumnExtensions}
             />
             <PagingState
-              currentPage={currentPage}
-              pageSize={pageSize}
+              currentPage={table.currentPage}
+              pageSize={table.pageSize}
               onPageSizeChange={changePageSize}
               onCurrentPageChange={changeCurrentPage}
             />
             <CustomPaging
-              totalCount={totalCount}
+              totalCount={table.totalCount}
             />
             <FilteringState
-              filters={filters}
+              filters={table.filters}
               onFiltersChange={changeFilters}
-              columnExtensions={filteringStateColumnExtensions}
+              columnExtensions={settings.filteringStateColumnExtensions}
             />
             <VirtualTable
               height="auto"
               messages={tableMessages}
               rowComponent={RowComponent}
-              columnExtensions={columnsExtensions}
+              columnExtensions={settings.columnsExtensions}
             />
             <TableColumnReordering
-              defaultOrder={defaultOrder}
+              defaultOrder={settings.defaultOrder}
             />
             <TableHeaderRow
               showSortingControls
@@ -248,7 +245,7 @@ const TasksTable: FC<IProps> = ({ history, match }): JSX.Element => {
               messages={filterRowMessages}
             />
             <PagingPanel
-              pageSizes={pageSizes}
+              pageSizes={table.pageSizes}
               messages={pagingPanelMessages}
             />
           </Grid>

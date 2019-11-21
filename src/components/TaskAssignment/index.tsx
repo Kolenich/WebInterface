@@ -32,13 +32,10 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
+const TaskAssignment: FC<IProps> = ({ openDialog }) => {
   const classes = useStyles();
 
-  const context = useContext<IContext>(Context);
-
-  const { updateDashBoardTitle } = context.setters;
-  const { documentTitle } = context.getters;
+  const { getters, setters } = useContext<IContext>(Context);
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -55,14 +52,12 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   // Флаги загрузки данных
   const [mounted, setMounted] = useState<boolean>(false);
 
-  const { summary, description, comment, dead_line, assigned_to } = task;
-
   /**
    * Функция выгрузки всех юзеров, которым можно назначить задание
    */
-  const loadUsers = (): void => {
+  const loadUsers = () => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<IApiResponse<ISelectItem>>): void => {
+      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => {
         setUsers((): ISelectItem[] => response.data.results);
         setMounted((): boolean => true);
       });
@@ -72,7 +67,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    * Функция обработки изменени в селекте
    * @param {ValueType<ISelectItem>} option выбранная опция
    */
-  const handleSelectChange = (option: ValueType<ISelectItem>): void => {
+  const handleSelectChange = (option: ValueType<ISelectItem>) => {
     const { value } = option as ISelectItem;
     setTask((oldTask: ITask): ITask => ({ ...oldTask, assigned_to: value }));
   };
@@ -81,7 +76,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    * Функция обработки изменений в текстовых полях
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
-  const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setTask((oldTask: ITask): ITask => ({ ...oldTask, [name]: value }));
   };
@@ -90,14 +85,14 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
    * Функция для обработки изменений в поле даты (Срок исполнения)
    * @param {MaterialUiPickersDate} date новая дата
    */
-  const handleDeadLineChange = (date: MaterialUiPickersDate): void => (
+  const handleDeadLineChange = (date: MaterialUiPickersDate) => (
     setTask((oldTask: ITask): ITask => ({ ...oldTask, dead_line: date }))
   );
 
   /**
    * Функция отправка задачи на сервер
    */
-  const submitTask = async (): Promise<void> => {
+  const submitTask = async () => {
     openDialog('', 'loading');
     try {
       const response: AxiosResponse = await api.sendContent('assign-task', task);
@@ -121,13 +116,13 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
   /**
    * Функция для установки заголовка панели
    */
-  const setDashBoardTitle = (): void => updateDashBoardTitle!('Назначить задание');
+  const setDashBoardTitle = () => setters.updateDashBoardTitle!('Назначить задание');
 
   useEffect(
-    (): void => {
-      document.title = `${documentTitle} | Назначить задание`;
+    () => {
+      document.title = `${getters.documentTitle} | Назначить задание`;
     },
-    [documentTitle],
+    [getters.documentTitle],
   );
 
   useEffect(loadUsers, []);
@@ -140,7 +135,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
         <Grid container spacing={2} alignItems="center" className={classes.container}>
           <Grid item xs={12} lg={2}>
             <TextField
-              value={summary}
+              value={task.summary}
               name="summary"
               onChange={handleTextChange}
               label="Краткое описание"
@@ -154,7 +149,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
           <Grid item xs={12} lg={9} />
           <Grid item xs={12} lg={4}>
             <TextField
-              value={description}
+              value={task.description}
               name="description"
               onChange={handleTextChange}
               label="Полное описание"
@@ -168,7 +163,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
           <Grid item xs={12} lg={8} />
           <Grid item xs={12} lg={2}>
             <DateField
-              value={dead_line}
+              value={task.dead_line}
               name="dead_line"
               disablePast
               onChange={handleDeadLineChange}
@@ -182,7 +177,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
           <Grid item xs={12} lg={10} />
           <Grid item xs={12} lg={4}>
             <TextField
-              value={comment}
+              value={task.comment}
               name="comment"
               onChange={handleTextChange}
               label="Комментарий"
@@ -197,7 +192,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }): JSX.Element => {
           <Grid item xs={12} lg={3}>
             <AssignToIcon />
             <SelectWithSearch
-              value={assigned_to}
+              value={task.assigned_to}
               label="Кому назначить"
               options={users}
               onChange={handleSelectChange}

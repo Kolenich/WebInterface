@@ -21,14 +21,14 @@ import { ICard, IProps, IStep } from './types';
 
 const useStyles = makeStyles(styles);
 
-const TestBlocks: FC<IProps> = ({ match }): JSX.Element => {
+const TestBlocks: FC<IProps> = ({ match }) => {
   const classes = useStyles();
 
   return (
     <>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6">
             {`Ходатайство №${match.params.id}`}
           </Typography>
         </Toolbar>
@@ -40,12 +40,12 @@ const TestBlocks: FC<IProps> = ({ match }): JSX.Element => {
           className={classes.container}
           justify="space-evenly"
         >
-          {cards.map(({ key, icon, title, subheader, steps }: ICard): JSX.Element => (
+          {cards.map(({ key, icon, title, subheader, steps }: ICard) => (
             <Grid item xs="auto" key={key}>
               <Card className={classes.card}>
                 <CardHeader
                   avatar={
-                    <Avatar className={classes.avatar}>
+                    <Avatar>
                       {createElement(icon)}
                     </Avatar>
                   }

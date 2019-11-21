@@ -1,7 +1,7 @@
 import { Theme } from '@material-ui/core';
-import { createStyles, StyleRules } from '@material-ui/styles';
+import { createStyles } from '@material-ui/styles';
 
-const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
+const styles = (theme: Theme) => createStyles({
   itemSelected: {
     backgroundColor: theme.palette.grey.A100,
   },

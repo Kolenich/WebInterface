@@ -18,7 +18,7 @@ import { IProps } from './types';
  */
 const Control: FC<IProps> = (
   { children, innerProps, innerRef, selectProps: { classes, TextFieldProps } }: IProps,
-): JSX.Element => (
+) => (
   <TextField
     fullWidth
     variant="outlined"

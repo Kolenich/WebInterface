@@ -50,9 +50,9 @@ export const FILTERING_PARAMS: IFiltering = {
   lessThanOrEqual: '__lte',
 };
 // Высота тулбара
-export const APPBAR_HEIGHT: number = 64;
+export const APPBAR_HEIGHT = 64;
 
-export const SERVER_NOT_AVAILABLE: string = 'Сервер не доступен, попробуйте позже';
+export const SERVER_NOT_AVAILABLE = 'Сервер не доступен, попробуйте позже';
 
 export const DASH_BOARD_TITLES: IDashBoardTitles = {
   completed: 'Выполненные',

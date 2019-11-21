@@ -39,12 +39,12 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
+const SignInPage: FC<IProps> = ({ history }: IProps) => {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const context = useContext<IContext>(Context);
+  const { getters } = useContext<IContext>(Context);
 
   // Набор переменных состояния для данных логина
   const [login, setLogin] = useState<ILogin>({
@@ -62,42 +62,36 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
   // Переменная состояния загрузки страницы
   const [mounted, setMounted] = useState<boolean>(false);
 
-  const { email, password } = login;
-
-  const { error, loading, remember } = status;
-
-  const { documentTitle } = context.getters;
-
   useEffect(
-    (): void => {
-      document.title = `${documentTitle} | Войти в систему`;
+    () => {
+      document.title = `${getters.documentTitle} | Войти в систему`;
     },
-    [documentTitle],
+    [getters.documentTitle],
   );
 
   /**
    * Функция обработки изменений персональных данных
    * @param {React.ChangeEvent<HTMLInputElement>} event объект события изменения
    */
-  const handleLoginChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleLoginChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setLogin((oldLogin: ILogin): ILogin => ({ ...oldLogin, [name]: value }));
+    setLogin((oldLogin: ILogin) => ({ ...oldLogin, [name]: value }));
   };
 
   /**
    * Функция обработки изменения чекбокса
    * @param {React.ChangeEvent<HTMLInputElement>} event объект события изменения
    */
-  const handleStatusChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, [name]: checked }));
+    setStatus((oldStatus: IStatus) => ({ ...oldStatus, [name]: checked }));
   };
 
   /**
    * Функция обработки нажатия на Enter
    * @param {React.KeyboardEvent<HTMLDivElement>} event объект события изменения
    */
-  const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>): void => {
+  const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter') {
       handleLogin().finally();
     }
@@ -106,13 +100,13 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
   /**
    * Функция логина
    */
-  const handleLogin = async (): Promise<void> => {
-    setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, loading: true }));
+  const handleLogin = async () => {
+    setStatus((oldStatus: IStatus) => ({ ...oldStatus, loading: true }));
     try {
-      await auth.login(email, password, remember);
+      await auth.login(login.email, login.password, status.remember);
       history.push({ pathname: '/' });
     } catch (error) {
-      let message: string = 'Сервер недоступен, попробуйте позже';
+      let message = 'Сервер недоступен, попробуйте позже';
       auth.delToken();
       auth.delHeader();
       if (error.response) {
@@ -123,7 +117,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
     setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, loading: false }));
   };
 
-  useEffect((): void => setMounted(() => true), []);
+  useEffect(() => setMounted(() => true), []);
 
   return (
     <Zoom in={mounted} timeout={750}>
@@ -145,30 +139,30 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
               id="email"
               label="Электронная почта"
               name="email"
-              error={error}
+              error={status.error}
               autoComplete="email"
-              value={email}
+              value={login.email}
               onChange={handleLoginChange}
             />
             <TextField
               variant="outlined"
               margin="normal"
               required
-              error={error}
+              error={status.error}
               fullWidth
               name="password"
               label="Пароль"
               type="password"
               id="password"
               autoComplete="current-password"
-              value={password}
+              value={login.password}
               onChange={handleLoginChange}
               onKeyPress={handleEnterPress}
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  value={remember}
+                  value={status.remember}
                   name="remember"
                   onChange={handleStatusChange}
                   color="primary"
@@ -182,10 +176,10 @@ const SignInPage: FC<IProps> = ({ history }: IProps): JSX.Element => {
               color="primary"
               className={classes.submit}
               onClick={handleLogin}
-              disabled={loading}
+              disabled={status.loading}
             >
               Войти
-              {loading &&
+              {status.loading &&
               <CircularProgress size={15} className={classes.circularProgress} />}
             </Button>
             <Grid container justify="flex-end">

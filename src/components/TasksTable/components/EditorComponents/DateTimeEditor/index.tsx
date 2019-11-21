@@ -19,24 +19,26 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const DateTimeEditor: FC<IProps> = ({ onValueChange, value }: IProps): JSX.Element => {
+const DateTimeEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   const classes = useStyles();
 
   /**
    * Функция обработки изменений в поле с датой
    * @param {MaterialUiPickersDate} date новая дата
    */
-  const handleChange = (date: MaterialUiPickersDate): void => {
+  const handleChange = (date: MaterialUiPickersDate) => {
     let value: null | Date = null;
     if (date) {
       value = date;
     }
     onValueChange(value);
   };
+
   let displayValue = null;
   if (value) {
     displayValue = value;
   }
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
       <DateTimePicker

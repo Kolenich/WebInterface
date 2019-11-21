@@ -11,10 +11,10 @@ import { IProps } from 'router/types';
  * @returns {JSX.Element}
  * @constructor
  */
-const PublicRoute: FC<IProps> = ({ component, ...rest }: IProps): JSX.Element => (
+const PublicRoute: FC<IProps> = ({ component, ...rest }: IProps) => (
   <Route
     {...rest}
-    render={(props: (RouteComponentProps & Attributes)): JSX.Element => (
+    render={(props: (RouteComponentProps & Attributes)) => (
       auth.checkToken()
         ? (<Redirect to={{ pathname: '/' }} />)
         : (createElement(component, props))

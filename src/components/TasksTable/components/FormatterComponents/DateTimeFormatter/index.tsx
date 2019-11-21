@@ -9,7 +9,7 @@ import { IProps } from './types';
  * @returns {JSX.Element}
  * @constructor
  */
-const DateTimeFormatter: FC<IProps> = ({ value }: IProps): JSX.Element => (
+const DateTimeFormatter: FC<IProps> = ({ value }: IProps) => (
   <Typography component="div">
     {value
       ? new Date(value).toLocaleDateString('ru', DATETIME_OPTIONS)

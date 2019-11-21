@@ -23,38 +23,37 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const Select: FC<IProps> =
-  ({ handleChange, items, value, label, required }: IProps): JSX.Element => {
-    const classes = useStyles();
+const Select: FC<IProps> = ({ handleChange, items, value, label, required }: IProps) => {
+  const classes = useStyles();
 
-    const inputLabel = useRef<HTMLLabelElement>(null);
+  const inputLabel = useRef<HTMLLabelElement>(null);
 
-    const [labelWidth, setLabelWidth] = useState<number>(0);
+  const [labelWidth, setLabelWidth] = useState<number>(0);
 
-    /**
-     * Функция установки ширины разреза в контуре поля для ярлыка
-     */
-    const setInitialLabelWidth = (): void => {
-      if (inputLabel.current) {
-        setLabelWidth(inputLabel.current.offsetWidth);
-      }
-    };
-
-    useEffect(setInitialLabelWidth, []);
-
-    return (
-      <FormControl variant="outlined" className={classes.formControl} required={required}>
-        <InputLabel ref={inputLabel} htmlFor="select">{label}</InputLabel>
-        <SelectBase
-          value={value}
-          onChange={handleChange}
-          input={<OutlinedInput labelWidth={labelWidth} id="select" />}>
-          {items.map(({ label, ...item }: ISelectItem): JSX.Element => (
-            <MenuItem {...item}>{label}</MenuItem>
-          ))}
-        </SelectBase>
-      </FormControl>
-    );
+  /**
+   * Функция установки ширины разреза в контуре поля для ярлыка
+   */
+  const setInitialLabelWidth = () => {
+    if (inputLabel.current) {
+      setLabelWidth(inputLabel.current.offsetWidth);
+    }
   };
+
+  useEffect(setInitialLabelWidth, []);
+
+  return (
+    <FormControl variant="outlined" className={classes.formControl} required={required}>
+      <InputLabel ref={inputLabel} htmlFor="select">{label}</InputLabel>
+      <SelectBase
+        value={value}
+        onChange={handleChange}
+        input={<OutlinedInput labelWidth={labelWidth} id="select" />}>
+        {items.map(({ label, ...item }: ISelectItem) => (
+          <MenuItem {...item}>{label}</MenuItem>
+        ))}
+      </SelectBase>
+    </FormControl>
+  );
+};
 
 export default memo<IProps>(Select);

@@ -11,11 +11,10 @@ import { IProps } from './types';
  * @returns {JSX.Element}
  * @constructor
  */
-const PlaceHolder: FC<IProps> =
-  ({ selectProps, innerProps = {}, children }: IProps): JSX.Element => (
-    <Typography color="textSecondary" className={selectProps.classes.placeholder} {...innerProps}>
-      {children}
-    </Typography>
-  );
+const PlaceHolder: FC<IProps> = ({ selectProps, innerProps = {}, children }: IProps) => (
+  <Typography color="textSecondary" className={selectProps.classes.placeholder} {...innerProps}>
+    {children}
+  </Typography>
+);
 
 export default memo<IProps>(PlaceHolder);

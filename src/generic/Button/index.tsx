@@ -15,7 +15,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const Button: FC<IProps> = ({ icon, children, iconPlacement, ...props }: IProps): JSX.Element => {
+const Button: FC<IProps> = ({ icon, children, iconPlacement, ...props }: IProps) => {
   const classes = useStyles();
 
   return (

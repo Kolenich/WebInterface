@@ -11,15 +11,14 @@ import { IProps } from './types';
  * @returns {JSX.Element}
  * @constructor
  */
-const NoOptionsMessage: FC<IProps> =
-  ({ selectProps, children, innerProps }: IProps): JSX.Element => (
-    <Typography
-      color="primary"
-      className={selectProps.classes.noOptionsMessage}
-      {...innerProps}
-    >
-      {children}
-    </Typography>
-  );
+const NoOptionsMessage: FC<IProps> = ({ selectProps, children, innerProps }: IProps) => (
+  <Typography
+    color="primary"
+    className={selectProps.classes.noOptionsMessage}
+    {...innerProps}
+  >
+    {children}
+  </Typography>
+);
 
 export default memo<IProps>(NoOptionsMessage);

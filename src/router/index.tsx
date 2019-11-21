@@ -12,7 +12,7 @@ import PublicRoute from './PublicRouter';
  * @returns {JSX.Element}
  * @constructor
  */
-const Router: FC<{}> = (): JSX.Element => (
+const Router: FC<{}> = () => (
   <Switch>
     <PublicRoute path="/sign-up" component={SignUpPage} />
     <PublicRoute path="/sign-in" component={SignInPage} />

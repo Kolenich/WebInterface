@@ -1,6 +1,6 @@
-import { createStyles, StyleRules } from '@material-ui/styles';
+import { createStyles } from '@material-ui/styles';
 
-const styles = (): StyleRules => createStyles<string, {}>({
+const styles = () => createStyles({
   formControl: {
     width: '100%',
   },

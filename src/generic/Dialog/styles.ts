@@ -1,8 +1,8 @@
 import { Theme } from '@material-ui/core';
 import { amber, green } from '@material-ui/core/colors';
-import { createStyles, StyleRules } from '@material-ui/styles';
+import { createStyles } from '@material-ui/styles';
 
-const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
+const styles = (theme: Theme) => createStyles({
   statusIcon: {
     fontSize: 35,
     opacity: 0.9,
@@ -16,10 +16,6 @@ const styles = (theme: Theme): StyleRules => createStyles<string, {}>({
   },
   successIcon: {
     color: green[600],
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center',
   },
   button: {
     margin: theme.spacing(1),

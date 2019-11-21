@@ -34,14 +34,12 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
+const SignUpPage: FC<IProps> = ({ history }) => {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const context = useContext<IContext>(Context);
-
-  const { documentTitle } = context.getters;
+  const { getters } = useContext<IContext>(Context);
 
   // Набор переменных состояния для пользовательских данных
   const [account, setAccount] = useState<IAccount>({
@@ -70,32 +68,32 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
    * Функция обработки изменений в текстовом поле
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
-  const handleTextChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setAccount((oldAccount: IAccount): IAccount => ({ ...oldAccount, [name]: value }));
+    setAccount((oldAccount: IAccount) => ({ ...oldAccount, [name]: value }));
   };
 
   /**
    * Функция обработки изменений булевских значений
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
-  const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setAccount((oldAccount: IAccount): IAccount => ({ ...oldAccount, [name]: checked }));
+    setAccount((oldAccount: IAccount) => ({ ...oldAccount, [name]: checked }));
   };
 
   /**
    * Функция для сброса ошибок в полях
    */
-  const resetErrors = (): void => (
+  const resetErrors = () => (
     setErrors(() => ({ email: false, first_name: false, last_name: false, password: false }))
   );
 
   /**
    * Функция отправки формы
    */
-  const handleSubmit = async (): Promise<void> => {
-    setLoading((): boolean => true);
+  const handleSubmit = async () => {
+    setLoading(() => true);
     const { email, first_name, last_name, password, mailing } = account;
     const sendData: IAccount = { email, password, first_name, last_name, mailing };
     try {
@@ -103,9 +101,9 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
       const { message } = response.data;
       enqueueSnackbar(message, { variant: 'success' });
       // Через 2 секунды перенаправляем на страницу входа
-      setTimeout((): void => history.push({ pathname: '/sign-in' }), 2000);
+      setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
     } catch (error) {
-      let message: string = SERVER_NOT_AVAILABLE;
+      let message = SERVER_NOT_AVAILABLE;
       if (error.response) {
         const { errors: errorsList } = error.response.data;
         message = error.response.data.message;
@@ -114,18 +112,18 @@ const SignUpPage: FC<IProps> = ({ history }): JSX.Element => {
       enqueueSnackbar(message, { variant: 'error' });
       // Через 3 секунды гасим ошибки
       setTimeout(resetErrors, 3000);
-      setLoading((): boolean => false);
+      setLoading(() => false);
     }
   };
 
   useEffect(
-    (): void => {
-      document.title = `${documentTitle} | Зарегистрироваться в системе`;
+    () => {
+      document.title = `${getters.documentTitle} | Зарегистрироваться в системе`;
     },
-    [documentTitle],
+    [getters.documentTitle],
   );
 
-  useEffect((): void => setMounted(true), []);
+  useEffect(() => setMounted(true), []);
 
   return (
     <Zoom in={mounted} timeout={750}>

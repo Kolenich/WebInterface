@@ -12,7 +12,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const RootComponent: FC<IProps> = (props: IProps): JSX.Element => {
+const RootComponent: FC<IProps> = (props: IProps) => {
   const classes = useStyles();
 
   return (

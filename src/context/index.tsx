@@ -11,7 +11,7 @@ export const Context = createContext<IContext>({} as IContext);
  * @returns {JSX.Element}
  * @constructor
  */
-const ContextProvider: FC<{}> = ({ children }): JSX.Element => {
+const ContextProvider: FC<{}> = ({ children }) => {
   // Заголовок для панели
   const [dashBoardTitle, setDashBoardTitle] = useState<string>('');
 
@@ -19,8 +19,8 @@ const ContextProvider: FC<{}> = ({ children }): JSX.Element => {
    * Функция-обертка для установки активного заголовка панели
    * @param {string} title устанавливаемый заголовок
    */
-  const updateDashBoardTitle = (title: string): void => (
-    setDashBoardTitle((): string => title)
+  const updateDashBoardTitle = (title: string) => (
+    setDashBoardTitle(() => title)
   );
 
   const value: IContext = {
