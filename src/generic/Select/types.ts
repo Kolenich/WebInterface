@@ -1,17 +1,9 @@
-import { ISelectElement } from 'lib/types';
-import { ChangeEvent, ReactText } from 'react';
+import { OutlinedTextFieldProps } from '@material-ui/core/TextField';
+import { ReactText } from 'react';
 
-export interface IProps {
-  /** Указатель обязательного для заполнения поля */
-  required?: boolean;
+export interface IProps extends OutlinedTextFieldProps {
   /** Массив значений для селекта */
   items: ISelectItem[];
-  /** Текущее значение селекта */
-  value: unknown;
-  /** Ярлык селекта */
-  label: string;
-  /** Функция, обрабатывающая изменение */
-  handleChange: (event: ChangeEvent<ISelectElement>) => void;
 }
 
 export interface ISelectItem {
