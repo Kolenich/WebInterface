@@ -8,19 +8,17 @@ import { IProps, ISelectItem } from './types';
  * @param {OutlinedTextFieldProps} props остальные пропсы
  * @returns {JSX.Element}
  */
-const Select: FC<IProps> = ({ items = [], ...props }: IProps) => {
-  return (
-    <TextField
-      select
-      fullWidth
-      {...props}
-    >
-      <MenuItem value=""><em>Сброс</em></MenuItem>
-      {items.map(({ label, ...item }: ISelectItem) => (
-        <MenuItem {...item}>{label}</MenuItem>
-      ))}
-    </TextField>
-  );
-};
+const Select: FC<IProps> = ({ items = [], ...props }: IProps) => (
+  <TextField
+    select
+    fullWidth
+    {...props}
+  >
+    <MenuItem value=""><em>Сброс</em></MenuItem>
+    {items.map(({ label, ...item }: ISelectItem) => (
+      <MenuItem {...item}>{label}</MenuItem>
+    ))}
+  </TextField>
+);
 
 export default memo<IProps>(Select);
