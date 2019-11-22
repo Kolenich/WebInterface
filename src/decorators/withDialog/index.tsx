@@ -5,8 +5,8 @@ import { INotifications } from './types';
 
 /**
  * Декоратор, подмешивающий компоненту диалоговое окно с функцией для его вызова
- * @param {React.ComponentType<{}>} Component оборачиваемый компонент
- * @returns {React.FC<{}>} компонент с подмшаным диалоговым окном и функцией вызова
+ * @param {React.ComponentType<T>} Component оборачиваемый компонент
+ * @returns {React.FC<T>} компонент с подмшаным диалоговым окном и функцией вызова
  */
 const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (props: T) => {
   // Переменные состояния для диалогового окна
