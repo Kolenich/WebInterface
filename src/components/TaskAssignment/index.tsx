@@ -32,7 +32,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskAssignment: FC<IProps> = ({ openDialog }) => {
+const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
   const classes = useStyles();
 
   const { getters, setters } = useContext<IContext>(Context);
