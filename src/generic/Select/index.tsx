@@ -8,7 +8,7 @@ import { IProps, ISelectItem } from './types';
  * @param {OutlinedTextFieldProps} props остальные пропсы
  * @returns {JSX.Element}
  */
-const Select: FC<IProps> = ({ items = [], ...props }: IProps) => (
+const Select: FC<IProps> = ({ items, ...props }: IProps) => (
   <TextField
     select
     fullWidth
