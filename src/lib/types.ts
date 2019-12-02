@@ -118,3 +118,11 @@ export interface IDashBoardTitles {
 
   [index: string]: string;
 }
+
+export type ActualFileObject = Blob & {
+  /** Уазатель последнего изменения */
+  readonly lastModified: number;
+  /** Имя загруженного файла */
+  readonly name: string
+};
+

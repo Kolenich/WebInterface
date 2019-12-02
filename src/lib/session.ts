@@ -2,6 +2,10 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { OutgoingHttpHeaders } from 'http';
 import { getBaseUrl } from './utils';
 
+// Настройка функционала прерывания запроса
+const { CancelToken } = axios;
+export const source = CancelToken.source();
+
 const xsrfCookieName = 'csrftoken';
 const xsrfHeaderName = 'X-CSRFToken';
 

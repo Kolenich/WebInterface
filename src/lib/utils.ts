@@ -1,7 +1,8 @@
 import { Filter, Sorting } from '@devexpress/dx-react-grid';
+import { EffectCallback, useEffect, useRef } from 'react';
 import { ICustomLookUps } from '../components/TasksTable/types';
 import { FILTERING_PARAMS, SORTING_PARAMS } from './constants';
-import { IGetConfig } from './types';
+import { ActualFileObject, IGetConfig } from './types';
 
 /**
  * Функция получения текущего хоста для запроса на сервер.
@@ -85,3 +86,40 @@ export const getSortingConfig = (
     }),
   ),
 });
+
+/**
+ * Функция перекодирования файла в base64 представение
+ * @param file {Blob} объект файла
+ * @returns {Promise<void>}
+ */
+export const toBase64 = (file: ActualFileObject) => (
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+  })
+);
+
+/**
+ * Кастомный хук useEffect, который срабатывает лишь при обновлении, а не в момент монтирования
+ * компонента
+ * Идея взята отсюда: https://stackoverflow.com/a/55075818/1526448
+ * @param {EffectCallback} effect выполняемый эффект
+ * @param {any[]} deps массив зависимостей
+ */
+export const useUpdateEffect = (effect: EffectCallback, deps: any[] = []) => {
+  const isInitialMount = useRef(true);
+
+  /**
+   * Обертка для выполняемого действия на обновлении
+   */
+  const updateEffect = () => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      effect();
+    }
+  };
+  useEffect(updateEffect, deps);
+};
