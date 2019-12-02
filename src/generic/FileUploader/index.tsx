@@ -102,18 +102,15 @@ const FileUploader: FC<IProps> =
           if (uploadCallback) {
             uploadCallback(data);
           }
-          // Возвращаем настройки сессии в исходное положение
-          session.defaults.onUploadProgress = undefined;
-          session.defaults.headers['Content-Type'] = 'application/json';
         } catch (err) {
           error(err);
           if (onUploadError && err.response) {
             onUploadError(err.response.data);
           }
-          // Возвращаем настройки сессии в исходное положение
-          session.defaults.onUploadProgress = undefined;
-          session.defaults.headers['Content-Type'] = 'application/json';
         }
+        // Возвращаем настройки сессии в исходное положение
+        session.defaults.onUploadProgress = undefined;
+        session.defaults.headers['Content-Type'] = 'application/json';
         // Возвращаем метод для остановки запроса
         return {
           abort: () => {
