@@ -125,4 +125,3 @@ export type ActualFileObject = Blob & {
   /** Имя загруженного файла */
   readonly name: string
 };
-

@@ -1,5 +1,5 @@
 import { Filter, Sorting } from '@devexpress/dx-react-grid';
-import { EffectCallback, useEffect, useRef } from 'react';
+import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
 import { ICustomLookUps } from '../components/TasksTable/types';
 import { FILTERING_PARAMS, SORTING_PARAMS } from './constants';
 import { ActualFileObject, IGetConfig } from './types';
@@ -108,7 +108,7 @@ export const toBase64 = (file: ActualFileObject) => (
  * @param {EffectCallback} effect выполняемый эффект
  * @param {any[]} deps массив зависимостей
  */
-export const useUpdateEffect = (effect: EffectCallback, deps: any[] = []) => {
+export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = []) => {
   const isInitialMount = useRef(true);
 
   /**
