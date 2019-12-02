@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import 'filepond/dist/filepond.min.css';
 import { session, source } from 'lib/session';
 import { toBase64, useUpdateEffect } from 'lib/utils';
-import React, { memo, useState } from 'react';
+import React, { FC, memo, useState } from 'react';
 import { File, FilePond } from 'react-filepond';
 import styles from './styles';
 import { IBase64File, IProps, ProcessServerConfigFunction } from './types';
@@ -29,7 +29,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const FileUploader =
+const FileUploader: FC<IProps> =
   ({
      multiple,
      maxFiles,
