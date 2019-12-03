@@ -1,6 +1,5 @@
 import { Filter, Sorting } from '@devexpress/dx-react-grid';
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
-import { ICustomLookUps } from '../components/TasksTable/types';
 import { FILTERING_PARAMS, SORTING_PARAMS } from './constants';
 import { ActualFileObject, IGetConfig } from './types';
 
@@ -9,8 +8,8 @@ import { ActualFileObject, IGetConfig } from './types';
  * @returns {string} имя хоста с протоколом
  */
 const getCurrentHost = () => {
-  const url: string = window.location.href;
-  const arr: string[] = url.split('/');
+  const url = window.location.href;
+  const arr = url.split('/');
   return `${arr[0]}//${arr[2]}`;
 };
 
@@ -18,9 +17,7 @@ const getCurrentHost = () => {
  * Функция, генерирующая URL запроса для запросов на сервер
  */
 export const getBaseUrl = () => (
-  process.env.NODE_ENV === 'production'
-    ? getCurrentHost()
-    : 'http://localhost:8080'
+  process.env.NODE_ENV === 'production' ? getCurrentHost() : 'http://localhost:8080'
 );
 
 /**
@@ -43,41 +40,37 @@ export const unpackArrayOfObjects = <T>(arr: T[]): T => {
  * @param {number} currentPage индекс текущей страницы
  * @returns {IGetConfig} конфиг для пагинации
  */
-export const getPaginationConfig = (pageSize: number, currentPage: number): IGetConfig => ({
+export const getPaginationConfig = (pageSize: number, currentPage: number) => ({
   limit: pageSize, offset: currentPage! * pageSize!,
 });
 
 /**
  * Функция для получения конфига для фильтрации
  * @param {Filter[]} filters набор фильтов
- * @param {ICustomLookUps} lookups кастомные лукапы для django
+ * @param {[key: string]: string} lookups кастомные лукапы для django
  * @returns {Partial<IGetConfig>} конфиг для фильтрации
  */
-export const getFilteringConfig =
-  (filters: Filter[], lookups?: ICustomLookUps,
-  ): Partial<IGetConfig> => ({
-    ...unpackArrayOfObjects<Partial<IGetConfig>>(
-      filters.map(({ operation, columnName, value }: Filter): Partial<IGetConfig> => {
-        let lookupPart: string = columnName;
-        if (lookups) {
-          lookupPart = lookups[columnName];
-        }
-        return { [lookupPart + FILTERING_PARAMS[operation!]]: value };
-      }),
-    ),
-  });
+export const getFilteringConfig = (filters: Filter[], lookups?: { [key: string]: string }) => ({
+  ...unpackArrayOfObjects<Partial<IGetConfig>>(
+    filters.map(({ operation, columnName, value }) => {
+      let lookupPart = columnName;
+      if (lookups) {
+        lookupPart = lookups[columnName];
+      }
+      return { [lookupPart + FILTERING_PARAMS[operation!]]: value };
+    }),
+  ),
+});
 
 /**
  * Функция для получения конфига сортировки
  * @param {Sorting[]} sorting набор сортировок
- * @param {ICustomLookUps} lookups кастомные лукапы для django
+ * @param {[key: string]: string} lookups кастомные лукапы для django
  * @returns {Partial<IGetConfig>} конфиг сортировки
  */
-export const getSortingConfig = (
-  sorting: Sorting[], lookups?: ICustomLookUps,
-): Partial<IGetConfig> => ({
+export const getSortingConfig = (sorting: Sorting[], lookups?: { [key: string]: string }) => ({
   ...unpackArrayOfObjects<Partial<IGetConfig>>(
-    sorting.map(({ direction, columnName }: Sorting): Partial<IGetConfig> => {
+    sorting.map(({ direction, columnName }) => {
       let lookupPart: string = columnName;
       if (lookups) {
         lookupPart = lookups[columnName];
