@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import auth from 'lib/auth';
+import { useMountEffect } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, {
   ChangeEvent,
@@ -117,7 +118,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps) => {
     }
   };
 
-  useEffect(() => setMounted(() => true), []);
+  useMountEffect(() => setMounted(() => true));
 
   return (
     <Zoom in={mounted} timeout={750}>

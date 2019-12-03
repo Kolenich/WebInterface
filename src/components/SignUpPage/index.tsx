@@ -18,11 +18,12 @@ import { AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import api from 'lib/api';
+import { SERVER_NOT_AVAILABLE } from 'lib/constants';
 import { USERS_APP } from 'lib/session';
+import { useMountEffect } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { SERVER_NOT_AVAILABLE } from '../../lib/constants';
 import styles from './styles';
 import { IAccount, IErrors, IProps } from './types';
 
@@ -123,7 +124,7 @@ const SignUpPage: FC<IProps> = ({ history }: IProps) => {
     [getters.documentTitle],
   );
 
-  useEffect(() => setMounted(true), []);
+  useMountEffect(() => setMounted(true));
 
   return (
     <Zoom in={mounted} timeout={750}>

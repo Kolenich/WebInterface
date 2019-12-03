@@ -18,6 +18,7 @@ import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
+import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
 import { ValueType } from 'react-select/src/types';
 import styles from './styles';
@@ -125,9 +126,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
     [getters.documentTitle],
   );
 
-  useEffect(loadUsers, []);
+  useMountEffect(loadUsers);
 
-  useEffect(setDashBoardTitle, []);
+  useMountEffect(setDashBoardTitle);
 
   return (
     <Collapse in={mounted} timeout={750}>

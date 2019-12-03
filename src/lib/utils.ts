@@ -123,3 +123,10 @@ export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = [
   };
   useEffect(updateEffect, deps);
 };
+
+/**
+ * Кастомный хук useEffect, который срабатывает лишь при монтировании компонента
+ * Идея взята отсюда: https://stackoverflow.com/a/55075818/1526448
+ * @param {EffectCallback} effect выполняемый эффект
+ */
+export const useMountEffect = (effect: EffectCallback) => useEffect(effect, []);

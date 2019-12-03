@@ -34,7 +34,12 @@ import {
   tableMessages,
 } from 'lib/translate';
 import { IApiResponse, ICustomDataTypeProviderProps, IGetConfig, ITable } from 'lib/types';
-import { getFilteringConfig, getPaginationConfig, getSortingConfig } from 'lib/utils';
+import {
+  getFilteringConfig,
+  getPaginationConfig,
+  getSortingConfig,
+  useMountEffect,
+} from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, { FC, memo, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
@@ -192,7 +197,7 @@ const TasksTable: FC<IProps> = ({ history, match }) => {
 
   useEffect(setDashBoardTitle, [match.params.filter]);
 
-  useEffect(setDocumentTitle, []);
+  useMountEffect(setDocumentTitle);
 
   return (
     <>
