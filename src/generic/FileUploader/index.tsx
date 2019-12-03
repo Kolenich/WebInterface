@@ -148,7 +148,7 @@ const FileUploader: FC<IProps> =
   };
 
 FileUploader.defaultProps = {
-  uploaderText: 'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать',
+  uploaderText: `Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать`,
   instantUpload: false,
   maxFiles: 1,
 };
