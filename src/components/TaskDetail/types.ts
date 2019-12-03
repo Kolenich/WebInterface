@@ -1,6 +1,7 @@
 import { INotifications } from 'decorators/withDialog/types';
 import { ReactText } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { IAttachment } from '../../lib/types';
 
 export interface IProps extends RouteComponentProps<IDetailParams>, INotifications {
 }
@@ -22,8 +23,10 @@ export interface ITaskDetail {
   done: boolean;
   /** Краткое описание задания */
   summary: string;
+  /** Объект вложения */
+  attachment: IAttachment | null;
 
-  [index: string]: ReactText | undefined | null | IAssignedBy | boolean;
+  [index: string]: ReactText | IAttachment | undefined | null | IAssignedBy | boolean;
 }
 
 interface IAssignedBy {

@@ -125,3 +125,16 @@ export type ActualFileObject = Blob & {
   /** Имя загруженного файла */
   readonly name: string
 };
+
+export interface IAttachment {
+  /** Ключ вложения в таблице */
+  id?: number;
+  /** Имя вложения */
+  file_name: string;
+  /** Тип вложения */
+  file_type: string;
+  /** Размер вложения */
+  file_size: number;
+  /** Файл вложения */
+  file: string | ActualFileObject;
+}

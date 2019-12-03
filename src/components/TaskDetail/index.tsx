@@ -10,6 +10,7 @@ import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
+import AttachmentPreview from '../AttachmentPreview';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
 
@@ -40,6 +41,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
       first_name: '',
       last_name: '',
     },
+    attachment: null,
   });
 
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -200,6 +202,11 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
               label="Выполнено"
             />
           </Grid>
+          <Grid item lg={10} xs={12} />
+          {task.attachment &&
+          <Grid item lg={2} xs={12}>
+            <AttachmentPreview attachment={task.attachment} />
+          </Grid>}
         </Grid>
       </Paper>
       {!loaded && <Loading />}

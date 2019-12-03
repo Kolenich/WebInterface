@@ -7,13 +7,15 @@ export const tableSettings: IColumnSettings = {
     { name: 'assigned_by', title: 'Кто назначил' },
     { name: 'dead_line', title: 'Срок исполнения' },
     { name: 'comment', title: 'Комментарий' },
+    { name: 'attachment', title: 'Вложение' },
   ],
   columnsExtensions: [
-    { columnName: 'summary', wordWrapEnabled: true, width: 350 },
-    { columnName: 'date_of_issue', wordWrapEnabled: true, width: 300 },
-    { columnName: 'assigned_by', wordWrapEnabled: true, width: 300 },
-    { columnName: 'dead_line', wordWrapEnabled: true, width: 300 },
-    { columnName: 'comment', wordWrapEnabled: true, width: 300 },
+    { columnName: 'summary', wordWrapEnabled: true },
+    { columnName: 'date_of_issue', wordWrapEnabled: true },
+    { columnName: 'assigned_by', wordWrapEnabled: true },
+    { columnName: 'dead_line', wordWrapEnabled: true },
+    { columnName: 'comment', wordWrapEnabled: true },
+    { columnName: 'attachment', wordWrapEnabled: true },
   ],
   defaultOrder: [
     'summary',
@@ -21,9 +23,14 @@ export const tableSettings: IColumnSettings = {
     'assigned_by',
     'dead_line',
     'comment',
+    'attachment',
   ],
-  sortingStateColumnExtensions: [],
-  filteringStateColumnExtensions: [],
+  sortingStateColumnExtensions: [
+    { columnName: 'attachment', sortingEnabled: false },
+  ],
+  filteringStateColumnExtensions: [
+    { columnName: 'attachment', filteringEnabled: false },
+  ],
   textFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
   assignerFilterOperations: ['equal'],
   dateTimeFilterOperations: [
@@ -35,6 +42,7 @@ export const tableSettings: IColumnSettings = {
   textColumns: ['summary', 'comment'],
   dateTimeColumns: ['date_of_issue', 'dead_line'],
   assignerColumns: ['assigned_by'],
+  attachmentColumns: ['attachment'],
 };
 
 export const tasksFilterLookUps: ICustomLookUps = {
