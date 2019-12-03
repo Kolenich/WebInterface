@@ -120,7 +120,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
 
   /**
    * Функция-колбэк для получения файлов от загрузчика
-   * @param {(File | IFile)[]} files
+   * @param {IFile[]} files
    * @param {boolean} base64 флаг перекодировки в base64
    */
   const setAttachment = useCallback(
