@@ -59,7 +59,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
         let message: string = SERVER_NOT_AVAILABLE;
         if (error.response) {
           if (error.response.data.message) {
-            message = error.response.data.message;
+            ({ message } = error.response.data);
           } else {
             message = SERVER_RESPONSES[error.response.status];
           }

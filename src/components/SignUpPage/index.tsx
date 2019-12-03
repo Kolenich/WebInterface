@@ -107,7 +107,7 @@ const SignUpPage: FC<IProps> = ({ history }: IProps) => {
       let message = SERVER_NOT_AVAILABLE;
       if (error.response) {
         const { errors: errorsList } = error.response.data;
-        message = error.response.data.message;
+        ({ message } = error.response.data);
         setErrors((oldErrors: IErrors): IErrors => ({ ...oldErrors, ...errorsList }));
       }
       enqueueSnackbar(message, { variant: 'error' });
