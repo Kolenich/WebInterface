@@ -1,6 +1,7 @@
 import { INotifications } from 'decorators/withDialog/types';
 import { ReactText } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { IAttachment } from '../../lib/types';
 
 export interface IProps extends RouteComponentProps, INotifications {
 }
@@ -16,4 +17,6 @@ export interface ITask {
   dead_line: string | null | Date;
   /** Комментарий */
   comment: string;
+  /** Объект вложения */
+  attachment: IAttachment | null;
 }

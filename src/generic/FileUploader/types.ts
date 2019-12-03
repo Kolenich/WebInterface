@@ -1,5 +1,4 @@
 import { ActualFileObject } from 'lib/types';
-import { File } from 'react-filepond';
 
 export interface IProps {
   /** Флаг множественной загрузки */
@@ -11,7 +10,7 @@ export interface IProps {
   /** Текст для отображения на самом загрузчике */
   uploaderText?: string;
   /** Колбэк для передачи массива с файлами родителю */
-  onFilesUpdate?: (files: (File | IBase64File)[]) => void;
+  onFilesUpdate?: (files: IFile[]) => void;
   /** Флаг, определяющий перекодировку файлов в base64 */
   base64?: boolean;
   /** Адрес для отправки файла */
@@ -28,15 +27,15 @@ export interface IProps {
 
 type IUploadCallback<T = {}> = (data: T) => void;
 
-export interface IBase64File {
+export interface IFile {
   /** Имя файла */
   file_name: string;
   /** Тип файла */
-  file_type: string;
+  file_mime: string;
   /** Размер файла */
   file_size: number;
   /** Base64-представление файла */
-  file: string;
+  file: ActualFileObject | string;
 }
 
 export type ProcessServerConfigFunction = (

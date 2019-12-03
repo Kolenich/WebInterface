@@ -13,13 +13,15 @@ import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
 import { Button, DateField, SelectWithSearch } from 'generic';
+import FileUploader from 'generic/FileUploader';
+import { IFile } from 'generic/FileUploader/types';
 import { ISelectItem } from 'generic/Select/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
-import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useCallback, useContext, useEffect, useState } from 'react';
 import { ValueType } from 'react-select/src/types';
 import styles from './styles';
 import { IProps, ITask } from './types';
@@ -45,6 +47,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
     comment: '',
     dead_line: null,
     assigned_to: '',
+    attachment: null,
   });
 
   // Список доступных к назначению пользователей
@@ -104,15 +107,34 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
         comment: '',
         dead_line: null,
         assigned_to: '',
+        attachment: null,
       }));
     } catch (error) {
-      let message: string = 'Сервер недоступен, попробуйте позже';
+      let message = 'Сервер недоступен, попробуйте позже';
       if (error.response) {
         message = SERVER_RESPONSES[error.response.status];
       }
       openDialog(message, 'error');
     }
   };
+
+  /**
+   * Функция-колбэк для получения файлов от загрузчика
+   * @param {(File | IFile)[]} files
+   * @param {boolean} base64 флаг перекодировки в base64
+   */
+  const setAttachment = useCallback(
+    (files: IFile[]) => {
+      console.log(files)
+      if (files.length) {
+        const file: IFile = files[0];
+        setTask((oldTask: ITask) => ({ ...oldTask, attachment: { ...file } }));
+      } else {
+        setTask((oldTask: ITask) => ({ ...oldTask, attachment: null }));
+      }
+    },
+    [],
+  );
 
   /**
    * Функция для установки заголовка панели
@@ -197,6 +219,14 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
               label="Кому назначить"
               options={users}
               onChange={handleSelectChange}
+            />
+          </Grid>
+          <Grid item xs={12} lg={9} />
+          <Grid item xs={12} lg={3}>
+            <FileUploader
+              uploaderText="Прикрепите вложение"
+              onFilesUpdate={setAttachment}
+              base64
             />
           </Grid>
           <Grid item xs={12} lg={9} />

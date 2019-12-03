@@ -2,11 +2,12 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import 'filepond/dist/filepond.min.css';
 import { session, source } from 'lib/session';
+import { ActualFileObject } from 'lib/types';
 import { toBase64, useUpdateEffect } from 'lib/utils';
 import React, { FC, memo, useState } from 'react';
 import { File, FilePond } from 'react-filepond';
 import styles from './styles';
-import { IBase64File, IProps, ProcessServerConfigFunction } from './types';
+import { IFile, IProps, ProcessServerConfigFunction } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -16,7 +17,7 @@ const useStyles = makeStyles(styles);
  * @param maxFiles {number} максимальное количество файлов (если стоит флаг multiple)
  * @param hint {string} текстовая подсказка над загрузчиком
  * @param uploaderText {string} текст для отображения на самом загрузчике
- * @param onFilesUpdate {(files: (File|IBase64File)[]) => void} колбэк для передачи массива с
+ * @param onFilesUpdate {(files:IFile[]) => void} колбэк для передачи массива с
  * файлами родителю
  * @param base64 {boolean} флаг, определяющий перекодировку файлов в base64
  * @param uploadTo {string} адрес для отправки файла
@@ -45,25 +46,23 @@ const FileUploader: FC<IProps> =
    }: IProps) => {
     const classes = useStyles();
 
-    const [files, setFiles] = useState<(File | IBase64File)[]>([]);
+    const [files, setFiles] = useState<IFile[]>([]);
 
     /**
      * Функция обработки обновления файлов в дроп-зоне
      * @param newFiles {File[]} обновленной массив файлов
      */
     const onUpdateFiles = async (newFiles: File[]) => {
-      // Если передан флаг base64, перекодируем файлы в base64
-      if (base64) {
-        const base64Files: IBase64File[] = await Promise.all(newFiles.map(async (file: File) => {
-          const { filename: file_name, fileType: file_type, fileSize: file_size } = file;
-          // Перекодируем в base64
-          const base64File = await toBase64(file.file);
-          return { file_name, file_type, file_size, file: base64File.split(';base64,')[1] };
-        }));
-        setFiles(() => [...base64Files]);
-      } else {
-        setFiles(() => [...newFiles]);
-      }
+      const files: IFile[] = await Promise.all(newFiles.map(async (file: File) => {
+        const { filename: file_name, fileType: file_mime, fileSize: file_size } = file;
+        let fileObject: string | ActualFileObject = file.file;
+        // Если передан флаг base64, перекодируем файлы в base64
+        if (base64) {
+          fileObject = await toBase64(file.file);
+        }
+        return { file_name, file_mime, file_size, file: fileObject };
+      }));
+      setFiles(() => [...files]);
     };
 
     /**
@@ -131,7 +130,7 @@ const FileUploader: FC<IProps> =
         </Typography>
         <FilePond
           instantUpload={instantUpload}
-          server={{ process }}
+          server={uploadTo && { process }}
           labelIdle={uploaderText}
           allowMultiple={multiple}
           maxFiles={maxFiles}

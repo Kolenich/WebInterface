@@ -132,7 +132,7 @@ export interface IAttachment {
   /** Имя вложения */
   file_name: string;
   /** Тип вложения */
-  file_type: string;
+  file_mime: string;
   /** Размер вложения */
   file_size: number;
   /** Файл вложения */
