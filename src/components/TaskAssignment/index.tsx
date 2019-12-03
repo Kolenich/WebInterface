@@ -125,7 +125,6 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
    */
   const setAttachment = useCallback(
     (files: IFile[]) => {
-      console.log(files)
       if (files.length) {
         const file: IFile = files[0];
         setTask((oldTask: ITask) => ({ ...oldTask, attachment: { ...file } }));
