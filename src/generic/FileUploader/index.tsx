@@ -55,10 +55,10 @@ const FileUploader: FC<IProps> =
       // Если передан флаг base64, перекодируем файлы в base64
       if (base64) {
         const base64Files: IBase64File[] = await Promise.all(newFiles.map(async (file: File) => {
-          const { filename, fileType, fileSize } = file;
+          const { filename: file_name, fileType: file_type, fileSize: file_size } = file;
           // Перекодируем в base64
           const base64File = await toBase64(file.file);
-          return { filename, fileType, fileSize, file: base64File.split(';base64,')[1] };
+          return { file_name, file_type, file_size, file: base64File.split(';base64,')[1] };
         }));
         setFiles(() => [...base64Files]);
       } else {
@@ -148,7 +148,7 @@ const FileUploader: FC<IProps> =
   };
 
 FileUploader.defaultProps = {
-  uploaderText: `Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать`,
+  uploaderText: 'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать',
   instantUpload: false,
   maxFiles: 1,
 };

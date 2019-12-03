@@ -30,11 +30,11 @@ type IUploadCallback<T = {}> = (data: T) => void;
 
 export interface IBase64File {
   /** Имя файла */
-  filename: string;
+  file_name: string;
   /** Тип файла */
-  fileType: string;
+  file_type: string;
   /** Размер файла */
-  fileSize: number;
+  file_size: number;
   /** Base64-представление файла */
   file: string;
 }
