@@ -1,4 +1,6 @@
-import { Link, LinkBaseProps, Typography, TypographyProps } from '@material-ui/core';
+import { Link, Typography } from '@material-ui/core';
+import { LinkBaseProps } from '@material-ui/core/Link';
+import { TypographyProps } from '@material-ui/core/Typography';
 import React, { FC, memo } from 'react';
 import { IProps } from './types';
 

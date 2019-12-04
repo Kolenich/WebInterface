@@ -1,7 +1,7 @@
 import { ICustomDataTypeProviderProps } from 'lib/types';
 import AssignerEditor from './components/EditorComponents/AssignerEditor';
 import DateTimeEditor from './components/EditorComponents/DateTimeEditor';
-import EmptyFilter from './components/EditorComponents/EmptyFilter';
+import EmptyEditor from './components/EditorComponents/EmptyEditor';
 import TextEditor from './components/EditorComponents/TextEditor';
 import AttachmentFormatter from './components/FormatterComponents/AttachmentFormatter';
 import DateTimeFormatter from './components/FormatterComponents/DateTimeFormatter';
@@ -33,7 +33,7 @@ const customDataTypes: ICustomDataTypeProviderProps[] = [
   {
     key: 4,
     for: tableSettings.attachmentColumns!,
-    editorComponent: EmptyFilter,
+    editorComponent: EmptyEditor,
     formatterComponent: AttachmentFormatter,
     availableFilterOperations: [],
   },
