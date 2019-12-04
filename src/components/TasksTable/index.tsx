@@ -62,7 +62,7 @@ const TasksTable: FC<IProps> = ({ history, match }) => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { setters, getters } = useContext<IContext>(Context);
+  const { setters: { updateDashBoardTitle }, getters: { documentTitle } } = useContext<IContext>(Context);
 
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
@@ -173,14 +173,14 @@ const TasksTable: FC<IProps> = ({ history, match }) => {
    * Функция для установки заголовка панели
    */
   const setDashBoardTitle = () => (
-    setters.updateDashBoardTitle!(DASH_BOARD_TITLES[match.params.filter])
+    updateDashBoardTitle(DASH_BOARD_TITLES[match.params.filter])
   );
 
   /**
    * Функция установки заголовка HTML-страницы
    */
   const setDocumentTitle = () => {
-    document.title = `${getters.documentTitle} | Мои задания`;
+    document.title = `${documentTitle} | Мои задания`;
   };
 
   /**

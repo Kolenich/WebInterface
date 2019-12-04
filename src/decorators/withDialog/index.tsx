@@ -30,11 +30,7 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
    * @param {IDialogStatus} status статус вызываемого окна
    * @param {() => void} warningAcceptCallback функция-колбэк для принятия предупреждения
    */
-  const openDialog = (
-    message: string,
-    status: IDialogStatus = 'success',
-    warningAcceptCallback?: () => void,
-  ) => (
+  const openDialog = (message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => (
     setDialog(() => ({ message, status, warningAcceptCallback, open: true }))
   );
 

@@ -55,7 +55,7 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps) => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { getters } = useContext<IContext>(Context);
+  const { getters: { dashBoardTitle } } = useContext<IContext>(Context);
 
   const completedSection = location.pathname === '/my-tasks/completed';
   const inProcessSection = location.pathname === '/my-tasks/in-process';
@@ -194,7 +194,7 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps) => {
               noWrap
               className={classes.title}
             >
-              {getters.dashBoardTitle}
+              {dashBoardTitle}
             </Typography>
             <IconButton
               aria-haspopup="true"

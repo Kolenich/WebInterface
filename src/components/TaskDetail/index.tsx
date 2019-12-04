@@ -9,7 +9,7 @@ import api from 'lib/api';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
-import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useContext, useState } from 'react';
 import AttachmentPreview from '../AttachmentPreview';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
@@ -27,7 +27,7 @@ const useStyles = makeStyles(styles);
 const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
   const classes = useStyles();
 
-  const { getters, setters } = useContext<IContext>(Context);
+  const { getters: { documentTitle }, setters: { updateDashBoardTitle } } = useContext<IContext>(Context);
 
   // Переменные состояния для задания
   const [task, setTask] = useState<ITaskDetail>({
@@ -103,17 +103,16 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
   /**
    * Функция для установки заголовка панели
    */
-  const setDashBoardTitle = () => setters.updateDashBoardTitle!('Посмотреть задание');
+  const setDashBoardTitle = () => updateDashBoardTitle('Посмотреть задание');
 
   useMountEffect(loadTask);
 
   useMountEffect(setDashBoardTitle);
 
-  useEffect(
+  useMountEffect(
     () => {
-      document.title = `${getters.documentTitle} | Задание №${match.params.id}`;
+      document.title = `${documentTitle} | Задание №${match.params.id}`;
     },
-    [getters.documentTitle, match.params.id],
   );
 
   return (

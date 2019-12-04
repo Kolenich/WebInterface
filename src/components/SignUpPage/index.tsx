@@ -22,7 +22,7 @@ import { SERVER_NOT_AVAILABLE } from 'lib/constants';
 import { USERS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import { useSnackbar } from 'notistack';
-import React, { ChangeEvent, FC, memo, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
 import { IAccount, IErrors, IProps } from './types';
@@ -40,7 +40,7 @@ const SignUpPage: FC<IProps> = ({ history }: IProps) => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { getters } = useContext<IContext>(Context);
+  const { getters: { documentTitle } } = useContext<IContext>(Context);
 
   // Набор переменных состояния для пользовательских данных
   const [account, setAccount] = useState<IAccount>({
@@ -117,11 +117,10 @@ const SignUpPage: FC<IProps> = ({ history }: IProps) => {
     }
   };
 
-  useEffect(
+  useMountEffect(
     () => {
-      document.title = `${getters.documentTitle} | Зарегистрироваться в системе`;
+      document.title = `${documentTitle} | Зарегистрироваться в системе`;
     },
-    [getters.documentTitle],
   );
 
   useMountEffect(() => setMounted(true));

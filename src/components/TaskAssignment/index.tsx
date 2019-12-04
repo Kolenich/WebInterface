@@ -38,7 +38,7 @@ const useStyles = makeStyles(styles);
 const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
   const classes = useStyles();
 
-  const { getters, setters } = useContext<IContext>(Context);
+  const { getters: { documentTitle }, setters: { updateDashBoardTitle } } = useContext<IContext>(Context);
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -138,11 +138,11 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
   /**
    * Функция для установки заголовка панели
    */
-  const setDashBoardTitle = () => setters.updateDashBoardTitle!('Назначить задание');
+  const setDashBoardTitle = () => updateDashBoardTitle('Назначить задание');
 
   useMountEffect(
     () => {
-      document.title = `${getters.documentTitle} | Назначить задание`;
+      document.title = `${documentTitle} | Назначить задание`;
     },
   );
 

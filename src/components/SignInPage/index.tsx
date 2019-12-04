@@ -19,15 +19,7 @@ import { IContext } from 'context/types';
 import auth from 'lib/auth';
 import { useMountEffect } from 'lib/utils';
 import { useSnackbar } from 'notistack';
-import React, {
-  ChangeEvent,
-  FC,
-  KeyboardEvent,
-  memo,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ChangeEvent, FC, KeyboardEvent, memo, useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
 import { ILogin, IProps, IStatus } from './types';
@@ -45,7 +37,7 @@ const SignInPage: FC<IProps> = ({ history }: IProps) => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { getters } = useContext<IContext>(Context);
+  const { getters: { documentTitle } } = useContext<IContext>(Context);
 
   // Набор переменных состояния для данных логина
   const [login, setLogin] = useState<ILogin>({
@@ -63,11 +55,10 @@ const SignInPage: FC<IProps> = ({ history }: IProps) => {
   // Переменная состояния загрузки страницы
   const [mounted, setMounted] = useState<boolean>(false);
 
-  useEffect(
+  useMountEffect(
     () => {
-      document.title = `${getters.documentTitle} | Войти в систему`;
+      document.title = `${documentTitle} | Войти в систему`;
     },
-    [getters.documentTitle],
   );
 
   /**

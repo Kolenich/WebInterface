@@ -11,7 +11,7 @@ export const Context = createContext<IContext>({} as IContext);
  * @returns {JSX.Element}
  * @constructor
  */
-const ContextProvider: FC<{}> = ({ children }) => {
+const ContextProvider: FC = ({ children }) => {
   // Заголовок для панели
   const [dashBoardTitle, setDashBoardTitle] = useState<string>('');
 
