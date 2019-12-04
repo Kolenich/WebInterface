@@ -74,6 +74,21 @@ const FileUploader: FC<IProps> =
       }
     };
 
+    /**
+     * Функция-конфиг для формирования запроса на отправку файла на сервер. Комменты взяты с
+     * официального сайта.
+     * @param {string} fieldName имя поля объекта файла в запросе. По умолчанию filepond
+     * @param {ActualFileObject} file сам объект файла
+     * @param metadata метаданные
+     * @param load функция-колбэк, срабатывающая после загрузки файлов на сервер
+     * @param {(errorText: string) => void} error функция-колбэк, срабатывающая в случае ошибки
+     * загрузки файлов
+     * @param {ProgressServerConfigFunction} progress функция-колбэк, срабатывающая после загрузки
+     * файлов
+     * @param {() => void} abort функция-колбэк, срабатывающая в случае отмены пользователем
+     * зарузки файла на сервер
+     * @returns {Promise<{abort: () => void}>}
+     */
     const process: ProcessServerConfigFunction =
       async (fieldName, file, metadata, load, error, progress, abort) => {
         // Настройка обработчика процесса отправки
