@@ -75,14 +75,7 @@ const FileUploader: FC<IProps> =
     };
 
     const process: ProcessServerConfigFunction =
-      async (fieldName,
-             file,
-             metadata,
-             load,
-             error,
-             progress,
-             abort,
-      ) => {
+      async (fieldName, file, metadata, load, error, progress, abort) => {
         // Настройка обработчика процесса отправки
         session.defaults.onUploadProgress = event => (
           progress(event.lengthComputable, event.loaded, event.total)
