@@ -38,7 +38,9 @@ const useStyles = makeStyles(styles);
 const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   const classes = useStyles();
 
-  const { getters: { documentTitle }, setters: { updateDashBoardTitle } } = useContext<IContext>(Context);
+  const {
+    getters: { documentTitle }, setters: { updateDashBoardTitle },
+  } = useContext<IContext>(Context);
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
