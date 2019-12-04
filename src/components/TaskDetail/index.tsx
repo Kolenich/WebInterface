@@ -6,7 +6,7 @@ import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
 import { Loading } from 'generic';
 import api from 'lib/api';
-import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
+import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, memo, useContext, useState } from 'react';
@@ -24,7 +24,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
+const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
   const classes = useStyles();
 
   const { getters: { documentTitle }, setters: { updateDashBoardTitle } } = useContext<IContext>(Context);
@@ -55,17 +55,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
       .then((response: AxiosResponse<ITaskDetail>) => (
         setTask((): ITaskDetail => response.data)
       ))
-      .catch((error: AxiosError) => {
-        let message: string = SERVER_NOT_AVAILABLE;
-        if (error.response) {
-          if (error.response.data.message) {
-            ({ message } = error.response.data);
-          } else {
-            message = SERVER_RESPONSES[error.response.status];
-          }
-        }
-        openDialog(message, 'error');
-      })
+      .catch((error: AxiosError) => showError(error, 'dialog'))
       .finally(() => setLoaded((): boolean => true));
   };
 
@@ -92,11 +82,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
       }));
       openDialog(SERVER_RESPONSES[status], 'success');
     } catch (error) {
-      let message: string = SERVER_NOT_AVAILABLE;
-      if (error.response) {
-        message = SERVER_RESPONSES[error.response.status];
-      }
-      openDialog(message, 'error');
+      showError(error, 'dialog')
     }
   };
 
@@ -213,4 +199,4 @@ const TaskDetail: FC<IProps> = ({ match, openDialog }: IProps) => {
   );
 };
 
-export default withDialog<IProps>(memo<IProps>(TaskDetail));
+export default memo(withDialog(TaskDetail));

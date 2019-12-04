@@ -98,4 +98,4 @@ const Dialog: FC<IProps> =
     );
   };
 
-export default memo<IProps>(Dialog);
+export default memo(Dialog);

@@ -17,4 +17,4 @@ const SingleValue: FC<IProps> = ({ selectProps, innerProps, children }: IProps) 
   </Typography>
 );
 
-export default memo<IProps>(SingleValue);
+export default memo(SingleValue);

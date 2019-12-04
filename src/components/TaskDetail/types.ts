@@ -1,7 +1,7 @@
 import { INotifications } from 'decorators/withDialog/types';
+import { IAttachment } from 'lib/types';
 import { ReactText } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { IAttachment } from '../../lib/types';
 
 export interface IProps extends RouteComponentProps<IDetailParams>, INotifications {
 }

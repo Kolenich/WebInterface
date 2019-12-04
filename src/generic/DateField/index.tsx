@@ -46,4 +46,4 @@ const DateField: FC<IProps> = ({ withTime, ...props }: IProps) => {
   );
 };
 
-export default memo<IProps>(DateField);
+export default memo(DateField);

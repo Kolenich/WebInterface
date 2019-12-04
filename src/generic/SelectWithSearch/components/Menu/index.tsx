@@ -17,4 +17,4 @@ const Menu: FC<IProps> = ({ selectProps, innerProps, children }: IProps) => (
   </Paper>
 );
 
-export default memo<IProps>(Menu);
+export default memo(Menu);

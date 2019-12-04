@@ -35,4 +35,4 @@ Button.defaultProps = {
   iconPlacement: 'right',
 };
 
-export default memo<IProps>(Button);
+export default memo(Button);

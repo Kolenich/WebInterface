@@ -21,4 +21,4 @@ const NoOptionsMessage: FC<IProps> = ({ selectProps, children, innerProps }: IPr
   </Typography>
 );
 
-export default memo<IProps>(NoOptionsMessage);
+export default memo(NoOptionsMessage);

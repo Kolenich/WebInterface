@@ -35,4 +35,4 @@ const Option: FC<IProps> = ({ innerRef, isFocused, isSelected, innerProps, child
   );
 };
 
-export default memo<IProps>(Option);
+export default memo(Option);

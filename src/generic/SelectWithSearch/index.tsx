@@ -85,4 +85,4 @@ const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProp
   );
 };
 
-export default memo<IProps>(SelectWithSearch);
+export default memo(SelectWithSearch);

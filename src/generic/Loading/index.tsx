@@ -13,4 +13,4 @@ const Loading: FC<{}> = () => (
   </Typography>
 );
 
-export default memo<{}>(Loading);
+export default memo(Loading);

@@ -13,4 +13,4 @@ const InputComponent: FC<IProps> = ({ inputRef, ...props }: IProps) => (
   <div ref={inputRef} {...props} />
 );
 
-export default memo<IProps>(InputComponent);
+export default memo(InputComponent);

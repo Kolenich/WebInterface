@@ -35,4 +35,4 @@ const Control: FC<IProps> = (
   />
 );
 
-export default memo<IProps>(Control);
+export default memo(Control);

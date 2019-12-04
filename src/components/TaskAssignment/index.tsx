@@ -35,7 +35,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
+const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   const classes = useStyles();
 
   const { getters: { documentTitle }, setters: { updateDashBoardTitle } } = useContext<IContext>(Context);
@@ -110,11 +110,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
         attachment: null,
       }));
     } catch (error) {
-      let message = 'Сервер недоступен, попробуйте позже';
-      if (error.response) {
-        message = SERVER_RESPONSES[error.response.status];
-      }
-      openDialog(message, 'error');
+      showError(error, 'dialog');
     }
   };
 
@@ -244,4 +240,4 @@ const TaskAssignment: FC<IProps> = ({ openDialog }: IProps) => {
   );
 };
 
-export default withDialog<IProps>(memo<IProps>(TaskAssignment));
+export default memo(withDialog(TaskAssignment));

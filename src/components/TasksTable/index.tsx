@@ -22,10 +22,10 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { tableSettings, tasksFilterLookUps } from 'components/TasksTable/settings';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import { withDialog } from 'decorators';
 import { Loading } from 'generic';
 import api from 'lib/api';
-import auth from 'lib/auth';
-import { DASH_BOARD_TITLES, SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
+import { DASH_BOARD_TITLES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
 import {
   filterRowMessages,
@@ -40,7 +40,6 @@ import {
   getSortingConfig,
   useMountEffect,
 } from 'lib/utils';
-import { useSnackbar } from 'notistack';
 import React, { FC, memo, ReactText, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
@@ -52,15 +51,13 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент таблицы для отображения всех заданий у пользователя
- * @param {History<LocationState>} history история в браузере
  * @param {match<IFilterParams>} match match передаваемые параметры в адресную строку
+ * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вывода ошибки
  * @returns {JSX.Element}
  * @constructor
  */
-const TasksTable: FC<IProps> = ({ history, match }) => {
+const TasksTable: FC<IProps> = ({ match, showError }) => {
   const classes = useStyles();
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const { setters: { updateDashBoardTitle }, getters: { documentTitle } } = useContext<IContext>(Context);
 
@@ -149,18 +146,7 @@ const TasksTable: FC<IProps> = ({ history, match }) => {
           totalCount: count,
         }));
       })
-      .catch((error: AxiosError) => {
-        let message = SERVER_NOT_AVAILABLE;
-        if (error.response) {
-          const { status } = error.response;
-          // Если пришёл ответ Unauthorized, то разлогиниваем пользователя
-          if (status === 401) {
-            auth.logout().finally(() => history.push({ pathname: '/' }));
-          }
-          message = SERVER_RESPONSES[status];
-        }
-        enqueueSnackbar(message, { variant: 'error' });
-      })
+      .catch((error: AxiosError) => showError(error, 'snackbar'))
       .finally(() => {
         setLoading((): boolean => false);
         if (!mounted) {
@@ -261,4 +247,4 @@ const TasksTable: FC<IProps> = ({ history, match }) => {
   );
 };
 
-export default memo<IProps>(TasksTable);
+export default memo(withDialog(TasksTable));

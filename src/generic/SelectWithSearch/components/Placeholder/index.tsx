@@ -17,4 +17,4 @@ const PlaceHolder: FC<IProps> = ({ selectProps, innerProps = {}, children }: IPr
   </Typography>
 );
 
-export default memo<IProps>(PlaceHolder);
+export default memo(PlaceHolder);

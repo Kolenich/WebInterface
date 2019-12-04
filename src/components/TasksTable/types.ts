@@ -5,10 +5,11 @@ import {
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
 import { VirtualTable } from '@devexpress/dx-react-grid-material-ui';
+import { INotifications } from 'decorators/withDialog/types';
 import { IAttachment } from 'lib/types';
 import { RouteComponentProps } from 'react-router';
 
-export interface IProps extends RouteComponentProps<IFilterParams> {
+export interface IProps extends RouteComponentProps<IFilterParams>, INotifications {
 }
 
 export interface IRow {

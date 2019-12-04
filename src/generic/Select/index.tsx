@@ -21,4 +21,4 @@ const Select: FC<IProps> = ({ items, ...props }: IProps) => (
   </TextField>
 );
 
-export default memo<IProps>(Select);
+export default memo(Select);

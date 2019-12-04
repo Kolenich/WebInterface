@@ -80,4 +80,4 @@ const TestBlocks: FC<IProps> = ({ match }) => {
   );
 };
 
-export default memo<IProps>(TestBlocks);
+export default memo(TestBlocks);

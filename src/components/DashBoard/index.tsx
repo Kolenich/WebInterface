@@ -28,12 +28,11 @@ import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import { withDialog } from 'decorators';
 import api from 'lib/api';
 import auth from 'lib/auth';
-import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { USERS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
-import { useSnackbar } from 'notistack';
 import React, { FC, memo, MouseEvent, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashBoardRouter from 'router/DashBoardRouter';
@@ -49,11 +48,9 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const DashBoard: FC<IProps> = ({ history, location }: IProps) => {
+const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   const classes = useStyles();
   const theme: Theme = useTheme();
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const { getters: { dashBoardTitle } } = useContext<IContext>(Context);
 
@@ -109,13 +106,7 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps) => {
   const loadUser = () => {
     api.getContent<IProfileUser>('user-profile/user', {}, USERS_APP)
       .then((response: AxiosResponse<IProfileUser>) => setUser(() => response.data))
-      .catch((error: AxiosError) => {
-        let message: string = SERVER_NOT_AVAILABLE;
-        if (error.response) {
-          message = SERVER_RESPONSES[error.response.status];
-        }
-        enqueueSnackbar(message, { variant: 'error' });
-      });
+      .catch((error: AxiosError) => showError(error, 'snackbar'));
   };
 
   useMountEffect(loadUser);
@@ -282,4 +273,4 @@ const DashBoard: FC<IProps> = ({ history, location }: IProps) => {
   );
 };
 
-export default memo<IProps>(DashBoard);
+export default memo(withDialog(DashBoard));

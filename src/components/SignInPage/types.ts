@@ -1,6 +1,7 @@
+import { INotifications } from 'decorators/withDialog/types';
 import { RouteComponentProps } from 'react-router-dom';
 
-export interface IProps extends RouteComponentProps {
+export interface IProps extends RouteComponentProps, INotifications {
 }
 
 export interface ILogin {

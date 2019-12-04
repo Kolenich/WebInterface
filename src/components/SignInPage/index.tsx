@@ -16,9 +16,9 @@ import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { Context } from 'context';
 import { IContext } from 'context/types';
+import { withDialog } from 'decorators';
 import auth from 'lib/auth';
 import { useMountEffect } from 'lib/utils';
-import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, KeyboardEvent, memo, useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
@@ -29,13 +29,12 @@ const useStyles = makeStyles(styles);
 /**
  * Компонента страницы входа в систему
  * @param {History<LocationState>} history история в браузере
+ * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вывода ошибки
  * @returns {JSX.Element}
  * @constructor
  */
-const SignInPage: FC<IProps> = ({ history }: IProps) => {
+const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
   const classes = useStyles();
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const { getters: { documentTitle } } = useContext<IContext>(Context);
 
@@ -98,13 +97,9 @@ const SignInPage: FC<IProps> = ({ history }: IProps) => {
       await auth.login(login.email, login.password, status.remember);
       history.push({ pathname: '/' });
     } catch (error) {
-      let message = 'Сервер недоступен, попробуйте позже';
       auth.delToken();
       auth.delHeader();
-      if (error.response) {
-        message = 'Неверные логин или пароль';
-      }
-      enqueueSnackbar(message, { variant: 'error' });
+      showError(error, 'snackbar')
       setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, loading: false }));
     }
   };
@@ -188,4 +183,4 @@ const SignInPage: FC<IProps> = ({ history }: IProps) => {
   );
 };
 
-export default memo<IProps>(SignInPage);
+export default memo(withDialog(SignInPage));

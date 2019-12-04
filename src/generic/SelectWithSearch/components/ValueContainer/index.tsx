@@ -13,4 +13,4 @@ const ValueContainer: FC<IProps> = ({ selectProps, children }: IProps) => (
   <div className={selectProps.classes.valueContainer}>{children}</div>
 );
 
-export default memo<IProps>(ValueContainer);
+export default memo(ValueContainer);
