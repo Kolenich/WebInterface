@@ -15,7 +15,13 @@ const AttachmentFormatter: FC<IProps> = ({ value }: IProps) => {
 
   let options: Partial<TypographyProps | LinkBaseProps> = { variant: 'body2' };
   if (value) {
-    options = { ...options, href: value.file, download: value.file_name };
+    options = {
+      ...options,
+      href: value.file,
+      download: value.file_name,
+      target: '_blank',
+      rel: 'noreferrer noreferer',
+    };
   }
 
   return (
