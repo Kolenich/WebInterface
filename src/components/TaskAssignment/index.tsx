@@ -12,16 +12,15 @@ import { AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
-import { Button, DateField, SelectWithSearch } from 'generic';
-import FileUploader from 'generic/FileUploader';
-import { IFile } from 'generic/FileUploader/types';
+import { Button, DateField, FileUploader, SelectWithSearch } from 'generic';
+import { IFile, IUploaderImperativeProps } from 'generic/FileUploader/types';
 import { ISelectItem } from 'generic/Select/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
-import React, { ChangeEvent, FC, memo, useCallback, useContext, useState } from 'react';
+import React, { ChangeEvent, FC, memo, useCallback, useContext, useRef, useState } from 'react';
 import { ValueType } from 'react-select/src/types';
 import styles from './styles';
 import { IProps, ITask } from './types';
@@ -41,6 +40,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   const {
     getters: { documentTitle }, setters: { updateDashBoardTitle },
   } = useContext<IContext>(Context);
+
+  const uploader = useRef<IUploaderImperativeProps>()
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -220,6 +221,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
           <Grid item xs={12} lg={9} />
           <Grid item xs={12} lg={3}>
             <FileUploader
+              ref={uploader}
               uploaderText="Прикрепите вложение"
               onFilesUpdate={setAttachment}
               base64

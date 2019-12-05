@@ -25,6 +25,11 @@ export interface IProps {
   onUploadError?: IUploadCallback;
 }
 
+export interface IUploaderImperativeProps {
+  /** Публичная функция для очистки области загрузки */
+  removeFiles: () => void;
+}
+
 type IUploadCallback<T = {}> = (data: T) => void;
 
 export interface IFile {

@@ -4,10 +4,10 @@ import 'filepond/dist/filepond.min.css';
 import { session, source } from 'lib/session';
 import { ActualFileObject } from 'lib/types';
 import { toBase64, useUpdateEffect } from 'lib/utils';
-import React, { FC, memo, useState } from 'react';
+import React, { FC, forwardRef, memo, Ref, useImperativeHandle, useState } from 'react';
 import { File, FilePond } from 'react-filepond';
 import styles from './styles';
-import { IFile, IProps, ProcessServerConfigFunction } from './types';
+import { IFile, IProps, IUploaderImperativeProps, ProcessServerConfigFunction } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -27,6 +27,7 @@ const useStyles = makeStyles(styles);
  * @param field {string} имя поля для упрощения получения доступа  кфайлу в БД
  * @param onUploadError {IUploadCallback} функция, принимающая данные с сервера при неуспешной
  * загрузке
+ * @param ref {Ref} ссылка на объект
  * @returns {JSX.Element}
  * @constructor
  */
@@ -43,10 +44,13 @@ const FileUploader: FC<IProps> =
      uploadCallback,
      field,
      onUploadError,
-   }: IProps) => {
+   }: IProps,
+   ref: Ref<IUploaderImperativeProps>) => {
     const classes = useStyles();
 
     const [files, setFiles] = useState<IFile[]>([]);
+
+    let pond = new FilePond({});
 
     /**
      * Функция обработки обновления файлов в дроп-зоне
@@ -129,6 +133,18 @@ const FileUploader: FC<IProps> =
         };
       };
 
+    /**
+     * Функция привязки объекта ссылки к фактическому объекту загрузчика
+     * @param {FilePond} ref ссылка на фактический объект загрузчика
+     */
+    const addRef = (ref: FilePond) => {
+      pond = ref;
+    }
+
+    useImperativeHandle(ref, () => ({
+      removeFiles: pond.removeFiles,
+    }))
+
     useUpdateEffect(flowToParent, [files]);
 
     return (
@@ -137,11 +153,13 @@ const FileUploader: FC<IProps> =
           {hint}
         </Typography>
         <FilePond
+          ref={addRef}
           instantUpload={instantUpload}
           server={uploadTo && { process }}
-          labelIdle={uploaderText}
+          labelIdle={uploaderText ||
+          'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать'}
           allowMultiple={multiple}
-          maxFiles={maxFiles}
+          maxFiles={maxFiles || 1}
           onupdatefiles={onUpdateFiles}
           labelFileProcessing="Подождите, файл загружается..."
           labelFileProcessingError="Не удалось загрузить файл"
@@ -154,10 +172,4 @@ const FileUploader: FC<IProps> =
     );
   };
 
-FileUploader.defaultProps = {
-  uploaderText: 'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать',
-  instantUpload: false,
-  maxFiles: 1,
-};
-
-export default memo(FileUploader);
+export default memo(forwardRef(FileUploader));
