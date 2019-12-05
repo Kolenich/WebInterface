@@ -102,8 +102,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   const submitTask = async () => {
     openDialog('', 'loading');
     try {
-      const response: AxiosResponse = await api.sendContent('assign-task', task);
-      openDialog(SERVER_RESPONSES[response.status], 'success');
+      const { status }: AxiosResponse = await api.sendContent('assign-task', task);
+      openDialog(SERVER_RESPONSES[status], 'success');
       setTask((): ITask => ({
         summary: '',
         description: '',
@@ -112,6 +112,10 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
         assigned_to: '',
         attachment: null,
       }));
+      // Очищаем область загрузчика
+      if (uploader.current) {
+        uploader.current.removeFiles();
+      }
     } catch (error) {
       showError(error, 'dialog');
     }
