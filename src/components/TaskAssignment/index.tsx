@@ -21,7 +21,6 @@ import { USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, memo, useCallback, useContext, useRef, useState } from 'react';
-import { ValueType } from 'react-select/src/types';
 import styles from './styles';
 import { IProps, ITask } from './types';
 
@@ -49,7 +48,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
     description: '',
     comment: '',
     dead_line: null,
-    assigned_to: '',
+    assigned_to: null,
     attachment: null,
   });
 
@@ -72,12 +71,12 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
 
   /**
    * Функция обработки изменени в селекте
+   * @param {ChangeEvent<{}>} event объект события изменения
    * @param {ValueType<ISelectItem>} option выбранная опция
    */
-  const handleSelectChange = (option: ValueType<ISelectItem>) => {
-    const { value } = option as ISelectItem;
-    setTask((oldTask: ITask) => ({ ...oldTask, assigned_to: value }));
-  };
+  const handleSelectChange = (event: ChangeEvent<{}>, option: ISelectItem | null) => (
+    setTask((oldTask: ITask) => ({ ...oldTask, assigned_to: option ? option.value : null }))
+  );
 
   /**
    * Функция обработки изменений в текстовых полях
@@ -231,7 +230,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               base64
             />
           </Grid>
-          <Grid item xs={12} lg={9} />
+          <Grid item xs={12} lg={9}>
+          </Grid>
           <Grid item xs="auto">
             <Button
               variant="contained"
@@ -242,6 +242,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               Назначить
             </Button>
           </Grid>
+
         </Grid>
       </Paper>
     </Collapse>

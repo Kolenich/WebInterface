@@ -12,7 +12,7 @@ export interface ITask {
   /** Полное описание */
   description: string;
   /** Кому назначено */
-  assigned_to: ReactText;
+  assigned_to: ReactText | null;
   /** Срок исполнения */
   dead_line: string | null | Date;
   /** Комментарий */

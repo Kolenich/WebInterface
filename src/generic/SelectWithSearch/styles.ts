@@ -1,57 +1,11 @@
-import { Theme } from '@material-ui/core';
-import { emphasize } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/styles';
 
-const styles = (theme: Theme) => createStyles({
+const styles = () => createStyles({
   root: {
-    flexGrow: 1,
-    height: 250,
-    minWidth: 290,
+    width: '100%',
   },
-  input: {
-    display: 'flex',
-    padding: theme.spacing(1),
-    height: 'auto',
-  },
-  valueContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flex: 1,
-    padding: theme.spacing(1),
-    alignItems: 'center',
-    overflow: 'hidden',
-  },
-  chip: {
-    margin: theme.spacing(0.5, 0.25),
-  },
-  chipFocused: {
-    backgroundColor: emphasize(
-      theme.palette.type === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-      0.08,
-    ),
-  },
-  noOptionsMessage: {
-    padding: theme.spacing(1, 2),
+  noOptions: {
     textAlign: 'center',
-  },
-  singleValue: {
-    fontSize: 16,
-  },
-  placeholder: {
-    position: 'absolute',
-    fontSize: 16,
-  },
-  paper: {
-    position: 'absolute',
-    zIndex: 10,
-    marginTop: theme.spacing(1),
-    left: 0,
-    right: 0,
-  },
-  divider: {
-    height: theme.spacing(2),
   },
 });
 

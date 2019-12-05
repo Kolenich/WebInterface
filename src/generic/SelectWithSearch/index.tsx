@@ -1,51 +1,34 @@
+import { TextField, Typography } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import { RenderInputParams } from '@material-ui/lab/Autocomplete/Autocomplete';
 import { makeStyles } from '@material-ui/styles';
 import React, { FC, memo, useEffect, useState } from 'react';
-import Select from 'react-select';
-import { SelectComponentsConfig } from 'react-select/src/components';
-import { ValueType } from 'react-select/src/types';
 import { ISelectItem } from '../Select/types';
-import Control from './components/Control';
-import Menu from './components/Menu';
-import NoOptionsMessage from './components/NoOptionsMessage';
-import Option from './components/Option';
-import Placeholder from './components/Placeholder';
-import SingleValue from './components/SingleValue';
-import ValueContainer from './components/ValueContainer';
 import styles from './styles';
-import { IInputValue, IProps } from './types';
+import { IProps } from './types';
 
 const useStyles = makeStyles(styles);
-
-const components: SelectComponentsConfig<ISelectItem> = {
-  Control,
-  Menu,
-  NoOptionsMessage,
-  Option,
-  Placeholder,
-  SingleValue,
-  ValueContainer,
-};
 
 /**
  * Компонент выбора с поиском
  * @param {ISelectItem[]} options список для выбора
  * @param {string} label ярлык селекта
- * @param {(option: ValueType<ISelectItem>) => void} onChange текущее значение
- * @param {string | number} value колбэк, возвращающий данные
+ * @param {(option: ISelectItem | null) => void} onChange колбэк, возвращающий данные
+ * @param {string | number | null} value текущее значение
  * @returns {JSX.Element}
  * @constructor
  */
 const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProps) => {
   const classes = useStyles();
 
-  const [option, setOption] = useState<ValueType<ISelectItem>>(null);
+  const [option, setOption] = useState<ISelectItem | null>(null);
 
   /**
    * Функция, которая устанавливает значение в селект
    */
   const setSelectOption = () => {
-    const option: ValueType<ISelectItem> =
-      options.find((x: ISelectItem): boolean => x.value === value);
+    const option: ISelectItem | undefined =
+      options.find((x: ISelectItem) => x.value === value);
     if (!option) {
       setOption(null);
     } else {
@@ -53,34 +36,50 @@ const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProp
     }
   };
 
-  useEffect(setSelectOption, [value]);
+  /**
+   * Функция для отображения отсутствия совпадений в выборе
+   * @returns {JSX.Element}
+   */
+  const getNoOptionsText = () => (
+    <Typography className={classes.noOptions}>
+      {options.length ? 'Совпадений не найдено' : 'Данные отсутствуют'}
+    </Typography>
+  );
 
   /**
-   * Функция сообщения для пустого селекта
+   * Функция для отображения наименований и поиска по ним
+   * @param {ISelectItem} option текущй объект выбора
+   * @returns {string}
    */
-  const noOptionsMessage = ({ inputValue }: IInputValue): string => {
-    if (options.length) {
-      return `Совпадений с ${inputValue} не найдено`;
-    }
-    return 'Данные отсутствуют';
-  };
+  const getOptionLabel = (option: ISelectItem) => option.label;
+
+  /**
+   * Функция отрисовки поля для ввода
+   * @param {RenderInputParams} params входные параметры
+   * @returns {JSX.Element}
+   */
+  const renderInput = (params: RenderInputParams) => (
+    <TextField
+      {...params}
+      label={label}
+      variant="outlined"
+      fullWidth
+    />
+  )
+
+  useEffect(setSelectOption, [value]);
 
   return (
-    <Select
-      classes={classes}
-      components={components}
-      placeholder="Выберите вариант..."
+    <Autocomplete
+      clearText="Очистить"
+      noOptionsText={getNoOptionsText()}
       value={option}
-      onChange={onChange}
-      noOptionsMessage={noOptionsMessage}
+      clearOnEscape
       options={options}
-      TextFieldProps={{
-        label,
-        InputLabelProps: {
-          htmlFor: 'react-select-single',
-          shrink: true,
-        },
-      }}
+      onChange={onChange}
+      getOptionLabel={getOptionLabel}
+      className={classes.root}
+      renderInput={renderInput}
     />
   );
 };
