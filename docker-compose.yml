@@ -42,6 +42,7 @@ services:
     volumes:
       - static:/app/static
       - ./media:/app/media
+      - ./settings.yml:/app/settings.yml
     restart: always
     container_name: server
     image: kolenich/server
