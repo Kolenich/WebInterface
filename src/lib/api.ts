@@ -1,5 +1,5 @@
 import { session, TASKS_APP } from './session';
-import { HTTPMethods } from './types';
+import { HTTPMethods, IHeaders } from './types';
 
 export default {
   /**
@@ -28,12 +28,13 @@ export default {
    * API-функция для отправки данных на сервер
    * @param {string} requestUrl url запроса
    * @param {T} sendData параметры запроса
+   * @param {IHeaders} headers дополнительные заголовки запроса
    * @param {string} app запрашиваемое приложение
    * @param {HTTPMethods} sendMethod  метод запроса
    * @returns {AxiosPromise<T>}
    */
   sendContent: async <T>(
-    requestUrl: string, sendData: T, app?: string, sendMethod?: HTTPMethods,
+    requestUrl: string, sendData: T, app?: string, sendMethod?: HTTPMethods, headers?: IHeaders,
   ) => {
     let method = sendMethod;
     if (!method) {
@@ -44,11 +45,21 @@ export default {
       prefix = TASKS_APP;
     }
     const data: T = sendData;
-    const url: string = `${prefix}/${requestUrl}/`;
+
+    const url = `${prefix}/${requestUrl}/`;
+
+    const defaultHeaders = { ...session.defaults.headers };
+    if (headers) {
+      for (const key of Object.keys(headers)) {
+        session.defaults.headers[key] = headers[key];
+      }
+    }
     try {
       return await session({ method, data, url });
     } catch (error) {
       throw error;
+    } finally {
+      session.defaults.headers = defaultHeaders;
     }
   },
 };

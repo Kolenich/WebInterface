@@ -137,4 +137,10 @@ export interface IAttachment {
   file_size: number;
   /** Файл вложения */
   file: string | ActualFileObject;
+
+  [key: string]: ReactText | ActualFileObject | undefined;
+}
+
+export interface IHeaders {
+  [key: string]: string;
 }

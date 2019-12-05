@@ -139,11 +139,11 @@ const FileUploader: FC<IProps> =
      */
     const addRef = (ref: FilePond) => {
       pond = ref;
-    }
+    };
 
     useImperativeHandle(ref, () => ({
       removeFiles: pond.removeFiles,
-    }))
+    }));
 
     useUpdateEffect(flowToParent, [files]);
 

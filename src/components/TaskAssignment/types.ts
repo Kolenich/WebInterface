@@ -7,6 +7,8 @@ export interface IProps extends RouteComponentProps, INotifications {
 }
 
 export interface ITask {
+  /** Ключ объекта в БД */
+  readonly id?: number;
   /** Краткое описание */
   summary: string;
   /** Полное описание */

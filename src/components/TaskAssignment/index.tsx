@@ -17,7 +17,7 @@ import { IFile, IUploaderImperativeProps } from 'generic/FileUploader/types';
 import { ISelectItem } from 'generic/Select/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
-import { USERS_APP } from 'lib/session';
+import { TASKS_APP, USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, memo, useCallback, useContext, useRef, useState } from 'react';
@@ -40,7 +40,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
     getters: { documentTitle }, setters: { updateDashBoardTitle },
   } = useContext<IContext>(Context);
 
-  const uploader = useRef<IUploaderImperativeProps>()
+  const uploader = useRef<IUploaderImperativeProps>();
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -101,7 +101,33 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   const submitTask = async () => {
     openDialog('', 'loading');
     try {
-      const { status }: AxiosResponse = await api.sendContent('assign-task', task);
+      // Копируем объект задания
+      const { attachment } = task;
+      const copiedTask: ITask = JSON.parse(JSON.stringify(task));
+      delete copiedTask.attachment;
+      // Создаем задание без вложения
+      const { data, status }: AxiosResponse<ITask> =
+        await api.sendContent('assign-task', copiedTask);
+
+      // После создания задания если было приложено вложение, прикрепляем вложение
+      if (attachment) {
+        const formData = new FormData();
+        for (const key of Object.keys(attachment)) {
+          if (key === 'file') {
+            formData.append(key, attachment[key] as Blob, attachment.file_name);
+          } else {
+            formData.append(key, attachment[key] as string);
+          }
+        }
+        await api.sendContent(
+          `assign-task/${data.id!}/attach-file`,
+          formData,
+          TASKS_APP,
+          'post',
+          { 'Content-Type': 'multipart/form-data' },
+        );
+      }
+
       openDialog(SERVER_RESPONSES[status], 'success');
       setTask((): ITask => ({
         summary: '',
@@ -227,7 +253,6 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               ref={uploader}
               uploaderText="Прикрепите вложение"
               onFilesUpdate={setAttachment}
-              base64
             />
           </Grid>
           <Grid item xs={12} lg={9}>
