@@ -99,7 +99,7 @@ export const toBase64 = (file: ActualFileObject) => (
  * компонента
  * Идея взята отсюда: https://stackoverflow.com/a/55075818/1526448
  * @param {EffectCallback} effect выполняемый эффект
- * @param {any[]} deps массив зависимостей
+ * @param {DependencyList} deps массив зависимостей
  */
 export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = []) => {
   const isInitialMount = useRef(true);
