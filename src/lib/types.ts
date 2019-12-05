@@ -127,6 +127,8 @@ export type ActualFileObject = Blob & {
 };
 
 export interface IAttachment {
+  /** Первичный ключ вложения в БД */
+  readonly id?: number;
   /** Имя вложения */
   file_name: string;
   /** Тип вложения */

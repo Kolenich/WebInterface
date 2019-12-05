@@ -13,8 +13,8 @@ export interface IProps extends RouteComponentProps<IFilterParams>, INotificatio
 }
 
 export interface IRow {
-  /** Ключ задачи в таблице */
-  id?: number;
+  /** Первичный ключ задачи в БД */
+  readonly id?: number;
   /** Краткое описание */
   summary: string;
   /** Описание */

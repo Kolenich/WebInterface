@@ -65,8 +65,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   const loadUsers = () => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
       .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => {
-        setUsers((): ISelectItem[] => response.data.results);
-        setMounted((): boolean => true);
+        setUsers(() => response.data.results);
+        setMounted(() => true);
       });
   };
 
@@ -76,7 +76,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
    */
   const handleSelectChange = (option: ValueType<ISelectItem>) => {
     const { value } = option as ISelectItem;
-    setTask((oldTask: ITask): ITask => ({ ...oldTask, assigned_to: value }));
+    setTask((oldTask: ITask) => ({ ...oldTask, assigned_to: value }));
   };
 
   /**
@@ -85,15 +85,15 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
    */
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setTask((oldTask: ITask): ITask => ({ ...oldTask, [name]: value }));
+    setTask((oldTask: ITask) => ({ ...oldTask, [name]: value }));
   };
 
   /**
    * Функция для обработки изменений в поле даты (Срок исполнения)
-   * @param {MaterialUiPickersDate} date новая дата
+   * @param {keyof ITask} name  поле даты
    */
-  const handleDeadLineChange = (date: MaterialUiPickersDate) => (
-    setTask((oldTask: ITask): ITask => ({ ...oldTask, dead_line: date }))
+  const handleDateChange = (name: keyof ITask) => (date: MaterialUiPickersDate) => (
+    setTask((oldTask: ITask) => ({ ...oldTask, [name]: date }))
   );
 
   /**
@@ -190,7 +190,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               value={task.dead_line}
               name="dead_line"
               disablePast
-              onChange={handleDeadLineChange}
+              onChange={handleDateChange('dead_line')}
               label="Срок исполнения"
               withTime
               InputProps={{
