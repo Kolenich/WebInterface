@@ -12,7 +12,7 @@ import { AxiosResponse } from 'axios';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
-import { Button, DateField, FileUploader, SelectWithSearch } from 'generic';
+import { AutoComplete, Button, DateField, FileUploader } from 'generic';
 import { IFile, IUploaderImperativeProps } from 'generic/FileUploader/types';
 import { ISelectItem } from 'generic/Select/types';
 import api from 'lib/api';
@@ -214,7 +214,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
           <Grid item xs={12} lg={8} />
           <Grid item xs={12} lg={3}>
             <AssignToIcon />
-            <SelectWithSearch
+            <AutoComplete
               value={task.assigned_to}
               label="Кому назначить"
               options={users}

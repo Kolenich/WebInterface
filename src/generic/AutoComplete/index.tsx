@@ -1,5 +1,5 @@
 import { TextField, Typography } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import { Autocomplete as AutoCompleteBase } from '@material-ui/lab';
 import { RenderInputParams } from '@material-ui/lab/Autocomplete/Autocomplete';
 import { makeStyles } from '@material-ui/styles';
 import React, { FC, memo, useEffect, useState } from 'react';
@@ -18,7 +18,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProps) => {
+const AutoComplete: FC<IProps> = ({ options, label, onChange, value }: IProps) => {
   const classes = useStyles();
 
   const [option, setOption] = useState<ISelectItem | null>(null);
@@ -70,7 +70,7 @@ const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProp
   useEffect(setSelectOption, [value]);
 
   return (
-    <Autocomplete
+    <AutoCompleteBase
       clearText="Очистить"
       noOptionsText={getNoOptionsText()}
       value={option}
@@ -84,4 +84,4 @@ const SelectWithSearch: FC<IProps> = ({ options, label, onChange, value }: IProp
   );
 };
 
-export default memo(SelectWithSearch);
+export default memo(AutoComplete);
