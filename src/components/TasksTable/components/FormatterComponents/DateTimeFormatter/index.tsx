@@ -17,4 +17,4 @@ const DateTimeFormatter: FC<IProps> = ({ value }: IProps) => (
   </Typography>
 );
 
-export default memo<IProps>(DateTimeFormatter);
+export default memo(DateTimeFormatter);

@@ -23,4 +23,4 @@ const PublicRoute: FC<IProps> = ({ component, ...rest }: IProps) => (
   />
 );
 
-export default memo<IProps>(PublicRoute);
+export default memo(PublicRoute);

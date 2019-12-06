@@ -31,4 +31,4 @@ const AttachmentFormatter: FC<IProps> = ({ value }: IProps) => {
   );
 };
 
-export default memo<IProps>(AttachmentFormatter);
+export default memo(AttachmentFormatter);

@@ -23,4 +23,4 @@ const PrivateRoute: FC<IProps> = ({ component, ...rest }: IProps) => (
   />
 );
 
-export default memo<IProps>(PrivateRoute);
+export default memo(PrivateRoute);

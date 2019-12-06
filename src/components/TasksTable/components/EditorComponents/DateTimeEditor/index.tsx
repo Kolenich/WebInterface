@@ -56,4 +56,4 @@ const DateTimeEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   );
 };
 
-export default memo<IProps>(DateTimeEditor);
+export default memo(DateTimeEditor);

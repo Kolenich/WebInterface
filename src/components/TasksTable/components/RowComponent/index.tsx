@@ -28,4 +28,4 @@ const RowComponent: FC<IProps> = (props: IProps) => {
   );
 };
 
-export default memo<IProps>(RowComponent);
+export default memo(RowComponent);

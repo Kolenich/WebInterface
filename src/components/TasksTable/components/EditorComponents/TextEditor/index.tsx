@@ -42,4 +42,4 @@ const TextEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   );
 };
 
-export default memo<IProps>(TextEditor);
+export default memo(TextEditor);

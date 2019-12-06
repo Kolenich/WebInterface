@@ -20,4 +20,4 @@ const RootComponent: FC<IProps> = (props: IProps) => {
   );
 };
 
-export default memo<IProps>(RootComponent);
+export default memo(RootComponent);

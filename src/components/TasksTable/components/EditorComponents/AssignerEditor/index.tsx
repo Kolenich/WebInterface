@@ -68,4 +68,4 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   );
 };
 
-export default memo<IProps>(AssignerEditor);
+export default memo(AssignerEditor);
