@@ -27,8 +27,7 @@ const AutoComplete: FC<IProps> = ({ options, label, onChange, value }: IProps) =
    * Функция, которая устанавливает значение в селект
    */
   const setSelectOption = () => {
-    const option: ISelectItem | undefined =
-      options.find((x: ISelectItem) => x.value === value);
+    const option = options.find((x: ISelectItem) => x.value === value);
     if (!option) {
       setOption(null);
     } else {
@@ -65,7 +64,7 @@ const AutoComplete: FC<IProps> = ({ options, label, onChange, value }: IProps) =
       variant="outlined"
       fullWidth
     />
-  )
+  );
 
   useEffect(setSelectOption, [value]);
 
