@@ -39,9 +39,10 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
    * @param {IDialogStatus} status статус вызываемого окна
    * @param {() => void} warningAcceptCallback функция-колбэк для принятия предупреждения
    */
-  const openDialog = (message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => (
-    setDialog(() => ({ message, status, warningAcceptCallback, open: true }))
-  );
+  const openDialog =
+    (message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => (
+      setDialog(() => ({ message, status, warningAcceptCallback, open: true }))
+    );
 
   /**
    * Общая функция обработки ошибки
@@ -64,13 +65,12 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
         openDialog(message, 'error');
         break;
       case 'snackbar':
-        enqueueSnackbar(message, { variant: 'error' })
+        enqueueSnackbar(message, { variant: 'error' });
         break;
       default:
         break;
     }
-
-  }
+  };
 
   return (
     <>
