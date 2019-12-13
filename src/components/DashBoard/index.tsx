@@ -51,7 +51,7 @@ const useStyles = makeStyles(styles);
  */
 const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   const classes = useStyles();
-  const theme: Theme = useTheme();
+  const theme = useTheme<Theme>();
 
   const { getters: { dashBoardTitle } } = useContext<IContext>(Context);
 
@@ -106,8 +106,12 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   /**
    * Функция разлогинивания
    */
-  const handleLogout = () => {
-    auth.logout().finally(() => history.push({ pathname: '/' }));
+  const handleLogout = async () => {
+    try {
+      await auth.logout();
+    } finally {
+      history.push({ pathname: '/' });
+    }
   };
 
   /**
