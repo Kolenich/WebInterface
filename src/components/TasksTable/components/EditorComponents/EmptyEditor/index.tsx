@@ -5,4 +5,4 @@ import React, { FC, memo } from 'react';
  */
 const EmptyFilter: FC = () => <div />;
 
-export default memo<{}>(EmptyFilter);
+export default memo(EmptyFilter);

@@ -33,7 +33,7 @@ import api from 'lib/api';
 import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
-import React, { FC, memo, MouseEvent, useContext, useState } from 'react';
+import React, { FC, memo, MouseEvent, useContext, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashBoardRouter from 'router/DashBoardRouter';
 import styles from './styles';
@@ -44,7 +44,8 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент панели
  * @param {History<LocationState>} history история в браузере
- * @param {Location<{}> location текущий адрес с параметрами
+ * @param {Location<LocationState>} location текущий адрес с параметрами
+ * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вызова ошибки
  * @returns {JSX.Element}
  * @constructor
  */
@@ -54,9 +55,18 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
 
   const { getters: { dashBoardTitle } } = useContext<IContext>(Context);
 
-  const completedSection = location.pathname === '/my-tasks/completed';
-  const inProcessSection = location.pathname === '/my-tasks/in-process';
-  const assignSection = location.pathname === '/assign';
+  const completedSection = useMemo<boolean>(
+    () => location.pathname === '/my-tasks/completed',
+    [location],
+  );
+  const inProcessSection = useMemo<boolean>(
+    () => location.pathname === '/my-tasks/in-process',
+    [location],
+  );
+  const assignSection = useMemo<boolean>(
+    () => location.pathname === '/assign',
+    [location],
+  );
 
   // Переменная открытия/закрытия панели
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);

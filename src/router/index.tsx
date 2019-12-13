@@ -12,7 +12,7 @@ import PublicRoute from './PublicRouter';
  * @returns {JSX.Element}
  * @constructor
  */
-const Router: FC<{}> = () => (
+const Router: FC = () => (
   <Switch>
     <PublicRoute path="/sign-up" component={SignUpPage} />
     <PublicRoute path="/sign-in" component={SignInPage} />
@@ -21,4 +21,4 @@ const Router: FC<{}> = () => (
   </Switch>
 );
 
-export default memo<{}>(Router);
+export default memo(Router);
