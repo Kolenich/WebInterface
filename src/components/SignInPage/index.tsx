@@ -99,7 +99,7 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
     } catch (error) {
       auth.delToken();
       auth.delHeader();
-      showError(error, 'snackbar')
+      showError(error, 'snackbar');
       setStatus((oldStatus: IStatus): IStatus => ({ ...oldStatus, loading: false }));
     }
   };
