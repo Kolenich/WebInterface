@@ -82,9 +82,9 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
    * Функция обработки нажатия на Enter
    * @param {React.KeyboardEvent<HTMLDivElement>} event объект события изменения
    */
-  const handleEnterPress = (event: KeyboardEvent<HTMLDivElement>) => {
+  const handleEnterPress = async (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter') {
-      handleLogin().finally();
+      await handleLogin();
     }
   };
 
