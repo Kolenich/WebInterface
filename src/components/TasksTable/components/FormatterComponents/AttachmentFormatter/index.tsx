@@ -18,7 +18,6 @@ const AttachmentFormatter: FC<IProps> = ({ value }: IProps) => {
     options = {
       ...options,
       href: value.file,
-      download: value.file_name,
       target: '_blank',
       rel: 'noreferrer noreferer',
     };
