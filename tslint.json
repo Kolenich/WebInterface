@@ -5,7 +5,22 @@
   ],
   "rules": {
     "no-console": true,
-    "member-ordering": true,
+    "member-ordering": [
+      true,
+      {
+        "order": [
+          "public-static-field",
+          "public-instance-field",
+          "public-constructor",
+          "private-static-field",
+          "private-instance-field",
+          "private-constructor",
+          "public-instance-method",
+          "protected-instance-method",
+          "private-instance-method"
+        ]
+      }
+    ],
     "promise-function-async": true,
     "curly": true,
     "no-construct": true,
@@ -16,7 +31,6 @@
     "ordered-imports": true,
     "jsdoc-format": true,
     "indent": false,
-    "no-unused-variable": true,
     "no-for-in-array": true,
     "import-name": [
       false,
