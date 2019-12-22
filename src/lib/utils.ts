@@ -15,9 +15,10 @@ const getCurrentHost = () => {
 
 /**
  * Функция, генерирующая URL запроса для запросов на сервер
+ * @param {boolean} production флаг продакшена
  */
-export const getBaseUrl = () => (
-  process.env.NODE_ENV === 'production' ? getCurrentHost() : 'http://localhost:8080'
+export const getBaseUrl = (production: boolean) => (
+  production ? getCurrentHost() : 'http://localhost:8080'
 );
 
 /**
@@ -54,7 +55,7 @@ export const getFilteringConfig = (filters: Filter[], lookups?: { [key: string]:
   ...unpackArrayOfObjects<Partial<IGetConfig>>(
     filters.map(({ operation, columnName, value }) => {
       let lookupPart = columnName;
-      if (lookups) {
+      if (lookups && Object.keys(lookups).length) {
         lookupPart = lookups[columnName];
       }
       return { [lookupPart + FILTERING_PARAMS[operation!]]: value };
@@ -71,8 +72,8 @@ export const getFilteringConfig = (filters: Filter[], lookups?: { [key: string]:
 export const getSortingConfig = (sorting: Sorting[], lookups?: { [key: string]: string }) => ({
   ...unpackArrayOfObjects<Partial<IGetConfig>>(
     sorting.map(({ direction, columnName }) => {
-      let lookupPart: string = columnName;
-      if (lookups) {
+      let lookupPart = columnName;
+      if (lookups && Object.keys(lookups).length) {
         lookupPart = lookups[columnName];
       }
       return { ordering: SORTING_PARAMS[direction] + lookupPart };

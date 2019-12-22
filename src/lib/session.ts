@@ -9,7 +9,7 @@ export const source = CancelToken.source();
 const xsrfCookieName = 'csrftoken';
 const xsrfHeaderName = 'X-CSRFToken';
 
-const baseURL = getBaseUrl();
+const baseURL = getBaseUrl(process.env.NODE_ENV === 'production');
 
 const timeout = 10000;
 
