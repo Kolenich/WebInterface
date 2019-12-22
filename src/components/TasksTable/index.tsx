@@ -59,7 +59,9 @@ const useStyles = makeStyles(styles);
 const TasksTable: FC<IProps> = ({ match, showError }) => {
   const classes = useStyles();
 
-  const { setters: { updateDashBoardTitle }, getters: { documentTitle } } = useContext<IContext>(Context);
+  const {
+    setters: { updateDashBoardTitle }, getters: { documentTitle },
+  } = useContext<IContext>(Context);
 
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({

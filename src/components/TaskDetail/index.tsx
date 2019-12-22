@@ -27,7 +27,9 @@ const useStyles = makeStyles(styles);
 const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
   const classes = useStyles();
 
-  const { getters: { documentTitle }, setters: { updateDashBoardTitle } } = useContext<IContext>(Context);
+  const {
+    getters: { documentTitle }, setters: { updateDashBoardTitle },
+  } = useContext<IContext>(Context);
 
   // Переменные состояния для задания
   const [task, setTask] = useState<ITaskDetail>({
@@ -82,7 +84,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
       }));
       openDialog(SERVER_RESPONSES[status], 'success');
     } catch (error) {
-      showError(error, 'dialog')
+      showError(error, 'dialog');
     }
   };
 

@@ -85,7 +85,7 @@ export const getSortingConfig = (sorting: Sorting[], lookups?: { [key: string]: 
  * @param file {Blob} объект файла
  * @returns {Promise<void>}
  */
-export const toBase64 = (file: ActualFileObject) => (
+export const toBase64 = async (file: ActualFileObject) => (
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
