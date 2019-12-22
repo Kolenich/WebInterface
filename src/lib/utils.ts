@@ -42,7 +42,7 @@ export const unpackArrayOfObjects = <T>(arr: T[]): T => {
  * @returns {IGetConfig} конфиг для пагинации
  */
 export const getPaginationConfig = (pageSize: number, currentPage: number) => ({
-  limit: pageSize, offset: currentPage! * pageSize!,
+  limit: pageSize, offset: currentPage * pageSize,
 });
 
 /**
