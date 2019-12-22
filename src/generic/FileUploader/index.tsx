@@ -29,10 +29,8 @@ const useStyles = makeStyles(styles);
  * @param field {string} имя поля для упрощения получения доступа  кфайлу в БД
  * @param onUploadError {IUploadCallback} функция, принимающая данные с сервера при неуспешной
  * загрузке
- * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция отображения
- * ошибки
- * @param {React.Ref<IUploaderImperativeProps>} ref
- * @returns {any}
+ * @param {React.Ref<IUploaderImperativeProps>} ref ссылка для доступа к компоненту
+ * @returns {JSX.Element}
  * @constructor
  */
 const FileUploader: FC<IProps> =
