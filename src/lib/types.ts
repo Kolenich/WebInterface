@@ -1,5 +1,5 @@
 import { DataTypeProviderProps, Filter, Sorting } from '@devexpress/dx-react-grid';
-import { ReactText } from 'react';
+import { ComponentType, ReactText } from 'react';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
@@ -125,3 +125,5 @@ export interface IAttachment {
 export interface IHeaders {
   [key: string]: string;
 }
+
+export type IDecorator<T> = (Component: ComponentType<T>) => ComponentType<T>;

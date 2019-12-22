@@ -8,7 +8,7 @@ import { Loading } from 'generic';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
-import { useMountEffect } from 'lib/utils';
+import { compose, useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, memo, useContext, useState } from 'react';
 import AttachmentPreview from '../AttachmentPreview';
 import styles from './styles';
@@ -201,4 +201,4 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
   );
 };
 
-export default memo(withDialog(TaskDetail));
+export default compose<IProps>([memo, withDialog], TaskDetail);

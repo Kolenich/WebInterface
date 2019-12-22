@@ -32,7 +32,7 @@ import { withDialog } from 'decorators';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';
-import { useMountEffect } from 'lib/utils';
+import { compose, useMountEffect } from 'lib/utils';
 import React, { FC, memo, MouseEvent, useContext, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashBoardRouter from 'router/DashBoardRouter';
@@ -287,4 +287,4 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   );
 };
 
-export default memo(withDialog(DashBoard));
+export default compose<IProps>([memo, withDialog], DashBoard);

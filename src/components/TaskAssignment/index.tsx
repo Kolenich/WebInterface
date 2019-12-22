@@ -19,7 +19,7 @@ import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP, USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
-import { useMountEffect } from 'lib/utils';
+import { compose, useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, memo, useCallback, useContext, useRef, useState } from 'react';
 import styles from './styles';
 import { IProps, ITask } from './types';
@@ -275,4 +275,4 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   );
 };
 
-export default memo(withDialog(TaskAssignment));
+export default compose<IProps>([memo, withDialog], TaskAssignment);

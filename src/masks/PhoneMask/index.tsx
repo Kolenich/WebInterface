@@ -16,9 +16,7 @@ const phoneMask: maskArray =
 export const PhoneMask: FC<IProps> = ({ inputRef, ...props }: IProps) => (
   <MaskedInput
     {...props}
-    ref={ref => inputRef(ref
-      ? ref.inputElement
-      : null)}
+    ref={ref => inputRef(ref ? ref.inputElement : null)}
     mask={phoneMask}
     showMask={false}
   />

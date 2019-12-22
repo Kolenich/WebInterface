@@ -35,6 +35,7 @@ import {
 } from 'lib/translate';
 import { IApiResponse, ICustomDataTypeProviderProps, IGetConfig, ITable } from 'lib/types';
 import {
+  compose,
   getFilteringConfig,
   getPaginationConfig,
   getSortingConfig,
@@ -249,4 +250,4 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
   );
 };
 
-export default memo(withDialog(TasksTable));
+export default compose<IProps>([memo, withDialog], TasksTable);

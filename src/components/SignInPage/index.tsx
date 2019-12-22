@@ -18,7 +18,7 @@ import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
 import auth from 'lib/auth';
-import { useMountEffect } from 'lib/utils';
+import { compose, useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, KeyboardEvent, memo, useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
@@ -183,4 +183,4 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
   );
 };
 
-export default memo(withDialog(SignInPage));
+export default compose<IProps>([memo, withDialog], SignInPage);

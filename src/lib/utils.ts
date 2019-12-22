@@ -1,7 +1,7 @@
 import { Filter, Sorting } from '@devexpress/dx-react-grid';
-import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
+import { ComponentType, DependencyList, EffectCallback, useEffect, useRef } from 'react';
 import { FILTERING_PARAMS, SORTING_PARAMS } from './constants';
-import { ActualFileObject, IGetConfig } from './types';
+import { ActualFileObject, IDecorator, IGetConfig } from './types';
 
 /**
  * Функция получения текущего хоста для запроса на сервер.
@@ -123,3 +123,13 @@ export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = [
  * @param {EffectCallback} effect выполняемый эффект
  */
 export const useMountEffect = (effect: EffectCallback) => useEffect(effect, []);
+
+export const compose = <T>(decorators: IDecorator<T>[], Component: ComponentType<T>) => {
+  let WrappedComponent = Component;
+
+  for (const decorator of decorators) {
+    WrappedComponent = decorator(WrappedComponent);
+  }
+
+  return WrappedComponent;
+};

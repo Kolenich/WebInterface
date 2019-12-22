@@ -15,7 +15,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const Button: FC<IProps> = ({ icon, children, iconPlacement, ...props }: IProps) => {
+const Button: FC<IProps> = ({ icon, children, iconPlacement = 'right', ...props }: IProps) => {
   const classes = useStyles();
 
   return (
@@ -29,10 +29,6 @@ const Button: FC<IProps> = ({ icon, children, iconPlacement, ...props }: IProps)
       createElement(icon, { className: classes.rightIcon })}
     </ButtonBase>
   );
-};
-
-Button.defaultProps = {
-  iconPlacement: 'right',
 };
 
 export default memo(Button);
