@@ -43,25 +43,6 @@ export interface IFiltering {
 }
 
 export interface IServerResponses {
-  /** Указатель статуса "OK" */
-  200: string;
-  /** Указатель статуса "CREATED" */
-  201: string;
-  /** Указатель статуса "DELETED" */
-  204: string;
-  /** Указатель статуса "BAD_REQUEST" */
-  400: string;
-  /** Указатель статуса "NOT_FOUND" */
-  404: string;
-  /** Указатель статуса "ENTITY_TOO_LARGE" */
-  413: string;
-  /** Указатель статуса "METHOD_NOT_ALLOWED" */
-  405: string;
-  /** Указатель статуса "INTERNAL_SERVER_ERROR" */
-  500: string;
-  /** Указатель статуса "BAD_GATEAWAY" */
-  502: string;
-
   [index: number]: string;
 }
 

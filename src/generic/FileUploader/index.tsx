@@ -1,9 +1,11 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import 'filepond/dist/filepond.min.css';
+import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { session, source } from 'lib/session';
 import { ActualFileObject } from 'lib/types';
 import { toBase64, useUpdateEffect } from 'lib/utils';
+import { useSnackbar } from 'notistack';
 import React, { FC, forwardRef, memo, Ref, useImperativeHandle, useState } from 'react';
 import { File, FilePond } from 'react-filepond';
 import styles from './styles';
@@ -27,8 +29,10 @@ const useStyles = makeStyles(styles);
  * @param field {string} имя поля для упрощения получения доступа  кфайлу в БД
  * @param onUploadError {IUploadCallback} функция, принимающая данные с сервера при неуспешной
  * загрузке
- * @param ref {Ref} ссылка на объект
- * @returns {JSX.Element}
+ * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция отображения
+ * ошибки
+ * @param {React.Ref<IUploaderImperativeProps>} ref
+ * @returns {any}
  * @constructor
  */
 const FileUploader: FC<IProps> =
@@ -47,6 +51,8 @@ const FileUploader: FC<IProps> =
    }: IProps,
    ref: Ref<IUploaderImperativeProps>) => {
     const classes = useStyles();
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const [files, setFiles] = useState<IFile[]>([]);
 
@@ -96,8 +102,8 @@ const FileUploader: FC<IProps> =
     const process: ProcessServerConfigFunction =
       async (fieldName, file, metadata, load, error, progress, abort) => {
         // Настройка обработчика процесса отправки
-        session.defaults.onUploadProgress = event => (
-          progress(event.lengthComputable, event.loaded, event.total)
+        session.defaults.onUploadProgress = ({ lengthComputable, loaded, total }) => (
+          progress(lengthComputable, loaded, total)
         );
         session.defaults.headers['Content-Type'] = 'multipart/form-data';
         // Формируем тело запроса
@@ -110,18 +116,29 @@ const FileUploader: FC<IProps> =
         try {
           const { data } = await session.post(uploadTo!, formData);
           load(data);
+          // Возвращаем настройки сессии в исходное положение
+          session.defaults.onUploadProgress = undefined;
+          session.defaults.headers['Content-Type'] = 'application/json';
           if (uploadCallback) {
             uploadCallback(data);
           }
         } catch (err) {
           error(err);
+          let message = SERVER_NOT_AVAILABLE;
+          if (err.response) {
+            message = SERVER_RESPONSES[err.response.status];
+            if (err.response.data.message) {
+              ({ message } = err.response.data);
+            }
+          }
+          enqueueSnackbar(message, { variant: 'error' });
+          // Возвращаем настройки сессии в исходное положение
+          session.defaults.onUploadProgress = undefined;
+          session.defaults.headers['Content-Type'] = 'application/json';
           if (onUploadError && err.response) {
             onUploadError(err.response.data);
           }
         }
-        // Возвращаем настройки сессии в исходное положение
-        session.defaults.onUploadProgress = undefined;
-        session.defaults.headers['Content-Type'] = 'application/json';
         // Возвращаем метод для остановки запроса
         return {
           abort: () => {
