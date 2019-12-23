@@ -90,7 +90,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {Sorting[]} sorting массив сортировок
    */
   const changeSorting = (sorting: Sorting[]) => (
-    setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, sorting }))
+    setTable((oldTable: ITable<IRow>) => ({ ...oldTable, sorting }))
   );
 
   /**
@@ -98,11 +98,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {number} pageSize размер страницы
    */
   const changePageSize = (pageSize: number) => (
-    setTable((oldTable: ITable<IRow>): ITable<IRow> => ({
-      ...oldTable,
-      pageSize,
-      currentPage: 0,
-    }))
+    setTable((oldTable: ITable<IRow>) => ({ ...oldTable, pageSize, currentPage: 0 }))
   );
 
   /**
@@ -110,7 +106,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {number} currentPage номер текущей страницы
    */
   const changeCurrentPage = (currentPage: number) => (
-    setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, currentPage }))
+    setTable((oldTable: ITable<IRow>) => ({ ...oldTable, currentPage }))
   );
 
   /**
@@ -118,7 +114,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {Filter[]} filters массив фильтров
    */
   const changeFilters = (filters: Filter[]) => (
-    setTable((oldTable: ITable<IRow>): ITable<IRow> => ({ ...oldTable, filters }))
+    setTable((oldTable: ITable<IRow>) => ({ ...oldTable, filters }))
   );
 
   /**
@@ -132,7 +128,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * Метод для загрузи данных в таблицу с сервера
    */
   const loadData = () => {
-    setLoading((): boolean => true);
+    setLoading(true);
     const params: IGetConfig = {
       ...getPaginationConfig(table.pageSize!, table.currentPage!),
       ...getFilteringConfig(table.filters!, tasksFilterLookUps),
@@ -142,18 +138,14 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
     };
     api.getContent<IApiResponse<IRow>>('task-table', params, TASKS_APP)
       .then((response: AxiosResponse<IApiResponse<IRow>>) => {
-        const { results, count } = response.data;
-        setTable((oldTable: ITable<IRow>) => ({
-          ...oldTable,
-          rows: results,
-          totalCount: count,
-        }));
+        const { results: rows, count: totalCount } = response.data;
+        setTable((oldTable: ITable<IRow>) => ({ ...oldTable, rows, totalCount }));
       })
       .catch((error: AxiosError) => showError(error, 'snackbar'))
       .finally(() => {
-        setLoading((): boolean => false);
+        setLoading(false);
         if (!mounted) {
-          setMounted((): boolean => true);
+          setMounted(true);
         }
       });
   };
@@ -177,7 +169,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {IRow} row строка
    * @returns {React.ReactText} уникальный идентификатор строки
    */
-  const getRowId = (row: IRow): ReactText => row.id!;
+  const getRowId = (row: IRow) => row.id!;
 
   useEffect(
     loadData,
