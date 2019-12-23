@@ -12,12 +12,22 @@ import { IProps } from 'router/types';
  * @constructor
  */
 const Route: FC<IProps> = ({ component, inner, ...rest }: IProps) => {
+  /**
+   * Роутер для неавторизованных пользователей
+   * @param {RouteComponentProps & React.Attributes} props передаваемые пропсы
+   * @returns {any}
+   */
   const publicRouter = (props: (RouteComponentProps & Attributes)) => (
     auth.checkToken()
       ? (<Redirect to={{ pathname: '/' }}/>)
       : (createElement(component, props))
   );
 
+  /**
+   * Роутер для авторизованных пользователей
+   * @param {RouteComponentProps & React.Attributes} props передаваемые пропсы
+   * @returns {any}
+   */
   const privateRouter = (props: (RouteComponentProps & Attributes)) => (
     auth.checkToken()
       ? (createElement(component, props))
