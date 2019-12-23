@@ -127,8 +127,8 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
 
   const drawer = (
     <>
-      <Typography component="div" className={classes.toolbar} />
-      <Divider />
+      <Typography component="div" className={classes.toolbar}/>
+      <Divider/>
       <List>
         <ListSubheader inset disableGutters>Мои задания</ListSubheader>
         <ListItem
@@ -139,9 +139,9 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
           onClick={closeDrawer}
         >
           <ListItemIcon>
-            <ProcessIcon />
+            <ProcessIcon/>
           </ListItemIcon>
-          <ListItemText primary="В процессе" />
+          <ListItemText primary="В процессе"/>
         </ListItem>
         <ListItem
           button
@@ -151,12 +151,12 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
           onClick={closeDrawer}
         >
           <ListItemIcon>
-            <CompletedTasksIcon />
+            <CompletedTasksIcon/>
           </ListItemIcon>
-          <ListItemText primary="Выполненные" />
+          <ListItemText primary="Выполненные"/>
         </ListItem>
       </List>
-      <Divider />
+      <Divider/>
       <List>
         <ListSubheader inset disableGutters>Управление</ListSubheader>
         <ListItem
@@ -167,9 +167,9 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
           onClick={closeDrawer}
         >
           <ListItemIcon>
-            <AddCircle />
+            <AddCircle/>
           </ListItemIcon>
-          <ListItemText primary="Назначить" />
+          <ListItemText primary="Назначить"/>
         </ListItem>
       </List>
     </>
@@ -178,7 +178,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   return (
     <>
       <Typography component="div" className={classes.root}>
-        <CssBaseline />
+        <CssBaseline/>
         <AppBar
           position="absolute"
           className={classes.appBar}
@@ -190,7 +190,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
               onClick={openDrawer}
               className={classes.navIconHide}
             >
-              <MenuIcon />
+              <MenuIcon/>
             </IconButton>
             <Typography
               component="h1"
@@ -208,7 +208,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
               aria-controls="profile-menu"
               onClick={openMenu}
             >
-              <AccountIcon />
+              <AccountIcon/>
             </IconButton>
             <Menu
               id="profile-menu"
@@ -241,7 +241,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
                   onClick={handleLogout}
                 >
                   Выйти
-                  <LogOutIcon className={classes.rightIcon} />
+                  <LogOutIcon className={classes.rightIcon}/>
                 </Typography>
               </Typography>
             </Menu>
@@ -279,8 +279,8 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
           </Drawer>
         </Hidden>
         <Typography component="main" className={classes.content}>
-          <Typography component="div" className={classes.appBarSpacer} />
-          <DashBoardRouter />
+          <Typography component="div" className={classes.appBarSpacer}/>
+          <DashBoardRouter/>
         </Typography>
       </Typography>
     </>

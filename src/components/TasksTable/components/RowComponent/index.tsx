@@ -24,7 +24,7 @@ const RowComponent: FC<IProps> = (props: IProps) => {
   const handleClick = () => history.push({ pathname: `/my-tasks/${props.row.id}` });
 
   return (
-    <Table.Row {...props} onDoubleClick={handleClick} className={classes.row} />
+    <Table.Row {...props} onDoubleClick={handleClick} className={classes.row}/>
   );
 };
 

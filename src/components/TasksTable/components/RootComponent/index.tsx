@@ -16,7 +16,7 @@ const RootComponent: FC<IProps> = (props: IProps) => {
   const classes = useStyles();
 
   return (
-    <Grid.Root {...props} className={classes.root} />
+    <Grid.Root {...props} className={classes.root}/>
   );
 };
 

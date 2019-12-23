@@ -116,7 +116,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
               InputProps={{ readOnly: true }}
             />
           </Grid>
-          <Grid item lg={9} xs={12} />
+          <Grid item lg={9} xs={12}/>
           <Grid item lg={3} xs={12}>
             <TextField
               value={task.description}
@@ -128,7 +128,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
               rows={2}
             />
           </Grid>
-          <Grid item lg={9} xs={12} />
+          <Grid item lg={9} xs={12}/>
           <Grid item lg={2} xs={12}>
             <TextField
               value={
@@ -142,7 +142,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
               InputProps={{ readOnly: true }}
             />
           </Grid>
-          <Grid item lg={10} xs={12} />
+          <Grid item lg={10} xs={12}/>
           <Grid item lg={2} xs={12}>
             <TextField
               value={new Date(task.date_of_issue!).toLocaleDateString('ru')}
@@ -152,7 +152,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
               variant="outlined"
             />
           </Grid>
-          <Grid item lg={10} xs={12} />
+          <Grid item lg={10} xs={12}/>
           <Grid item lg={2} xs={12}>
             <TextField
               value={new Date(task.dead_line!).toLocaleDateString('ru')}
@@ -162,7 +162,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
               variant="outlined"
             />
           </Grid>
-          <Grid item lg={10} xs={12} />
+          <Grid item lg={10} xs={12}/>
           <Grid item lg={3} xs={12}>
             <TextField
               value={task.comment}
@@ -174,7 +174,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
               rows={3}
             />
           </Grid>
-          <Grid item lg={9} xs={12} />
+          <Grid item lg={9} xs={12}/>
           <Grid item lg={2} xs={12}>
             <FormControlLabel
               control={
@@ -189,14 +189,14 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
               label="Выполнено"
             />
           </Grid>
-          <Grid item lg={10} xs={12} />
+          <Grid item lg={10} xs={12}/>
           {task.attachment &&
           <Grid item lg={2} xs={12}>
-            <AttachmentPreview attachment={task.attachment} />
+            <AttachmentPreview attachment={task.attachment}/>
           </Grid>}
         </Grid>
       </Paper>
-      {!loaded && <Loading />}
+      {!loaded && <Loading/>}
     </Collapse>
   );
 };

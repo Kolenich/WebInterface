@@ -47,22 +47,22 @@ const Dialog: FC<IProps> =
           <Grid container alignItems="center">
             {status === 'success' &&
             <>
-              <CheckCircle className={clsx(classes.statusIcon, classes.successIcon)} />
+              <CheckCircle className={clsx(classes.statusIcon, classes.successIcon)}/>
               Успешно
             </>}
             {status === 'error' &&
             <>
-              <Error className={clsx(classes.statusIcon, classes.errorIcon)} />
+              <Error className={clsx(classes.statusIcon, classes.errorIcon)}/>
               Ошибка
             </>}
             {status === 'warning' &&
             <>
-              <Warning className={clsx(classes.statusIcon, classes.warningIcon)} />
+              <Warning className={clsx(classes.statusIcon, classes.warningIcon)}/>
               Внимание
             </>}
             {status === 'loading' &&
             <>
-              <CircularProgress className={classes.statusIcon} />
+              <CircularProgress className={classes.statusIcon}/>
               Пожалуйста, подождите...
             </>}
           </Grid>

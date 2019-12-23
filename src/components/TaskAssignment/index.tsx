@@ -191,11 +191,11 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               fullWidth
               variant="outlined"
               InputProps={{
-                endAdornment: <DescriptionIcon />,
+                endAdornment: <DescriptionIcon/>,
               }}
             />
           </Grid>
-          <Grid item xs={12} lg={9} />
+          <Grid item xs={12} lg={9}/>
           <Grid item xs={12} lg={4}>
             <TextField
               value={task.description}
@@ -205,11 +205,11 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               fullWidth
               variant="outlined"
               InputProps={{
-                endAdornment: <DescriptionIcon />,
+                endAdornment: <DescriptionIcon/>,
               }}
             />
           </Grid>
-          <Grid item xs={12} lg={8} />
+          <Grid item xs={12} lg={8}/>
           <Grid item xs={12} lg={2}>
             <DateField
               value={task.dead_line}
@@ -219,11 +219,11 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               label="Срок исполнения"
               withTime
               InputProps={{
-                endAdornment: <DateIcon />,
+                endAdornment: <DateIcon/>,
               }}
             />
           </Grid>
-          <Grid item xs={12} lg={10} />
+          <Grid item xs={12} lg={10}/>
           <Grid item xs={12} lg={4}>
             <TextField
               value={task.comment}
@@ -233,13 +233,13 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               fullWidth
               variant="outlined"
               InputProps={{
-                endAdornment: <CommentIcon />,
+                endAdornment: <CommentIcon/>,
               }}
             />
           </Grid>
-          <Grid item xs={12} lg={8} />
+          <Grid item xs={12} lg={8}/>
           <Grid item xs={12} lg={3}>
-            <AssignToIcon />
+            <AssignToIcon/>
             <AutoComplete
               value={task.assigned_to}
               label="Кому назначить"
@@ -247,7 +247,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               onChange={handleSelectChange}
             />
           </Grid>
-          <Grid item xs={12} lg={9} />
+          <Grid item xs={12} lg={9}/>
           <Grid item xs={12} lg={3}>
             <FileUploader
               ref={uploader}

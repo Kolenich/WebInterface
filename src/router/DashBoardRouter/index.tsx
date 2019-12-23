@@ -12,10 +12,10 @@ import PrivateRoute from 'router/PrivateRouter';
  */
 const DashBoardRouter: FC = () => (
   <Switch>
-    <Redirect exact from="/" to="/my-tasks/in-process" />
-    <PrivateRoute path="/my-tasks/:filter(completed|in-process)" component={TasksTable} />
-    <PrivateRoute path="/assign" component={TaskAssignment} />
-    <PrivateRoute path="/my-tasks/:id" component={TaskDetail} />
+    <Redirect exact from="/" to="/my-tasks/in-process"/>
+    <PrivateRoute path="/my-tasks/:filter(completed|in-process)" component={TasksTable}/>
+    <PrivateRoute path="/assign" component={TaskAssignment}/>
+    <PrivateRoute path="/my-tasks/:id" component={TaskDetail}/>
   </Switch>
 );
 

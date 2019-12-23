@@ -16,7 +16,7 @@ const PublicRoute: FC<IProps> = ({ component, ...rest }: IProps) => (
     {...rest}
     render={(props: (RouteComponentProps & Attributes)) => (
       auth.checkToken()
-        ? (<Redirect to={{ pathname: '/' }} />)
+        ? (<Redirect to={{ pathname: '/' }}/>)
         : (createElement(component, props))
     )
     }

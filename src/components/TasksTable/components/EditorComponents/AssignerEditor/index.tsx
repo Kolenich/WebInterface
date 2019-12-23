@@ -56,7 +56,7 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
       <Select
         className={classes.sexSelect}
         value={displayValue}
-        input={<Input />}
+        input={<Input/>}
         onChange={onChange}
       >
         <MenuItem value=""><em>Сброс</em></MenuItem>

@@ -74,8 +74,8 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
 
   return (
     <>
-      <Dialog {...dialog} onClose={closeDialog} />
-      <Component {...props} openDialog={openDialog} showError={showError} />
+      <Dialog {...dialog} onClose={closeDialog}/>
+      <Component {...props} openDialog={openDialog} showError={showError}/>
     </>
   );
 

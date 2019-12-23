@@ -17,7 +17,7 @@ const PrivateRoute: FC<IProps> = ({ component, ...rest }: IProps) => (
     render={(props: (RouteComponentProps & Attributes)) => (
       auth.checkToken()
         ? (createElement(component, props))
-        : <Redirect to={{ pathname: '/sign-in', state: { from: props.location } }} />
+        : <Redirect to={{ pathname: '/sign-in', state: { from: props.location } }}/>
     )
     }
   />

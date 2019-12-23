@@ -127,10 +127,10 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
   return (
     <Zoom in={mounted} timeout={750}>
       <Container component="main" maxWidth="sm">
-        <CssBaseline />
+        <CssBaseline/>
         <Typography component="div" className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlined />
+            <LockOutlined/>
           </Avatar>
           <Typography component="h1" variant="h5">
             Зарегистрироваться
@@ -212,7 +212,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
             >
               Зарегистрироваться
               {loading &&
-              <CircularProgress size={15} className={classes.circularProgress} />}
+              <CircularProgress size={15} className={classes.circularProgress}/>}
             </Button>
             <Grid container justify="flex-end">
               <Grid item>

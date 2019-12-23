@@ -9,7 +9,7 @@ import './styles.css';
  */
 const Loading: FC = () => (
   <Typography component="div" className="loading-shading">
-    <CircularProgress className="loading-icon" />
+    <CircularProgress className="loading-icon"/>
   </Typography>
 );
 

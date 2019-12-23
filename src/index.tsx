@@ -15,7 +15,7 @@ render(
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider {...snackbarProviderProps}>
         <ContextProvider>
-          <Router />
+          <Router/>
         </ContextProvider>
       </SnackbarProvider>
     </MuiThemeProvider>

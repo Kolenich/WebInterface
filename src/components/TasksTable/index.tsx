@@ -201,7 +201,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
             {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
               <DataTypeProvider {...props} />
             ))}
-            <DragDropProvider />
+            <DragDropProvider/>
             <SortingState
               sorting={table.sorting}
               onSortingChange={changeSorting}
@@ -245,7 +245,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
           </Grid>
         </Paper>
       </Fade>
-      {loading && <Loading />}
+      {loading && <Loading/>}
     </>
   );
 };

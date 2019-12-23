@@ -13,9 +13,9 @@ import PublicRoute from './PublicRouter';
  */
 const Router: FC = () => (
   <Switch>
-    <PublicRoute path="/sign-up" component={SignUpPage} />
-    <PublicRoute path="/sign-in" component={SignInPage} />
-    <PrivateRoute path="/" component={DashBoard} />
+    <PublicRoute path="/sign-up" component={SignUpPage}/>
+    <PublicRoute path="/sign-in" component={SignInPage}/>
+    <PrivateRoute path="/" component={DashBoard}/>
   </Switch>
 );
 
