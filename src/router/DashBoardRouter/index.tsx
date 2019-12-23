@@ -3,7 +3,7 @@ import TaskDetail from 'components/TaskDetail';
 import TasksTable from 'components/TasksTable';
 import React, { FC, memo } from 'react';
 import { Redirect, Switch } from 'react-router';
-import PrivateRoute from 'router/PrivateRouter';
+import Route from 'router/Route';
 
 /**
  * Роутер панели
@@ -13,9 +13,9 @@ import PrivateRoute from 'router/PrivateRouter';
 const DashBoardRouter: FC = () => (
   <Switch>
     <Redirect exact from="/" to="/my-tasks/in-process"/>
-    <PrivateRoute path="/my-tasks/:filter(completed|in-process)" component={TasksTable}/>
-    <PrivateRoute path="/assign" component={TaskAssignment}/>
-    <PrivateRoute path="/my-tasks/:id" component={TaskDetail}/>
+    <Route inner path="/my-tasks/:filter(completed|in-process)" component={TasksTable}/>
+    <Route inner path="/assign" component={TaskAssignment}/>
+    <Route inner path="/my-tasks/:id" component={TaskDetail}/>
   </Switch>
 );
 

@@ -3,8 +3,7 @@ import SignInPage from 'components/SignInPage';
 import SignUpPage from 'components/SignUpPage';
 import React, { FC, memo } from 'react';
 import { Switch } from 'react-router';
-import PrivateRoute from './PrivateRouter';
-import PublicRoute from './PublicRouter';
+import Route from './Route';
 
 /**
  * Основной роутер приложения
@@ -13,9 +12,9 @@ import PublicRoute from './PublicRouter';
  */
 const Router: FC = () => (
   <Switch>
-    <PublicRoute path="/sign-up" component={SignUpPage}/>
-    <PublicRoute path="/sign-in" component={SignInPage}/>
-    <PrivateRoute path="/" component={DashBoard}/>
+    <Route path="/sign-up" component={SignUpPage}/>
+    <Route path="/sign-in" component={SignInPage}/>
+    <Route inner path="/" component={DashBoard}/>
   </Switch>
 );
 
