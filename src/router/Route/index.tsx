@@ -4,9 +4,8 @@ import { Redirect, Route as RouteBase, RouteComponentProps } from 'react-router-
 import { IProps } from 'router/types';
 
 /**
- * Роутер для неавторизованных пользователей
- * @param {React.ComponentClass<any> | React.FunctionComponent<any>} component компонент для
- * редиректа
+ * Кастомный роутер
+ * @param {React.ComponentType} component компонент для редиректа
  * @param {boolean} inner пометка, что страница только для авторизованных пользователей
  * @param {IProps} rest остальные пропсы
  * @returns {JSX.Element}
