@@ -268,7 +268,6 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               Назначить
             </Button>
           </Grid>
-
         </Grid>
       </Paper>
     </Collapse>
