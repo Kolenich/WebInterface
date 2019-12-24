@@ -15,7 +15,7 @@ const Route: FC<IProps> = ({ component, inner, ...rest }: IProps) => {
   /**
    * Роутер для неавторизованных пользователей
    * @param {RouteComponentProps & React.Attributes} props передаваемые пропсы
-   * @returns {any}
+   * @returns {JSX.Element}
    */
   const publicRouter = (props: (RouteComponentProps & Attributes)) => (
     auth.checkToken()
@@ -26,7 +26,7 @@ const Route: FC<IProps> = ({ component, inner, ...rest }: IProps) => {
   /**
    * Роутер для авторизованных пользователей
    * @param {RouteComponentProps & React.Attributes} props передаваемые пропсы
-   * @returns {any}
+   * @returns {JSX.Element}
    */
   const privateRouter = (props: (RouteComponentProps & Attributes)) => (
     auth.checkToken()
