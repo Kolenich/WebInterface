@@ -41,12 +41,12 @@ import {
   getSortingConfig,
   useMountEffect,
 } from 'lib/utils';
-import React, { FC, memo, ReactText, useContext, useEffect, useState } from 'react';
+import React, { FC, memo, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
-import { IColumnSettings, IProps, IRow } from './types';
+import { IProps, IRow } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -82,8 +82,6 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [mounted, setMounted] = useState<boolean>(false);
-
-  const [settings] = useState<IColumnSettings>(tableSettings);
 
   /**
    * Функция изменения сортировок
@@ -186,7 +184,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
         <Paper className={classes.paper}>
           <Grid
             rows={table.rows}
-            columns={settings.columns}
+            columns={tableSettings.columns}
             getRowId={getRowId}
             rootComponent={RootComponent}
           >
@@ -197,7 +195,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
             <SortingState
               sorting={table.sorting}
               onSortingChange={changeSorting}
-              columnExtensions={settings.sortingStateColumnExtensions}
+              columnExtensions={tableSettings.sortingStateColumnExtensions}
             />
             <PagingState
               currentPage={table.currentPage}
@@ -211,16 +209,16 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
             <FilteringState
               filters={table.filters}
               onFiltersChange={changeFilters}
-              columnExtensions={settings.filteringStateColumnExtensions}
+              columnExtensions={tableSettings.filteringStateColumnExtensions}
             />
             <VirtualTable
               height="auto"
               messages={tableMessages}
               rowComponent={RowComponent}
-              columnExtensions={settings.columnsExtensions}
+              columnExtensions={tableSettings.columnsExtensions}
             />
             <TableColumnReordering
-              defaultOrder={settings.defaultOrder}
+              defaultOrder={tableSettings.defaultOrder}
             />
             <TableHeaderRow
               showSortingControls
