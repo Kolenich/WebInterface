@@ -3,16 +3,16 @@ import { createMuiTheme, Theme } from '@material-ui/core';
 const theme: Theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#134b29',
-      contrastText: '#fff',
+      main: 'rgb(50, 167, 76)',
+      contrastText: 'rgb(255, 255, 255)',
     },
     secondary: {
-      main: '#6b8dc3',
-      contrastText: '#fff',
+      main: 'rgb(102, 137, 225)',
+      contrastText: 'rgb(255, 255, 255)',
     },
     error: {
-      main: '#ff372a',
-      contrastText: '#fff',
+      main: 'rgb(213,32,42)',
+      contrastText: 'rgb(255, 255, 255)',
     },
   },
   typography: {
