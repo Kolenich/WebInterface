@@ -1,64 +1,51 @@
 version: "3.7"
 
 networks:
-  web-server:
-    name: web-server
-    driver: bridge
-  server-postgres:
-    name: server-postgres
-    driver: bridge
-  server-rabbitmq:
-    name: server-rabbitmq
-    driver: bridge
+  default:
+    name: kolenich-network
 
 volumes:
   static:
-    name: static
+    name: kolenich-static
   postgres_data:
-    name: postgres_data
+    name: kolenich-postgres_data
     driver_opts:
       type: none
       o: bind
       device: $PWD/postgres_data
 
 services:
-  web:
+  kolenich-web:
     volumes:
       - static:/usr/share/nginx/html/static
       - ./media:/usr/share/nginx/html/media
       - /etc/letsencrypt:/etc/letsencrypt
     restart: always
-    container_name: web
+    container_name: kolenich-web
     image: kolenich/web
     ports:
       - 80:80
       - 443:443
-    networks:
-      - web-server
     depends_on:
-      - server
+      - kolenich-server
 
-  server:
+  kolenich-server:
     volumes:
       - static:/app/static
       - ./media:/app/media
       - ./settings.yml:/app/settings.yml
     restart: always
-    container_name: server
+    container_name: kolenich-server
     image: kolenich/server
     environment:
       - PROJECT_MODE=production
-    networks:
-      - web-server
-      - server-postgres
-      - server-rabbitmq
     depends_on:
-      - postgres
-      - rabbitmq
+      - kolenich-postgres
+      - kolenich-rabbitmq
 
-  postgres:
+  kolenich-postgres:
     restart: always
-    container_name: postgres
+    container_name: kolenich-postgres
     image: postgres:12-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -66,16 +53,12 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=nikolay
       - POSTGRES_PASSWORD=Crowel_16
-    networks:
-      - server-postgres
 
-  rabbitmq:
+  kolenich-rabbitmq:
     restart: always
-    container_name: rabbitmq
+    container_name: kolenich-rabbitmq
     image: rabbitmq:3-alpine
     environment:
       - RABBITMQ_DEFAULT_USER=kolenich
       - RABBITMQ_DEFAULT_PASS=Crowel_16
       - RABBITMQ_DEFAULT_VHOST=kolenich-host
-    networks:
-      - server-rabbitmq
