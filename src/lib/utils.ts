@@ -1,6 +1,6 @@
 import { Filter, Sorting } from '@devexpress/dx-react-grid';
 import { ComponentType, DependencyList, EffectCallback, useEffect, useRef } from 'react';
-import { FILTERING_PARAMS, SORTING_PARAMS } from './constants';
+import { FILTERING_PARAMS, PROXY_PREFIX, SORTING_PARAMS } from './constants';
 import { ActualFileObject, IDecorator, IGetConfig } from './types';
 
 /**
@@ -10,7 +10,7 @@ import { ActualFileObject, IDecorator, IGetConfig } from './types';
 const getCurrentHost = () => {
   const url = window.location.href;
   const arr = url.split('/');
-  return `${arr[0]}//${arr[2]}`;
+  return `${arr[0]}//${arr[2]}${PROXY_PREFIX}`;
 };
 
 /**

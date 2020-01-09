@@ -68,3 +68,5 @@ export const snackbarProviderProps: SnackbarProviderProps = {
     error: createElement(Error, { style: { paddingRight: 10 }, fontSize: 'large' }),
   },
 };
+
+export const PROXY_PREFIX = '/kolenich';

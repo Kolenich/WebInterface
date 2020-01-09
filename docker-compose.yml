@@ -3,6 +3,9 @@ version: "3.7"
 networks:
   default:
     name: kolenich-network
+  proxy:
+    external:
+      name: proxy
 
 volumes:
   static:
@@ -23,9 +26,9 @@ services:
     restart: always
     container_name: kolenich-web
     image: kolenich/web
-    ports:
-      - 80:80
-      - 443:443
+    networks:
+      - proxy
+      - default
     depends_on:
       - kolenich-server
 
