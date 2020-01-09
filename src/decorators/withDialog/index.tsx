@@ -58,6 +58,7 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
       }
       if (error.response.status === 401) {
         auth.logout().finally(() => history.push({ pathname: '/' }));
+        return;
       }
     }
     switch (by) {
