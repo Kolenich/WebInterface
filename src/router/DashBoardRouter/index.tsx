@@ -12,10 +12,10 @@ import Route from 'router/Route';
  */
 const DashBoardRouter: FC = () => (
   <Switch>
-      <Redirect exact from="/" to="/my-tasks/in-process"/>
-      <Route inner path="/my-tasks/:filter(completed|in-process)" component={TasksTable}/>
-      <Route inner path="/assign" component={TaskAssignment}/>
-      <Route inner path="/my-tasks/:id" component={TaskDetail}/>
+    <Redirect exact from="/" to="/my-tasks/in-process"/>
+    <Route inner path="/my-tasks/:filter(completed|in-process)" component={TasksTable}/>
+    <Route inner path="/assign" component={TaskAssignment}/>
+    <Route inner path="/my-tasks/:id" component={TaskDetail}/>
   </Switch>
 );
 

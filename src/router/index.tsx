@@ -12,9 +12,9 @@ import Route from './Route';
  */
 const Router: FC = () => (
   <Switch>
-      <Route path="/sign-up" component={SignUpPage}/>
-      <Route path="/sign-in" component={SignInPage}/>
-      <Route inner path="/" component={DashBoard}/>
+    <Route path="/sign-up" component={SignUpPage}/>
+    <Route path="/sign-in" component={SignInPage}/>
+    <Route inner path="/" component={DashBoard}/>
   </Switch>
 );
 
