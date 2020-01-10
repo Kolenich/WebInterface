@@ -69,4 +69,4 @@ export const snackbarProviderProps: SnackbarProviderProps = {
   },
 };
 
-export const PROXY_PREFIX = '/kolenich';
+export const PROXY_PREFIX = '';
