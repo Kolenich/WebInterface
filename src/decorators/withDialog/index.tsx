@@ -48,13 +48,17 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
    * Общая функция обработки ошибки
    * @param error {AxiosError} объект ошибки
    * @param {"dialog" | "snackbar"} by куда вывести ошибку
+   * @param {string} forceMessage принудительное сообщение для вывода
    */
-  const showError = (error: AxiosError, by: 'dialog' | 'snackbar') => {
+  const showError = (error: AxiosError, by: 'dialog' | 'snackbar', forceMessage?: string) => {
     let message = SERVER_NOT_AVAILABLE;
     if (error.response) {
       message = SERVER_RESPONSES[error.response.status];
       if (error.response.data.message) {
         ({ message } = error.response.data);
+      }
+      if (forceMessage) {
+        message = forceMessage;
       }
       if (error.response.status === 401) {
         auth.logout().finally(() => history.push({ pathname: '/' }));
