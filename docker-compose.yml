@@ -2,52 +2,52 @@ version: "3.7"
 
 networks:
   default:
-    name: kolenich-network
+    name: diary-network
   proxy:
     external:
       name: proxy
 
 volumes:
   static:
-    name: kolenich-static
+    name: diary-static
   postgres_data:
-    name: kolenich-postgres_data
+    name: diary-postgres_data
     driver_opts:
       type: none
       o: bind
       device: $PWD/postgres_data
 
 services:
-  kolenich-web:
+  diary-web:
     volumes:
       - static:/usr/share/nginx/html/static
       - ./media:/usr/share/nginx/html/media
     restart: always
-    container_name: kolenich-web
+    container_name: diary-web
     image: kolenich/web
     networks:
       - proxy
       - default
     depends_on:
-      - kolenich-server
+      - diary-server
 
-  kolenich-server:
+  diary-server:
     volumes:
       - static:/app/static
       - ./media:/app/media
       - ./settings.yml:/app/settings.yml
     restart: always
-    container_name: kolenich-server
+    container_name: diary-server
     image: kolenich/server
     environment:
       - PROJECT_MODE=production
     depends_on:
-      - kolenich-postgres
-      - kolenich-rabbitmq
+      - diary-postgres
+      - diary-rabbitmq
 
-  kolenich-postgres:
+  diary-postgres:
     restart: always
-    container_name: kolenich-postgres
+    container_name: diary-postgres
     image: postgres:12-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -56,9 +56,9 @@ services:
       - POSTGRES_USER=nikolay
       - POSTGRES_PASSWORD=Crowel_16
 
-  kolenich-rabbitmq:
+  diary-rabbitmq:
     restart: always
-    container_name: kolenich-rabbitmq
+    container_name: diary-rabbitmq
     image: rabbitmq:3-alpine
     environment:
       - RABBITMQ_DEFAULT_USER=kolenich
