@@ -2,7 +2,7 @@ FROM node:alpine AS build
 
 LABEL maintainer="nick.zhigalin@gmail.com"
 
-EXPOSE 80 443
+EXPOSE 80
 
 WORKDIR /app
 
