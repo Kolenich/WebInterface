@@ -24,7 +24,7 @@ services:
       - ./media:/usr/share/nginx/html/media
     restart: always
     container_name: diary-web
-    image: kolenich/web
+    image: kolenich/diary:web
     networks:
       - proxy
       - default
@@ -38,7 +38,7 @@ services:
       - ./settings.yml:/app/settings.yml
     restart: always
     container_name: diary-server
-    image: kolenich/server
+    image: kolenich/diary:server
     environment:
       - PROJECT_MODE=production
     depends_on:
