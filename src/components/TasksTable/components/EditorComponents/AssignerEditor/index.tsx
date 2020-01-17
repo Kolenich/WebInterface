@@ -6,7 +6,7 @@ import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse, ISelectElement } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
-import React, { ChangeEvent, FC, memo, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -68,4 +68,4 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   );
 };
 
-export default memo(AssignerEditor);
+export default AssignerEditor;

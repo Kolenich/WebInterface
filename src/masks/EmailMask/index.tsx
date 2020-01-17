@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import MaskedInput from 'react-text-mask';
 import emailMask from 'text-mask-addons/dist/emailMask';
 import { IProps } from '../types';
@@ -19,4 +19,4 @@ const EmailMask: FC<IProps> = ({ inputRef, ...props }: IProps) => (
   />
 );
 
-export default memo(EmailMask);
+export default EmailMask;

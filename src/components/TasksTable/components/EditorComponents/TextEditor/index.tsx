@@ -1,7 +1,7 @@
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { ISelectElement } from 'lib/types';
-import React, { ChangeEvent, FC, memo } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -42,4 +42,4 @@ const TextEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   );
 };
 
-export default memo(TextEditor);
+export default TextEditor;

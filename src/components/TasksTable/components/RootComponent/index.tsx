@@ -1,6 +1,6 @@
 import { Grid } from '@devexpress/dx-react-grid-material-ui';
 import { makeStyles } from '@material-ui/styles';
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -20,4 +20,4 @@ const RootComponent: FC<IProps> = (props: IProps) => {
   );
 };
 
-export default memo(RootComponent);
+export default RootComponent;

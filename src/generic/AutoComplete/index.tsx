@@ -2,7 +2,7 @@ import { TextField, Typography } from '@material-ui/core';
 import { Autocomplete as AutoCompleteBase } from '@material-ui/lab';
 import { RenderInputParams } from '@material-ui/lab/Autocomplete/Autocomplete';
 import { makeStyles } from '@material-ui/styles';
-import React, { FC, memo, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { ISelectItem } from '../Select/types';
 import styles from './styles';
 import { IProps } from './types';
@@ -83,4 +83,4 @@ const AutoComplete: FC<IProps> = ({ options, label, onChange, value }: IProps) =
   );
 };
 
-export default memo(AutoComplete);
+export default AutoComplete;

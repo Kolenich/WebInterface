@@ -3,7 +3,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
 import { ru } from 'date-fns/locale';
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -56,4 +56,4 @@ const DateTimeEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   );
 };
 
-export default memo(DateTimeEditor);
+export default DateTimeEditor;

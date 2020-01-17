@@ -1,5 +1,5 @@
 import auth from 'lib/auth';
-import React, { Attributes, createElement, FC, memo } from 'react';
+import React, { Attributes, createElement, FC } from 'react';
 import { Redirect, Route as RouteBase, RouteComponentProps } from 'react-router-dom';
 import { IProps } from 'router/types';
 
@@ -19,7 +19,7 @@ const Route: FC<IProps> = ({ component, inner, ...rest }: IProps) => {
    */
   const publicRouter = (props: (RouteComponentProps & Attributes)) => (
     auth.checkToken()
-      ? (<Redirect to={{ pathname: '/' }}/>)
+      ? <Redirect to={{ pathname: '/' }}/>
       : (createElement(component, props))
   );
 
@@ -42,4 +42,4 @@ const Route: FC<IProps> = ({ component, inner, ...rest }: IProps) => {
   );
 };
 
-export default memo(Route);
+export default Route;

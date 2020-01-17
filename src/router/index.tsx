@@ -1,7 +1,7 @@
 import DashBoard from 'components/DashBoard';
 import SignInPage from 'components/SignInPage';
 import SignUpPage from 'components/SignUpPage';
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import { Switch } from 'react-router';
 import Route from './Route';
 
@@ -18,4 +18,4 @@ const Router: FC = () => (
   </Switch>
 );
 
-export default memo(Router);
+export default Router;

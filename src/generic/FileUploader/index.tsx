@@ -6,7 +6,7 @@ import { session, source } from 'lib/session';
 import { ActualFileObject } from 'lib/types';
 import { toBase64, useUpdateEffect } from 'lib/utils';
 import { useSnackbar } from 'notistack';
-import React, { FC, forwardRef, memo, Ref, useImperativeHandle, useState } from 'react';
+import React, { FC, forwardRef, Ref, useImperativeHandle, useState } from 'react';
 import { File, FilePond } from 'react-filepond';
 import styles from './styles';
 import { IFile, IProps, IUploaderImperativeProps, ProcessServerConfigFunction } from './types';
@@ -187,4 +187,4 @@ const FileUploader: FC<IProps> =
     );
   };
 
-export default memo(forwardRef(FileUploader));
+export default forwardRef(FileUploader);

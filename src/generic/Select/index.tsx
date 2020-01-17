@@ -1,5 +1,5 @@
 import { MenuItem, TextField } from '@material-ui/core';
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import { IProps, ISelectItem } from './types';
 
 /**
@@ -21,4 +21,4 @@ const Select: FC<IProps> = ({ items, ...props }: IProps) => (
   </TextField>
 );
 
-export default memo(Select);
+export default Select;

@@ -1,7 +1,7 @@
 import { Link, Typography } from '@material-ui/core';
 import { LinkBaseProps } from '@material-ui/core/Link';
 import { TypographyProps } from '@material-ui/core/Typography';
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import { IProps } from './types';
 
 /**
@@ -30,4 +30,4 @@ const AttachmentFormatter: FC<IProps> = ({ value }: IProps) => {
   );
 };
 
-export default memo(AttachmentFormatter);
+export default AttachmentFormatter;

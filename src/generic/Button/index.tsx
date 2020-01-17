@@ -1,6 +1,6 @@
 import { Button as ButtonBase } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import React, { createElement, FC, memo } from 'react';
+import React, { createElement, FC } from 'react';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -31,4 +31,4 @@ const Button: FC<IProps> = ({ icon, children, iconPlacement = 'right', ...props 
   );
 };
 
-export default memo(Button);
+export default Button;

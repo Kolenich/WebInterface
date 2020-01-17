@@ -1,8 +1,8 @@
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 
 /**
  * Компонент для отображения без фильтра
  */
 const EmptyFilter: FC = () => <div/>;
 
-export default memo(EmptyFilter);
+export default EmptyFilter;

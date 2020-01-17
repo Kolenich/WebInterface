@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import MaskedInput, { maskArray } from 'react-text-mask';
 import { IProps } from '../types';
 
@@ -22,4 +22,4 @@ export const PhoneMask: FC<IProps> = ({ inputRef, ...props }: IProps) => (
   />
 );
 
-export default memo(PhoneMask);
+export default PhoneMask;
