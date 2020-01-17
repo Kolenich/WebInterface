@@ -1,5 +1,1 @@
-import withDialog from './withDialog';
-
-export {
-  withDialog,
-};
+export { default as withDialog } from './withDialog';

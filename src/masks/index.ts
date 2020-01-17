@@ -1,4 +1,2 @@
-import EmailMask from './EmailMask';
-import PhoneMask from './PhoneMask';
-
-export { EmailMask, PhoneMask };
+export { default as EmailMask } from './EmailMask';
+export { default as PhoneMask } from './PhoneMask';

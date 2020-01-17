@@ -1,9 +1,7 @@
-import AutoComplete from './AutoComplete';
-import Button from './Button';
-import DateField from './DateField';
-import Dialog from './Dialog';
-import FileUploader from './FileUploader';
-import Loading from './Loading';
-import Select from './Select';
-
-export { Button, DateField, Dialog, Loading, Select, AutoComplete, FileUploader };
+export { default as AutoComplete } from './AutoComplete';
+export { default as Button } from './Button';
+export { default as DateField } from './DateField';
+export { default as Dialog } from './Dialog';
+export { default as FileUploader } from './FileUploader';
+export { default as Loading } from './Loading';
+export { default as Select } from './Select';
