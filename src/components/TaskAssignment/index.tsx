@@ -253,7 +253,6 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
               ref={uploader}
               uploaderText="Прикрепите вложение"
               onFilesUpdate={setAttachment}
-              base64
             />
           </Grid>
           <Grid item xs={12} lg={9}>
