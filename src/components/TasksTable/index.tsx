@@ -41,7 +41,7 @@ import {
   getSortingConfig,
   useMountEffect,
 } from 'lib/utils';
-import React, { FC, memo, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
 import customDataTypes from './customDataTypes';
@@ -240,4 +240,4 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
   );
 };
 
-export default compose<IProps>([memo, withDialog], TasksTable);
+export default compose<IProps>([withDialog], TasksTable);

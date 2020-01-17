@@ -9,7 +9,7 @@ import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
 import { compose, useMountEffect } from 'lib/utils';
-import React, { ChangeEvent, FC, memo, useContext, useState } from 'react';
+import React, { ChangeEvent, FC, useContext, useState } from 'react';
 import AttachmentPreview from '../AttachmentPreview';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
@@ -201,4 +201,4 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
   );
 };
 
-export default compose<IProps>([memo, withDialog], TaskDetail);
+export default compose<IProps>([withDialog], TaskDetail);

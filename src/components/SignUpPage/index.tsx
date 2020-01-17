@@ -22,7 +22,7 @@ import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
 import { compose, useMountEffect } from 'lib/utils';
 import { useSnackbar } from 'notistack';
-import React, { ChangeEvent, FC, memo, useContext, useState } from 'react';
+import React, { ChangeEvent, FC, useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
 import { IAccount, IErrors, IProps } from './types';
@@ -228,4 +228,4 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
   );
 };
 
-export default compose<IProps>([memo, withDialog], SignUpPage);
+export default compose<IProps>([withDialog], SignUpPage);
