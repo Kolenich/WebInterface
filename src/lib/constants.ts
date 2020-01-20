@@ -69,4 +69,4 @@ export const snackbarProviderProps: SnackbarProviderProps = {
   },
 };
 
-export const PROXY_PREFIX = '';
+export const PROXY_PREFIX = '/diary/';
