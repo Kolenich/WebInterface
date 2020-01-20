@@ -1,6 +1,4 @@
-import DashBoard from 'pages/DashBoard';
-import SignInPage from 'pages/SignInPage';
-import SignUpPage from 'pages/SignUpPage';
+import { DashBoard, SignIn, SignUp } from 'pages';
 import React, { FC } from 'react';
 import { Switch } from 'react-router';
 import Route from './Route';
@@ -12,8 +10,8 @@ import Route from './Route';
  */
 const Router: FC = () => (
   <Switch>
-    <Route path="/sign-up" component={SignUpPage}/>
-    <Route path="/sign-in" component={SignInPage}/>
+    <Route path="/sign-up" component={SignUp}/>
+    <Route path="/sign-in" component={SignIn}/>
     <Route inner path="/" component={DashBoard}/>
   </Switch>
 );

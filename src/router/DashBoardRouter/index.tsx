@@ -1,6 +1,4 @@
-import TaskAssignment from 'pages/TaskAssignment';
-import TaskDetail from 'pages/TaskDetail';
-import TasksTable from 'pages/TasksTable';
+import { TaskAssignment, TaskDetail, TasksTable } from 'pages';
 import React, { FC } from 'react';
 import { Redirect, Switch } from 'react-router';
 import Route from 'router/Route';
