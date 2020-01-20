@@ -88,14 +88,14 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
    * Функция для сброса ошибок в полях
    */
   const resetErrors = () => (
-    setErrors(() => ({ email: false, first_name: false, last_name: false, password: false }))
+    setErrors({ email: false, first_name: false, last_name: false, password: false })
   );
 
   /**
    * Функция отправки формы
    */
   const handleSubmit = async () => {
-    setLoading(() => true);
+    setLoading(true);
     const { email, first_name, last_name, password, mailing } = account;
     const sendData: IAccount = { email, password, first_name, last_name, mailing };
     try {
@@ -112,7 +112,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
       }
       // Через 3 секунды гасим ошибки
       setTimeout(resetErrors, 3000);
-      setLoading(() => false);
+      setLoading(false);
     }
   };
 

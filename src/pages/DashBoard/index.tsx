@@ -83,19 +83,19 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   /**
    * Функция, открывающая панель
    */
-  const openDrawer = () => setDrawerOpen(() => true);
+  const openDrawer = () => setDrawerOpen(true);
 
   /**
    * Функция, закрывающая панель
    */
-  const closeDrawer = () => setDrawerOpen(() => false);
+  const closeDrawer = () => setDrawerOpen(false);
 
   /**
    * Функция, открывающая меню
    * @param {React.MouseEvent<HTMLButtonElement>} event текущий элемент для привязки
    */
   const openMenu = (event: MouseEvent<HTMLButtonElement>) => (
-    setAnchorEl(() => event.currentTarget)
+    setAnchorEl(event.currentTarget)
   );
 
   /**
@@ -119,7 +119,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
    */
   const loadUser = () => {
     api.getContent<IProfileUser>('user-profile/user', {}, USERS_APP)
-      .then((response: AxiosResponse<IProfileUser>) => setUser(() => response.data))
+      .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
       .catch((error: AxiosError) => showError(error, 'snackbar'));
   };
 

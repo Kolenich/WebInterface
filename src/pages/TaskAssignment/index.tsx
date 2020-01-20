@@ -64,8 +64,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   const loadUsers = () => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
       .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => {
-        setUsers(() => response.data.results);
-        setMounted(() => true);
+        setUsers(response.data.results);
+        setMounted(true);
       });
   };
 

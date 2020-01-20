@@ -57,7 +57,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
         setTask((): ITaskDetail => response.data)
       ))
       .catch((error: AxiosError) => showError(error, 'dialog'))
-      .finally(() => setLoaded((): boolean => true));
+      .finally(() => setLoaded(true));
   };
 
   /**

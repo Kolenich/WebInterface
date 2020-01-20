@@ -6,7 +6,7 @@ export const Context = createContext<IContext>({} as IContext);
 
 /**
  *
- * @param {React.ReactElement<any, string | React.JSXElementConstructor<any>> children дочерний
+ * @param {React.ReactNode} children дочерний
  * компонент, который получит данные из контекста
  * @returns {JSX.Element}
  * @constructor
@@ -20,7 +20,7 @@ const ContextProvider: FC = ({ children }) => {
    * @param {string} title устанавливаемый заголовок
    */
   const updateDashBoardTitle = (title: string) => (
-    setDashBoardTitle(() => title)
+    setDashBoardTitle(title)
   );
 
   const value: IContext = {

@@ -70,7 +70,7 @@ const FileUploader: FC<IProps> =
         }
         return { file_name, file_mime, file_size, file: fileObject };
       }));
-      setFiles(() => [...files]);
+      setFiles([...files]);
     };
 
     /**

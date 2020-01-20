@@ -108,7 +108,7 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
     }
   };
 
-  useMountEffect(() => setMounted(() => true));
+  useMountEffect(() => setMounted(true));
 
   return (
     <Zoom in={mounted} timeout={750}>
