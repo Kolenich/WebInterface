@@ -15,21 +15,13 @@ const ContextProvider: FC = ({ children }) => {
   // Заголовок для панели
   const [dashBoardTitle, setDashBoardTitle] = useState<string>('');
 
-  /**
-   * Функция-обертка для установки активного заголовка панели
-   * @param {string} title устанавливаемый заголовок
-   */
-  const updateDashBoardTitle = (title: string) => (
-    setDashBoardTitle(title)
-  );
-
   const value: IContext = {
     getters: {
       dashBoardTitle,
       documentTitle: 'Ежедневник',
     },
     setters: {
-      updateDashBoardTitle,
+      updateDashBoardTitle: setDashBoardTitle,
     },
   };
 
