@@ -1,7 +1,7 @@
 import { FormControl, Input, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
-import { ISelectItem } from 'generic/Select/types';
+import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
 import { IApiResponse, ISelectElement } from 'lib/types';

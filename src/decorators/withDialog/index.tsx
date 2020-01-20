@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
-import { Dialog } from 'generic';
-import { IDialogProps, IDialogStatus } from 'generic/Dialog/types';
+import { Dialog } from 'components';
+import { IDialogProps, IDialogStatus } from 'components/Dialog/types';
 import auth from 'lib/auth';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { useSnackbar } from 'notistack';

@@ -5,3 +5,4 @@ export { default as Dialog } from './Dialog';
 export { default as FileUploader } from './FileUploader';
 export { default as Loading } from './Loading';
 export { default as Select } from './Select';
+export { default as AttachmentPreview } from './AttachmentPreview';

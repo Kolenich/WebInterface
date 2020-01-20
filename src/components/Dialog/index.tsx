@@ -10,7 +10,7 @@ import {
 import { Cancel, CheckCircle, Done, Error, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import { Button } from 'generic';
+import { Button } from 'components';
 import React, { FC } from 'react';
 import styles from './styles';
 import { IProps } from './types';

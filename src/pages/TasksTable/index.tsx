@@ -19,11 +19,10 @@ import {
 import { Fade, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import { tableSettings, tasksFilterLookUps } from 'components/TasksTable/settings';
+import { Loading } from 'components';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
-import { Loading } from 'generic';
 import api from 'lib/api';
 import { DASH_BOARD_TITLES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
@@ -41,6 +40,7 @@ import {
   getSortingConfig,
   useMountEffect,
 } from 'lib/utils';
+import { tableSettings, tasksFilterLookUps } from 'pages/TasksTable/settings';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';

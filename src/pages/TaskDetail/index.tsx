@@ -1,16 +1,15 @@
 import { Collapse, FormControlLabel, Grid, Paper, Switch, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
+import { AttachmentPreview, Loading } from 'components';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
-import { Loading } from 'generic';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
 import { compose, useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useState } from 'react';
-import AttachmentPreview from '../AttachmentPreview';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
 

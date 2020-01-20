@@ -1,6 +1,6 @@
-import DashBoard from 'components/DashBoard';
-import SignInPage from 'components/SignInPage';
-import SignUpPage from 'components/SignUpPage';
+import DashBoard from 'pages/DashBoard';
+import SignInPage from 'pages/SignInPage';
+import SignUpPage from 'pages/SignUpPage';
 import React, { FC } from 'react';
 import { Switch } from 'react-router';
 import Route from './Route';

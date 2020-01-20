@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { IDialogStatus } from 'generic/Dialog/types';
+import { IDialogStatus } from 'components/Dialog/types';
 
 export interface INotifications {
   /** Функция для открытия диалогового окна */

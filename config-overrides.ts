@@ -6,9 +6,9 @@ module.exports = customizer.override(
     'module-resolver',
     {
       alias: {
-        '^components/*': './src/components/*',
+        '^components/*': './src/pages/*',
         '^lib/*': './src/lib/*',
-        '^generic/*': './src/generic/*',
+        '^generic/*': './src/components/*',
         '^masks/*': './src/masks/*',
         '^assets/*': './src/assets/*',
         '^router/*': './src/router/*',

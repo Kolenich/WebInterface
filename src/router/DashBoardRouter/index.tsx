@@ -1,6 +1,6 @@
-import TaskAssignment from 'components/TaskAssignment';
-import TaskDetail from 'components/TaskDetail';
-import TasksTable from 'components/TasksTable';
+import TaskAssignment from 'pages/TaskAssignment';
+import TaskDetail from 'pages/TaskDetail';
+import TasksTable from 'pages/TasksTable';
 import React, { FC } from 'react';
 import { Redirect, Switch } from 'react-router';
 import Route from 'router/Route';

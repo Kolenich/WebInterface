@@ -9,12 +9,12 @@ import {
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
+import { AutoComplete, Button, DateField, FileUploader } from 'components';
+import { IFile, IUploaderImperativeProps } from 'components/FileUploader/types';
+import { ISelectItem } from 'components/Select/types';
 import { Context } from 'context';
 import { IContext } from 'context/types';
 import { withDialog } from 'decorators';
-import { AutoComplete, Button, DateField, FileUploader } from 'generic';
-import { IFile, IUploaderImperativeProps } from 'generic/FileUploader/types';
-import { ISelectItem } from 'generic/Select/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP, USERS_APP } from 'lib/session';

@@ -1,4 +1,4 @@
-import { IColumnSettings, ICustomLookUps } from 'components/TasksTable/types';
+import { IColumnSettings, ICustomLookUps } from 'pages/TasksTable/types';
 
 export const tableSettings: IColumnSettings = {
   columns: [

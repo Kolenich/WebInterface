@@ -3,7 +3,7 @@ import ContextProvider from 'context';
 import { snackbarProviderProps } from 'lib/constants';
 import theme from 'lib/theme';
 import { SnackbarProvider } from 'notistack';
-import React from 'react';
+import React, { FC } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Router from './router';
 
@@ -12,7 +12,7 @@ import Router from './router';
  * @returns {JSX.Element}
  * @constructor
  */
-const App = () => (
+const App: FC = () => (
   <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider {...snackbarProviderProps}>
