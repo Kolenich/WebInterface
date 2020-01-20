@@ -1,6 +1,3 @@
-import { Done, Error } from '@material-ui/icons';
-import { SnackbarProviderProps } from 'notistack';
-import { createElement } from 'react';
 import { IDashBoardTitles, IFiltering, IServerResponses, ISorting } from './types';
 
 // Опции для форматирования даты
@@ -57,16 +54,6 @@ export const SERVER_NOT_AVAILABLE = 'Сервер не доступен, поп�
 export const DASH_BOARD_TITLES: IDashBoardTitles = {
   completed: 'Выполненные',
   'in-process': 'В процессе',
-};
-
-export const snackbarProviderProps: SnackbarProviderProps = {
-  maxSnack: 5,
-  anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
-  autoHideDuration: 3000,
-  iconVariant: {
-    success: createElement(Done, { style: { paddingRight: 10 }, fontSize: 'large' }),
-    error: createElement(Error, { style: { paddingRight: 10 }, fontSize: 'large' }),
-  },
 };
 
 export const PROXY_PREFIX = '/diary/';
