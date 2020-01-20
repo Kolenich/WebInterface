@@ -56,4 +56,4 @@ export const DASH_BOARD_TITLES: IDashBoardTitles = {
   'in-process': 'В процессе',
 };
 
-export const PROXY_PREFIX = '/diary/';
+export const PROXY_PREFIX = '';
