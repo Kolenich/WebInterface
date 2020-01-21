@@ -17,6 +17,7 @@ const App: FC = () => (
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider
         maxSnack={5}
+        preventDuplicate
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         autoHideDuration={3000}
         iconVariant={{
