@@ -1,5 +1,4 @@
 import { session } from './session';
-import { IAuthResponse } from './types';
 
 export const TOKEN = 'token';
 
