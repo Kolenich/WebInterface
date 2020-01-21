@@ -4,7 +4,7 @@ import ContextProvider from 'context';
 import theme from 'lib/theme';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Router from './router';
 
 /**
@@ -13,7 +13,7 @@ import Router from './router';
  * @constructor
  */
 const App: FC = () => (
-  <HashRouter hashType="noslash">
+  <BrowserRouter>
     <MuiThemeProvider theme={theme}>
       <SnackbarProvider
         maxSnack={5}
@@ -30,7 +30,7 @@ const App: FC = () => (
         </ContextProvider>
       </SnackbarProvider>
     </MuiThemeProvider>
-  </HashRouter>
+  </BrowserRouter>
 );
 
 export default App;
