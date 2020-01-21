@@ -1,11 +1,9 @@
 import { session } from './session';
+import { IAuthResponse } from './types';
 
 export const TOKEN = 'token';
 
 export default {
-  // Имя токена авторизации
-  TOKEN,
-
   /**
    * Функция для логина в систему
    * @param {string} username имя пользователя

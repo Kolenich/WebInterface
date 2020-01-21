@@ -5,7 +5,7 @@ import { IContext } from './types';
 export const Context = createContext<IContext>({} as IContext);
 
 /**
- *
+ * Компонент провайдера для контекста
  * @param {React.ReactNode} children дочерний
  * компонент, который получит данные из контекста
  * @returns {JSX.Element}
