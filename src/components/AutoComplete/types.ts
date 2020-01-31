@@ -9,5 +9,5 @@ export interface IProps {
   /** Ярлык селекта */
   label: string;
   /** Колбэк, передающий выбранное значение */
-  onChange: (event: ChangeEvent<{}>, option: ISelectItem) => void;
+  onChange: (event: ChangeEvent<{}>, option: ISelectItem | null) => void;
 }

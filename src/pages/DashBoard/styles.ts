@@ -47,7 +47,7 @@ const styles = (theme: Theme) => createStyles({
   drawerRoot: {
     height: '100%',
   },
-  appBarSpacer: theme.mixins.toolbar,
+  appBarSpacer: { ...theme.mixins.toolbar },
   content: {
     flexGrow: 1,
     height: '100%',
