@@ -16,13 +16,12 @@ import {
   TableHeaderRow,
   VirtualTable,
 } from '@devexpress/dx-react-grid-material-ui';
-import { Fade, Paper } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import { Loading } from 'components';
-import { Context } from 'context';
-import { IContext } from 'context/types';
-import { withDialog } from 'decorators';
+import { Loading, withDialog } from 'components';
+import { Context } from 'components/GlobalContext';
+import { IContext } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import { DASH_BOARD_TITLES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
@@ -34,7 +33,6 @@ import {
 } from 'lib/translate';
 import { IApiResponse, ICustomDataTypeProviderProps, IGetConfig, ITable } from 'lib/types';
 import {
-  compose,
   getFilteringConfig,
   getPaginationConfig,
   getSortingConfig,
@@ -72,7 +70,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
       // Сортируем по умолчанию по сроку исполнения
       { columnName: 'dead_line', direction: 'asc' },
     ],
-    pageSizes: [5, 10, 20, 0],
+    pageSizes: [5, 10, 20],
     pageSize: 5,
     totalCount: 0,
     currentPage: 0,
@@ -80,8 +78,6 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
 
   // Переменная состояния загрузки
   const [loading, setLoading] = useState<boolean>(false);
-
-  const [mounted, setMounted] = useState<boolean>(false);
 
   /**
    * Функция изменения сортировок
@@ -140,12 +136,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
         setTable((oldTable: ITable<IRow>) => ({ ...oldTable, rows, totalCount }));
       })
       .catch((error: AxiosError) => showError(error, 'snackbar'))
-      .finally(() => {
-        setLoading(false);
-        if (!mounted) {
-          setMounted(true);
-        }
-      });
+      .finally(() => setLoading(false));
   };
 
   /**
@@ -180,64 +171,62 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
 
   return (
     <>
-      <Fade in={mounted} timeout={750}>
-        <Paper className={classes.paper}>
-          <Grid
-            rows={table.rows}
-            columns={tableSettings.columns}
-            getRowId={getRowId}
-            rootComponent={RootComponent}
-          >
-            {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
-              <DataTypeProvider {...props} />
-            ))}
-            <DragDropProvider/>
-            <SortingState
-              sorting={table.sorting}
-              onSortingChange={changeSorting}
-              columnExtensions={tableSettings.sortingStateColumnExtensions}
-            />
-            <PagingState
-              currentPage={table.currentPage}
-              pageSize={table.pageSize}
-              onPageSizeChange={changePageSize}
-              onCurrentPageChange={changeCurrentPage}
-            />
-            <CustomPaging
-              totalCount={table.totalCount}
-            />
-            <FilteringState
-              filters={table.filters}
-              onFiltersChange={changeFilters}
-              columnExtensions={tableSettings.filteringStateColumnExtensions}
-            />
-            <VirtualTable
-              height="auto"
-              messages={tableMessages}
-              rowComponent={RowComponent}
-              columnExtensions={tableSettings.columnsExtensions}
-            />
-            <TableColumnReordering
-              defaultOrder={tableSettings.defaultOrder}
-            />
-            <TableHeaderRow
-              showSortingControls
-              messages={tableHeaderRowMessage}
-            />
-            <TableFilterRow
-              showFilterSelector
-              messages={filterRowMessages}
-            />
-            <PagingPanel
-              pageSizes={table.pageSizes}
-              messages={pagingPanelMessages}
-            />
-          </Grid>
-        </Paper>
-      </Fade>
+      <Paper className={classes.paper}>
+        <Grid
+          rows={table.rows}
+          columns={tableSettings.columns}
+          getRowId={getRowId}
+          rootComponent={RootComponent}
+        >
+          {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
+            <DataTypeProvider {...props} />
+          ))}
+          <DragDropProvider/>
+          <SortingState
+            sorting={table.sorting}
+            onSortingChange={changeSorting}
+            columnExtensions={tableSettings.sortingStateColumnExtensions}
+          />
+          <PagingState
+            currentPage={table.currentPage}
+            pageSize={table.pageSize}
+            onPageSizeChange={changePageSize}
+            onCurrentPageChange={changeCurrentPage}
+          />
+          <CustomPaging
+            totalCount={table.totalCount}
+          />
+          <FilteringState
+            filters={table.filters}
+            onFiltersChange={changeFilters}
+            columnExtensions={tableSettings.filteringStateColumnExtensions}
+          />
+          <VirtualTable
+            height="auto"
+            messages={tableMessages}
+            rowComponent={RowComponent}
+            columnExtensions={tableSettings.columnsExtensions}
+          />
+          <TableColumnReordering
+            defaultOrder={tableSettings.defaultOrder}
+          />
+          <TableHeaderRow
+            showSortingControls
+            messages={tableHeaderRowMessage}
+          />
+          <TableFilterRow
+            showFilterSelector
+            messages={filterRowMessages}
+          />
+          <PagingPanel
+            pageSizes={table.pageSizes}
+            messages={pagingPanelMessages}
+          />
+        </Grid>
+      </Paper>
       {loading && <Loading/>}
     </>
   );
 };
 
-export default compose<IProps>([withDialog], TasksTable);
+export default withDialog(TasksTable);

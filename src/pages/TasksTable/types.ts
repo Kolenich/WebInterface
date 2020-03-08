@@ -5,7 +5,7 @@ import {
   TableColumnWidthInfo,
 } from '@devexpress/dx-react-grid';
 import { VirtualTable } from '@devexpress/dx-react-grid-material-ui';
-import { INotifications } from 'decorators/withDialog/types';
+import { INotifications } from 'components/DialogAlert/types';
 import { IAttachment } from 'lib/types';
 import { RouteComponentProps } from 'react-router';
 

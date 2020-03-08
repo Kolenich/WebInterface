@@ -1,11 +1,11 @@
 import { MuiThemeProvider } from '@material-ui/core';
 import { Done, Error } from '@material-ui/icons';
-import ContextProvider from 'context';
+import GlobalContext from 'components/GlobalContext';
 import theme from 'lib/theme';
 import { SnackbarProvider } from 'notistack';
 import React, { FC } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import Router from './router';
+import Router from './components/Routers';
 
 /**
  * Компонент приложения
@@ -25,9 +25,9 @@ const App: FC = () => (
           error: <Error fontSize="large" style={{ paddingRight: 10 }}/>,
         }}
       >
-        <ContextProvider>
+        <GlobalContext>
           <Router/>
-        </ContextProvider>
+        </GlobalContext>
       </SnackbarProvider>
     </MuiThemeProvider>
   </BrowserRouter>

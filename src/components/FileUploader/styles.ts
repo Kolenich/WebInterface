@@ -3,8 +3,8 @@ import { createStyles } from '@material-ui/styles';
 
 /**
  * Стили Material UI
- * @param theme {Theme} тема Material UI
- * @returns {*} CSS классы
+ * @param {Theme} theme тема Material UI
+ * @return {StyleRules<{}, string>} CSS-классы
  */
 const styles = (theme: Theme) => createStyles({
   hint: {

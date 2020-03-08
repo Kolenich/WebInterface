@@ -26,16 +26,16 @@ import {
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import clsx from 'clsx';
-import { Context } from 'context';
-import { IContext } from 'context/types';
-import { withDialog } from 'decorators';
+import { withDialog } from 'components';
+import { Context } from 'components/GlobalContext';
+import { IContext } from 'components/GlobalContext/types';
+import DashBoardRouter from 'components/Routers/DashBoardRouter';
 import api from 'lib/api';
 import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';
-import { compose, useMountEffect } from 'lib/utils';
+import { useMountEffect } from 'lib/utils';
 import React, { FC, MouseEvent, useContext, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import DashBoardRouter from 'router/DashBoardRouter';
 import styles from './styles';
 import { IProfileUser, IProps } from './types';
 
@@ -287,4 +287,4 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   );
 };
 
-export default compose<IProps>([withDialog], DashBoard);
+export default withDialog(DashBoard);

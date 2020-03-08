@@ -1,14 +1,13 @@
 import { Collapse, FormControlLabel, Grid, Paper, Switch, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import { AttachmentPreview, Loading } from 'components';
-import { Context } from 'context';
-import { IContext } from 'context/types';
-import { withDialog } from 'decorators';
+import { AttachmentPreview, Loading, withDialog } from 'components';
+import { Context } from 'components/GlobalContext';
+import { IContext } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
-import { compose, useMountEffect } from 'lib/utils';
+import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useState } from 'react';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
@@ -200,4 +199,4 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
   );
 };
 
-export default compose<IProps>([withDialog], TaskDetail);
+export default withDialog(TaskDetail);

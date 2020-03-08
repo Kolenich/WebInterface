@@ -1,7 +1,7 @@
+import Route from 'components/Routers/Route';
 import { TaskAssignment, TaskDetail, TasksTable } from 'pages';
 import React, { FC } from 'react';
 import { Redirect, Switch } from 'react-router';
-import Route from 'router/Route';
 
 /**
  * Роутер панели

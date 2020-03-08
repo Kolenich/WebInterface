@@ -3,6 +3,11 @@ import { createStyles } from '@material-ui/styles';
 
 const drawerWidth = 200;
 
+/**
+ * Стили Material UI
+ * @param {Theme} theme тема Material UI
+ * @return {StyleRules<{}, string>} CSS-классы
+ */
 const styles = (theme: Theme) => createStyles({
   root: {
     flexGrow: 1,

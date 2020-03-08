@@ -1,4 +1,4 @@
-import { INotifications } from 'decorators/withDialog/types';
+import { INotifications } from 'components/DialogAlert/types';
 import { RouteComponentProps } from 'react-router';
 
 export interface IProps extends RouteComponentProps, INotifications {

@@ -1,4 +1,4 @@
-import { Collapse, Grid, Paper, TextField } from '@material-ui/core';
+import { Button, Grid, Paper, TextField } from '@material-ui/core';
 import {
   Add,
   CalendarToday as DateIcon,
@@ -9,17 +9,16 @@ import {
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
-import { AutoComplete, Button, DateField, FileUploader } from 'components';
+import { AutoComplete, DateField, FileUploader, withDialog } from 'components';
 import { IFile, IUploaderImperativeProps } from 'components/FileUploader/types';
+import { Context } from 'components/GlobalContext';
+import { IContext } from 'components/GlobalContext/types';
 import { ISelectItem } from 'components/Select/types';
-import { Context } from 'context';
-import { IContext } from 'context/types';
-import { withDialog } from 'decorators';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP, USERS_APP } from 'lib/session';
 import { IApiResponse } from 'lib/types';
-import { compose, useMountEffect } from 'lib/utils';
+import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useCallback, useContext, useRef, useState } from 'react';
 import styles from './styles';
 import { IProps, ITask } from './types';
@@ -40,7 +39,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
     getters: { documentTitle }, setters: { updateDashBoardTitle },
   } = useContext<IContext>(Context);
 
-  const uploader = useRef<IUploaderImperativeProps>();
+  const uploader = useRef<IUploaderImperativeProps>(null);
 
   // Набор переменных состояния для объекта назначаемой задачи
   const [task, setTask] = useState<ITask>({
@@ -55,18 +54,14 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   // Список доступных к назначению пользователей
   const [users, setUsers] = useState<ISelectItem[]>([]);
 
-  // Флаги загрузки данных
-  const [mounted, setMounted] = useState<boolean>(false);
-
   /**
    * Функция выгрузки всех юзеров, которым можно назначить задание
    */
   const loadUsers = () => {
     api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => {
-        setUsers(response.data.results);
-        setMounted(true);
-      });
+      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => (
+        setUsers(response.data.results)
+      ));
   };
 
   /**
@@ -179,98 +174,96 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
   useMountEffect(setDashBoardTitle);
 
   return (
-    <Collapse in={mounted} timeout={750}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2} alignItems="center" className={classes.container}>
-          <Grid item xs={12} lg={2}>
-            <TextField
-              value={task.summary}
-              name="summary"
-              onChange={handleTextChange}
-              label="Краткое описание"
-              fullWidth
-              variant="outlined"
-              InputProps={{
-                endAdornment: <DescriptionIcon/>,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} lg={9}/>
-          <Grid item xs={12} lg={4}>
-            <TextField
-              value={task.description}
-              name="description"
-              onChange={handleTextChange}
-              label="Полное описание"
-              fullWidth
-              variant="outlined"
-              InputProps={{
-                endAdornment: <DescriptionIcon/>,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} lg={8}/>
-          <Grid item xs={12} lg={2}>
-            <DateField
-              value={task.dead_line}
-              name="dead_line"
-              disablePast
-              onChange={handleDateChange('dead_line')}
-              label="Срок исполнения"
-              withTime
-              InputProps={{
-                endAdornment: <DateIcon/>,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} lg={10}/>
-          <Grid item xs={12} lg={4}>
-            <TextField
-              value={task.comment}
-              name="comment"
-              onChange={handleTextChange}
-              label="Комментарий"
-              fullWidth
-              variant="outlined"
-              InputProps={{
-                endAdornment: <CommentIcon/>,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} lg={8}/>
-          <Grid item xs={12} lg={3}>
-            <AssignToIcon/>
-            <AutoComplete
-              value={task.assigned_to}
-              label="Кому назначить"
-              options={users}
-              onChange={handleSelectChange}
-            />
-          </Grid>
-          <Grid item xs={12} lg={9}/>
-          <Grid item xs={12} lg={3}>
-            <FileUploader
-              ref={uploader}
-              uploaderText="Прикрепите вложение"
-              onFilesUpdate={setAttachment}
-            />
-          </Grid>
-          <Grid item xs={12} lg={9}>
-          </Grid>
-          <Grid item xs="auto">
-            <Button
-              variant="contained"
-              icon={Add}
-              color="primary"
-              onClick={submitTask}
-            >
-              Назначить
-            </Button>
-          </Grid>
+    <Paper className={classes.paper}>
+      <Grid container spacing={2} alignItems="center" className={classes.container}>
+        <Grid item xs={12} lg={2}>
+          <TextField
+            value={task.summary}
+            name="summary"
+            onChange={handleTextChange}
+            label="Краткое описание"
+            fullWidth
+            variant="outlined"
+            InputProps={{
+              endAdornment: <DescriptionIcon/>,
+            }}
+          />
         </Grid>
-      </Paper>
-    </Collapse>
+        <Grid item xs={12} lg={9}/>
+        <Grid item xs={12} lg={4}>
+          <TextField
+            value={task.description}
+            name="description"
+            onChange={handleTextChange}
+            label="Полное описание"
+            fullWidth
+            variant="outlined"
+            InputProps={{
+              endAdornment: <DescriptionIcon/>,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={8}/>
+        <Grid item xs={12} lg={2}>
+          <DateField
+            value={task.dead_line}
+            name="dead_line"
+            disablePast
+            onChange={handleDateChange('dead_line')}
+            label="Срок исполнения"
+            withTime
+            InputProps={{
+              endAdornment: <DateIcon/>,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={10}/>
+        <Grid item xs={12} lg={4}>
+          <TextField
+            value={task.comment}
+            name="comment"
+            onChange={handleTextChange}
+            label="Комментарий"
+            fullWidth
+            variant="outlined"
+            InputProps={{
+              endAdornment: <CommentIcon/>,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} lg={8}/>
+        <Grid item xs={12} lg={3}>
+          <AssignToIcon/>
+          <AutoComplete
+            value={task.assigned_to}
+            label="Кому назначить"
+            options={users}
+            onChange={handleSelectChange}
+          />
+        </Grid>
+        <Grid item xs={12} lg={9}/>
+        <Grid item xs={12} lg={3}>
+          <FileUploader
+            ref={uploader}
+            uploaderText="Прикрепите вложение"
+            onFilesUpdate={setAttachment}
+          />
+        </Grid>
+        <Grid item xs={12} lg={9}>
+        </Grid>
+        <Grid item xs="auto">
+          <Button
+            variant="contained"
+            endIcon={<Add/>}
+            color="primary"
+            onClick={submitTask}
+          >
+            Назначить
+          </Button>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };
 
-export default compose<IProps>([withDialog], TaskAssignment);
+export default withDialog(TaskAssignment);

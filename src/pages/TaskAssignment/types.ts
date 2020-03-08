@@ -1,4 +1,4 @@
-import { INotifications } from 'decorators/withDialog/types';
+import { INotifications } from 'components/DialogAlert/types';
 import { IAttachment } from 'lib/types';
 import { ReactText } from 'react';
 import { RouteComponentProps } from 'react-router-dom';

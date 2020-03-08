@@ -1,7 +1,7 @@
+import { IProps } from 'components/Routers/types';
 import auth from 'lib/auth';
 import React, { Attributes, createElement, FC } from 'react';
 import { Redirect, Route as RouteBase, RouteComponentProps } from 'react-router-dom';
-import { IProps } from 'router/types';
 
 /**
  * Кастомный роутер

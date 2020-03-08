@@ -8,12 +8,7 @@ module.exports = customizer.override(
       alias: {
         '^components/*': './src/pages/*',
         '^lib/*': './src/lib/*',
-        '^generic/*': './src/components/*',
-        '^masks/*': './src/masks/*',
-        '^assets/*': './src/assets/*',
-        '^router/*': './src/router/*',
-        '^context/*': './src/context/*',
-        '^decorators/*': './src/decorators/*',
+        '^pages/*': './src/pages/*',
       },
     },
   ]),

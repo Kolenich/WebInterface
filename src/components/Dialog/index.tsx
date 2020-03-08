@@ -1,4 +1,5 @@
 import {
+  Button,
   CircularProgress,
   Dialog as DialogBase,
   DialogActions,
@@ -10,7 +11,6 @@ import {
 import { Cancel, CheckCircle, Done, Error, Warning } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import { Button } from 'components';
 import React, { FC } from 'react';
 import styles from './styles';
 import { IProps } from './types';
@@ -79,7 +79,7 @@ const Dialog: FC<IProps> =
               variant="contained"
               color="primary"
               onClick={handleClick}
-              icon={Done}
+              endIcon={<Done/>}
             >
               OK
             </Button>
@@ -88,7 +88,7 @@ const Dialog: FC<IProps> =
               variant="contained"
               color="secondary"
               onClick={onClose}
-              icon={Cancel}
+              endIcon={<Cancel/>}
             >
               Отмена
             </Button>}

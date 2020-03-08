@@ -5,14 +5,14 @@ export default {
   /**
    * API-функция для получения данных с сервера
    * @param {string} requestUrl url запроса
-   * @param sendData запрашиваемое приложение
-   * @param {string} app параметры запроса
-   * @returns {AxiosPromise<T>}
+   * @param {P} sendData параметры запроса
+   * @param {string} app запрашиваемое приложение
+   * @return {Promise<AxiosResponse<T>>}
    */
-  getContent: async <T>(requestUrl: string, sendData?: any, app?: string) => {
+  getContent: async <T, P extends {} = {}>(requestUrl: string, sendData?: P, app?: string) => {
     let params = sendData;
     if (!sendData) {
-      params = {};
+      params = {} as P;
     }
     let prefix = app;
     if (!prefix) {
