@@ -12,7 +12,7 @@ const Router: FC = () => (
   <Switch>
     <Route path="/sign-up" component={SignUp}/>
     <Route path="/sign-in" component={SignIn}/>
-    <Route inner path="/" component={DashBoard}/>
+    <Route authorized path="/" component={DashBoard}/>
   </Switch>
 );
 

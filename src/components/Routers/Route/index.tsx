@@ -6,12 +6,12 @@ import { Redirect, Route as RouteBase, RouteComponentProps } from 'react-router-
 /**
  * Кастомный роутер
  * @param {React.ComponentType} component компонент для редиректа
- * @param {boolean} inner пометка, что страница только для авторизованных пользователей
+ * @param {boolean} authorized пометка, что страница только для авторизованных пользователей
  * @param {IProps} rest остальные пропсы
  * @returns {JSX.Element}
  * @constructor
  */
-const Route: FC<IProps> = ({ component, inner, ...rest }: IProps) => {
+const Route: FC<IProps> = ({ component, authorized, ...rest }: IProps) => {
   /**
    * Роутер для неавторизованных пользователей
    * @param {RouteComponentProps & React.Attributes} props передаваемые пропсы
@@ -37,7 +37,7 @@ const Route: FC<IProps> = ({ component, inner, ...rest }: IProps) => {
   return (
     <RouteBase
       {...rest}
-      render={inner ? privateRouter : publicRouter}
+      render={authorized ? privateRouter : publicRouter}
     />
   );
 };
