@@ -27,5 +27,5 @@ const requestConfig: AxiosRequestConfig = {
 
 export const session: AxiosInstance = axios.create(requestConfig);
 
-export const USERS_APP = 'users_api';
-export const TASKS_APP = 'tasks_api';
+export const USERS_APP = 'users-api';
+export const TASKS_APP = 'tasks-api';
