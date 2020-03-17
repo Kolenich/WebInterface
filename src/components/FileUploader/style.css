@@ -1,0 +1,17 @@
+[data-filepond-item-state='idle'] .filepond--item-panel {
+  background-color: green;
+}
+
+.filepond--drop-label label,
+.filepond--action-remove-item {
+  cursor: pointer;
+}
+
+.filepond--drop-label label {
+  transition: all 0.3s ease;
+}
+
+.filepond--drop-label label:hover {
+  color: rgb(102, 137, 225);
+  text-decoration: underline;
+}

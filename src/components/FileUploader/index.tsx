@@ -14,6 +14,7 @@ import React, {
   useState,
 } from 'react';
 import { File, FilePond } from 'react-filepond';
+import './style.css';
 import styles from './styles';
 import { IFile, IProps, IUploaderImperativeProps, ProcessServerConfigFunction } from './types';
 
@@ -41,7 +42,7 @@ const useStyles = makeStyles(styles);
  */
 const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> = (
   {
-    multiple, maxFiles, hint, uploaderText, onFilesUpdate, base64, uploadTo, instantUpload,
+    multiple, maxFiles = 1, hint, uploaderText = 'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать', onFilesUpdate, base64, uploadTo, instantUpload,
     uploadCallback, field, onUploadError,
   }: IProps,
   ref: Ref<IUploaderImperativeProps>,
@@ -169,10 +170,9 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
         ref={addRef}
         instantUpload={instantUpload}
         server={uploadTo && { process }}
-        labelIdle={uploaderText ||
-        'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать'}
+        labelIdle={uploaderText}
         allowMultiple={multiple}
-        maxFiles={maxFiles || 1}
+        maxFiles={maxFiles}
         onupdatefiles={onUpdateFiles}
         labelFileProcessing="Подождите, файл загружается..."
         labelFileProcessingError="Не удалось загрузить файл"
