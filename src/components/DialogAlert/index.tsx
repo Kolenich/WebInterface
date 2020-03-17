@@ -6,7 +6,7 @@ import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { useSnackbar } from 'notistack';
 import React, { ComponentType, useState } from 'react';
 import { useHistory } from 'react-router';
-import { INotifications } from './types';
+import { INotifications, IServerError } from './types';
 
 /**
  * Декоратор, подмешивающий компоненту диалоговое окно с функцией для его вызова
@@ -50,32 +50,33 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
    * @param {"dialog" | "snackbar"} by куда вывести ошибку
    * @param {string} forceMessage принудительное сообщение для вывода
    */
-  const showError = (error: AxiosError, by: 'dialog' | 'snackbar', forceMessage?: string) => {
-    let detail = SERVER_NOT_AVAILABLE;
-    if (error.response) {
-      detail = SERVER_RESPONSES[error.response.status];
-      if (error.response.data.detail) {
-        ({ detail } = error.response.data);
+  const showError =
+    (error: AxiosError<IServerError>, by: 'dialog' | 'snackbar', forceMessage?: string) => {
+      let detail = SERVER_NOT_AVAILABLE;
+      if (error.response) {
+        detail = SERVER_RESPONSES[error.response.status];
+        if (error.response.data.detail) {
+          ({ detail } = error.response.data);
+        }
+        if (forceMessage) {
+          detail = forceMessage;
+        }
+        if (error.response.status === 401) {
+          auth.logout().finally(() => history.push({ pathname: '/' }));
+          return;
+        }
       }
-      if (forceMessage) {
-        detail = forceMessage;
+      switch (by) {
+        case 'dialog':
+          openDialog(detail, 'error');
+          break;
+        case 'snackbar':
+          enqueueSnackbar(detail, { variant: 'error' });
+          break;
+        default:
+          break;
       }
-      if (error.response.status === 401) {
-        auth.logout().finally(() => history.push({ pathname: '/' }));
-        return;
-      }
-    }
-    switch (by) {
-      case 'dialog':
-        openDialog(detail, 'error');
-        break;
-      case 'snackbar':
-        enqueueSnackbar(detail, { variant: 'error' });
-        break;
-      default:
-        break;
-    }
-  };
+    };
 
   return (
     <>

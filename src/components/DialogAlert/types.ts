@@ -7,3 +7,8 @@ export interface INotifications {
   /** Общая функция отработки ошибки */
   showError: (error: AxiosError, by: 'dialog' | 'snackbar', forceMessage?: string) => void;
 }
+
+export interface IServerError {
+  /** Сообщение, выводимое сервером в общем случае */
+  detail: string;
+}
