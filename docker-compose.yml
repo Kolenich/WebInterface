@@ -10,12 +10,12 @@ networks:
 volumes:
   static:
     name: diary-static
-  postgres_data:
-    name: diary-postgres_data
+  postgres-data:
+    name: diary-postgres-data
     driver_opts:
       type: none
       o: bind
-      device: $PWD/postgres_data
+      device: $PWD/postgres-data
 
 services:
   diary-web:
@@ -50,7 +50,7 @@ services:
     container_name: diary-postgres
     image: postgres:12-alpine
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres-data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=nikolay
