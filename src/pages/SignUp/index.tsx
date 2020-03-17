@@ -96,8 +96,8 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
     const sendData: IAccount = { email, password, first_name, last_name, mailing };
     try {
       const response: AxiosResponse = await api.sendContent('user/registrate', sendData, USERS_APP);
-      const { message } = response.data;
-      enqueueSnackbar(message, { variant: 'success' });
+      const { detail } = response.data;
+      enqueueSnackbar(detail, { variant: 'success' });
       // Через 2 секунды перенаправляем на страницу входа
       setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
     } catch (error) {

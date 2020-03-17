@@ -101,7 +101,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
       delete copiedTask.attachment;
       // Создаем задание без вложения
       const { data, status }: AxiosResponse<ITask> =
-        await api.sendContent('assign-task', copiedTask);
+        await api.sendContent('task/assign', copiedTask);
 
       // После создания задания если было приложено вложение, прикрепляем вложение
       if (attachment) {
@@ -114,7 +114,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
           }
         }
         await api.sendContent(
-          `assign-task/${data.id!}/attach-file`,
+          `task/${data.id!}/attach-file`,
           formData,
           TASKS_APP,
           'post',
