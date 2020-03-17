@@ -31,11 +31,7 @@ export default {
   async logout() {
     this.delHeader();
     this.delToken();
-    try {
-      return await session.post('auth/logout/');
-    } catch (error) {
-      throw error;
-    }
+    return await session.post('auth/logout/');
   },
 
   /**

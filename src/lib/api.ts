@@ -18,11 +18,7 @@ export default {
     if (!prefix) {
       prefix = TASKS_APP;
     }
-    try {
-      return await session.get<T>(`${prefix}/${requestUrl}/`, { params });
-    } catch (error) {
-      throw error;
-    }
+    return await session.get<T>(`${prefix}/${requestUrl}/`, { params });
   },
   /**
    * API-функция для отправки данных на сервер
@@ -56,8 +52,6 @@ export default {
     }
     try {
       return await session({ method, data, url });
-    } catch (error) {
-      throw error;
     } finally {
       session.defaults.headers = defaultHeaders;
     }
