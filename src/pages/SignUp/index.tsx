@@ -46,6 +46,8 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
   const [account, setAccount] = useState<IAccount>({
     first_name: '',
     last_name: '',
+    middle_name: '',
+    username: '',
     email: '',
     password: '',
     mailing: false,
@@ -59,6 +61,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
     email: false,
     last_name: false,
     first_name: false,
+    username: false,
     password: false,
   });
 
@@ -92,10 +95,13 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
    */
   const handleSubmit = async () => {
     setLoading(true);
-    const { email, first_name, last_name, password, mailing } = account;
-    const sendData: IAccount = { email, password, first_name, last_name, mailing };
+    const sendData: IAccount = { ...account };
+    if (!account.middle_name) {
+      delete account.middle_name;
+    }
     try {
-      const response: AxiosResponse = await api.sendContent('user/registrate', sendData, USERS_APP);
+      const response: AxiosResponse =
+        await api.sendContent('profile/registrate', sendData, USERS_APP);
       const { detail } = response.data;
       enqueueSnackbar(detail, { variant: 'success' });
       // Через 2 секунды перенаправляем на страницу входа
@@ -119,7 +125,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
   );
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="md">
       <CssBaseline/>
       <Typography component="div" className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -130,27 +136,16 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
         </Typography>
         <Typography component="form" className={classes.form}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                name="first_name"
-                variant="outlined"
-                required
-                fullWidth
-                error={errors.first_name}
-                label="Имя"
-                value={account.first_name}
-                onChange={handleTextChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                label="Фамилия"
-                error={errors.last_name}
-                name="last_name"
-                value={account.last_name}
+                label="Имя пользователя"
+                error={errors.username}
+                name="username"
+                autoComplete="username"
+                value={account.username}
                 onChange={handleTextChange}
               />
             </Grid>
@@ -164,6 +159,40 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
                 name="email"
                 autoComplete="email"
                 value={account.email}
+                onChange={handleTextChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                name="first_name"
+                variant="outlined"
+                required
+                fullWidth
+                error={errors.first_name}
+                label="Имя"
+                value={account.first_name}
+                onChange={handleTextChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Фамилия"
+                error={errors.last_name}
+                name="last_name"
+                value={account.last_name}
+                onChange={handleTextChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Отчество"
+                name="middle_name"
+                value={account.middle_name}
                 onChange={handleTextChange}
               />
             </Grid>

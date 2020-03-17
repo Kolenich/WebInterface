@@ -57,7 +57,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
    * Функция выгрузки всех юзеров, которым можно назначить задание
    */
   const loadUsers = () => {
-    api.getContent<ISelectItem[]>('user/assigner', {}, USERS_APP)
+    api.getContent<ISelectItem[]>('profile/assigner', {}, USERS_APP)
       .then((response: AxiosResponse<ISelectItem[]>) => (
         setUsers(response.data)
       ));

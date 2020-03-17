@@ -39,7 +39,7 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
 
   // Набор переменных состояния для данных логина
   const [login, setLogin] = useState<ILogin>({
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -90,7 +90,7 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
   const handleLogin = async () => {
     setStatus((oldStatus: IStatus) => ({ ...oldStatus, loading: true }));
     try {
-      await auth.login(login.email, login.password, status.remember);
+      await auth.login(login.username, login.password, status.remember);
       history.push({ pathname: '/' });
     } catch (error) {
       auth.delToken();
@@ -116,12 +116,12 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Электронная почта"
-            name="email"
+            id="username"
+            label="Имя пользователя"
+            name="username"
             error={status.error}
-            autoComplete="email"
-            value={login.email}
+            autoComplete="username"
+            value={login.username}
             onChange={handleLoginChange}
           />
           <TextField

@@ -9,6 +9,10 @@ export interface IAccount {
   first_name: string;
   /** Фамилия */
   last_name: string;
+  /** Отчество */
+  middle_name?: string;
+  /** Имя пользователя */
+  username: string;
   /** Электронная почта */
   email: string;
   /** Пароль */
@@ -20,11 +24,13 @@ export interface IAccount {
 export interface IErrors {
   /** Флаг ошибки для почты */
   email?: boolean;
-  /** Флаг имени для почты */
+  /** Флаг ошибки для имени */
   first_name?: boolean;
-  /** Флаг фамилии для почты */
+  /** Флаг ошибки для имени пользователя */
+  username?: boolean;
+  /** Флаг ошибки для фамилии */
   last_name?: boolean;
-  /** Флаг пароля для почты */
+  /** Флаг ошибки для пароля */
   password?: boolean;
 
   [index: string]: boolean | undefined;

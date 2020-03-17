@@ -5,8 +5,8 @@ export interface IProps extends RouteComponentProps, INotifications {
 }
 
 export interface ILogin {
-  /** Электронная почта */
-  email: string;
+  /** Имя пользователя */
+  username: string;
   /** Пароль */
   password: string;
 }

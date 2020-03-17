@@ -102,7 +102,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
    * Функция выгрузки данных о пользователе
    */
   const loadUser = () => {
-    api.getContent<IProfileUser>('user/profile', {}, USERS_APP)
+    api.getContent<IProfileUser>('profile/detail', {}, USERS_APP)
       .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
       .catch((error: AxiosError) => showError(error, 'snackbar'));
   };
