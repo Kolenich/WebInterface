@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
-import { IApiResponse, ISelectElement } from 'lib/types';
+import { ISelectElement } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useState } from 'react';
 import styles from './styles';
@@ -39,9 +39,9 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
    * Функция выгрущзки всех юзеров в селект
    */
   const loadUsers = () => {
-    api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => (
-        setUsers(response.data.results)
+    api.getContent<ISelectItem[]>('user/assigner', {}, USERS_APP)
+      .then((response: AxiosResponse<ISelectItem[]>) => (
+        setUsers(response.data)
       ))
       .catch();
   };

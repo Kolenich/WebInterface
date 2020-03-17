@@ -25,7 +25,6 @@ import {
 } from '@material-ui/icons';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import clsx from 'clsx';
 import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IContext } from 'components/GlobalContext/types';
@@ -34,7 +33,7 @@ import api from 'lib/api';
 import auth from 'lib/auth';
 import { USERS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
-import React, { FC, MouseEvent, useContext, useMemo, useState } from 'react';
+import React, { FC, MouseEvent, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './styles';
 import { IProfileUser, IProps } from './types';
@@ -54,19 +53,6 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   const theme = useTheme<Theme>();
 
   const { getters: { dashBoardTitle } } = useContext<IContext>(Context);
-
-  const completedSection = useMemo<boolean>(
-    () => location.pathname === '/my-tasks/completed',
-    [location],
-  );
-  const inProcessSection = useMemo<boolean>(
-    () => location.pathname === '/my-tasks/in-process',
-    [location],
-  );
-  const assignSection = useMemo<boolean>(
-    () => location.pathname === '/assign',
-    [location],
-  );
 
   // Переменная открытия/закрытия панели
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -94,14 +80,12 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
    * Функция, открывающая меню
    * @param {React.MouseEvent<HTMLButtonElement>} event текущий элемент для привязки
    */
-  const openMenu = (event: MouseEvent<HTMLButtonElement>) => (
-    setAnchorEl(event.currentTarget)
-  );
+  const openMenu = (event: MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
 
   /**
    * Функция, закрывающая меню
    */
-  const closeMenu = () => setAnchorEl((): null => null);
+  const closeMenu = () => setAnchorEl(null);
 
   /**
    * Функция разлогинивания
@@ -118,7 +102,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
    * Функция выгрузки данных о пользователе
    */
   const loadUser = () => {
-    api.getContent<IProfileUser>('user-profile/user', {}, USERS_APP)
+    api.getContent<IProfileUser>('user/profile', {}, USERS_APP)
       .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
       .catch((error: AxiosError) => showError(error, 'snackbar'));
   };
@@ -132,8 +116,8 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
       <List>
         <ListSubheader inset disableGutters>Мои задания</ListSubheader>
         <ListItem
-          className={clsx(inProcessSection && classes.menuItemActive)}
           button
+          selected={location.pathname === '/my-tasks/in-process'}
           component={Link}
           to="/my-tasks/in-process"
           onClick={closeDrawer}
@@ -145,8 +129,8 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
         </ListItem>
         <ListItem
           button
-          className={clsx(completedSection && classes.menuItemActive)}
           component={Link}
+          selected={location.pathname === '/my-tasks/completed'}
           to="/my-tasks/completed"
           onClick={closeDrawer}
         >
@@ -161,7 +145,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
         <ListSubheader inset disableGutters>Управление</ListSubheader>
         <ListItem
           button
-          className={clsx(assignSection && classes.menuItemActive)}
+          selected={location.pathname === '/assign'}
           component={Link}
           to="/assign"
           onClick={closeDrawer}

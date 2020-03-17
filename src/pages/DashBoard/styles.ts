@@ -84,9 +84,6 @@ const styles = (theme: Theme) => createStyles({
   rightIcon: {
     marginLeft: theme.spacing(1),
   },
-  menuItemActive: {
-    backgroundColor: theme.palette.grey.A100,
-  },
 });
 
 export default styles;

@@ -25,6 +25,8 @@ services:
     restart: always
     container_name: diary-web
     image: kolenich/diary:web
+    ports:
+      - 85:80
     networks:
       - proxy
       - default

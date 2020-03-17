@@ -17,7 +17,6 @@ import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP, USERS_APP } from 'lib/session';
-import { IApiResponse } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useCallback, useContext, useRef, useState } from 'react';
 import styles from './styles';
@@ -58,9 +57,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
    * Функция выгрузки всех юзеров, которым можно назначить задание
    */
   const loadUsers = () => {
-    api.getContent<IApiResponse<ISelectItem>>('user-assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<IApiResponse<ISelectItem>>) => (
-        setUsers(response.data.results)
+    api.getContent<ISelectItem[]>('user/assigner', {}, USERS_APP)
+      .then((response: AxiosResponse<ISelectItem[]>) => (
+        setUsers(response.data)
       ));
   };
 
