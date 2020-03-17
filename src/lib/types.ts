@@ -1,4 +1,4 @@
-import { DataTypeProviderProps, Filter, Sorting } from '@devexpress/dx-react-grid';
+import { Filter, Sorting } from '@devexpress/dx-react-grid';
 import { ComponentType, ReactText } from 'react';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
@@ -84,11 +84,6 @@ export interface ITable<T> {
   totalCount?: number;
   /** Индекс текущей страницы */
   currentPage?: number;
-}
-
-export interface ICustomDataTypeProviderProps extends DataTypeProviderProps {
-  /** Ключ списка кастомных переопределений типов */
-  key: number;
 }
 
 export interface IDashBoardTitles {

@@ -1,38 +1,39 @@
-import { ICustomDataTypeProviderProps } from 'lib/types';
+import { DataTypeProviderProps } from '@devexpress/dx-react-grid';
 import AssignerEditor from './components/EditorComponents/AssignerEditor';
 import DateTimeEditor from './components/EditorComponents/DateTimeEditor';
 import EmptyEditor from './components/EditorComponents/EmptyEditor';
 import TextEditor from './components/EditorComponents/TextEditor';
 import AttachmentFormatter from './components/FormatterComponents/AttachmentFormatter';
 import DateTimeFormatter from './components/FormatterComponents/DateTimeFormatter';
-import { tableSettings } from './settings';
 
 /**
  * Набор кастомных типов для таблицы
  */
-const customDataTypes: ICustomDataTypeProviderProps[] = [
+const customDataTypes: DataTypeProviderProps[] = [
   {
-    key: 1,
-    for: tableSettings.dateTimeColumns!,
+    for: ['date_of_issue', 'dead_line'],
     formatterComponent: DateTimeFormatter,
     editorComponent: DateTimeEditor,
-    availableFilterOperations: tableSettings.dateTimeFilterOperations,
+    availableFilterOperations: [
+      'greaterThan',
+      'greaterThanOrEqual',
+      'lessThan',
+      'lessThanOrEqual',
+      'notEqual',
+    ],
   },
   {
-    key: 2,
-    for: tableSettings.textColumns!,
+    for: ['summary', 'comment'],
     editorComponent: TextEditor,
-    availableFilterOperations: tableSettings.textFilterOperations,
+    availableFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal', 'notEqual'],
   },
   {
-    key: 3,
-    for: tableSettings.assignerColumns!,
+    for: ['assigned_by'],
     editorComponent: AssignerEditor,
-    availableFilterOperations: tableSettings.assignerFilterOperations,
+    availableFilterOperations: ['equal'],
   },
   {
-    key: 4,
-    for: tableSettings.attachmentColumns!,
+    for: ['attachment'],
     editorComponent: EmptyEditor,
     formatterComponent: AttachmentFormatter,
     availableFilterOperations: [],

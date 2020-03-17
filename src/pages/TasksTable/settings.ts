@@ -17,32 +17,12 @@ export const tableSettings: IColumnSettings = {
     { columnName: 'comment', wordWrapEnabled: true },
     { columnName: 'attachment', wordWrapEnabled: true },
   ],
-  defaultOrder: [
-    'summary',
-    'date_of_issue',
-    'assigned_by',
-    'dead_line',
-    'comment',
-    'attachment',
-  ],
   sortingStateColumnExtensions: [
     { columnName: 'attachment', sortingEnabled: false },
   ],
   filteringStateColumnExtensions: [
     { columnName: 'attachment', filteringEnabled: false },
   ],
-  textFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal', 'notEqual'],
-  assignerFilterOperations: ['equal'],
-  dateTimeFilterOperations: [
-    'greaterThan',
-    'greaterThanOrEqual',
-    'lessThan',
-    'lessThanOrEqual',
-  ],
-  textColumns: ['summary', 'comment'],
-  dateTimeColumns: ['date_of_issue', 'dead_line'],
-  assignerColumns: ['assigned_by'],
-  attachmentColumns: ['attachment'],
 };
 
 export const tasksFilterLookUps: ICustomLookUps = {

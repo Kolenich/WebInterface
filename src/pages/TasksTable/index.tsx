@@ -1,6 +1,7 @@
 import {
   CustomPaging,
   DataTypeProvider,
+  DataTypeProviderProps,
   Filter,
   FilteringState,
   PagingState,
@@ -31,7 +32,7 @@ import {
   tableHeaderRowMessage,
   tableMessages,
 } from 'lib/translate';
-import { IApiResponse, ICustomDataTypeProviderProps, IGetConfig, ITable } from 'lib/types';
+import { IApiResponse, IGetConfig, ITable } from 'lib/types';
 import {
   getFilteringConfig,
   getPaginationConfig,
@@ -178,8 +179,8 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
           getRowId={getRowId}
           rootComponent={RootComponent}
         >
-          {customDataTypes.map((props: ICustomDataTypeProviderProps) => (
-            <DataTypeProvider {...props} />
+          {customDataTypes.map((props: DataTypeProviderProps, index) => (
+            <DataTypeProvider key={index} {...props} />
           ))}
 
           <DragDropProvider/>
@@ -215,7 +216,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
           />
 
           <TableColumnReordering
-            defaultOrder={tableSettings.defaultOrder}
+            defaultOrder={tableSettings.columns.map(column => column.name)}
           />
 
           <TableHeaderRow
