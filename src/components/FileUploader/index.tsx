@@ -11,6 +11,7 @@ import React, {
   ForwardRefRenderFunction,
   Ref,
   useImperativeHandle,
+  useRef,
   useState,
 } from 'react';
 import { File, FilePond } from 'react-filepond';
@@ -53,7 +54,7 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
 
   const [files, setFiles] = useState<IFile[]>([]);
 
-  let pond = new FilePond({});
+  const pondRef = useRef<FilePond>(null);
 
   /**
    * Функция обработки обновления файлов в дроп-зоне
@@ -147,16 +148,8 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
       };
     };
 
-  /**
-   * Функция привязки объекта ссылки к фактическому объекту загрузчика
-   * @param {FilePond} ref ссылка на фактический объект загрузчика
-   */
-  const addRef = (ref: FilePond) => {
-    pond = ref;
-  };
-
   useImperativeHandle(ref, () => ({
-    removeFiles: pond.removeFiles,
+    removeFiles: pondRef.current!.removeFiles,
   }));
 
   useUpdateEffect(flowToParent, [files]);
@@ -167,7 +160,7 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
         {hint}
       </Typography>
       <FilePond
-        ref={addRef}
+        ref={pondRef}
         instantUpload={instantUpload}
         server={uploadTo && { process }}
         labelIdle={uploaderText}
