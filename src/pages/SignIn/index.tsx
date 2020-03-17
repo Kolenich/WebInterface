@@ -95,11 +95,7 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
     } catch (error) {
       auth.delToken();
       auth.delHeader();
-      let forceMessage;
-      if (error.response && error.response.status === 400) {
-        forceMessage = 'Неверные логин или пароль';
-      }
-      showError(error, 'snackbar', forceMessage);
+      showError(error, 'snackbar');
       setStatus((oldStatus: IStatus) => ({ ...oldStatus, loading: false }));
     }
   };

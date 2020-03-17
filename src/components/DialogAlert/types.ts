@@ -10,5 +10,7 @@ export interface INotifications {
 
 export interface IServerError {
   /** Сообщение, выводимое сервером в общем случае */
-  detail: string;
+  detail?: string;
+  /** Сообщение, выводимое сервером в случае неверно переданных полей */
+  non_field_errors?: string[];
 }

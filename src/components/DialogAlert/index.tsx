@@ -52,14 +52,17 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
    */
   const showError =
     (error: AxiosError<IServerError>, by: 'dialog' | 'snackbar', forceMessage?: string) => {
-      let detail = SERVER_NOT_AVAILABLE;
+      let message = SERVER_NOT_AVAILABLE;
       if (error.response) {
-        detail = SERVER_RESPONSES[error.response.status];
+        message = SERVER_RESPONSES[error.response.status];
         if (error.response.data.detail) {
-          ({ detail } = error.response.data);
+          message = error.response.data.detail;
+        }
+        if (error.response.data.non_field_errors) {
+          message = error.response.data.non_field_errors[0];
         }
         if (forceMessage) {
-          detail = forceMessage;
+          message = forceMessage;
         }
         if (error.response.status === 401) {
           auth.logout().finally(() => history.push({ pathname: '/' }));
@@ -68,10 +71,10 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
       }
       switch (by) {
         case 'dialog':
-          openDialog(detail, 'error');
+          openDialog(message, 'error');
           break;
         case 'snackbar':
-          enqueueSnackbar(detail, { variant: 'error' });
+          enqueueSnackbar(message, { variant: 'error' });
           break;
         default:
           break;
