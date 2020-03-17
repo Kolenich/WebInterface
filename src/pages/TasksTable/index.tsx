@@ -38,7 +38,7 @@ import {
   getSortingConfig,
   useMountEffect,
 } from 'lib/utils';
-import { tableSettings, tasksFilterLookUps } from 'pages/TasksTable/settings';
+import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import RootComponent from './components/RootComponent';
 import RowComponent from './components/RowComponent';
@@ -126,7 +126,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
     const params: IGetConfig = {
       ...getPaginationConfig(table.pageSize!, table.currentPage!),
       ...getFilteringConfig(table.filters!, tasksFilterLookUps),
-      ...getSortingConfig(table.sorting!, tasksFilterLookUps),
+      ...getSortingConfig(table.sorting!, tasksSortingLookUps),
       // В зависимости от выбранного пункта меню фильтруем список заданий
       done: taskFilter(match.params.filter),
     };

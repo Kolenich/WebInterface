@@ -64,16 +64,5 @@ export interface IColumnSettings {
 }
 
 export interface ICustomLookUps {
-  /** Кастомный lookup для поля summary */
-  summary: string;
-  /** Кастомный lookup для поля date_of_issue */
-  date_of_issue: string;
-  /** Кастомный lookup для поля assigned_by */
-  assigned_by: string;
-  /** Кастомный lookup для поля dead_line */
-  dead_line: string;
-  /** Кастомный lookup для поля comment */
-  comment: string;
-
   [index: string]: string;
 }

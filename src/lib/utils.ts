@@ -51,15 +51,11 @@ export const getPaginationConfig = (pageSize: number, currentPage: number) => ({
  * @param {[key: string]: string} lookups кастомные лукапы для django
  * @returns {Partial<IGetConfig>} конфиг для фильтрации
  */
-export const getFilteringConfig = (filters: Filter[], lookups?: { [key: string]: string }) => ({
+export const getFilteringConfig = (filters: Filter[], lookups: { [key: string]: string } = {}) => ({
   ...unpackArrayOfObjects<Partial<IGetConfig>>(
-    filters.map(({ operation, columnName, value }) => {
-      let lookupPart = columnName;
-      if (lookups && Object.keys(lookups).length) {
-        lookupPart = lookups[columnName];
-      }
-      return { [lookupPart + FILTERING_PARAMS[operation!]]: value };
-    }),
+    filters.map(({ operation = 'equal', columnName, value }) => ({
+      [(lookups[columnName] || columnName) + FILTERING_PARAMS[operation]]: value,
+    })),
   ),
 });
 
@@ -69,15 +65,11 @@ export const getFilteringConfig = (filters: Filter[], lookups?: { [key: string]:
  * @param {[key: string]: string} lookups кастомные лукапы для django
  * @returns {Partial<IGetConfig>} конфиг сортировки
  */
-export const getSortingConfig = (sorting: Sorting[], lookups?: { [key: string]: string }) => ({
+export const getSortingConfig = (sorting: Sorting[], lookups: { [key: string]: string } = {}) => ({
   ...unpackArrayOfObjects<Partial<IGetConfig>>(
-    sorting.map(({ direction, columnName }) => {
-      let lookupPart = columnName;
-      if (lookups && Object.keys(lookups).length) {
-        lookupPart = lookups[columnName];
-      }
-      return { ordering: SORTING_PARAMS[direction] + lookupPart };
-    }),
+    sorting.map(({ direction, columnName }) => ({
+      ordering: SORTING_PARAMS[direction] + (lookups[columnName] || columnName),
+    })),
   ),
 });
 

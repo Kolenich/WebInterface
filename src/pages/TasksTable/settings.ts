@@ -31,7 +31,7 @@ export const tableSettings: IColumnSettings = {
   filteringStateColumnExtensions: [
     { columnName: 'attachment', filteringEnabled: false },
   ],
-  textFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal'],
+  textFilterOperations: ['contains', 'startsWith', 'endsWith', 'equal', 'notEqual'],
   assignerFilterOperations: ['equal'],
   dateTimeFilterOperations: [
     'greaterThan',
@@ -46,17 +46,9 @@ export const tableSettings: IColumnSettings = {
 };
 
 export const tasksFilterLookUps: ICustomLookUps = {
-  summary: 'summary',
-  date_of_issue: 'date_of_issue',
   assigned_by: 'assigned_by_id',
-  dead_line: 'dead_line',
-  comment: 'comment',
 };
 
 export const tasksSortingLookUps: ICustomLookUps = {
-  summary: 'summary',
-  date_of_issue: 'date_of_issue',
   assigned_by: 'assigned_by__last_name',
-  dead_line: 'dead_line',
-  comment: 'comment',
 };

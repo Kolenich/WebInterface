@@ -1,4 +1,4 @@
-import { Collapse, FormControlLabel, Grid, Paper, Switch, TextField } from '@material-ui/core';
+import { FormControlLabel, Grid, Paper, Switch, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { AttachmentPreview, Loading, withDialog } from 'components';
@@ -102,7 +102,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
   );
 
   return (
-    <Collapse in={loaded} timeout={750}>
+    <>
       <Paper className={classes.paper}>
         <Grid container spacing={2} className={classes.container}>
           <Grid item lg={3} xs={12}>
@@ -195,7 +195,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
         </Grid>
       </Paper>
       {!loaded && <Loading/>}
-    </Collapse>
+    </>
   );
 };
 

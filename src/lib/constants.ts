@@ -39,6 +39,7 @@ export const SORTING_PARAMS: ISorting = {
 export const FILTERING_PARAMS: IFiltering = {
   contains: '__icontains',
   equal: '',
+  notEqual: '__ne',
   startsWith: '__istartswith',
   endsWith: '__iendswith',
   greaterThan: '__gt',
