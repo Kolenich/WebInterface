@@ -1,4 +1,4 @@
-import { FormControl, Input, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { MenuItem, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
 import { ISelectItem } from 'components/Select/types';
@@ -19,15 +19,10 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
+const AssignerEditor: FC<IProps> = ({ onValueChange, value = '' }: IProps) => {
   const classes = useStyles();
 
   const [users, setUsers] = useState<ISelectItem[]>([]);
-
-  let displayValue = '';
-  if (value) {
-    displayValue = value;
-  }
 
   /**
    * Функция обработки изменений
@@ -49,22 +44,19 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
   useMountEffect(loadUsers);
 
   return (
-    <FormControl fullWidth>
-      <InputLabel className={classes.inputLabel}>
-        Фильтр...
-      </InputLabel>
-      <Select
-        className={classes.sexSelect}
-        value={displayValue}
-        input={<Input/>}
-        onChange={onChange}
-      >
-        <MenuItem value=""><em>Сброс</em></MenuItem>
-        {users.map(({ label, ...choice }: ISelectItem) => (
-          <MenuItem {...choice}>{label}</MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <TextField
+      value={value}
+      onChange={onChange}
+      className={classes.select}
+      select
+      fullWidth
+      label="Фильтр..."
+    >
+      <MenuItem value=""><em>Сброс</em></MenuItem>
+      {users.map(({ label, ...choice }: ISelectItem) => (
+        <MenuItem {...choice}>{label}</MenuItem>
+      ))}
+    </TextField>
   );
 };
 
