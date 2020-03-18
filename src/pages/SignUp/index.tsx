@@ -107,7 +107,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
       // Через 2 секунды перенаправляем на страницу входа
       setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
     } catch (error) {
-      showError(error, 'snackbar');
+      showError(error);
       if (error.response) {
         const { errors: errorsList } = error.response.data;
         setErrors((oldErrors: IErrors): IErrors => ({ ...oldErrors, ...errorsList }));

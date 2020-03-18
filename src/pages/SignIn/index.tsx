@@ -95,7 +95,7 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
     } catch (error) {
       auth.delToken();
       auth.delHeader();
-      showError(error, 'snackbar');
+      showError(error);
       setStatus((oldStatus: IStatus) => ({ ...oldStatus, loading: false }));
     }
   };

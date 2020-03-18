@@ -46,12 +46,12 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
 
   /**
    * Общая функция обработки ошибки
-   * @param error {AxiosError} объект ошибки
+   * @param error {AxiosError<IServerError>} объект ошибки
    * @param {"dialog" | "snackbar"} by куда вывести ошибку
    * @param {string} forceMessage принудительное сообщение для вывода
    */
   const showError =
-    (error: AxiosError<IServerError>, by: 'dialog' | 'snackbar', forceMessage?: string) => {
+    (error: AxiosError<IServerError>, by?: 'dialog' | 'snackbar', forceMessage?: string) => {
       let message = SERVER_NOT_AVAILABLE;
       if (error.response) {
         message = SERVER_RESPONSES[error.response.status];
@@ -77,6 +77,7 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
           enqueueSnackbar(message, { variant: 'error' });
           break;
         default:
+          enqueueSnackbar(message, { variant: 'error' });
           break;
       }
     };

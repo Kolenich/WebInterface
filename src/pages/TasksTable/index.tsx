@@ -19,7 +19,7 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { Loading, withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IContext } from 'components/GlobalContext/types';
@@ -136,7 +136,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
         const { results: rows, count: totalCount } = response.data;
         setTable((oldTable: ITable<IRow>) => ({ ...oldTable, rows, totalCount }));
       })
-      .catch((error: AxiosError) => showError(error, 'snackbar'))
+      .catch(showError)
       .finally(() => setLoading(false));
   };
 

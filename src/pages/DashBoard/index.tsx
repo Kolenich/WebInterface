@@ -24,7 +24,7 @@ import {
   WatchLater as ProcessIcon,
 } from '@material-ui/icons';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IContext } from 'components/GlobalContext/types';
@@ -104,7 +104,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   const loadUser = () => {
     api.getContent<IProfileUser>('profile/detail', {}, USERS_APP)
       .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
-      .catch((error: AxiosError) => showError(error, 'snackbar'));
+      .catch(showError);
   };
 
   useMountEffect(loadUser);
