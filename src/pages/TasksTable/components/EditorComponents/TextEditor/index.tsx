@@ -10,31 +10,23 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент фильтрации текстовых значений
  * @param {(newValue: any) => void} onValueChange функция, обрабатывающая изменение в поле
- * @param {any} value значение в поле
+ * @param {string} value значение в поле
  * @returns {JSX.Element}
  * @constructor
  */
-const TextEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
+const TextEditor: FC<IProps> = ({ onValueChange, value = '' }) => {
   const classes = useStyles();
 
   /**
    * Функция обработки изменений
-   * @param {React.ChangeEvent<ISelectElement>} event объект события изменения
+   * @param {ChangeEvent<ISelectElement>} event объект события изменения
    */
-  const onChange = (event: ChangeEvent<ISelectElement>) => {
-    const { value } = event.target;
-    onValueChange(value);
-  };
-
-  let displayValue = '';
-  if (value) {
-    displayValue = value;
-  }
+  const onChange = (event: ChangeEvent<ISelectElement>) => onValueChange(event.target.value);
 
   return (
     <TextField
       label="Фильтр..."
-      value={displayValue}
+      value={value}
       onChange={onChange}
       fullWidth
       className={classes.textField}
