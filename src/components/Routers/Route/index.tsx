@@ -37,8 +37,9 @@ const Route: FC<IProps> = ({ component, authorized, ...rest }: IProps) => {
   return (
     <RouteBase
       {...rest}
-      render={authorized ? privateRouter : publicRouter}
-    />
+    >
+      {authorized ? privateRouter : publicRouter}
+    </RouteBase>
   );
 };
 
