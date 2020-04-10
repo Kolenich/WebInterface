@@ -114,7 +114,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
           }
         }
         await api.sendContent(
-          `task/${data.id!}/attach-file`,
+          `task/${data.id}/attach-file`,
           formData,
           TASKS_APP,
           'post',

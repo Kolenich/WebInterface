@@ -41,8 +41,8 @@ import {
 } from 'lib/utils';
 import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
 import React, { FC, useContext, useEffect, useState } from 'react';
-import RootComponent from './components/RootComponent';
-import RowComponent from './components/RowComponent';
+import RootComponent from 'components/TableComponents/RootComponent';
+import RowComponent from 'components/TableComponents/RowComponent';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
 import { IProps, IRow } from './types';
@@ -51,7 +51,7 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент таблицы для отображения всех заданий у пользователя
- * @param {match<IFilterParams>} match match передаваемые параметры в адресную строку
+ * @param {match<IFilterParams>} match передаваемые параметры в адресную строку
  * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вывода ошибки
  * @returns {JSX.Element}
  * @constructor

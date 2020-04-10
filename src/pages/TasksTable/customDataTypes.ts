@@ -1,10 +1,14 @@
 import { DataTypeProviderProps } from '@devexpress/dx-react-grid';
-import AssignerEditor from './components/EditorComponents/AssignerEditor';
-import DateTimeEditor from './components/EditorComponents/DateTimeEditor';
-import EmptyEditor from './components/EditorComponents/EmptyEditor';
-import TextEditor from './components/EditorComponents/TextEditor';
-import AttachmentFormatter from './components/FormatterComponents/AttachmentFormatter';
-import DateTimeFormatter from './components/FormatterComponents/DateTimeFormatter';
+import {
+  AssignerEditor,
+  DateTimeEditor,
+  EmptyEditor,
+  TextEditor,
+} from 'components/TableComponents/EditorComponents';
+import {
+  AttachmentFormatter,
+  DateTimeFormatter,
+} from 'components/TableComponents/FormatterComponents';
 
 /**
  * Набор кастомных типов для таблицы

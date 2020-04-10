@@ -8,7 +8,7 @@ export interface IProps extends RouteComponentProps<IDetailParams>, INotificatio
 
 export interface ITaskDetail {
   /** Первичный ключ */
-  id?: number;
+  readonly id?: number;
   /** Данные о назначившем */
   assigned_by: IAssignedBy;
   /** Комментарий */

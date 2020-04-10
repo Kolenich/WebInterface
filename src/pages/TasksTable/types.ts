@@ -14,7 +14,7 @@ export interface IProps extends RouteComponentProps<IFilterParams>, INotificatio
 
 export interface IRow {
   /** Первичный ключ задачи в БД */
-  readonly id?: number;
+  readonly id: number;
   /** Краткое описание */
   summary: string;
   /** Описание */
