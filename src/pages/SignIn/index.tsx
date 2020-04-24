@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/styles';
 import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IContext } from 'components/GlobalContext/types';
-import auth from 'lib/auth';
+import auth from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -90,11 +90,9 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
   const handleLogin = async () => {
     setStatus((oldStatus: IStatus) => ({ ...oldStatus, loading: true }));
     try {
-      await auth.login(login.username, login.password, status.remember);
+      await auth.login(login.username, login.password);
       history.push({ pathname: '/' });
     } catch (error) {
-      auth.delToken();
-      auth.delHeader();
       showError(error);
       setStatus((oldStatus: IStatus) => ({ ...oldStatus, loading: false }));
     }

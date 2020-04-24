@@ -30,7 +30,7 @@ import { Context } from 'components/GlobalContext';
 import { IContext } from 'components/GlobalContext/types';
 import DashBoardRouter from 'components/Routers/DashBoardRouter';
 import api from 'lib/api';
-import auth from 'lib/auth';
+import auth from 'lib/session';
 import { USERS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import React, { FC, MouseEvent, useContext, useState } from 'react';
