@@ -1,8 +1,10 @@
-import React, { createContext, FC, useState } from 'react';
-import { IContext } from './types';
+import React, { createContext, FC, Reducer, useReducer } from 'react';
+import initialState from './initialState';
+import GlobalReducer from './reducer';
+import { IGlobalReducerAction, IGlobalState } from './types';
 
 // Глобальное хранилище (контекст)
-export const Context = createContext<IContext>({} as IContext);
+export const Context = createContext(initialState as IGlobalState);
 
 /**
  * Компонент провайдера для контекста
@@ -12,16 +14,24 @@ export const Context = createContext<IContext>({} as IContext);
  * @constructor
  */
 const ContextProvider: FC = ({ children }) => {
-  // Заголовок для панели
-  const [dashBoardTitle, setDashBoardTitle] = useState<string>('');
+  const [state, dispatch] = useReducer<Reducer<IGlobalState, IGlobalReducerAction>>(
+    GlobalReducer,
+    initialState as IGlobalState,
+  );
 
-  const value: IContext = {
-    getters: {
-      dashBoardTitle,
-      documentTitle: 'Ежедневник',
-    },
+  /**
+   * Функция для обновления заголовка панели
+   * @param {string} title - новый заголовок
+   */
+  const updateDashBoardTitle = (title: string) => dispatch({
+    type: 'SET_DASHBOARD_TITLE',
+    payload: title,
+  });
+
+  const value: IGlobalState = {
+    ...state,
     setters: {
-      updateDashBoardTitle: setDashBoardTitle,
+      updateDashBoardTitle,
     },
   };
 

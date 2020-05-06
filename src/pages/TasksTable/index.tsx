@@ -22,7 +22,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
 import { Loading, withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
-import { IContext } from 'components/GlobalContext/types';
+import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import { DASH_BOARD_TITLES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
@@ -61,7 +61,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
 
   const {
     setters: { updateDashBoardTitle }, getters: { documentTitle },
-  } = useContext<IContext>(Context);
+  } = useContext<IGlobalState>(Context);
 
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({

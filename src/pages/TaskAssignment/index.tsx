@@ -12,7 +12,7 @@ import { AxiosResponse } from 'axios';
 import { AutoComplete, DateField, FileUploader, withDialog } from 'components';
 import { IFile, IUploaderImperativeProps } from 'components/FileUploader/types';
 import { Context } from 'components/GlobalContext';
-import { IContext } from 'components/GlobalContext/types';
+import { IGlobalState } from 'components/GlobalContext/types';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
@@ -36,7 +36,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
 
   const {
     getters: { documentTitle }, setters: { updateDashBoardTitle },
-  } = useContext<IContext>(Context);
+  } = useContext<IGlobalState>(Context);
 
   const uploader = useRef<IUploaderImperativeProps>(null);
 

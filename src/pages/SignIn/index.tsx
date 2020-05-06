@@ -15,7 +15,7 @@ import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
-import { IContext } from 'components/GlobalContext/types';
+import { IGlobalState } from 'components/GlobalContext/types';
 import auth from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useState } from 'react';
@@ -35,7 +35,7 @@ const useStyles = makeStyles(styles);
 const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
   const classes = useStyles();
 
-  const { getters: { documentTitle } } = useContext<IContext>(Context);
+  const { getters: { documentTitle } } = useContext<IGlobalState>(Context);
 
   // Набор переменных состояния для данных логина
   const [login, setLogin] = useState<ILogin>({

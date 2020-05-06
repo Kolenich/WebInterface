@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
 import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
-import { IContext } from 'components/GlobalContext/types';
+import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import { USERS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
@@ -40,7 +40,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { getters: { documentTitle } } = useContext<IContext>(Context);
+  const { getters: { documentTitle } } = useContext<IGlobalState>(Context);
 
   // Набор переменных состояния для пользовательских данных
   const [account, setAccount] = useState<IAccount>({

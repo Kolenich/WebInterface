@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
 import { AttachmentPreview, Loading, withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
-import { IContext } from 'components/GlobalContext/types';
+import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
@@ -27,7 +27,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
 
   const {
     getters: { documentTitle }, setters: { updateDashBoardTitle },
-  } = useContext<IContext>(Context);
+  } = useContext<IGlobalState>(Context);
 
   // Переменные состояния для задания
   const [task, setTask] = useState<ITaskDetail>({

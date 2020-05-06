@@ -27,7 +27,7 @@ import { makeStyles, useTheme } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
 import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
-import { IContext } from 'components/GlobalContext/types';
+import { IGlobalState } from 'components/GlobalContext/types';
 import DashBoardRouter from 'components/Routers/DashBoardRouter';
 import api from 'lib/api';
 import auth from 'lib/session';
@@ -52,7 +52,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
   const classes = useStyles();
   const theme = useTheme<Theme>();
 
-  const { getters: { dashBoardTitle } } = useContext<IContext>(Context);
+  const { getters: { dashBoardTitle } } = useContext<IGlobalState>(Context);
 
   // Переменная открытия/закрытия панели
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
