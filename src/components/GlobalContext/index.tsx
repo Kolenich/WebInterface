@@ -8,8 +8,7 @@ export const Context = createContext(initialState as IGlobalState);
 
 /**
  * Компонент провайдера для контекста
- * @param {React.ReactNode} children дочерний
- * компонент, который получит данные из контекста
+ * @param {React.ReactNode} children дочерний компонент, который получит данные из контекста
  * @returns {JSX.Element}
  * @constructor
  */
