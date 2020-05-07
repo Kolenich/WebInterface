@@ -1,7 +1,6 @@
-import { Reducer } from 'react';
 import { IGlobalReducerAction, IGlobalState } from './types';
 
-const GlobalReducer: Reducer<IGlobalState, IGlobalReducerAction> = (state, action) => {
+export default (state: IGlobalState, action: IGlobalReducerAction) => {
   switch (action.type) {
     default:
       return state;
@@ -23,5 +22,3 @@ const GlobalReducer: Reducer<IGlobalState, IGlobalReducerAction> = (state, actio
       };
   }
 };
-
-export default GlobalReducer;
