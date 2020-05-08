@@ -1,7 +1,7 @@
-import React, { createContext, FC, Reducer, useReducer } from 'react';
+import React, { createContext, FC, useReducer } from 'react';
 import initialState from './initialState';
 import GlobalReducer from './reducer';
-import { IGlobalReducerAction, IGlobalState } from './types';
+import { IGlobalState } from './types';
 
 // Глобальное хранилище (контекст)
 export const Context = createContext(initialState as IGlobalState);
@@ -13,10 +13,7 @@ export const Context = createContext(initialState as IGlobalState);
  * @constructor
  */
 const ContextProvider: FC = ({ children }) => {
-  const [state, dispatch] = useReducer<Reducer<IGlobalState, IGlobalReducerAction>>(
-    GlobalReducer,
-    initialState as IGlobalState,
-  );
+  const [state, dispatch] = useReducer(GlobalReducer, initialState as IGlobalState);
 
   /**
    * Функция для обновления заголовка панели
