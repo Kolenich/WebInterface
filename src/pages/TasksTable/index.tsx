@@ -23,6 +23,8 @@ import { AxiosResponse } from 'axios';
 import { Loading, withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
+import RootComponent from 'components/TableComponents/RootComponent';
+import RowComponent from 'components/TableComponents/RowComponent';
 import api from 'lib/api';
 import { DASH_BOARD_TITLES } from 'lib/constants';
 import { TASKS_APP } from 'lib/session';
@@ -41,8 +43,6 @@ import {
 } from 'lib/utils';
 import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
 import React, { FC, useContext, useEffect, useState } from 'react';
-import RootComponent from 'components/TableComponents/RootComponent';
-import RowComponent from 'components/TableComponents/RowComponent';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
 import { IProps, IRow } from './types';
@@ -71,7 +71,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
       // Сортируем по умолчанию по сроку исполнения
       { columnName: 'dead_line', direction: 'asc' },
     ],
-    pageSizes: [1,5, 10, 20],
+    pageSizes: [5, 10, 20],
     pageSize: 5,
     totalCount: 0,
     currentPage: 0,
