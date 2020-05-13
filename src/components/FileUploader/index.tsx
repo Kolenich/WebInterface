@@ -9,7 +9,6 @@ import { useSnackbar } from 'notistack';
 import React, {
   forwardRef,
   ForwardRefRenderFunction,
-  Ref,
   useImperativeHandle,
   useRef,
   useState,
