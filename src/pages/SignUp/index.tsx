@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosResponse } from 'axios';
 import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
@@ -71,7 +70,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
    */
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setAccount((oldAccount: IAccount) => ({ ...oldAccount, [name]: value }));
+    setAccount((oldAccount) => ({ ...oldAccount, [name]: value }));
   };
 
   /**
@@ -80,7 +79,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
    */
   const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setAccount((oldAccount: IAccount) => ({ ...oldAccount, [name]: checked }));
+    setAccount((oldAccount) => ({ ...oldAccount, [name]: checked }));
   };
 
   /**
@@ -95,13 +94,12 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
    */
   const handleSubmit = async () => {
     setLoading(true);
-    const sendData: IAccount = { ...account };
+    const sendData = { ...account };
     if (!account.middle_name) {
       delete account.middle_name;
     }
     try {
-      const response: AxiosResponse =
-        await api.sendContent('profiles/registrate', sendData, USERS_APP);
+      const response = await api.sendContent('profiles/registrate', sendData, USERS_APP);
       const { detail } = response.data;
       enqueueSnackbar(detail, { variant: 'success' });
       // Через 2 секунды перенаправляем на страницу входа
@@ -110,7 +108,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
       showError(error);
       if (error.response) {
         const { errors: errorsList } = error.response.data;
-        setErrors((oldErrors: IErrors): IErrors => ({ ...oldErrors, ...errorsList }));
+        setErrors((oldErrors): IErrors => ({ ...oldErrors, ...errorsList }));
       }
       // Через 3 секунды гасим ошибки
       setTimeout(resetErrors, 3000);

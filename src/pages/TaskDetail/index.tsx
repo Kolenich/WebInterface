@@ -52,9 +52,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
   const loadTask = () => {
     const { id } = match.params;
     api.getContent<ITaskDetail>(`tasks/${id}/detail`)
-      .then((response: AxiosResponse<ITaskDetail>) => (
-        setTask((): ITaskDetail => response.data)
-      ))
+      .then((response: AxiosResponse<ITaskDetail>) => setTask(response.data))
       .catch((error: AxiosError) => showError(error, 'dialog'))
       .finally(() => setLoaded(true));
   };
@@ -75,7 +73,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
         TASKS_APP,
         'patch',
       );
-      setTask((oldTask: ITaskDetail): ITaskDetail => ({
+      setTask((oldTask) => ({
         ...oldTask,
         ...data,
         assigned_by: oldTask.assigned_by,

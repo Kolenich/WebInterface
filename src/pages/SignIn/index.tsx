@@ -62,7 +62,7 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
    */
   const handleLoginChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setLogin((oldLogin: ILogin) => ({ ...oldLogin, [name]: value }));
+    setLogin((oldLogin) => ({ ...oldLogin, [name]: value }));
   };
 
   /**
@@ -71,7 +71,7 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
    */
   const handleStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setStatus((oldStatus: IStatus) => ({ ...oldStatus, [name]: checked }));
+    setStatus((oldStatus) => ({ ...oldStatus, [name]: checked }));
   };
 
   /**
@@ -88,13 +88,13 @@ const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
    * Функция логина
    */
   const handleLogin = async () => {
-    setStatus((oldStatus: IStatus) => ({ ...oldStatus, loading: true }));
+    setStatus((oldStatus) => ({ ...oldStatus, loading: true }));
     try {
       await auth.login(login.username, login.password);
       history.push({ pathname: '/' });
     } catch (error) {
       showError(error);
-      setStatus((oldStatus: IStatus) => ({ ...oldStatus, loading: false }));
+      setStatus((oldStatus) => ({ ...oldStatus, loading: false }));
     }
   };
 

@@ -17,7 +17,6 @@
     "date-fns": "^2.0.0-alpha.27",
     "drf-auth": "^1.0.1",
     "filepond": "^4.7.4",
-    "moment": "^2.24.0",
     "notistack": "^0.9.5",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",

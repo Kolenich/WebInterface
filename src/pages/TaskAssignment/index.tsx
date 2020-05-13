@@ -58,9 +58,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
    */
   const loadUsers = () => {
     api.getContent<ISelectItem[]>('profiles/assigner', {}, USERS_APP)
-      .then((response: AxiosResponse<ISelectItem[]>) => (
-        setUsers(response.data)
-      ));
+      .then((response: AxiosResponse<ISelectItem[]>) => setUsers(response.data));
   };
 
   /**
@@ -69,7 +67,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
    * @param {ValueType<ISelectItem>} option выбранная опция
    */
   const handleSelectChange = (event: ChangeEvent<{}>, option: ISelectItem | null) => (
-    setTask((oldTask: ITask) => ({ ...oldTask, assigned_to: option ? option.value : null }))
+    setTask((oldTask) => ({ ...oldTask, assigned_to: option ? option.value : null }))
   );
 
   /**
@@ -78,7 +76,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
    */
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setTask((oldTask: ITask) => ({ ...oldTask, [name]: value }));
+    setTask((oldTask) => ({ ...oldTask, [name]: value }));
   };
 
   /**
@@ -86,7 +84,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
    * @param {keyof ITask} name  поле даты
    */
   const handleDateChange = (name: keyof ITask) => (date: MaterialUiPickersDate) => (
-    setTask((oldTask: ITask) => ({ ...oldTask, [name]: date }))
+    setTask((oldTask) => ({ ...oldTask, [name]: date }))
   );
 
   /**
@@ -100,8 +98,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
       const copiedTask: ITask = JSON.parse(JSON.stringify(task));
       delete copiedTask.attachment;
       // Создаем задание без вложения
-      const { data, status }: AxiosResponse<ITask> =
-        await api.sendContent('tasks/assign', copiedTask);
+      const { data, status } = await api.sendContent('tasks/assign', copiedTask);
 
       // После создания задания если было приложено вложение, прикрепляем вложение
       if (attachment) {

@@ -85,7 +85,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {Sorting[]} sorting массив сортировок
    */
   const changeSorting = (sorting: Sorting[]) => (
-    setTable((oldTable: ITable<IRow>) => ({ ...oldTable, sorting }))
+    setTable((oldTable) => ({ ...oldTable, sorting }))
   );
 
   /**
@@ -93,7 +93,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {number} pageSize размер страницы
    */
   const changePageSize = (pageSize: number) => (
-    setTable((oldTable: ITable<IRow>) => ({ ...oldTable, pageSize, currentPage: 0 }))
+    setTable((oldTable) => ({ ...oldTable, pageSize, currentPage: 0 }))
   );
 
   /**
@@ -101,7 +101,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {number} currentPage номер текущей страницы
    */
   const changeCurrentPage = (currentPage: number) => (
-    setTable((oldTable: ITable<IRow>) => ({ ...oldTable, currentPage }))
+    setTable((oldTable) => ({ ...oldTable, currentPage }))
   );
 
   /**
@@ -109,7 +109,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {Filter[]} filters массив фильтров
    */
   const changeFilters = (filters: Filter[]) => (
-    setTable((oldTable: ITable<IRow>) => ({ ...oldTable, filters }))
+    setTable((oldTable) => ({ ...oldTable, filters }))
   );
 
   /**
@@ -117,7 +117,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    * @param {"completed" | "in-process"} filter параметр для фильтра
    * @returns {boolean} фильтр
    */
-  const taskFilter = (filter: 'completed' | 'in-process'): boolean => filter === 'completed';
+  const taskFilter = (filter: 'completed' | 'in-process') => filter === 'completed';
 
   /**
    * Метод для загрузи данных в таблицу с сервера
@@ -134,7 +134,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
     api.getContent<IApiResponse<IRow>>('tasks/get-active-tasks', params, TASKS_APP)
       .then((response: AxiosResponse<IApiResponse<IRow>>) => {
         const { results: rows, count: totalCount } = response.data;
-        setTable((oldTable: ITable<IRow>) => ({ ...oldTable, rows, totalCount }));
+        setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
       })
       .catch(showError)
       .finally(() => setLoading(false));
@@ -143,9 +143,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
   /**
    * Функция для установки заголовка панели
    */
-  const setDashBoardTitle = () => (
-    updateDashBoardTitle(DASH_BOARD_TITLES[match.params.filter])
-  );
+  const setDashBoardTitle = () => updateDashBoardTitle(DASH_BOARD_TITLES[match.params.filter]);
 
   /**
    * Функция установки заголовка HTML-страницы

@@ -32,6 +32,7 @@
     "jsdoc-format": true,
     "indent": false,
     "no-for-in-array": true,
+    "ter-arrow-parens": true,
     "import-name": [
       false,
       {
