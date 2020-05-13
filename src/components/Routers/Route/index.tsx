@@ -1,10 +1,6 @@
 import { IProps } from 'components/Routers/types';
-import auth from 'lib/session';
 import React, { Attributes, createElement, FC } from 'react';
 import { Redirect, Route as RouteBase, RouteComponentProps } from 'react-router-dom';
-
-
-const checkToken = () => !!localStorage.getItem('Token');
 
 /**
  * Кастомный роутер
@@ -21,7 +17,7 @@ const Route: FC<IProps> = ({ component, authorized, ...rest }: IProps) => {
    * @returns {JSX.Element}
    */
   const publicRouter = (props: (RouteComponentProps & Attributes)) => (
-    checkToken()
+    !!localStorage.getItem('Token')
       ? <Redirect to={{ pathname: '/' }}/>
       : (createElement(component, props))
   );
@@ -32,7 +28,7 @@ const Route: FC<IProps> = ({ component, authorized, ...rest }: IProps) => {
    * @returns {JSX.Element}
    */
   const privateRouter = (props: (RouteComponentProps & Attributes)) => (
-    checkToken()
+    !!localStorage.getItem('Token')
       ? (createElement(component, props))
       : <Redirect to={{ pathname: '/sign-in', state: { from: props.location } }}/>
   );
