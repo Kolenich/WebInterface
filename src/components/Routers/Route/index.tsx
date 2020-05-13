@@ -10,7 +10,7 @@ import { Redirect, Route as RouteBase, RouteComponentProps } from 'react-router-
  * @returns {JSX.Element}
  * @constructor
  */
-const Route: FC<IProps> = ({ component, authorized, ...rest }: IProps) => {
+const Route: FC<IProps> = ({ component, authorized, ...rest }) => {
   /**
    * Роутер для неавторизованных пользователей
    * @param {RouteComponentProps & React.Attributes} props передаваемые пропсы

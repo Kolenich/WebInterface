@@ -34,7 +34,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
+const SignUpPage: FC<IProps> = ({ history, showError }) => {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();

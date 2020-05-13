@@ -28,7 +28,7 @@ const useStyles = makeStyles(styles);
  * @constructor
  */
 const Dialog: FC<IProps> =
-  ({ open, status, message, onClose, warningAcceptCallback }: IProps) => {
+  ({ open, status, message, onClose, warningAcceptCallback }) => {
     const classes = useStyles();
 
     /**

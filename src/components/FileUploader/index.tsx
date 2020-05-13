@@ -45,8 +45,8 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
   {
     multiple, maxFiles = 1, hint, uploaderText = 'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать', onFilesUpdate, base64, uploadTo, instantUpload,
     uploadCallback, field, onUploadError,
-  }: IProps,
-  ref: Ref<IUploaderImperativeProps>,
+  },
+  ref,
 ) => {
   const classes = useStyles();
 

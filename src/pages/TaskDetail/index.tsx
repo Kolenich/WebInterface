@@ -22,7 +22,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
+const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
   const classes = useStyles();
 
   const {

@@ -13,7 +13,7 @@ const phoneMask: maskArray =
  * @returns {JSX.Element}
  * @constructor
  */
-export const PhoneMask: FC<IProps> = ({ inputRef, ...props }: IProps) => (
+export const PhoneMask: FC<IProps> = ({ inputRef, ...props }) => (
   <MaskedInput
     {...props}
     ref={ref => inputRef(ref ? ref.inputElement : null)}

@@ -47,7 +47,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const DashBoard: FC<IProps> = ({ history, location, showError }: IProps) => {
+const DashBoard: FC<IProps> = ({ history, location, showError }) => {
   const classes = useStyles();
   const theme = useTheme<Theme>();
 

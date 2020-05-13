@@ -12,7 +12,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const AttachmentPreview: FC<IProps> = ({ attachment }: IProps) => {
+const AttachmentPreview: FC<IProps> = ({ attachment }) => {
   const classes = useStyles();
 
   return (

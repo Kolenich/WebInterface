@@ -32,7 +32,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const SignInPage: FC<IProps> = ({ history, showError }: IProps) => {
+const SignInPage: FC<IProps> = ({ history, showError }) => {
   const classes = useStyles();
 
   const { getters: { documentTitle } } = useContext<IGlobalState>(Context);

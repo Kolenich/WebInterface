@@ -31,7 +31,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskAssignment: FC<IProps> = ({ openDialog, showError }: IProps) => {
+const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
   const classes = useStyles();
 
   const {

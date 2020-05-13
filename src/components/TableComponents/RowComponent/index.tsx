@@ -14,7 +14,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const RowComponent: FC<IProps> = ({ children, ...props }: IProps) => {
+const RowComponent: FC<IProps> = ({ children, ...props }) => {
   const classes = useStyles();
 
   const history = useHistory();

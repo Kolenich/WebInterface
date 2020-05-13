@@ -10,7 +10,7 @@ import { IProps } from '../types';
  * @returns {JSX.Element}
  * @constructor
  */
-const EmailMask: FC<IProps> = ({ inputRef, ...props }: IProps) => (
+const EmailMask: FC<IProps> = ({ inputRef, ...props }) => (
   <MaskedInput
     {...props}
     ref={ref => inputRef(ref ? ref.inputElement : null)}

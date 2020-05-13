@@ -18,7 +18,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const AutoComplete: FC<IProps> = ({ options, label, onChange, value }: IProps) => {
+const AutoComplete: FC<IProps> = ({ options, label, onChange, value }) => {
   const classes = useStyles();
 
   const [option, setOption] = useState<ISelectItem | null>(null);

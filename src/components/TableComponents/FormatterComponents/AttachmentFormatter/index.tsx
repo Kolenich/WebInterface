@@ -10,7 +10,7 @@ import { IProps } from './types';
  * @returns {JSX.Element}
  * @constructor
  */
-const AttachmentFormatter: FC<IProps> = ({ value }: IProps) => {
+const AttachmentFormatter: FC<IProps> = ({ value }) => {
   const Component = value ? Link : Typography;
 
   let options: Partial<TypographyProps | LinkBaseProps> = { variant: 'body2' };

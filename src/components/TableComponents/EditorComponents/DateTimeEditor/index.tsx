@@ -16,7 +16,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const DateTimeEditor: FC<IProps> = ({ onValueChange, value }: IProps) => {
+const DateTimeEditor: FC<IProps> = ({ onValueChange, value }) => {
   const classes = useStyles();
 
   /**

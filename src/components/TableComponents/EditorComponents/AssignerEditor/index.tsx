@@ -19,7 +19,7 @@ const useStyles = makeStyles(styles);
  * @returns {JSX.Element}
  * @constructor
  */
-const AssignerEditor: FC<IProps> = ({ onValueChange, value = '' }: IProps) => {
+const AssignerEditor: FC<IProps> = ({ onValueChange, value = '' }) => {
   const classes = useStyles();
 
   const [users, setUsers] = useState<ISelectItem[]>([]);
