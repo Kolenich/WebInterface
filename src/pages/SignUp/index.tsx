@@ -101,7 +101,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }: IProps) => {
     }
     try {
       const response: AxiosResponse =
-        await api.sendContent('profile/registrate', sendData, USERS_APP);
+        await api.sendContent('profiles/registrate', sendData, USERS_APP);
       const { detail } = response.data;
       enqueueSnackbar(detail, { variant: 'success' });
       // Через 2 секунды перенаправляем на страницу входа

@@ -51,7 +51,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }: IProps) => {
    */
   const loadTask = () => {
     const { id } = match.params;
-    api.getContent<ITaskDetail>(`task/${id}/detail`)
+    api.getContent<ITaskDetail>(`tasks/${id}/detail`)
       .then((response: AxiosResponse<ITaskDetail>) => (
         setTask((): ITaskDetail => response.data)
       ))

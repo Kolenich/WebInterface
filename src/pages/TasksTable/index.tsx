@@ -71,7 +71,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
       // Сортируем по умолчанию по сроку исполнения
       { columnName: 'dead_line', direction: 'asc' },
     ],
-    pageSizes: [5, 10, 20],
+    pageSizes: [1,5, 10, 20],
     pageSize: 5,
     totalCount: 0,
     currentPage: 0,
@@ -131,7 +131,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
       // В зависимости от выбранного пункта меню фильтруем список заданий
       done: taskFilter(match.params.filter),
     };
-    api.getContent<IApiResponse<IRow>>('task-table', params, TASKS_APP)
+    api.getContent<IApiResponse<IRow>>('tasks/get-active-tasks', params, TASKS_APP)
       .then((response: AxiosResponse<IApiResponse<IRow>>) => {
         const { results: rows, count: totalCount } = response.data;
         setTable((oldTable: ITable<IRow>) => ({ ...oldTable, rows, totalCount }));
