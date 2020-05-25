@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
 import { IDialogProps, IDialogStatus } from 'components/Dialog/types';
 import { Dialog } from 'components/index';
-import auth from 'lib/session';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
+import auth from 'lib/session';
 import { useSnackbar } from 'notistack';
 import React, { ComponentType, useState } from 'react';
 import { useHistory } from 'react-router';

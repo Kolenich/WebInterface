@@ -214,7 +214,7 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
           />
 
           <TableColumnReordering
-            defaultOrder={tableSettings.columns.map(column => column.name)}
+            defaultOrder={tableSettings.columns.map((column) => column.name)}
           />
 
           <TableHeaderRow

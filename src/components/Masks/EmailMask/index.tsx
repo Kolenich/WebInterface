@@ -13,7 +13,7 @@ import { IProps } from '../types';
 const EmailMask: FC<IProps> = ({ inputRef, ...props }) => (
   <MaskedInput
     {...props}
-    ref={ref => inputRef(ref ? ref.inputElement : null)}
+    ref={(ref) => inputRef(ref ? ref.inputElement : null)}
     mask={emailMask}
     showMask
   />
