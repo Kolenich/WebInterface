@@ -119,7 +119,6 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
           selected={location.pathname === '/my-tasks/in-process'}
           component={Link}
           to="/my-tasks/in-process"
-          onClick={closeDrawer}
         >
           <ListItemIcon>
             <ProcessIcon/>
@@ -131,7 +130,6 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
           component={Link}
           selected={location.pathname === '/my-tasks/completed'}
           to="/my-tasks/completed"
-          onClick={closeDrawer}
         >
           <ListItemIcon>
             <CompletedTasksIcon/>
