@@ -68,7 +68,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
     const { id } = task;
     try {
       const { data, status }: AxiosResponse<ITaskDetail> = await api.sendContent(
-        `task/${id}`,
+        `tasks/${id}`,
         sendData,
         TASKS_APP,
         'patch',

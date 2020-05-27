@@ -2,6 +2,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
+import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import React, { FC } from 'react';
 import styles from './styles';
@@ -24,11 +25,11 @@ const DateTimeEditor: FC<IProps> = ({ onValueChange, value }) => {
    * @param {MaterialUiPickersDate} date новая дата
    */
   const handleChange = (date: MaterialUiPickersDate) => {
-    let value: null | Date = null;
     if (date) {
-      value = date;
+      onValueChange(format(date as Date, 'yyyy-MM-dd HH:mm:SS'));
+    } else {
+      onValueChange(null);
     }
-    onValueChange(value);
   };
 
   let displayValue = null;
@@ -44,7 +45,6 @@ const DateTimeEditor: FC<IProps> = ({ onValueChange, value }) => {
         className={classes.datePicker}
         onChange={handleChange}
         format="dd MMMM yyyy HH:mm"
-        disablePast
         animateYearScrolling
         clearable
         okLabel="Ок"

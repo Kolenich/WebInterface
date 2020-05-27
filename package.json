@@ -18,6 +18,7 @@
     "drf-auth": "^1.0.1",
     "filepond": "^4.7.4",
     "notistack": "^0.9.5",
+    "query-string": "^6.12.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-filepond": "^7.0.1",

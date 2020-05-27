@@ -40,8 +40,10 @@ import {
   getPaginationConfig,
   getSortingConfig,
   useMountEffect,
+  useUpdateEffect,
 } from 'lib/utils';
 import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
+import queryString from 'query-string';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
@@ -53,10 +55,12 @@ const useStyles = makeStyles(styles);
  * Компонент таблицы для отображения всех заданий у пользователя
  * @param {match<IFilterParams>} match передаваемые параметры в адресную строку
  * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вывода ошибки
- * @returns {JSX.Element}
+ * @param {History<LocationState>} history история
+ * @param {Location<LocationState>} location текущая локация
+ * @return {JSX.Element}
  * @constructor
  */
-const TasksTable: FC<IProps> = ({ match, showError }) => {
+const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
   const classes = useStyles();
 
   const {
@@ -120,24 +124,44 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
   const taskFilter = (filter: 'completed' | 'in-process') => filter === 'completed';
 
   /**
-   * Метод для загрузи данных в таблицу с сервера
+   * Функция наччального выставления параметров в строку
    */
-  const loadData = () => {
-    setLoading(true);
-    const params: IGetConfig = {
+  const setInitialSearchParams = () => {
+    if (!location.search) {
+      setSearchParams();
+    }
+  };
+
+  /**
+   * Функция-эффект для выставления параметров в поисковую строку
+   */
+  const setSearchParams = () => history.push({
+    pathname: location.pathname, search: queryString.stringify({
       ...getPaginationConfig(table.pageSize!, table.currentPage!),
       ...getFilteringConfig(table.filters!, tasksFilterLookUps),
       ...getSortingConfig(table.sorting!, tasksSortingLookUps),
-      // В зависимости от выбранного пункта меню фильтруем список заданий
-      done: taskFilter(match.params.filter),
-    };
-    api.getContent<IApiResponse<IRow>>('tasks/get-active-tasks', params, TASKS_APP)
-      .then((response: AxiosResponse<IApiResponse<IRow>>) => {
-        const { results: rows, count: totalCount } = response.data;
-        setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
-      })
-      .catch(showError)
-      .finally(() => setLoading(false));
+    }),
+  });
+
+  /**
+   * Метод для загрузи данных в таблицу с сервера
+   */
+  const loadData = () => {
+    if (location.search) {
+      setLoading(true);
+      const params: IGetConfig = {
+        ...queryString.parse(location.search),
+        // В зависимости от выбранного пункта меню фильтруем список заданий
+        done: taskFilter(match.params.filter),
+      };
+      api.getContent<IApiResponse<IRow>>('tasks/get-active-tasks', params, TASKS_APP)
+        .then((response: AxiosResponse<IApiResponse<IRow>>) => {
+          const { results: rows, count: totalCount } = response.data;
+          setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
+        })
+        .catch(showError)
+        .finally(() => setLoading(false));
+    }
   };
 
   /**
@@ -159,14 +183,18 @@ const TasksTable: FC<IProps> = ({ match, showError }) => {
    */
   const getRowId = (row: IRow) => row.id!;
 
-  useEffect(
-    loadData,
-    [table.currentPage, table.pageSize, table.filters, table.sorting, match.params.filter],
-  );
+  useMountEffect(setDocumentTitle);
+  useMountEffect(setInitialSearchParams);
 
+  // Выгружаем данные только при смене урла
+  useEffect(loadData, [location.search, match.params.filter]);
   useEffect(setDashBoardTitle, [match.params.filter]);
 
-  useMountEffect(setDocumentTitle);
+  // Меняем параметры урла при смене состояния таблицы
+  useUpdateEffect(
+    setSearchParams,
+    [table.currentPage, table.pageSize, table.filters, table.sorting, match.params.filter],
+  );
 
   return (
     <>
