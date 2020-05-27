@@ -145,7 +145,6 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
           selected={location.pathname === '/assign'}
           component={Link}
           to="/assign"
-          onClick={closeDrawer}
         >
           <ListItemIcon>
             <AddCircle/>
