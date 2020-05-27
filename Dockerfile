@@ -1,4 +1,4 @@
-FROM node:13-alpine AS build
+FROM node:alpine AS build
 
 LABEL maintainer="nick.zhigalin@gmail.com"
 
@@ -12,7 +12,7 @@ COPY . /app
 
 RUN yarn build
 
-FROM nginx:1.17-alpine
+FROM nginx:alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
 
