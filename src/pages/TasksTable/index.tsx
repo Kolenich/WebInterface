@@ -36,15 +36,18 @@ import {
 } from 'lib/translate';
 import { IApiResponse, IGetConfig, ITable } from 'lib/types';
 import {
+  getCurrentPageState,
   getFilteringConfig,
+  getFiltersState,
   getPaginationConfig,
   getSortingConfig,
+  getSortingState,
   useMountEffect,
   useUpdateEffect,
 } from 'lib/utils';
 import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
 import queryString from 'query-string';
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
 import { IProps, IRow } from './types';
@@ -67,18 +70,30 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
     setters: { updateDashBoardTitle }, getters: { documentTitle },
   } = useContext<IGlobalState>(Context);
 
+  /**
+   * Изначальные параметры состояния таблицы на основе строки запроса
+   * @type {Partial<ITable<IRow>>}
+   */
+  const initialParams: Partial<ITable<IRow>> = useMemo(
+    () => {
+      const queryParams = queryString.parse(location.search) as Partial<IGetConfig>;
+      return {
+        pageSize: Number(queryParams.limit) || 5,
+        currentPage: getCurrentPageState(queryParams.limit, queryParams.offset),
+        sorting: getSortingState(queryParams.ordering),
+        filters: getFiltersState(queryParams, tableSettings.columns),
+      };
+    },
+    [location.search],
+  );
+
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
     rows: [],
     filters: [],
-    sorting: [
-      // Сортируем по умолчанию по сроку исполнения
-      { columnName: 'dead_line', direction: 'asc' },
-    ],
     pageSizes: [5, 10, 20],
-    pageSize: 5,
     totalCount: 0,
-    currentPage: 0,
+    ...initialParams,
   });
 
   // Переменная состояния загрузки

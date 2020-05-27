@@ -1,5 +1,6 @@
-import { Filter, Sorting } from '@devexpress/dx-react-grid';
-import { ComponentType, DependencyList, EffectCallback, useEffect, useRef } from 'react';
+import { Column, Filter, Sorting, SortingDirection } from '@devexpress/dx-react-grid';
+import { tasksFilterLookUps } from 'pages/TasksTable/settings';
+import { ComponentType, DependencyList, EffectCallback, ReactText, useEffect, useRef } from 'react';
 import { FILTERING_PARAMS, PROXY_PREFIX, SORTING_PARAMS } from './constants';
 import { ActualFileObject, IDecorator, IGetConfig } from './types';
 
@@ -12,6 +13,16 @@ const getCurrentHost = () => {
   const arr = url.split('/');
   return `${arr[0]}//${arr[2]}${PROXY_PREFIX}`;
 };
+
+/**
+ * Функция получения ключа объекта по значению
+ * @param {any} obj объект поиска
+ * @param value значение
+ * @return {string | undefined}
+ */
+export const getKeyByValue = (obj: { [key: string]: unknown }, value: unknown) => (
+  Object.keys(obj).find((key) => obj[key] === value)
+);
 
 /**
  * Функция, генерирующая URL запроса для запросов на сервер
@@ -125,4 +136,56 @@ export const compose = <T>(decorators: IDecorator<T>[], Component: ComponentType
   }
 
   return WrappedComponent;
+};
+
+/**
+ * Функция получения состояния сортировки для таблицы из строки урла
+ * @param {string} sorting строка урла
+ * @return {Array<Sorting>}
+ */
+export const getSortingState = (sorting?: string) => {
+  if (!sorting) {
+    return [];
+  }
+  if (sorting.charAt(sorting.length - 1) === '-') {
+    return [{ columnName: sorting.slice(-1), direction: 'desc' as SortingDirection }];
+  }
+  return [{ columnName: sorting, direction: 'asc' as SortingDirection }];
+};
+
+/**
+ * Фугкция получения состояния текущей страницы в таблице
+ * @param {ReactText} limit параметр из строки урла
+ * @param {ReactText} offset параметр из строки урла
+ * @return {number} текущая страница
+ */
+export const getCurrentPageState = (limit?: ReactText, offset?: ReactText) => {
+  if (!(limit && offset)) {
+    return 0;
+  }
+  return Number(offset) / Number(limit);
+};
+
+/**
+ * Функция формирования фильтров для таблицы на основе строки запроса
+ * @param {Partial<IGetConfig>} params параметры строки запроса
+ * @param {Column[]} columns список колонок в таблице
+ * @return {Filter[]}
+ */
+export const getFiltersState = (params: Partial<IGetConfig>, columns: Column[]) => {
+  const filters: Filter[] = [];
+  const columnNames = columns.map((column) => column.name);
+
+  for (const key of Object.keys(params)) {
+    const [columnName, lookup] = key.split('__');
+    if (columnNames.includes(getKeyByValue(tasksFilterLookUps, columnName) || columnName)) {
+      const operation = getKeyByValue(FILTERING_PARAMS, `__${lookup}`) || 'equal';
+      filters.push({
+        operation,
+        columnName: getKeyByValue(tasksFilterLookUps, columnName) || columnName,
+        value: params[key] as string,
+      });
+    }
+  }
+  return filters;
 };

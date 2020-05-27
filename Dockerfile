@@ -1,7 +1,5 @@
 FROM node:alpine AS build
 
-LABEL maintainer="nick.zhigalin@gmail.com"
-
 WORKDIR /app
 
 COPY package.json yarn.lock /app/
