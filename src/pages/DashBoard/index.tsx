@@ -118,6 +118,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
           button
           selected={location.pathname === '/my-tasks/in-process'}
           component={Link}
+          onClick={closeDrawer}
           to="/my-tasks/in-process"
         >
           <ListItemIcon>
@@ -128,6 +129,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
         <ListItem
           button
           component={Link}
+          onClick={closeDrawer}
           selected={location.pathname === '/my-tasks/completed'}
           to="/my-tasks/completed"
         >
@@ -143,6 +145,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
         <ListItem
           button
           selected={location.pathname === '/assign'}
+          onClick={closeDrawer}
           component={Link}
           to="/assign"
         >
