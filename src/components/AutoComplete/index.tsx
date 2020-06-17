@@ -1,6 +1,6 @@
 import { TextField, Typography } from '@material-ui/core';
 import { Autocomplete as AutoCompleteBase } from '@material-ui/lab';
-import { RenderInputParams } from '@material-ui/lab/Autocomplete/Autocomplete';
+import { AutocompleteRenderInputParams } from '@material-ui/lab/Autocomplete/Autocomplete';
 import { makeStyles } from '@material-ui/styles';
 import React, { FC, useEffect, useState } from 'react';
 import { ISelectItem } from '../Select/types';
@@ -54,10 +54,10 @@ const AutoComplete: FC<IProps> = ({ options, label, onChange, value }) => {
 
   /**
    * Функция отрисовки поля для ввода
-   * @param {RenderInputParams} params входные параметры
+   * @param {AutocompleteRenderInputParams} params входные параметры
    * @returns {JSX.Element}
    */
-  const renderInput = (params: RenderInputParams) => (
+  const renderInput = (params: AutocompleteRenderInputParams) => (
     <TextField
       {...params}
       label={label}
