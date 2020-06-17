@@ -147,8 +147,8 @@ export const getSortingState = (sorting?: string) => {
   if (!sorting) {
     return [];
   }
-  if (sorting.charAt(sorting.length - 1) === '-') {
-    return [{ columnName: sorting.slice(-1), direction: 'desc' as SortingDirection }];
+  if (sorting.charAt(0) === '-') {
+    return [{ columnName: sorting.substr(1), direction: 'desc' as SortingDirection }];
   }
   return [{ columnName: sorting, direction: 'asc' as SortingDirection }];
 };
