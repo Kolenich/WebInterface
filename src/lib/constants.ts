@@ -1,12 +1,5 @@
 import { IDashBoardTitles, IFiltering, IServerResponses, ISorting } from './types';
 
-// Опции для форматирования даты
-export const DATE_OPTIONS = {
-  year: 'numeric',
-  month: 'long',
-  day: '2-digit',
-};
-
 // Опции для форматирования даты и времени
 export const DATETIME_OPTIONS = {
   year: 'numeric',

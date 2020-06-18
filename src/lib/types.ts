@@ -1,5 +1,5 @@
 import { Filter, Sorting } from '@devexpress/dx-react-grid';
-import { ComponentType, ReactText } from 'react';
+import { ReactText } from 'react';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
@@ -51,11 +51,6 @@ export interface ISelectElement {
   name?: string;
   /** Значение в DOM-элементе */
   value: unknown;
-}
-
-export interface IAuthResponse {
-  /** Возвращаемый токен */
-  key: string;
 }
 
 export interface IGetConfig {
@@ -120,5 +115,3 @@ export interface IAttachment {
 export interface IHeaders {
   [key: string]: string;
 }
-
-export type IDecorator<T> = (Component: ComponentType<T>) => ComponentType<T>;

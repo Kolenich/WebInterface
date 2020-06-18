@@ -1,8 +1,8 @@
 import { Column, Filter, Sorting, SortingDirection } from '@devexpress/dx-react-grid';
 import { tasksFilterLookUps } from 'pages/TasksTable/settings';
-import { ComponentType, DependencyList, EffectCallback, ReactText, useEffect, useRef } from 'react';
+import { DependencyList, EffectCallback, ReactText, useEffect, useRef } from 'react';
 import { FILTERING_PARAMS, PROXY_PREFIX, SORTING_PARAMS } from './constants';
-import { ActualFileObject, IDecorator, IGetConfig } from './types';
+import { ActualFileObject, IGetConfig } from './types';
 
 /**
  * Функция получения текущего хоста для запроса на сервер.
@@ -127,16 +127,6 @@ export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = [
  * @param {EffectCallback} effect выполняемый эффект
  */
 export const useMountEffect = (effect: EffectCallback) => useEffect(effect, []);
-
-export const compose = <T>(decorators: IDecorator<T>[], Component: ComponentType<T>) => {
-  let WrappedComponent = Component;
-
-  for (const decorator of decorators) {
-    WrappedComponent = decorator(WrappedComponent);
-  }
-
-  return WrappedComponent;
-};
 
 /**
  * Функция получения состояния сортировки для таблицы из строки урла

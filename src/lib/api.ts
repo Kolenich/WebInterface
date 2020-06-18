@@ -9,15 +9,9 @@ export default {
    * @param {string} app запрашиваемое приложение
    * @return {Promise<AxiosResponse<T>>}
    */
-  getContent: async <T, P extends {} = {}>(requestUrl: string, sendData?: P, app?: string) => {
-    let params = sendData;
-    if (!sendData) {
-      params = {} as P;
-    }
-    let prefix = app;
-    if (!prefix) {
-      prefix = TASKS_APP;
-    }
+  getContent: async <T, P = {}>(requestUrl: string, sendData?: P, app?: string) => {
+    const params = sendData || {};
+    const prefix = app || TASKS_APP;
     return await session.get<T>(`${prefix}/${requestUrl}/`, { params });
   },
   /**
@@ -32,14 +26,8 @@ export default {
   sendContent: async <T>(
     requestUrl: string, sendData: T, app?: string, sendMethod?: HTTPMethods, headers?: IHeaders,
   ) => {
-    let method = sendMethod;
-    if (!method) {
-      method = 'post';
-    }
-    let prefix = app;
-    if (!prefix) {
-      prefix = TASKS_APP;
-    }
+    const method = sendMethod || 'post';
+    const prefix = app || TASKS_APP;
     const data: T = sendData;
 
     const url = `${prefix}/${requestUrl}/`;
