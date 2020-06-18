@@ -1,11 +1,11 @@
 import { IconButton, makeStyles, MuiThemeProvider } from '@material-ui/core';
 import { Cancel, Done, Error } from '@material-ui/icons';
 import GlobalContext from 'components/GlobalContext';
+import Router from 'components/Routers';
 import theme from 'lib/theme';
 import { SnackbarKey, SnackbarProvider, WithSnackbarProps } from 'notistack';
 import React, { FC, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import Router from './components/Routers';
 import styles from './styles';
 
 const useStyles = makeStyles(styles);
