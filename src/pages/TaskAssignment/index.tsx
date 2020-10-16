@@ -96,7 +96,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
       // Копируем объект задания
       const { attachment } = task;
       const copiedTask: ITask = JSON.parse(JSON.stringify(task));
-      delete copiedTask.attachment;
+      copiedTask.attachment = null;
       // Создаем задание без вложения
       const { data, status } = await api.sendContent('tasks/assign', copiedTask);
 

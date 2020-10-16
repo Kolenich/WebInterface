@@ -1,5 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { FilePondFile } from 'filepond';
 import 'filepond/dist/filepond.min.css';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { session, source } from 'lib/session';
@@ -13,7 +14,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { File, FilePond } from 'react-filepond';
+import { FilePond } from 'react-filepond';
 import './style.css';
 import styles from './styles';
 import { IFile, IProps, IUploaderImperativeProps, ProcessServerConfigFunction } from './types';
@@ -57,10 +58,10 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
 
   /**
    * Функция обработки обновления файлов в дроп-зоне
-   * @param newFiles {File[]} обновленной массив файлов
+   * @param newFiles {FilePondFile[]} обновленной массив файлов
    */
-  const onUpdateFiles = async (newFiles: File[]) => {
-    const files: IFile[] = await Promise.all(newFiles.map(async (file: File) => {
+  const onUpdateFiles = async (newFiles: FilePondFile[]) => {
+    const files: IFile[] = await Promise.all(newFiles.map(async (file: FilePondFile) => {
       const { filename: file_name, fileType: file_mime, fileSize: file_size } = file;
       let fileObject: string | ActualFileObject = file.file;
       // Если передан флаг base64, перекодируем файлы в base64

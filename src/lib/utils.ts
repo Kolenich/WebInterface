@@ -1,18 +1,8 @@
 import { Column, Filter, Sorting, SortingDirection } from '@devexpress/dx-react-grid';
 import { tasksFilterLookUps } from 'pages/TasksTable/settings';
 import { DependencyList, EffectCallback, ReactText, useEffect, useRef } from 'react';
-import { FILTERING_PARAMS, PROXY_PREFIX, SORTING_PARAMS } from './constants';
+import { FILTERING_PARAMS, SORTING_PARAMS } from './constants';
 import { ActualFileObject, IGetConfig } from './types';
-
-/**
- * Функция получения текущего хоста для запроса на сервер.
- * @returns {string} имя хоста с протоколом
- */
-const getCurrentHost = () => {
-  const url = window.location.href;
-  const arr = url.split('/');
-  return `${arr[0]}//${arr[2]}${PROXY_PREFIX}`;
-};
 
 /**
  * Функция получения ключа объекта по значению

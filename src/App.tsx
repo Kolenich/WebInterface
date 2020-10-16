@@ -3,7 +3,7 @@ import { Cancel, Done, Error } from '@material-ui/icons';
 import GlobalContext from 'components/GlobalContext';
 import Router from 'components/Routers';
 import theme from 'lib/theme';
-import { SnackbarKey, SnackbarProvider, WithSnackbarProps } from 'notistack';
+import { SnackbarKey, SnackbarProvider } from 'notistack';
 import React, { FC, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import styles from './styles';
@@ -16,7 +16,7 @@ const useStyles = makeStyles(styles);
  * @constructor
  */
 const App: FC = () => {
-  const snackbarRef = useRef<WithSnackbarProps>(null);
+  const snackbarRef = useRef<SnackbarProvider>(null);
 
   const classes = useStyles();
 

@@ -49,5 +49,3 @@ export const DASH_BOARD_TITLES: IDashBoardTitles = {
   completed: 'Выполненные',
   'in-process': 'В процессе',
 };
-
-export const PROXY_PREFIX = '';
