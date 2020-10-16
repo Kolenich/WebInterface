@@ -213,6 +213,8 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
                 <Typography
                   className={classes.profileMenuLink}
                   color="primary"
+                  component="a"
+                  href={`mailto:${user.email}`}
                 >
                   {user.email}
                 </Typography>
