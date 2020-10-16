@@ -25,14 +25,6 @@ export const getKeyByValue = (obj: { [key: string]: unknown }, value: unknown) =
 );
 
 /**
- * Функция, генерирующая URL запроса для запросов на сервер
- * @param {boolean} production флаг продакшена
- */
-export const getBaseUrl = (production: boolean) => (
-  production ? getCurrentHost() : 'http://localhost:8080'
-);
-
-/**
  * Функция для распаковки массива объектов в один объект.
  * Используется для формирования конфига фильтрации при щзапросе на сервер
  * @param {T[]} arr массив из объектов
