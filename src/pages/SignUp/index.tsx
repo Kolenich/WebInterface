@@ -17,7 +17,6 @@ import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
-import { USERS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, useContext, useState } from 'react';
@@ -99,7 +98,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
       delete account.middle_name;
     }
     try {
-      const response = await api.sendContent('profiles/registrate', sendData, USERS_APP);
+      const response = await api.sendContent('users/profiles/registrate', sendData);
       const { detail } = response.data;
       enqueueSnackbar(detail, { variant: 'success' });
       // Через 2 секунды перенаправляем на страницу входа

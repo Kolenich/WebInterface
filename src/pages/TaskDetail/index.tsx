@@ -6,7 +6,6 @@ import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
-import { TASKS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useState } from 'react';
 import styles from './styles';
@@ -51,7 +50,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
    */
   const loadTask = () => {
     const { id } = match.params;
-    api.getContent<ITaskDetail>(`tasks/${id}/detail`)
+    api.getContent<ITaskDetail>(`tasks/${id}`)
       .then((response: AxiosResponse<ITaskDetail>) => setTask(response.data))
       .catch((error: AxiosError) => showError(error, 'dialog'))
       .finally(() => setLoaded(true));
@@ -70,7 +69,6 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
       const { data, status }: AxiosResponse<ITaskDetail> = await api.sendContent(
         `tasks/${id}`,
         sendData,
-        TASKS_APP,
         'patch',
       );
       setTask((oldTask) => ({

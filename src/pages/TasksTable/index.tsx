@@ -27,7 +27,6 @@ import RootComponent from 'components/TableComponents/RootComponent';
 import RowComponent from 'components/TableComponents/RowComponent';
 import api from 'lib/api';
 import { DASH_BOARD_TITLES } from 'lib/constants';
-import { TASKS_APP } from 'lib/session';
 import {
   filterRowMessages,
   pagingPanelMessages,
@@ -35,19 +34,9 @@ import {
   tableMessages,
 } from 'lib/translate';
 import { IApiResponse, IGetConfig, ITable } from 'lib/types';
-import {
-  getCurrentPageState,
-  getFilteringConfig,
-  getFiltersState,
-  getPaginationConfig,
-  getSortingConfig,
-  getSortingState,
-  useMountEffect,
-  useUpdateEffect,
-} from 'lib/utils';
-import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
-import queryString from 'query-string';
-import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
+import { useMountEffect } from 'lib/utils';
+import { tableSettings } from 'pages/TasksTable/settings';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
 import { IProps, IRow } from './types';
@@ -70,30 +59,15 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
     setters: { updateDashBoardTitle }, getters: { documentTitle },
   } = useContext<IGlobalState>(Context);
 
-  /**
-   * Изначальные параметры состояния таблицы на основе строки запроса
-   * @type {Partial<ITable<IRow>>}
-   */
-  const initialParams: Partial<ITable<IRow>> = useMemo(
-    () => {
-      const queryParams = queryString.parse(location.search) as Partial<IGetConfig>;
-      return {
-        pageSize: Number(queryParams.limit) || 5,
-        currentPage: getCurrentPageState(queryParams.limit, queryParams.offset),
-        sorting: getSortingState(queryParams.ordering),
-        filters: getFiltersState(queryParams, tableSettings.columns),
-      };
-    },
-    [location.search],
-  );
-
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
     rows: [],
     filters: [],
     pageSizes: [5, 10, 20],
     totalCount: 0,
-    ...initialParams,
+    pageSize: 5,
+    currentPage: 0,
+    sorting: [],
   });
 
   // Переменная состояния загрузки
@@ -139,44 +113,21 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
   const taskFilter = (filter: 'completed' | 'in-process') => filter === 'completed';
 
   /**
-   * Функция наччального выставления параметров в строку
-   */
-  const setInitialSearchParams = () => {
-    if (!location.search) {
-      setSearchParams();
-    }
-  };
-
-  /**
-   * Функция-эффект для выставления параметров в поисковую строку
-   */
-  const setSearchParams = () => history.push({
-    pathname: location.pathname, search: queryString.stringify({
-      ...getPaginationConfig(table.pageSize!, table.currentPage!),
-      ...getFilteringConfig(table.filters!, tasksFilterLookUps),
-      ...getSortingConfig(table.sorting!, tasksSortingLookUps),
-    }),
-  });
-
-  /**
    * Метод для загрузи данных в таблицу с сервера
    */
   const loadData = () => {
-    if (location.search) {
-      setLoading(true);
-      const params: IGetConfig = {
-        ...queryString.parse(location.search),
-        // В зависимости от выбранного пункта меню фильтруем список заданий
-        done: taskFilter(match.params.filter),
-      };
-      api.getContent<IApiResponse<IRow>>('tasks/get-active-tasks', params, TASKS_APP)
-        .then((response: AxiosResponse<IApiResponse<IRow>>) => {
-          const { results: rows, count: totalCount } = response.data;
-          setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
-        })
-        .catch(showError)
-        .finally(() => setLoading(false));
-    }
+    setLoading(true);
+    const params: IGetConfig = {
+      // В зависимости от выбранного пункта меню фильтруем список заданий
+      done: taskFilter(match.params.filter),
+    };
+    api.getContent<IApiResponse<IRow>>('tasks/dashboard', params)
+      .then((response: AxiosResponse<IApiResponse<IRow>>) => {
+        const { results: rows, count: totalCount } = response.data;
+        setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
+      })
+      .catch(showError)
+      .finally(() => setLoading(false));
   };
 
   /**
@@ -199,17 +150,10 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
   const getRowId = (row: IRow) => row.id!;
 
   useMountEffect(setDocumentTitle);
-  useMountEffect(setInitialSearchParams);
 
   // Выгружаем данные только при смене урла
   useEffect(loadData, [location.search, match.params.filter]);
   useEffect(setDashBoardTitle, [match.params.filter]);
-
-  // Меняем параметры урла при смене состояния таблицы
-  useUpdateEffect(
-    setSearchParams,
-    [table.currentPage, table.pageSize, table.filters, table.sorting, match.params.filter],
-  );
 
   return (
     <>

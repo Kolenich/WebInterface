@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
-import { USERS_APP } from 'lib/session';
 import { ISelectElement } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useState } from 'react';
@@ -34,7 +33,7 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value = '' }) => {
    * Функция выгрущзки всех юзеров в селект
    */
   const loadUsers = () => {
-    api.getContent<ISelectItem[]>('profiles/assigner', {}, USERS_APP)
+    api.getContent<ISelectItem[]>('users/assigner', {})
       .then((response: AxiosResponse<ISelectItem[]>) => (
         setUsers(response.data)
       ))

@@ -30,7 +30,7 @@ import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import DashBoardRouter from 'components/Routers/DashBoardRouter';
 import api from 'lib/api';
-import auth, { USERS_APP } from 'lib/session';
+import auth from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import React, { FC, MouseEvent, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -101,7 +101,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
    * Функция выгрузки данных о пользователе
    */
   const loadUser = () => {
-    api.getContent<IProfileUser>('profiles/detail', {}, USERS_APP)
+    api.getContent<IProfileUser>('users/detail', {})
       .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
       .catch(showError);
   };

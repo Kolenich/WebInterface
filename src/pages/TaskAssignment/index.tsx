@@ -16,7 +16,6 @@ import { IGlobalState } from 'components/GlobalContext/types';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { SERVER_RESPONSES } from 'lib/constants';
-import { TASKS_APP, USERS_APP } from 'lib/session';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useCallback, useContext, useRef, useState } from 'react';
 import styles from './styles';
@@ -57,7 +56,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
    * Функция выгрузки всех юзеров, которым можно назначить задание
    */
   const loadUsers = () => {
-    api.getContent<ISelectItem[]>('profiles/assigner', {}, USERS_APP)
+    api.getContent<ISelectItem[]>('users/assigner', {})
       .then((response: AxiosResponse<ISelectItem[]>) => setUsers(response.data));
   };
 
@@ -94,11 +93,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
     openDialog('', 'loading');
     try {
       // Копируем объект задания
-      const { attachment } = task;
-      const copiedTask: ITask = JSON.parse(JSON.stringify(task));
-      copiedTask.attachment = null;
+      const { attachment, ...copiedTask } = task;
       // Создаем задание без вложения
-      const { data, status } = await api.sendContent('tasks/assign', copiedTask);
+      const { data, status } = await api.sendContent('tasks', copiedTask);
 
       // После создания задания если было приложено вложение, прикрепляем вложение
       if (attachment) {
@@ -113,21 +110,20 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
         await api.sendContent(
           `tasks/${data.id}/attach-file`,
           formData,
-          TASKS_APP,
           'post',
           { 'Content-Type': 'multipart/form-data' },
         );
       }
 
       openDialog(SERVER_RESPONSES[status], 'success');
-      setTask((): ITask => ({
+      setTask({
         summary: '',
         description: '',
         comment: '',
         dead_line: null,
         assigned_to: '',
         attachment: null,
-      }));
+      });
       // Очищаем область загрузчика
       if (uploader.current) {
         uploader.current.removeFiles();
