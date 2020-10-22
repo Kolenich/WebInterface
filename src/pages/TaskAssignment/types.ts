@@ -22,3 +22,12 @@ export interface ITask {
   /** Объект вложения */
   attachment: IAttachment | null;
 }
+
+export interface IUserAssigner {
+  /** Первичный ключ пользователя */
+  pk: number;
+  /** Фамилия пользователя */
+  last_name: string;
+  /** Имя пользователя */
+  first_name: string;
+}

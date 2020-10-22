@@ -19,7 +19,7 @@ import { IErrors } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useCallback, useContext, useRef, useState } from 'react';
 import styles from './styles';
-import { IProps, ITask } from './types';
+import { IProps, ITask, IUserAssigner } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -58,8 +58,12 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
    * Функция выгрузки всех юзеров, которым можно назначить задание
    */
   const loadUsers = () => {
-    api.getContent<ISelectItem[]>('users/assigner/', {})
-      .then((response: AxiosResponse<ISelectItem[]>) => setUsers(response.data));
+    api.getContent<IUserAssigner[]>('users/assigner/', {})
+      .then((response: AxiosResponse<IUserAssigner[]>) => setUsers(response.data.map((user) => ({
+        key: user.pk,
+        value: user.pk,
+        label: `${user.last_name} ${user.first_name}`,
+      }))));
   };
 
   /**

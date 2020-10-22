@@ -6,6 +6,7 @@ import api from 'lib/api';
 import { ISelectElement } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useState } from 'react';
+import { IUserAssigner } from '../../../../pages/TaskAssignment/types';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -33,11 +34,12 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value = '' }) => {
    * Функция выгрущзки всех юзеров в селект
    */
   const loadUsers = () => {
-    api.getContent<ISelectItem[]>('users/assigner/', {})
-      .then((response: AxiosResponse<ISelectItem[]>) => (
-        setUsers(response.data)
-      ))
-      .catch();
+    api.getContent<IUserAssigner[]>('users/assigner/', {})
+      .then((response: AxiosResponse<IUserAssigner[]>) => setUsers(response.data.map((user) => ({
+        key: user.pk,
+        value: user.pk,
+        label: `${user.last_name} ${user.first_name}`,
+      }))));
   };
 
   useMountEffect(loadUsers);

@@ -34,8 +34,13 @@ import {
   tableMessages,
 } from 'lib/translate';
 import { IApiResponse, IGetConfig, ITable } from 'lib/types';
-import { useMountEffect } from 'lib/utils';
-import { tableSettings } from 'pages/TasksTable/settings';
+import {
+  getFilteringConfig,
+  getPaginationConfig,
+  getSortingConfig,
+  useMountEffect,
+} from 'lib/utils';
+import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
@@ -129,6 +134,9 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
   const loadData = () => {
     setLoading(true);
     const params: IGetConfig = {
+      ...getPaginationConfig(table.pageSize!, table.currentPage!),
+      ...getFilteringConfig(table.filters!, tasksFilterLookUps),
+      ...getSortingConfig(table.sorting!, tasksSortingLookUps),
       // В зависимости от выбранного пункта меню фильтруем список заданий
       ...urlFilter(match.params.filter),
     };
@@ -163,7 +171,10 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
   useMountEffect(setDocumentTitle);
 
   // Выгружаем данные только при смене урла
-  useEffect(loadData, [location.search, match.params.filter]);
+  useEffect(
+    loadData,
+    [table.filters, table.sorting, table.pageSize, table.currentPage, match.params.filter],
+  );
   useEffect(setDashBoardTitle, [match.params.filter]);
 
   return (
