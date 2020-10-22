@@ -22,7 +22,7 @@ const RowComponent: FC<IProps> = ({ children, ...props }) => {
   /**
    * Функция, перенаправляющая на страницу деталей задания
    */
-  const handleClick = () => history.push({ pathname: `/my-tasks/${props.row.id}` });
+  const handleClick = () => history.push({ pathname: `/tasks/${props.row.id}` });
 
   return (
     <Table.Row {...props} onDoubleClick={handleClick} className={classes.row}>

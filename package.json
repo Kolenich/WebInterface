@@ -14,7 +14,6 @@
     "@material-ui/styles": "^4.10.0",
     "axios": "^0.20.0",
     "date-fns": "^2.16.1",
-    "drf-auth": "^1.1.4",
     "filepond": "^4.21.1",
     "notistack": "^1.0.1",
     "react": "^16.14.0",

@@ -33,7 +33,7 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value = '' }) => {
    * Функция выгрущзки всех юзеров в селект
    */
   const loadUsers = () => {
-    api.getContent<ISelectItem[]>('users/assigner', {})
+    api.getContent<ISelectItem[]>('users/assigner/', {})
       .then((response: AxiosResponse<ISelectItem[]>) => (
         setUsers(response.data)
       ))

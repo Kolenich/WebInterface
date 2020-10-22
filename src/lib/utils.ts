@@ -2,6 +2,24 @@ import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
 import { ActualFileObject } from './types';
 
 /**
+ * Функция получения текущего хоста для запроса на сервер.
+ * @returns {string} имя хоста с протоколом
+ */
+const getCurrentHost = () => {
+  const url = window.location.href;
+  const arr = url.split('/');
+  return `${arr[0]}//${arr[2]}`;
+};
+
+/**
+ * Функция, генерирующая URL запроса для запросов на сервер
+ * @param {boolean} production флаг продакшена
+ */
+export const getBaseUrl = (production: boolean) => (
+  production ? getCurrentHost() : 'http://localhost:8000'
+);
+
+/**
  * Функция для распаковки массива объектов в один объект.
  * Используется для формирования конфига фильтрации при щзапросе на сервер
  * @param {T[]} arr массив из объектов

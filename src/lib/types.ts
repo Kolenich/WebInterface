@@ -114,4 +114,5 @@ export interface IAttachment {
 
 export interface IHeaders {
   [key: string]: string;
+
 }

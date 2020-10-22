@@ -50,7 +50,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
    */
   const loadTask = () => {
     const { id } = match.params;
-    api.getContent<ITaskDetail>(`tasks/${id}`)
+    api.getContent<ITaskDetail>(`tasks/${id}/`)
       .then((response: AxiosResponse<ITaskDetail>) => setTask(response.data))
       .catch((error: AxiosError) => showError(error, 'dialog'))
       .finally(() => setLoaded(true));
@@ -67,7 +67,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
     const { id } = task;
     try {
       const { data, status }: AxiosResponse<ITaskDetail> = await api.sendContent(
-        `tasks/${id}`,
+        `tasks/${id}/`,
         sendData,
         'patch',
       );

@@ -98,7 +98,7 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
       delete account.middle_name;
     }
     try {
-      const response = await api.sendContent('users/profiles/registrate', sendData);
+      const response = await api.sendContent('users/registrate/', sendData);
       const { detail } = response.data;
       enqueueSnackbar(detail, { variant: 'success' });
       // Через 2 секунды перенаправляем на страницу входа

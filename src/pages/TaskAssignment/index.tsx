@@ -56,7 +56,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
    * Функция выгрузки всех юзеров, которым можно назначить задание
    */
   const loadUsers = () => {
-    api.getContent<ISelectItem[]>('users/assigner', {})
+    api.getContent<ISelectItem[]>('users/assigner/', {})
       .then((response: AxiosResponse<ISelectItem[]>) => setUsers(response.data));
   };
 
@@ -95,7 +95,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
       // Копируем объект задания
       const { attachment, ...copiedTask } = task;
       // Создаем задание без вложения
-      const { data, status } = await api.sendContent('tasks', copiedTask);
+      const { data, status } = await api.sendContent('tasks/', copiedTask);
 
       // После создания задания если было приложено вложение, прикрепляем вложение
       if (attachment) {
@@ -108,7 +108,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
           }
         }
         await api.sendContent(
-          `tasks/${data.id}/attach-file`,
+          `tasks/${data.id}/attach-file/`,
           formData,
           'post',
           { 'Content-Type': 'multipart/form-data' },

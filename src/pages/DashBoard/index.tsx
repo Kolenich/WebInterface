@@ -30,7 +30,7 @@ import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import DashBoardRouter from 'components/Routers/DashBoardRouter';
 import api from 'lib/api';
-import auth from 'lib/session';
+import auth from 'lib/auth';
 import { useMountEffect } from 'lib/utils';
 import React, { FC, MouseEvent, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -101,7 +101,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
    * Функция выгрузки данных о пользователе
    */
   const loadUser = () => {
-    api.getContent<IProfileUser>('users/detail', {})
+    api.getContent<IProfileUser>('users/detail/', {})
       .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
       .catch(showError);
   };
@@ -116,10 +116,10 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
         <ListSubheader inset disableGutters>Мои задания</ListSubheader>
         <ListItem
           button
-          selected={location.pathname === '/my-tasks/in-process'}
+          selected={location.pathname === '/tasks/in-process'}
           component={Link}
           onClick={closeDrawer}
-          to="/my-tasks/in-process"
+          to="/tasks/in-process"
         >
           <ListItemIcon>
             <ProcessIcon/>
@@ -130,8 +130,8 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
           button
           component={Link}
           onClick={closeDrawer}
-          selected={location.pathname === '/my-tasks/completed'}
-          to="/my-tasks/completed"
+          selected={location.pathname === '/tasks/completed'}
+          to="/tasks/completed"
         >
           <ListItemIcon>
             <CompletedTasksIcon/>

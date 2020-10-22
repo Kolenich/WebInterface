@@ -121,7 +121,7 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
       // В зависимости от выбранного пункта меню фильтруем список заданий
       done: taskFilter(match.params.filter),
     };
-    api.getContent<IApiResponse<IRow>>('tasks/dashboard', params)
+    api.getContent<IApiResponse<IRow>>('tasks/dashboard/', params)
       .then((response: AxiosResponse<IApiResponse<IRow>>) => {
         const { results: rows, count: totalCount } = response.data;
         setTable((oldTable) => ({ ...oldTable, rows, totalCount }));

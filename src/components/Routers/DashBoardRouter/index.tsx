@@ -10,10 +10,10 @@ import { Redirect, Switch } from 'react-router';
  */
 const DashBoardRouter: FC = () => (
   <Switch>
-    <Redirect exact from="/" to="/my-tasks/in-process"/>
-    <Route authorized path="/my-tasks/:filter(completed|in-process)" component={TasksTable}/>
+    <Redirect exact from="/" to="/tasks/in-process"/>
+    <Route authorized path="/tasks/:filter(completed|in-process)" component={TasksTable}/>
     <Route authorized path="/assign" component={TaskAssignment}/>
-    <Route authorized path="/my-tasks/:id" component={TaskDetail}/>
+    <Route authorized path="/tasks/:id" component={TaskDetail}/>
   </Switch>
 );
 
