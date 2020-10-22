@@ -9,7 +9,7 @@ import {
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
-import { AutoComplete, DateField, FileUploader, withDialog } from 'components';
+import { AutoComplete, DateTimeField, FileUploader, withDialog } from 'components';
 import { IFile, IUploaderImperativeProps } from 'components/FileUploader/types';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
@@ -207,7 +207,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
         </Grid>
         <Grid item xs={12} lg={8}/>
         <Grid item xs={12} lg={2}>
-          <DateField
+          <DateTimeField
             value={task.dead_line}
             error={!!errors.dead_line}
             helperText={errors.dead_line}
@@ -215,7 +215,6 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
             disablePast
             onChange={handleDateChange('dead_line')}
             label="Срок исполнения"
-            withTime
             InputProps={{
               endAdornment: <DateIcon/>,
             }}

@@ -48,7 +48,7 @@ class Auth {
     if (token) {
       this.setHeader(this.authHeader, `Token ${token}`);
     }
-    return Boolean(token);
+    return !!token;
   }
   /**
    * Функция установки заголовка
