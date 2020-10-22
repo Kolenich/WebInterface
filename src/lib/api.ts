@@ -14,13 +14,11 @@ export default {
    * @param {string} url url запроса
    * @param {T} data параметры запроса
    * @param {IHeaders} headers дополнительные заголовки запроса
-   * @param {HTTPMethods} sendMethod  метод запроса
+   * @param {HTTPMethods} method  метод запроса
    * @returns {AxiosPromise<T>}
    */
   sendContent:
-    async <T>(url: string, data: T, sendMethod?: HTTPMethods, headers?: IHeaders) => {
-      const method = sendMethod || 'post';
-
+    async <T>(url: string, data: T, method: HTTPMethods = 'post', headers?: IHeaders) => {
       const defaultHeaders = { ...session.defaults.headers };
       if (headers) {
         for (const key of Object.keys(headers)) {

@@ -5,7 +5,6 @@ import { AttachmentPreview, Loading, withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
-import { SERVER_RESPONSES } from 'lib/constants';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useState } from 'react';
 import styles from './styles';
@@ -63,20 +62,10 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
   const handleSwitchChange = async (event: ChangeEvent<HTMLInputElement>) => {
     openDialog('', 'loading');
     const { name, checked } = event.target;
-    const sendData = { [name]: checked } as ITaskDetail;
-    const { id } = task;
     try {
-      const { data, status }: AxiosResponse<ITaskDetail> = await api.sendContent(
-        `tasks/${id}/`,
-        sendData,
-        'patch',
-      );
-      setTask((oldTask) => ({
-        ...oldTask,
-        ...data,
-        assigned_by: oldTask.assigned_by,
-      }));
-      openDialog(SERVER_RESPONSES[status], 'success');
+      await api.sendContent(`tasks/${task.id}/`, { [name]: checked }, 'patch');
+      setTask((oldTask) => ({ ...oldTask, [name]: checked }));
+      openDialog('Задание обновлено!', 'success');
     } catch (error) {
       showError(error, 'dialog');
     }

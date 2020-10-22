@@ -1,6 +1,5 @@
-import { Link, Typography } from '@material-ui/core';
-import { LinkBaseProps } from '@material-ui/core/Link';
-import { TypographyProps } from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
+import AttachmentPreview from 'components/AttachmentPreview';
 import React, { FC } from 'react';
 import { IProps } from './types';
 
@@ -11,22 +10,16 @@ import { IProps } from './types';
  * @constructor
  */
 const AttachmentFormatter: FC<IProps> = ({ value }) => {
-  const Component = value ? Link : Typography;
-
-  let options: Partial<TypographyProps | LinkBaseProps> = { variant: 'body2' };
   if (value) {
-    options = {
-      ...options,
-      href: value.file,
-      target: '_blank',
-      rel: 'noreferrer noreferer',
-    };
+    return (
+      <AttachmentPreview attachment={value}/>
+    );
   }
 
   return (
-    <Component {...options}>
-      {value ? value.file_name : 'Нет вложения'}
-    </Component>
+    <Typography variant="body2">
+      Нет вложения
+    </Typography>
   );
 };
 
