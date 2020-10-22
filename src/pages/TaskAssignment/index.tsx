@@ -15,9 +15,9 @@ import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
+import { IErrors } from 'lib/types';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useCallback, useContext, useRef, useState } from 'react';
-import { IErrors } from '../../lib/types';
 import styles from './styles';
 import { IProps, ITask } from './types';
 
