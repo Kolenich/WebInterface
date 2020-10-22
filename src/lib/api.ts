@@ -8,9 +8,7 @@ export default {
    * @param {P} params параметры запроса
    * @return {Promise<AxiosResponse<T>>}
    */
-  getContent: async <T, P = {}>(url: string, params?: P) => (
-    session.get<T>(url, { params })
-  ),
+  getContent: async <T, P = {}>(url: string, params?: P) => session.get<T>(url, { params }),
   /**
    * API-функция для отправки данных на сервер
    * @param {string} url url запроса

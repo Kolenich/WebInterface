@@ -1,4 +1,4 @@
-import { IDashBoardTitles, IFiltering, IServerResponses, ISorting } from './types';
+import { IDashBoardTitles, IServerResponses } from './types';
 
 // Опции для форматирования даты и времени
 export const DATETIME_OPTIONS = {
@@ -24,22 +24,6 @@ export const SERVER_RESPONSES: IServerResponses = {
   502: 'Время ожидания ответа от сервера истекло',
 };
 
-export const SORTING_PARAMS: ISorting = {
-  asc: '',
-  desc: '-',
-};
-
-export const FILTERING_PARAMS: IFiltering = {
-  contains: '__icontains',
-  equal: '',
-  notEqual: '__ne',
-  startsWith: '__istartswith',
-  endsWith: '__iendswith',
-  greaterThan: '__gt',
-  greaterThanOrEqual: '__gte',
-  lessThan: '__lt',
-  lessThanOrEqual: '__lte',
-};
 // Высота тулбара
 export const APPBAR_HEIGHT = 64;
 
