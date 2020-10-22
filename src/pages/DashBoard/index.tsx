@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   CssBaseline,
   Divider,
   Drawer,
@@ -59,9 +60,11 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
 
   // Набор данных и пользователе
   const [user, setUser] = useState<IProfileUser>({
-    first_name: '',
-    last_name: '',
+    first_name: null,
+    last_name: null,
     email: '',
+    username: '',
+    profile: null,
   });
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -86,6 +89,11 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
    * Функция, закрывающая меню
    */
   const closeMenu = () => setAnchorEl(null);
+
+  /**
+   * Функция перехода на страницу аккаунта
+   */
+  const goToAccount = () => history.push({ pathname: '/account' });
 
   /**
    * Функция разлогинивания
@@ -221,11 +229,22 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
             >
               <Typography component="div" className={classes.profileMenuUser}>
                 <Typography
-                  variant="h5"
-                  color="primary"
-                  style={{ marginLeft: 0, fontStyle: 'normal' }}
+                  component="div"
+                  className={classes.accountPageLink}
+                  onClick={goToAccount}
                 >
-                  {user.first_name} {user.last_name}
+                  {user.profile?.avatar ? (
+                    <Avatar src={user?.profile?.avatar.file as string}/>
+                  ) : (
+                    <Avatar><AccountIcon/></Avatar>
+                  )}
+                  <Typography
+                    variant="h5"
+                    color="primary"
+                    style={{ marginLeft: 0, fontStyle: 'normal' }}
+                  >
+                    {user.username}
+                  </Typography>
                 </Typography>
                 <Typography
                   className={classes.profileMenuLink}

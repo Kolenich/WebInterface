@@ -1,5 +1,6 @@
 import { INotifications } from 'components/DialogAlert/types';
 import { RouteComponentProps } from 'react-router-dom';
+import { IAttachment } from '../../lib/types';
 
 export interface IProps extends RouteComponentProps, INotifications {
 }
@@ -14,7 +15,7 @@ export interface IProfile {
   /** Телефон */
   phone: string | null;
   /** Аватар */
-  avatar: string | null;
+  avatar: IAttachment | null;
 }
 
 export interface IUser {

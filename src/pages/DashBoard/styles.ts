@@ -71,6 +71,12 @@ const styles = (theme: Theme) => createStyles({
     flexDirection: 'column',
     padding: theme.spacing(2),
   },
+  accountPageLink: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    cursor: 'pointer',
+  },
   profileMenuLink: {
     fontSize: 16,
     display: 'flex',

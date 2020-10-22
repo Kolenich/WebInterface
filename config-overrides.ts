@@ -9,6 +9,7 @@ module.exports = customizer.override(
         '^components/*': './src/pages/*',
         '^lib/*': './src/lib/*',
         '^pages/*': './src/pages/*',
+        '^img/*': './src/img/*',
       },
     },
   ]),
