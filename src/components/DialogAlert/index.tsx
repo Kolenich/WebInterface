@@ -64,6 +64,7 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
         if (forceMessage) {
           message = forceMessage;
         }
+        console.log(message)
         if (error.response.status === 401) {
           auth.logout().finally(() => history.push({ pathname: '/' }));
           return;
