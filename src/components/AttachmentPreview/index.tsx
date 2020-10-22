@@ -1,6 +1,8 @@
-import { Link } from '@material-ui/core';
+import { Button, Tooltip } from '@material-ui/core';
+import { FileCopy } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import React, { FC } from 'react';
+import { download } from '../../lib/utils';
 import styles from './styles';
 import { IProps } from './types';
 
@@ -15,16 +17,23 @@ const useStyles = makeStyles(styles);
 const AttachmentPreview: FC<IProps> = ({ attachment }) => {
   const classes = useStyles();
 
+  /**
+   * Оработчик клика по кнопке
+   */
+  const handleClick = () => download(attachment.file as string, attachment.file_name);
+
   return (
-    <Link
-      variant="body2"
-      className={classes.preview}
-      href={attachment.file as string}
-      target="_blank"
-      rel="noreferrer noreferer"
-    >
-      {attachment.file_name}
-    </Link>
+    <Tooltip arrow title={attachment.file_name} classes={classes}>
+      <Button
+        startIcon={<FileCopy/>}
+        variant="contained"
+        color="secondary"
+        onClick={handleClick}
+      >
+        {attachment.file_name.slice(0, 10)}...
+      </Button>
+    </Tooltip>
+
   );
 };
 

@@ -74,3 +74,20 @@ export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = [
  * @param {EffectCallback} effect выполняемый эффект
  */
 export const useMountEffect = (effect: EffectCallback) => useEffect(effect, []);
+
+/**
+ * Функция загрузки файла
+ * @param {string} file - ссылка на файл или base64-представление
+ * @param {string} name - имя для загрузки
+ */
+export const download = (file: string, name?: string) => {
+  const element = document.createElement('a');
+  element.style.display = 'none';
+  element.setAttribute('href', file);
+  if (name) {
+    element.setAttribute('download', name);
+  }
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+};
