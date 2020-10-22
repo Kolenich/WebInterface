@@ -110,7 +110,18 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
    * @param {"completed" | "in-process"} filter параметр для фильтра
    * @returns {boolean} фильтр
    */
-  const taskFilter = (filter: 'completed' | 'in-process') => filter === 'completed';
+  const urlFilter = (filter: 'completed' | 'in-process' | 'archived') => {
+    switch (filter) {
+      case 'archived':
+        return { archived: true };
+      case 'completed':
+        return { done: true };
+      case 'in-process':
+        return { done: false };
+      default:
+        return {};
+    }
+  };
 
   /**
    * Метод для загрузи данных в таблицу с сервера
@@ -119,7 +130,7 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
     setLoading(true);
     const params: IGetConfig = {
       // В зависимости от выбранного пункта меню фильтруем список заданий
-      done: taskFilter(match.params.filter),
+      ...urlFilter(match.params.filter),
     };
     api.getContent<IApiResponse<IRow>>('tasks/dashboard/', params)
       .then((response: AxiosResponse<IApiResponse<IRow>>) => {

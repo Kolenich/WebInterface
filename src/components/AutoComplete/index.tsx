@@ -11,14 +11,16 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент выбора с поиском
- * @param {ISelectItem[]} options список для выбора
- * @param {string} label ярлык селекта
- * @param {(option: ISelectItem | null) => void} onChange колбэк, возвращающий данные
- * @param {string | number | null} value текущее значение
- * @returns {JSX.Element}
+ * @param {ISelectItem[]} options - список для выбора
+ * @param {string} label - ярлык селекта
+ * @param {(event: React.ChangeEvent<{}>, option: (ISelectItem | null)) => void} onChange - колбэк,
+ * возвращающий данные
+ * @param {string | number | null} value - текущее значение
+ * @param {Partial<OutlinedTextFieldProps>} textFieldProps - пропсы текстового поля
+ * @return {JSX.Element}
  * @constructor
  */
-const AutoComplete: FC<IProps> = ({ options, label, onChange, value }) => {
+const AutoComplete: FC<IProps> = ({ options, label, onChange, value, textFieldProps }) => {
   const classes = useStyles();
 
   const [option, setOption] = useState<ISelectItem | null>(null);
@@ -63,6 +65,7 @@ const AutoComplete: FC<IProps> = ({ options, label, onChange, value }) => {
       label={label}
       variant="outlined"
       fullWidth
+      {...textFieldProps}
     />
   );
 

@@ -31,7 +31,7 @@ export interface IRow {
 
 export interface IFilterParams {
   /** Фильтр заданий */
-  filter: 'completed' | 'in-process';
+  filter: 'completed' | 'in-process' | 'archived';
 }
 
 export interface IColumnSettings {

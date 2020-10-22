@@ -1,3 +1,4 @@
+import { OutlinedTextFieldProps } from '@material-ui/core';
 import { ChangeEvent, ReactText } from 'react';
 import { ISelectItem } from '../Select/types';
 
@@ -10,4 +11,6 @@ export interface IProps {
   label: string;
   /** Колбэк, передающий выбранное значение */
   onChange: (event: ChangeEvent<{}>, option: ISelectItem | null) => void;
+  /** Свойства текстового поля */
+  textFieldProps?: Partial<OutlinedTextFieldProps>;
 }

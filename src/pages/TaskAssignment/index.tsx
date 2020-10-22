@@ -15,9 +15,9 @@ import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
-import { SERVER_RESPONSES } from 'lib/constants';
 import { useMountEffect } from 'lib/utils';
 import React, { ChangeEvent, FC, useCallback, useContext, useRef, useState } from 'react';
+import { IErrors } from '../../lib/types';
 import styles from './styles';
 import { IProps, ITask } from './types';
 
@@ -49,6 +49,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
     attachment: null,
   });
 
+  const [errors, setErrors] = useState<IErrors>({});
+
   // Список доступных к назначению пользователей
   const [users, setUsers] = useState<ISelectItem[]>([]);
 
@@ -75,6 +77,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
    */
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    if (Object.keys(errors).length) {
+      setErrors({});
+    }
     setTask((oldTask) => ({ ...oldTask, [name]: value }));
   };
 
@@ -95,7 +100,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
       // Копируем объект задания
       const { attachment, ...copiedTask } = task;
       // Создаем задание без вложения
-      const { data, status } = await api.sendContent('tasks/', copiedTask);
+      const { data } = await api.sendContent('tasks/', copiedTask);
 
       // После создания задания если было приложено вложение, прикрепляем вложение
       if (attachment) {
@@ -115,7 +120,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
         );
       }
 
-      openDialog(SERVER_RESPONSES[status], 'success');
+      openDialog('Задание успешно создано!', 'success');
       setTask({
         summary: '',
         description: '',
@@ -129,6 +134,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
         uploader.current.removeFiles();
       }
     } catch (error) {
+      setErrors(error.response.data);
       showError(error, 'dialog');
     }
   };
@@ -171,6 +177,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
         <Grid item xs={12} lg={2}>
           <TextField
             value={task.summary}
+            error={!!errors.summary}
+            helperText={errors.summary}
             name="summary"
             onChange={handleTextChange}
             label="Краткое описание"
@@ -185,6 +193,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
         <Grid item xs={12} lg={4}>
           <TextField
             value={task.description}
+            error={!!errors.description}
+            helperText={errors.description}
             name="description"
             onChange={handleTextChange}
             label="Полное описание"
@@ -199,6 +209,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
         <Grid item xs={12} lg={2}>
           <DateField
             value={task.dead_line}
+            error={!!errors.dead_line}
+            helperText={errors.dead_line}
             name="dead_line"
             disablePast
             onChange={handleDateChange('dead_line')}
@@ -213,6 +225,8 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
         <Grid item xs={12} lg={4}>
           <TextField
             value={task.comment}
+            error={!!errors.comment}
+            helperText={errors.comment}
             name="comment"
             onChange={handleTextChange}
             label="Комментарий"
@@ -228,6 +242,10 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
           <AssignToIcon/>
           <AutoComplete
             value={task.assigned_to}
+            textFieldProps={{
+              error: !!errors.assigned_to,
+              helperText: errors.assigned_to,
+            }}
             label="Кому назначить"
             options={users}
             onChange={handleSelectChange}

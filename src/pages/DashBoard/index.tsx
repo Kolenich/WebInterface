@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import {
   AddCircle,
+  Archive,
   AssignmentTurnedIn as CompletedTasksIcon,
   ExitToApp as LogOutIcon,
   Menu as MenuIcon,
@@ -137,6 +138,22 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
             <CompletedTasksIcon/>
           </ListItemIcon>
           <ListItemText primary="Выполненные"/>
+        </ListItem>
+      </List>
+      <Divider/>
+      <List>
+        <ListSubheader inset disableGutters>Архив</ListSubheader>
+        <ListItem
+          button
+          component={Link}
+          onClick={closeDrawer}
+          selected={location.pathname === '/tasks/archived'}
+          to="/tasks/archived"
+        >
+          <ListItemIcon>
+            <Archive/>
+          </ListItemIcon>
+          <ListItemText primary="В архиве"/>
         </ListItem>
       </List>
       <Divider/>

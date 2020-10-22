@@ -32,4 +32,5 @@ export const SERVER_NOT_AVAILABLE = 'Сервер не доступен, поп�
 export const DASH_BOARD_TITLES: IDashBoardTitles = {
   completed: 'Выполненные',
   'in-process': 'В процессе',
+  archived: 'Архив',
 };
