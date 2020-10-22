@@ -120,9 +120,9 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
       case 'archived':
         return { archived: true };
       case 'completed':
-        return { done: true };
+        return { done: true, archived: false };
       case 'in-process':
-        return { done: false };
+        return { done: false, archived: false };
       default:
         return {};
     }
