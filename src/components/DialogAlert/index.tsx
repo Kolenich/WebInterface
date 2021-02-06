@@ -4,7 +4,7 @@ import { Dialog } from 'components/index';
 import auth from 'lib/auth';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import { useSnackbar } from 'notistack';
-import React, { ComponentType, useState } from 'react';
+import React, { ComponentType, useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 import { INotifications, IServerError } from './types';
 
@@ -27,22 +27,17 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
   const { enqueueSnackbar } = useSnackbar();
 
   /**
-   * Функция, закрывающая диалог
-   */
-  const closeDialog = () => (
-    setDialog((oldDialog: IDialogProps) => ({ ...oldDialog, open: false }))
-  );
-
-  /**
    * Функция вызова диалогового окна
    * @param {string} message сообщение
    * @param {IDialogStatus} status статус вызываемого окна
    * @param {() => void} warningAcceptCallback функция-колбэк для принятия предупреждения
    */
-  const openDialog =
+  const openDialog = useCallback(
     (message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => (
       setDialog({ message, status, warningAcceptCallback, open: true })
-    );
+    ),
+    [],
+  );
 
   /**
    * Общая функция обработки ошибки
@@ -50,7 +45,7 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
    * @param {"dialog" | "snackbar"} by куда вывести ошибку
    * @param {string} forceMessage принудительное сообщение для вывода
    */
-  const showError =
+  const showError = useCallback(
     (error: AxiosError<IServerError>, by?: 'dialog' | 'snackbar', forceMessage?: string) => {
       let message = SERVER_NOT_AVAILABLE;
       if (error.response) {
@@ -64,7 +59,6 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
         if (forceMessage) {
           message = forceMessage;
         }
-        console.log(message)
         if (error.response.status === 401) {
           auth.logout().finally(() => history.push({ pathname: '/' }));
           return;
@@ -81,11 +75,19 @@ const withDialog = <T extends INotifications>(Component: ComponentType<T>) => (p
           enqueueSnackbar(message, { variant: 'error' });
           break;
       }
-    };
+    },
+    [enqueueSnackbar, history, openDialog],
+  );
 
   return (
     <>
-      <Dialog {...dialog} onClose={closeDialog}/>
+      <Dialog
+        {...dialog}
+        onClose={() => setDialog((oldDialog: IDialogProps) => ({
+          ...oldDialog,
+          open: false,
+        }))}
+      />
       <Component {...props} openDialog={openDialog} showError={showError}/>
     </>
   );

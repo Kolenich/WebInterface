@@ -6,21 +6,23 @@ import { Redirect, Route as RouteBase, RouteComponentProps } from 'react-router-
 /**
  * Кастомный роутер
  * @param {React.ComponentType} component компонент для редиректа
- * @param {boolean} authorized пометка, что страница только для авторизованных пользователей
+ * @param {boolean} loginRequired пометка, что страница только для авторизованных пользователей
  * @param {IProps} rest остальные пропсы
  * @returns {JSX.Element}
  * @constructor
  */
-const Route: FC<IProps> = ({ component, authorized, ...rest }) => {
+const Route: FC<IProps> = ({ component, loginRequired, ...rest }) => {
   /**
    * Роутер для неавторизованных пользователей
    * @param {RouteComponentProps & React.Attributes} props передаваемые пропсы
    * @returns {JSX.Element}
    */
   const publicRouter = (props: (RouteComponentProps & Attributes)) => (
-    auth.checkToken()
-      ? <Redirect to={{ pathname: '/' }}/>
-      : (createElement(component, props))
+    auth.checkToken() ? (
+      <Redirect to={{ pathname: '/' }}/>
+    ) : (
+      createElement(component, props)
+    )
   );
 
   /**
@@ -29,16 +31,18 @@ const Route: FC<IProps> = ({ component, authorized, ...rest }) => {
    * @returns {JSX.Element}
    */
   const privateRouter = (props: (RouteComponentProps & Attributes)) => (
-    auth.checkToken()
-      ? (createElement(component, props))
-      : <Redirect to={{ pathname: '/sign-in', state: { from: props.location } }}/>
+    auth.checkToken() ? (
+      createElement(component, props)
+    ) : (
+      <Redirect to={{ pathname: '/sign-in', state: { from: props.location } }}/>
+    )
   );
 
   return (
     <RouteBase
       {...rest}
     >
-      {authorized ? privateRouter : publicRouter}
+      {loginRequired ? privateRouter : publicRouter}
     </RouteBase>
   );
 };

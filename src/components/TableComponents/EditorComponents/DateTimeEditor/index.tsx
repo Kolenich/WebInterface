@@ -20,30 +20,19 @@ const useStyles = makeStyles(styles);
 const DateTimeEditor: FC<IProps> = ({ onValueChange, value }) => {
   const classes = useStyles();
 
-  /**
-   * Функция обработки изменений в поле с датой
-   * @param {MaterialUiPickersDate} date новая дата
-   */
-  const handleChange = (date: MaterialUiPickersDate) => {
-    if (date) {
-      onValueChange(format(date as Date, 'yyyy-MM-dd HH:mm:SS'));
-    } else {
-      onValueChange(null);
-    }
-  };
-
-  let displayValue = null;
-  if (value) {
-    displayValue = value;
-  }
-
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ru}>
       <DateTimePicker
-        value={displayValue}
+        value={value || null}
         label="Фильтр..."
         className={classes.datePicker}
-        onChange={handleChange}
+        onChange={(date: MaterialUiPickersDate) => {
+          if (date) {
+            onValueChange(format(date as Date, 'yyyy-MM-dd HH:mm:SS'));
+          } else {
+            onValueChange(null);
+          }
+        }}
         format="dd MMMM yyyy HH:mm"
         animateYearScrolling
         clearable

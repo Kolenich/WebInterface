@@ -5,5 +5,5 @@ export interface IProps extends RouteProps {
   /** Компонент */
   component: ComponentType<any>;
   /** Пометка, что страница только для авторизованных пользователей */
-  authorized?: boolean;
+  loginRequired?: boolean;
 }

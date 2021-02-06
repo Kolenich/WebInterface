@@ -17,17 +17,11 @@ const useStyles = makeStyles(styles);
 const TextEditor: FC<IProps> = ({ onValueChange, value = '' }) => {
   const classes = useStyles();
 
-  /**
-   * Функция обработки изменений
-   * @param {ChangeEvent<ISelectElement>} event объект события изменения
-   */
-  const onChange = (event: ChangeEvent<ISelectElement>) => onValueChange(event.target.value);
-
   return (
     <TextField
       label="Фильтр..."
       value={value}
-      onChange={onChange}
+      onChange={(event: ChangeEvent<ISelectElement>) => onValueChange(event.target.value)}
       fullWidth
       className={classes.textField}
     />

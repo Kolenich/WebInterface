@@ -17,9 +17,8 @@ import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
-import { useMountEffect } from 'lib/utils';
 import { useSnackbar } from 'notistack';
-import React, { ChangeEvent, FC, useContext, useState } from 'react';
+import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
 import { IAccount, IErrors, IProps } from './types';
@@ -64,24 +63,6 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
   });
 
   /**
-   * Функция обработки изменений в текстовом поле
-   * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
-   */
-  const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setAccount((oldAccount) => ({ ...oldAccount, [name]: value }));
-  };
-
-  /**
-   * Функция обработки изменений булевских значений
-   * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
-   */
-  const handleBooleanChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setAccount((oldAccount) => ({ ...oldAccount, [name]: checked }));
-  };
-
-  /**
    * Функция для сброса ошибок в полях
    */
   const resetErrors = () => (
@@ -115,10 +96,11 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
     }
   };
 
-  useMountEffect(
+  useEffect(
     () => {
       document.title = `${documentTitle} | Зарегистрироваться в системе`;
     },
+    [documentTitle],
   );
 
   return (
@@ -143,7 +125,10 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
                 name="username"
                 autoComplete="username"
                 value={account.username}
-                onChange={handleTextChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setAccount((oldAccount) => ({
+                  ...oldAccount,
+                  [event.target.name]: event.target.value,
+                }))}
               />
             </Grid>
             <Grid item xs={12}>
@@ -156,7 +141,10 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
                 name="email"
                 autoComplete="email"
                 value={account.email}
-                onChange={handleTextChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setAccount((oldAccount) => ({
+                  ...oldAccount,
+                  [event.target.name]: event.target.value,
+                }))}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -168,7 +156,10 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
                 error={errors.first_name}
                 label="Имя"
                 value={account.first_name}
-                onChange={handleTextChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setAccount((oldAccount) => ({
+                  ...oldAccount,
+                  [event.target.name]: event.target.value,
+                }))}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -180,7 +171,10 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
                 error={errors.last_name}
                 name="last_name"
                 value={account.last_name}
-                onChange={handleTextChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setAccount((oldAccount) => ({
+                  ...oldAccount,
+                  [event.target.name]: event.target.value,
+                }))}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -190,7 +184,10 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
                 label="Отчество"
                 name="middle_name"
                 value={account.middle_name}
-                onChange={handleTextChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setAccount((oldAccount) => ({
+                  ...oldAccount,
+                  [event.target.name]: event.target.value,
+                }))}
               />
             </Grid>
             <Grid item xs={12}>
@@ -204,7 +201,10 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
                 type="password"
                 autoComplete="current-password"
                 value={account.password}
-                onChange={handleTextChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setAccount((oldAccount) => ({
+                  ...oldAccount,
+                  [event.target.name]: event.target.value,
+                }))}
               />
             </Grid>
             <Grid item xs="auto">
@@ -212,7 +212,12 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
                 control={
                   <Checkbox
                     checked={account.mailing}
-                    onChange={handleBooleanChange}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => (
+                      setAccount((oldAccount) => ({
+                        ...oldAccount,
+                        [event.target.name]: event.target.checked,
+                      }))
+                    )}
                     name="mailing"
                     color="primary"
                   />
@@ -230,8 +235,9 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
             onClick={handleSubmit}
           >
             Зарегистрироваться
-            {loading &&
-            <CircularProgress size={15} className={classes.circularProgress}/>}
+            {loading && (
+              <CircularProgress size={15} className={classes.circularProgress}/>
+            )}
           </Button>
           <Grid container justify="flex-end">
             <Grid item>

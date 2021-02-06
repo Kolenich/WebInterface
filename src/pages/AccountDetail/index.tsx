@@ -23,7 +23,7 @@ const AccountDetail: FC<IProps> = ({ showError, history }) => {
     [showError, history],
   );
 
-  const [user, setUser] = useState({});
+  const [, setUser] = useState({});
 
   return (
     <AppBar color="primary" classes={classes}>

@@ -16,8 +16,15 @@ import { IGlobalState } from 'components/GlobalContext/types';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { IErrors } from 'lib/types';
-import { useMountEffect } from 'lib/utils';
-import React, { ChangeEvent, FC, useCallback, useContext, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styles from './styles';
 import { IProps, ITask, IUserAssigner } from './types';
 
@@ -55,27 +62,6 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
   const [users, setUsers] = useState<ISelectItem[]>([]);
 
   /**
-   * Функция выгрузки всех юзеров, которым можно назначить задание
-   */
-  const loadUsers = () => {
-    api.getContent<IUserAssigner[]>('users/assigner/', {})
-      .then((response: AxiosResponse<IUserAssigner[]>) => setUsers(response.data.map((user) => ({
-        key: user.pk,
-        value: user.pk,
-        label: `${user.last_name} ${user.first_name}`,
-      }))));
-  };
-
-  /**
-   * Функция обработки изменени в селекте
-   * @param {ChangeEvent<{}>} event объект события изменения
-   * @param {ValueType<ISelectItem>} option выбранная опция
-   */
-  const handleSelectChange = (event: ChangeEvent<{}>, option: ISelectItem | null) => (
-    setTask((oldTask) => ({ ...oldTask, assigned_to: option ? option.value : null }))
-  );
-
-  /**
    * Функция обработки изменений в текстовых полях
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
@@ -86,14 +72,6 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
     }
     setTask((oldTask) => ({ ...oldTask, [name]: value }));
   };
-
-  /**
-   * Функция для обработки изменений в поле даты (Срок исполнения)
-   * @param {keyof ITask} name  поле даты
-   */
-  const handleDateChange = (name: keyof ITask) => (date: MaterialUiPickersDate) => (
-    setTask((oldTask) => ({ ...oldTask, [name]: date }))
-  );
 
   /**
    * Функция отправка задачи на сервер
@@ -160,20 +138,19 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
     [],
   );
 
-  /**
-   * Функция для установки заголовка панели
-   */
-  const setDashBoardTitle = () => updateDashBoardTitle('Назначить задание');
-
-  useMountEffect(
+  useEffect(
     () => {
+      api.getContent<IUserAssigner[]>('users/assigner/', {})
+        .then((response: AxiosResponse<IUserAssigner[]>) => setUsers(response.data.map((user) => ({
+          key: user.pk,
+          value: user.pk,
+          label: `${user.last_name} ${user.first_name}`,
+        }))));
       document.title = `${documentTitle} | Назначить задание`;
+      updateDashBoardTitle('Назначить задание');
     },
+    [documentTitle, updateDashBoardTitle],
   );
-
-  useMountEffect(loadUsers);
-
-  useMountEffect(setDashBoardTitle);
 
   return (
     <Paper className={classes.paper}>
@@ -217,7 +194,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
             helperText={errors.dead_line}
             name="dead_line"
             disablePast
-            onChange={handleDateChange('dead_line')}
+            onChange={(date: MaterialUiPickersDate) => (
+              setTask((oldTask) => ({ ...oldTask, dead_line: date }))
+            )}
             label="Срок исполнения"
             InputProps={{
               endAdornment: <DateIcon/>,
@@ -251,7 +230,9 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
             }}
             label="Кому назначить"
             options={users}
-            onChange={handleSelectChange}
+            onChange={(event: ChangeEvent<{}>, option: ISelectItem | null) => (
+              setTask((oldTask) => ({ ...oldTask, assigned_to: option ? option.value : null }))
+            )}
           />
         </Grid>
         <Grid item xs={12} lg={9}/>

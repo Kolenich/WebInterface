@@ -20,30 +20,16 @@ const App: FC = () => {
 
   const classes = useStyles();
 
-  /**
-   * Функция обработки клика на кнопку действия на снэкбаре. Закрывает снэкбар
-   * @param {SnackbarKey} key уникальный ключ снэкбара
-   * @return {() => void}
-   */
-  const dismissSnackbar = (key: SnackbarKey) => () => snackbarRef.current?.closeSnackbar(key);
-
-  /**
-   * Компонент кнопки действия на снэкбаре
-   * @param key {SnackbarKey} уникальный идентификатор снэкбара
-   * @return {JSX.Element}
-   */
-  const actionButton = (key: SnackbarKey) => (
-    <IconButton color="inherit" onClick={dismissSnackbar(key)}>
-      <Cancel/>
-    </IconButton>
-  );
-
   return (
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <SnackbarProvider
           ref={snackbarRef}
-          action={actionButton}
+          action={(key: SnackbarKey) => (
+            <IconButton color="inherit" onClick={() => snackbarRef.current?.closeSnackbar(key)}>
+              <Cancel/>
+            </IconButton>
+          )}
           maxSnack={5}
           preventDuplicate
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

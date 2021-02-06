@@ -71,13 +71,6 @@ export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = [
 };
 
 /**
- * Кастомный хук useEffect, который срабатывает лишь при монтировании компонента
- * Идея взята отсюда: https://stackoverflow.com/a/55075818/1526448
- * @param {EffectCallback} effect выполняемый эффект
- */
-export const useMountEffect = (effect: EffectCallback) => useEffect(effect, []);
-
-/**
  * Функция загрузки файла
  * @param {string} file - ссылка на файл или base64-представление
  * @param {string} name - имя для загрузки

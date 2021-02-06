@@ -34,12 +34,7 @@ import {
   tableMessages,
 } from 'lib/translate';
 import { IApiResponse, IGetConfig, ITable } from 'lib/types';
-import {
-  getFilteringConfig,
-  getPaginationConfig,
-  getSortingConfig,
-  useMountEffect,
-} from 'lib/utils';
+import { getFilteringConfig, getPaginationConfig, getSortingConfig } from 'lib/utils';
 import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import customDataTypes from './customDataTypes';
@@ -79,38 +74,6 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   /**
-   * Функция изменения сортировок
-   * @param {Sorting[]} sorting массив сортировок
-   */
-  const changeSorting = (sorting: Sorting[]) => (
-    setTable((oldTable) => ({ ...oldTable, sorting }))
-  );
-
-  /**
-   * Метод для обработки изменения числа строк на странице
-   * @param {number} pageSize размер страницы
-   */
-  const changePageSize = (pageSize: number) => (
-    setTable((oldTable) => ({ ...oldTable, pageSize, currentPage: 0 }))
-  );
-
-  /**
-   * Функция обработки изменения текущей страницы
-   * @param {number} currentPage номер текущей страницы
-   */
-  const changeCurrentPage = (currentPage: number) => (
-    setTable((oldTable) => ({ ...oldTable, currentPage }))
-  );
-
-  /**
-   * Функция изменения фильтров
-   * @param {Filter[]} filters массив фильтров
-   */
-  const changeFilters = (filters: Filter[]) => (
-    setTable((oldTable) => ({ ...oldTable, filters }))
-  );
-
-  /**
    * Функция для выдачи фильтра в зависимости от параметра в урле
    * @param {"completed" | "in-process"} filter параметр для фильтра
    * @returns {boolean} фильтр
@@ -128,54 +91,47 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
     }
   };
 
-  /**
-   * Метод для загрузи данных в таблицу с сервера
-   */
-  const loadData = () => {
-    setLoading(true);
-    const params: IGetConfig = {
-      ...getPaginationConfig(table.pageSize!, table.currentPage!),
-      ...getFilteringConfig(table.filters!, tasksFilterLookUps),
-      ...getSortingConfig(table.sorting!, tasksSortingLookUps),
-      // В зависимости от выбранного пункта меню фильтруем список заданий
-      ...urlFilter(match.params.filter),
-    };
-    api.getContent<IApiResponse<IRow>>('tasks/dashboard/', params)
-      .then((response: AxiosResponse<IApiResponse<IRow>>) => {
-        const { results: rows, count: totalCount } = response.data;
-        setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
-      })
-      .catch(showError)
-      .finally(() => setLoading(false));
-  };
-
-  /**
-   * Функция для установки заголовка панели
-   */
-  const setDashBoardTitle = () => updateDashBoardTitle(DASH_BOARD_TITLES[match.params.filter]);
-
-  /**
-   * Функция установки заголовка HTML-страницы
-   */
-  const setDocumentTitle = () => {
-    document.title = `${documentTitle} | Мои задания`;
-  };
-
-  /**
-   * Функция получения уникального идентификатора строки
-   * @param {IRow} row строка
-   * @returns {React.ReactText} уникальный идентификатор строки
-   */
-  const getRowId = (row: IRow) => row.id!;
-
-  useMountEffect(setDocumentTitle);
+  useEffect(
+    () => {
+      document.title = `${documentTitle} | Мои задания`;
+    },
+    [documentTitle],
+  );
 
   // Выгружаем данные только при смене урла
   useEffect(
-    loadData,
-    [table.filters, table.sorting, table.pageSize, table.currentPage, match.params.filter],
+    () => {
+      setLoading(true);
+      const params: IGetConfig = {
+        ...getPaginationConfig(table.pageSize!, table.currentPage!),
+        ...getFilteringConfig(table.filters!, tasksFilterLookUps),
+        ...getSortingConfig(table.sorting!, tasksSortingLookUps),
+        // В зависимости от выбранного пункта меню фильтруем список заданий
+        ...urlFilter(match.params.filter),
+      };
+      api.getContent<IApiResponse<IRow>>('tasks/dashboard/', params)
+        .then((response: AxiosResponse<IApiResponse<IRow>>) => {
+          const { results: rows, count: totalCount } = response.data;
+          setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
+        })
+        .catch(showError)
+        .finally(() => setLoading(false));
+    },
+    [
+      table.filters,
+      table.sorting,
+      table.pageSize,
+      table.currentPage,
+      match.params.filter,
+      showError,
+    ],
   );
-  useEffect(setDashBoardTitle, [match.params.filter]);
+  useEffect(
+    () => {
+      updateDashBoardTitle(DASH_BOARD_TITLES[match.params.filter]);
+    },
+    [match.params.filter, updateDashBoardTitle],
+  );
 
   return (
     <>
@@ -183,7 +139,7 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
         <Grid
           rows={table.rows}
           columns={tableSettings.columns}
-          getRowId={getRowId}
+          getRowId={(row: IRow) => row.id!}
           rootComponent={RootComponent}
         >
           {customDataTypes.map((props: DataTypeProviderProps, index) => (
@@ -194,15 +150,25 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
 
           <SortingState
             sorting={table.sorting}
-            onSortingChange={changeSorting}
+            onSortingChange={(sorting: Sorting[]) => setTable((oldTable) => ({
+              ...oldTable,
+              sorting,
+            }))}
             columnExtensions={tableSettings.sortingStateColumnExtensions}
           />
 
           <PagingState
             currentPage={table.currentPage}
             pageSize={table.pageSize}
-            onPageSizeChange={changePageSize}
-            onCurrentPageChange={changeCurrentPage}
+            onPageSizeChange={(pageSize: number) => setTable((oldTable) => ({
+              ...oldTable,
+              pageSize,
+              currentPage: 0,
+            }))}
+            onCurrentPageChange={(currentPage: number) => setTable((oldTable) => ({
+              ...oldTable,
+              currentPage,
+            }))}
           />
 
           <CustomPaging
@@ -211,7 +177,10 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
 
           <FilteringState
             filters={table.filters}
-            onFiltersChange={changeFilters}
+            onFiltersChange={(filters: Filter[]) => setTable((oldTable) => ({
+              ...oldTable,
+              filters,
+            }))}
             columnExtensions={tableSettings.filteringStateColumnExtensions}
           />
 

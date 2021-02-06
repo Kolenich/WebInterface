@@ -43,8 +43,17 @@ const useStyles = makeStyles(styles);
  */
 const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> = (
   {
-    multiple, maxFiles = 1, hint, uploaderText = 'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать', onFilesUpdate, base64, uploadTo, instantUpload,
-    uploadCallback, field, onUploadError,
+    multiple,
+    maxFiles = 1,
+    hint,
+    uploaderText = 'Перетяните сюда файл или <span class="filepond--label-action">нажмите</span>, чтобы выбрать',
+    onFilesUpdate,
+    base64,
+    uploadTo,
+    instantUpload,
+    uploadCallback,
+    field,
+    onUploadError,
   },
   ref,
 ) => {
@@ -71,15 +80,6 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
       return { file_name, file_mime, file_size, file: fileObject };
     }));
     setFiles([...files]);
-  };
-
-  /**
-   * Эффект для передачи файлов через колбэк родителю
-   */
-  const flowToParent = () => {
-    if (onFilesUpdate) {
-      onFilesUpdate(files);
-    }
   };
 
   /**
@@ -152,7 +152,14 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
     removeFiles: pondRef.current!.removeFiles,
   }));
 
-  useUpdateEffect(flowToParent, [files]);
+  useUpdateEffect(
+    () => {
+      if (onFilesUpdate) {
+        onFilesUpdate(files);
+      }
+    },
+    [files],
+  );
 
   return (
     <>

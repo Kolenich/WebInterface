@@ -17,18 +17,13 @@ const useStyles = makeStyles(styles);
 const AttachmentPreview: FC<IProps> = ({ attachment }) => {
   const classes = useStyles();
 
-  /**
-   * Оработчик клика по кнопке
-   */
-  const handleClick = () => download(attachment.file as string, attachment.file_name);
-
   return (
     <Tooltip arrow title={attachment.file_name} classes={classes}>
       <Button
         startIcon={<FileCopy/>}
         variant="contained"
         color="secondary"
-        onClick={handleClick}
+        onClick={() => download(attachment.file as string, attachment.file_name)}
       >
         {attachment.file_name.slice(0, 10)}...
       </Button>

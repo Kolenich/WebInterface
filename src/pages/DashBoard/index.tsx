@@ -33,8 +33,7 @@ import { IGlobalState } from 'components/GlobalContext/types';
 import DashBoardRouter from 'components/Routers/DashBoardRouter';
 import api from 'lib/api';
 import auth from 'lib/auth';
-import { useMountEffect } from 'lib/utils';
-import React, { FC, MouseEvent, useContext, useState } from 'react';
+import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './styles';
 import { IProfileUser, IProps } from './types';
@@ -70,32 +69,6 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   /**
-   * Функция, открывающая панель
-   */
-  const openDrawer = () => setDrawerOpen(true);
-
-  /**
-   * Функция, закрывающая панель
-   */
-  const closeDrawer = () => setDrawerOpen(false);
-
-  /**
-   * Функция, открывающая меню
-   * @param {React.MouseEvent<HTMLButtonElement>} event текущий элемент для привязки
-   */
-  const openMenu = (event: MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
-
-  /**
-   * Функция, закрывающая меню
-   */
-  const closeMenu = () => setAnchorEl(null);
-
-  /**
-   * Функция перехода на страницу аккаунта
-   */
-  const goToAccount = () => history.push({ pathname: '/account' });
-
-  /**
    * Функция разлогинивания
    */
   const handleLogout = async () => {
@@ -106,16 +79,14 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
     }
   };
 
-  /**
-   * Функция выгрузки данных о пользователе
-   */
-  const loadUser = () => {
-    api.getContent<IProfileUser>('users/detail/', {})
-      .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
-      .catch(showError);
-  };
-
-  useMountEffect(loadUser);
+  useEffect(
+    () => {
+      api.getContent<IProfileUser>('users/detail/', {})
+        .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
+        .catch(showError);
+    },
+    [showError],
+  );
 
   const drawer = (
     <>
@@ -127,7 +98,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
           button
           selected={location.pathname === '/tasks/in-process'}
           component={Link}
-          onClick={closeDrawer}
+          onClick={() => setDrawerOpen(false)}
           to="/tasks/in-process"
         >
           <ListItemIcon>
@@ -138,7 +109,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
         <ListItem
           button
           component={Link}
-          onClick={closeDrawer}
+          onClick={() => setDrawerOpen(false)}
           selected={location.pathname === '/tasks/completed'}
           to="/tasks/completed"
         >
@@ -154,7 +125,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
         <ListItem
           button
           component={Link}
-          onClick={closeDrawer}
+          onClick={() => setDrawerOpen(false)}
           selected={location.pathname === '/tasks/archived'}
           to="/tasks/archived"
         >
@@ -170,7 +141,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
         <ListItem
           button
           selected={location.pathname === '/assign'}
-          onClick={closeDrawer}
+          onClick={() => setDrawerOpen(false)}
           component={Link}
           to="/assign"
         >
@@ -195,7 +166,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={openDrawer}
+              onClick={() => setDrawerOpen(true)}
               className={classes.navIconHide}
             >
               <MenuIcon/>
@@ -214,7 +185,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
               color="inherit"
               className={classes.headerMenuButton}
               aria-controls="profile-menu"
-              onClick={openMenu}
+              onClick={(event: MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}
             >
               <AccountIcon/>
             </IconButton>
@@ -222,7 +193,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
               id="profile-menu"
               open={Boolean(anchorEl)}
               anchorEl={anchorEl}
-              onClose={closeMenu}
+              onClose={() => setAnchorEl(null)}
               className={classes.headerMenu}
               anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
               disableAutoFocusItem
@@ -231,7 +202,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
                 <Typography
                   component="div"
                   className={classes.accountPageLink}
-                  onClick={goToAccount}
+                  onClick={() => history.push({ pathname: '/account' })}
                 >
                   {user.profile?.avatar ? (
                     <Avatar src={user?.profile?.avatar.file as string}/>
@@ -278,7 +249,7 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
               paper: classes.drawerPaper,
               root: classes.drawerRoot,
             }}
-            onClose={closeDrawer}
+            onClose={() => setDrawerOpen(false)}
             open={drawerOpen}
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.

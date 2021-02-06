@@ -14,9 +14,13 @@ const Select: FC<IProps> = ({ items, ...props }) => (
     fullWidth
     {...props}
   >
-    <MenuItem value=""><em>Сброс</em></MenuItem>
+    <MenuItem value="">
+      <em>Сброс</em>
+    </MenuItem>
     {items.map(({ label, ...item }: ISelectItem) => (
-      <MenuItem {...item}>{label}</MenuItem>
+      <MenuItem {...item}>
+        {label}
+      </MenuItem>
     ))}
   </TextField>
 );

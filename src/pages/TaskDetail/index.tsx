@@ -5,8 +5,7 @@ import { AttachmentPreview, Loading, withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
-import { useMountEffect } from 'lib/utils';
-import React, { ChangeEvent, FC, useContext, useState } from 'react';
+import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
 
@@ -45,17 +44,6 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
 
   /**
-   * Функция загрузки задания с сервера
-   */
-  const loadTask = () => {
-    const { id } = match.params;
-    api.getContent<ITaskDetail>(`tasks/${id}/`)
-      .then((response: AxiosResponse<ITaskDetail>) => setTask(response.data))
-      .catch((error: AxiosError) => showError(error, 'dialog'))
-      .finally(() => setLoaded(true));
-  };
-
-  /**
    * Функция выставления выполнености задания через сервер
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
@@ -71,19 +59,16 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
     }
   };
 
-  /**
-   * Функция для установки заголовка панели
-   */
-  const setDashBoardTitle = () => updateDashBoardTitle('Посмотреть задание');
-
-  useMountEffect(loadTask);
-
-  useMountEffect(setDashBoardTitle);
-
-  useMountEffect(
+  useEffect(
     () => {
+      api.getContent<ITaskDetail>(`tasks/${match.params.id}/`)
+        .then((response: AxiosResponse<ITaskDetail>) => setTask(response.data))
+        .catch((error: AxiosError) => showError(error, 'dialog'))
+        .finally(() => setLoaded(true));
+      updateDashBoardTitle('Посмотреть задание');
       document.title = `${documentTitle} | Задание №${match.params.id}`;
     },
+    [match.params, documentTitle, showError, updateDashBoardTitle],
   );
 
   return (

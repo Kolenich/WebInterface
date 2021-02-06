@@ -11,9 +11,9 @@ import { Redirect, Switch } from 'react-router';
 const DashBoardRouter: FC = () => (
   <Switch>
     <Redirect exact from="/" to="/tasks/in-process"/>
-    <Route authorized path="/tasks/:filter(completed|in-process|archived)" component={TasksTable}/>
-    <Route authorized path="/assign" component={TaskAssignment}/>
-    <Route authorized path="/tasks/:id" component={TaskDetail}/>
+    <Route loginRequired path="/tasks/:filter(completed|in-process|archived)" component={TasksTable}/>
+    <Route loginRequired path="/assign" component={TaskAssignment}/>
+    <Route loginRequired path="/tasks/:id" component={TaskDetail}/>
   </Switch>
 );
 

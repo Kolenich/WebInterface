@@ -17,8 +17,7 @@ import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import auth from 'lib/auth';
-import { useMountEffect } from 'lib/utils';
-import React, { ChangeEvent, FC, KeyboardEvent, useContext, useState } from 'react';
+import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
 import { ILogin, IProps, IStatus } from './types';
@@ -50,29 +49,12 @@ const SignInPage: FC<IProps> = ({ history, showError }) => {
     remember: false,
   });
 
-  useMountEffect(
+  useEffect(
     () => {
       document.title = `${documentTitle} | Войти в систему`;
     },
+    [documentTitle],
   );
-
-  /**
-   * Функция обработки изменений персональных данных
-   * @param {React.ChangeEvent<HTMLInputElement>} event объект события изменения
-   */
-  const handleLoginChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setLogin((oldLogin) => ({ ...oldLogin, [name]: value }));
-  };
-
-  /**
-   * Функция обработки изменения чекбокса
-   * @param {React.ChangeEvent<HTMLInputElement>} event объект события изменения
-   */
-  const handleStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setStatus((oldStatus) => ({ ...oldStatus, [name]: checked }));
-  };
 
   /**
    * Функция обработки нажатия на Enter
@@ -120,7 +102,10 @@ const SignInPage: FC<IProps> = ({ history, showError }) => {
             error={status.error}
             autoComplete="username"
             value={login.username}
-            onChange={handleLoginChange}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => setLogin((oldLogin) => ({
+              ...oldLogin,
+              [event.target.name]: event.target.value,
+            }))}
           />
           <TextField
             variant="outlined"
@@ -134,7 +119,10 @@ const SignInPage: FC<IProps> = ({ history, showError }) => {
             id="password"
             autoComplete="current-password"
             value={login.password}
-            onChange={handleLoginChange}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => setLogin((oldLogin) => ({
+              ...oldLogin,
+              [event.target.name]: event.target.value,
+            }))}
             onKeyPress={handleEnterPress}
           />
           <FormControlLabel
@@ -142,7 +130,10 @@ const SignInPage: FC<IProps> = ({ history, showError }) => {
               <Checkbox
                 value={status.remember}
                 name="remember"
-                onChange={handleStatusChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setStatus((oldStatus) => ({
+                  ...oldStatus,
+                  [event.target.name]: event.target.checked,
+                }))}
                 color="primary"
               />
             }

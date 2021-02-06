@@ -19,13 +19,12 @@ const RowComponent: FC<IProps> = ({ children, ...props }) => {
 
   const history = useHistory();
 
-  /**
-   * Функция, перенаправляющая на страницу деталей задания
-   */
-  const handleClick = () => history.push({ pathname: `/tasks/${props.row.id}` });
-
   return (
-    <Table.Row {...props} onDoubleClick={handleClick} className={classes.row}>
+    <Table.Row
+      {...props}
+      onDoubleClick={() => history.push({ pathname: `/tasks/${props.row.id}` })}
+      className={classes.row}
+    >
       {children}
     </Table.Row>
   );
