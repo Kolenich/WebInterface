@@ -6,6 +6,7 @@ import theme from 'lib/theme';
 import { SnackbarKey, SnackbarProvider } from 'notistack';
 import React, { FC, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import DialogProvider from './components/DialogProvider';
 import styles from './styles';
 
 const useStyles = makeStyles(styles);
@@ -39,9 +40,11 @@ const App: FC = () => {
             error: <Error fontSize="large" className={classes.snackbarIcon}/>,
           }}
         >
-          <GlobalContext>
-            <Router/>
-          </GlobalContext>
+          <DialogProvider>
+            <GlobalContext>
+              <Router/>
+            </GlobalContext>
+          </DialogProvider>
         </SnackbarProvider>
       </MuiThemeProvider>
     </BrowserRouter>

@@ -20,7 +20,7 @@ import {
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
-import { Loading, withDialog } from 'components';
+import { Loading } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import RootComponent from 'components/TableComponents/RootComponent';
@@ -34,7 +34,13 @@ import {
   tableMessages,
 } from 'lib/translate';
 import { IApiResponse, IGetConfig, ITable } from 'lib/types';
-import { getFilteringConfig, getPaginationConfig, getSortingConfig } from 'lib/utils';
+import {
+  getErrorMessage,
+  getFilteringConfig,
+  getPaginationConfig,
+  getSortingConfig,
+} from 'lib/utils';
+import { useSnackbar } from 'notistack';
 import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
 import React, { FC, useContext, useEffect, useState } from 'react';
 import customDataTypes from './customDataTypes';
@@ -46,18 +52,16 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент таблицы для отображения всех заданий у пользователя
  * @param {match<IFilterParams>} match передаваемые параметры в адресную строку
- * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вывода ошибки
- * @param {History<LocationState>} history история
- * @param {Location<LocationState>} location текущая локация
  * @return {JSX.Element}
  * @constructor
  */
-const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
+const TasksTable: FC<IProps> = ({ match }) => {
   const classes = useStyles();
 
   const {
     setters: { updateDashBoardTitle }, getters: { documentTitle },
   } = useContext<IGlobalState>(Context);
+  const { enqueueSnackbar } = useSnackbar();
 
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
@@ -114,7 +118,7 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
           const { results: rows, count: totalCount } = response.data;
           setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
         })
-        .catch(showError)
+        .catch((error) => enqueueSnackbar(getErrorMessage(error), { variant: 'error' }))
         .finally(() => setLoading(false));
     },
     [
@@ -123,7 +127,7 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
       table.pageSize,
       table.currentPage,
       match.params.filter,
-      showError,
+      enqueueSnackbar,
     ],
   );
   useEffect(
@@ -216,4 +220,4 @@ const TasksTable: FC<IProps> = ({ match, showError, history, location }) => {
   );
 };
 
-export default withDialog(TasksTable);
+export default TasksTable;

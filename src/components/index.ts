@@ -1,5 +1,5 @@
 export { default as AutoComplete } from './AutoComplete';
-export { default as withDialog } from './DialogAlert';
+export { default as withDialog } from './DialogProvider';
 export { default as DateField } from './DateField';
 export { default as DateTimeField } from './DateTimeField';
 export { default as Dialog } from './Dialog';

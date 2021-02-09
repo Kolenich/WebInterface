@@ -27,14 +27,15 @@ import {
 } from '@material-ui/icons';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
-import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import DashBoardRouter from 'components/Routers/DashBoardRouter';
 import api from 'lib/api';
 import auth from 'lib/auth';
+import { useSnackbar } from 'notistack';
 import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getErrorMessage } from '../../lib/utils';
 import styles from './styles';
 import { IProfileUser, IProps } from './types';
 
@@ -44,15 +45,15 @@ const useStyles = makeStyles(styles);
  * Компонент панели
  * @param {History<LocationState>} history история в браузере
  * @param {Location<LocationState>} location текущий адрес с параметрами
- * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вызова ошибки
  * @returns {JSX.Element}
  * @constructor
  */
-const DashBoard: FC<IProps> = ({ history, location, showError }) => {
+const DashBoard: FC<IProps> = ({ history, location }) => {
   const classes = useStyles();
   const theme = useTheme<Theme>();
 
   const { getters: { dashBoardTitle } } = useContext<IGlobalState>(Context);
+  const { enqueueSnackbar } = useSnackbar();
 
   // Переменная открытия/закрытия панели
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -83,9 +84,9 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
     () => {
       api.getContent<IProfileUser>('users/detail/', {})
         .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
-        .catch(showError);
+        .catch((error) => enqueueSnackbar(getErrorMessage(error), { variant: 'error' }));
     },
-    [showError],
+    [enqueueSnackbar],
   );
 
   const drawer = (
@@ -279,4 +280,4 @@ const DashBoard: FC<IProps> = ({ history, location, showError }) => {
   );
 };
 
-export default withDialog(DashBoard);
+export default DashBoard;

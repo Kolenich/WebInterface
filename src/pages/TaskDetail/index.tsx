@@ -1,11 +1,13 @@
 import { FormControlLabel, Grid, Paper, Switch, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosError, AxiosResponse } from 'axios';
-import { AttachmentPreview, Loading, withDialog } from 'components';
+import { AttachmentPreview, Loading } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
+import { useDialog } from '../../components/DialogProvider';
+import { getErrorMessage } from '../../lib/utils';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
 
@@ -14,17 +16,16 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент формы для отображения деталей задания
  * @param {match<IDetailParams>} match передаваемые параметры в адресную строку
- * @param {(message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => void}
- * openDialog Функция вызова диалогового окна
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
+const TaskDetail: FC<IProps> = ({ match }) => {
   const classes = useStyles();
 
   const {
     getters: { documentTitle }, setters: { updateDashBoardTitle },
   } = useContext<IGlobalState>(Context);
+  const { openDialog } = useDialog();
 
   // Переменные состояния для задания
   const [task, setTask] = useState<ITaskDetail>({
@@ -55,7 +56,7 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
       setTask((oldTask) => ({ ...oldTask, [name]: checked }));
       openDialog('Задание обновлено!', 'success');
     } catch (error) {
-      showError(error, 'dialog');
+      openDialog(getErrorMessage(error), 'error');
     }
   };
 
@@ -63,12 +64,12 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
     () => {
       api.getContent<ITaskDetail>(`tasks/${match.params.id}/`)
         .then((response: AxiosResponse<ITaskDetail>) => setTask(response.data))
-        .catch((error: AxiosError) => showError(error, 'dialog'))
+        .catch((error: AxiosError) => openDialog(getErrorMessage(error), 'error'))
         .finally(() => setLoaded(true));
       updateDashBoardTitle('Посмотреть задание');
       document.title = `${documentTitle} | Задание №${match.params.id}`;
     },
-    [match.params, documentTitle, showError, updateDashBoardTitle],
+    [match.params, documentTitle, openDialog, updateDashBoardTitle],
   );
 
   return (
@@ -169,4 +170,4 @@ const TaskDetail: FC<IProps> = ({ match, openDialog, showError }) => {
   );
 };
 
-export default withDialog(TaskDetail);
+export default TaskDetail;

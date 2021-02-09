@@ -13,10 +13,11 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import auth from 'lib/auth';
+import { getErrorMessage } from 'lib/utils';
+import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
@@ -27,14 +28,14 @@ const useStyles = makeStyles(styles);
 /**
  * Компонента страницы входа в систему
  * @param {History<LocationState>} history история в браузере
- * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вывода ошибки
  * @returns {JSX.Element}
  * @constructor
  */
-const SignInPage: FC<IProps> = ({ history, showError }) => {
+const SignInPage: FC<IProps> = ({ history }) => {
   const classes = useStyles();
 
   const { getters: { documentTitle } } = useContext<IGlobalState>(Context);
+  const { enqueueSnackbar } = useSnackbar();
 
   // Набор переменных состояния для данных логина
   const [login, setLogin] = useState<ILogin>({
@@ -75,7 +76,7 @@ const SignInPage: FC<IProps> = ({ history, showError }) => {
       await auth.login(login.username, login.password, status.remember);
       history.push({ pathname: '/' });
     } catch (error) {
-      showError(error);
+      enqueueSnackbar(getErrorMessage(error), { variant: 'error' });
       setStatus((oldStatus) => ({ ...oldStatus, loading: false }));
     }
   };
@@ -164,4 +165,4 @@ const SignInPage: FC<IProps> = ({ history, showError }) => {
   );
 };
 
-export default withDialog(SignInPage);
+export default SignInPage;

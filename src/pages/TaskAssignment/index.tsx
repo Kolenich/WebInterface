@@ -9,13 +9,15 @@ import {
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
-import { AutoComplete, DateTimeField, FileUploader, withDialog } from 'components';
+import { AutoComplete, DateTimeField, FileUploader } from 'components';
+import { useDialog } from 'components/DialogProvider';
 import { IFile, IUploaderImperativeProps } from 'components/FileUploader/types';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { IErrors } from 'lib/types';
+import { getErrorMessage } from 'lib/utils';
 import React, {
   ChangeEvent,
   FC,
@@ -32,17 +34,16 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент формы для назначения задания
- * @param {(message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => void}
- * openDialog функция вызова диалогового окна
  * @returns {JSX.Element}
  * @constructor
  */
-const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
+const TaskAssignment: FC<IProps> = () => {
   const classes = useStyles();
 
   const {
     getters: { documentTitle }, setters: { updateDashBoardTitle },
   } = useContext<IGlobalState>(Context);
+  const { openDialog } = useDialog();
 
   const uploader = useRef<IUploaderImperativeProps>(null);
 
@@ -117,7 +118,7 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
       }
     } catch (error) {
       setErrors(error.response.data);
-      showError(error, 'dialog');
+      openDialog(getErrorMessage(error), 'error');
     }
   };
 
@@ -260,4 +261,4 @@ const TaskAssignment: FC<IProps> = ({ openDialog, showError }) => {
   );
 };
 
-export default withDialog(TaskAssignment);
+export default TaskAssignment;

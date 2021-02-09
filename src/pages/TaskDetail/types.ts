@@ -1,9 +1,8 @@
-import { INotifications } from 'components/DialogAlert/types';
 import { IAttachment } from 'lib/types';
 import { ReactText } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-export interface IProps extends RouteComponentProps<IDetailParams>, INotifications {
+export interface IProps extends RouteComponentProps<IDetailParams> {
 }
 
 export interface ITaskDetail {

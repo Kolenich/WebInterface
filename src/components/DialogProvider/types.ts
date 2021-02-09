@@ -8,9 +8,9 @@ export interface INotifications {
   showError: (error: AxiosError, by?: 'dialog' | 'snackbar', forceMessage?: string) => void;
 }
 
-export interface IServerError {
-  /** Сообщение, выводимое сервером в общем случае */
-  detail?: string;
-  /** Сообщение, выводимое сервером в случае неверно переданных полей */
-  non_field_errors?: string[];
+export interface IDialogContext {
+  /** Функция для открытия диалогового окна */
+  openDialog: (message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => void;
+  /** Функция для закрытия диалогового окна */
+  closeDialog: () => void;
 }

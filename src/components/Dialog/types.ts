@@ -1,11 +1,11 @@
-export interface IProps extends IDialogProps {
+export interface IProps extends IDialogState {
   /** Функция-колбэк, закрывающая окно статуса */
   onClose: () => void;
 }
 
 export type IDialogStatus = 'success' | 'error' | 'warning' | 'loading';
 
-export interface IDialogProps {
+export interface IDialogState {
   /** Флаг открытия/закрытия */
   open: boolean;
   /** Сообщение на снэкбаре */

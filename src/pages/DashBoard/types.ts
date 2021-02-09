@@ -1,8 +1,7 @@
-import { INotifications } from 'components/DialogAlert/types';
 import { RouteComponentProps } from 'react-router';
 import { IProfile } from '../AccountDetail/types';
 
-export interface IProps extends RouteComponentProps, INotifications {
+export interface IProps extends RouteComponentProps {
 }
 
 export interface IProfileUser {

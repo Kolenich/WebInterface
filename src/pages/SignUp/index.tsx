@@ -13,13 +13,13 @@ import {
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
-import { withDialog } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { getErrorMessage } from '../../lib/utils';
 import styles from './styles';
 import { IAccount, IErrors, IProps } from './types';
 
@@ -28,11 +28,10 @@ const useStyles = makeStyles(styles);
 /**
  * Компонент станицы регистрации
  * @param {History<LocationState>} history история в браузере
- * @param {(error: AxiosError, by: ("dialog" | "snackbar")) => void} showError функция вывода ошибки
  * @returns {JSX.Element}
  * @constructor
  */
-const SignUpPage: FC<IProps> = ({ history, showError }) => {
+const SignUpPage: FC<IProps> = ({ history }) => {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -85,10 +84,10 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
       // Через 2 секунды перенаправляем на страницу входа
       setTimeout(() => history.push({ pathname: '/sign-in' }), 2000);
     } catch (error) {
-      showError(error);
+      enqueueSnackbar(getErrorMessage(error), { variant: 'error' });
       if (error.response) {
         const { errors: errorsList } = error.response.data;
-        setErrors((oldErrors): IErrors => ({ ...oldErrors, ...errorsList }));
+        setErrors((oldErrors) => ({ ...oldErrors, ...errorsList }));
       }
       // Через 3 секунды гасим ошибки
       setTimeout(resetErrors, 3000);
@@ -252,4 +251,4 @@ const SignUpPage: FC<IProps> = ({ history, showError }) => {
   );
 };
 
-export default withDialog(SignUpPage);
+export default SignUpPage;

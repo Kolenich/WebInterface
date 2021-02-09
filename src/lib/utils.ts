@@ -1,6 +1,12 @@
 import { Filter, Sorting } from '@devexpress/dx-react-grid';
+import { AxiosError } from 'axios';
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
-import { FILTERING_PARAMS, SORTING_PARAMS } from './constants';
+import {
+  FILTERING_PARAMS,
+  SERVER_NOT_AVAILABLE,
+  SERVER_RESPONSES,
+  SORTING_PARAMS,
+} from './constants';
 import { ActualFileObject, IGetConfig } from './types';
 
 /**
@@ -124,3 +130,20 @@ export const getSortingConfig = (sorting: Sorting[], lookups: { [key: string]: s
     })),
   ),
 });
+
+export const getErrorMessage = (error: AxiosError, forceMessage?: string) => {
+  let message = SERVER_NOT_AVAILABLE;
+  if (error.response) {
+    message = SERVER_RESPONSES[error.response.status];
+    if (error.response.data.detail) {
+      message = error.response.data.detail;
+    }
+    if (error.response.data.non_field_errors) {
+      message = error.response.data.non_field_errors[0];
+    }
+    if (forceMessage) {
+      message = forceMessage;
+    }
+  }
+  return message;
+};
