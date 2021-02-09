@@ -1,4 +1,4 @@
-import { IDashBoardTitles, IFiltering, IServerResponses, ISorting } from './types';
+import { IDashBoardTitles, IServerResponses } from './types';
 
 // Опции для форматирования даты и времени
 export const DATETIME_OPTIONS = {
@@ -33,21 +33,4 @@ export const DASH_BOARD_TITLES: IDashBoardTitles = {
   completed: 'Выполненные',
   'in-process': 'В процессе',
   archived: 'Архив',
-};
-
-export const SORTING_PARAMS: ISorting = {
-  asc: '',
-  desc: '-',
-};
-
-export const FILTERING_PARAMS: IFiltering = {
-  contains: '__icontains',
-  equal: '',
-  notEqual: '__ne',
-  startsWith: '__istartswith',
-  endsWith: '__iendswith',
-  greaterThan: '__gt',
-  greaterThanOrEqual: '__gte',
-  lessThan: '__lt',
-  lessThanOrEqual: '__lte',
 };

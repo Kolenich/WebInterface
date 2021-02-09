@@ -1,13 +1,7 @@
-import { Filter, Sorting } from '@devexpress/dx-react-grid';
 import { AxiosError } from 'axios';
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
-import {
-  FILTERING_PARAMS,
-  SERVER_NOT_AVAILABLE,
-  SERVER_RESPONSES,
-  SORTING_PARAMS,
-} from './constants';
-import { ActualFileObject, IGetConfig } from './types';
+import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from './constants';
+import { ActualFileObject } from './types';
 
 /**
  * Функция получения текущего хоста для запроса на сервер.
@@ -92,44 +86,6 @@ export const download = (file: string, name?: string) => {
   element.click();
   document.body.removeChild(element);
 };
-
-/**
- * Функция получения конфига для пагинации
- * @param {number} pageSize размер страницы
- * @param {number} currentPage индекс текущей страницы
- * @returns {IGetConfig} конфиг для пагинации
- */
-export const getPaginationConfig = (pageSize: number, currentPage: number) => ({
-  limit: pageSize, offset: currentPage * pageSize,
-});
-
-/**
- * Функция для получения конфига для фильтрации
- * @param {Filter[]} filters набор фильтов
- * @param {[key: string]: string} lookups кастомные лукапы для django
- * @returns {Partial<IGetConfig>} конфиг для фильтрации
- */
-export const getFilteringConfig = (filters: Filter[], lookups: { [key: string]: string } = {}) => ({
-  ...unpackArrayOfObjects<Partial<IGetConfig>>(
-    filters.map(({ operation = 'equal', columnName, value }) => ({
-      [(lookups[columnName] || columnName) + FILTERING_PARAMS[operation]]: value,
-    })),
-  ),
-});
-
-/**
- * Функция для получения конфига сортировки
- * @param {Sorting[]} sorting набор сортировок
- * @param {[key: string]: string} lookups кастомные лукапы для django
- * @returns {Partial<IGetConfig>} конфиг сортировки
- */
-export const getSortingConfig = (sorting: Sorting[], lookups: { [key: string]: string } = {}) => ({
-  ...unpackArrayOfObjects<Partial<IGetConfig>>(
-    sorting.map(({ direction, columnName }) => ({
-      ordering: SORTING_PARAMS[direction] + (lookups[columnName] || columnName),
-    })),
-  ),
-});
 
 export const getErrorMessage = (error: AxiosError, forceMessage?: string) => {
   let message = SERVER_NOT_AVAILABLE;

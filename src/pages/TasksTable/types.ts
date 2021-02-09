@@ -49,3 +49,31 @@ export interface IColumnSettings {
 export interface ICustomLookUps {
   [index: string]: string;
 }
+
+export interface ISorting {
+  /** Подстановка параметра для сортировки по возрастанию */
+  asc: string;
+  /** Подстановка параметра для сортировки по убыванию */
+  desc: string;
+}
+
+export interface IFiltering {
+  /** Подстановка параметра для фильтрации типа contains */
+  contains: string;
+  /** Подстановка параметра для фильтрации типа equal */
+  equal: string;
+  /** Подстановка параметра для фильтрации типа statsWith */
+  startsWith: string;
+  /** Подстановка параметра для фильтрации типа endsWith */
+  endsWith: string;
+  /** Подстановка параметра для фильтрации типа gte */
+  greaterThanOrEqual: string;
+  /** Подстановка параметра для фильтрации типа lte */
+  lessThanOrEqual: string;
+  /** Подстановка параметра для фильтрации типа lt */
+  lessThan: string;
+  /** Подстановка параметра для фильтрации типа gt */
+  greaterThan: string;
+
+  [index: string]: string;
+}

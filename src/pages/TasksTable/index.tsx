@@ -36,9 +36,6 @@ import {
 import { IApiResponse, IGetConfig, ITable } from 'lib/types';
 import {
   getErrorMessage,
-  getFilteringConfig,
-  getPaginationConfig,
-  getSortingConfig,
 } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
@@ -46,6 +43,7 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import customDataTypes from './customDataTypes';
 import styles from './styles';
 import { IProps, IRow } from './types';
+import { getFilteringConfig, getPaginationConfig, getSortingConfig, urlFilter } from './utils';
 
 const useStyles = makeStyles(styles);
 
@@ -76,24 +74,6 @@ const TasksTable: FC<IProps> = ({ match }) => {
 
   // Переменная состояния загрузки
   const [loading, setLoading] = useState<boolean>(false);
-
-  /**
-   * Функция для выдачи фильтра в зависимости от параметра в урле
-   * @param {"completed" | "in-process"} filter параметр для фильтра
-   * @returns {boolean} фильтр
-   */
-  const urlFilter = (filter: 'completed' | 'in-process' | 'archived') => {
-    switch (filter) {
-      case 'archived':
-        return { archived: true };
-      case 'completed':
-        return { done: true, archived: false };
-      case 'in-process':
-        return { done: false, archived: false };
-      default:
-        return {};
-    }
-  };
 
   useEffect(
     () => {
