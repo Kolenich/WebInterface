@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { IDialogStatus } from 'components/Dialog/types';
+import { IDialogStatus } from 'components/DialogProvider/Dialog/types';
 
 export interface INotifications {
   /** Функция для открытия диалогового окна */
@@ -11,6 +11,4 @@ export interface INotifications {
 export interface IDialogContext {
   /** Функция для открытия диалогового окна */
   openDialog: (message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => void;
-  /** Функция для закрытия диалогового окна */
-  closeDialog: () => void;
 }

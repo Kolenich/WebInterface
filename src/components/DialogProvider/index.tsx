@@ -1,6 +1,6 @@
-import { IDialogState, IDialogStatus } from 'components/Dialog/types';
-import { Dialog } from 'components/index';
 import React, { createContext, FC, useContext, useMemo, useState } from 'react';
+import Dialog from './Dialog';
+import { IDialogState, IDialogStatus } from './Dialog/types';
 import { IDialogContext } from './types';
 
 /** Объект контекста для диалога */
@@ -13,22 +13,19 @@ const DialogContext = createContext<IDialogContext>({} as IDialogContext);
  * @constructor
  */
 const DialogProvider: FC = ({ children }) => {
-  /**
-   * Переменные состояния для диалогового окна
-   */
+  /** Переменные состояния для диалогового окна */
   const [dialog, setDialog] = useState<IDialogState>({
     open: false,
     status: 'loading',
     message: '',
     warningAcceptCallback: undefined,
   });
-
+  /** Значение для контекста */
   const contextValue = useMemo(
     () => ({
       openDialog: (message: string, status: IDialogStatus, warningAcceptCallback?: () => void) => (
         setDialog({ message, status, warningAcceptCallback, open: true })
       ),
-      closeDialog: () => setDialog((oldDialog) => ({ ...oldDialog, open: false })),
     }),
     [],
   );
@@ -46,7 +43,7 @@ const DialogProvider: FC = ({ children }) => {
 
 /**
  * Пользовательский хук для вызова контекста DialogProvider
- * @returns {{}}
+ * @returns {IDialogContext}
  */
 export const useDialog = (): IDialogContext => useContext(DialogContext);
 
