@@ -10,11 +10,11 @@ import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
 import { AxiosResponse } from 'axios';
 import { AutoComplete, DateTimeField, FileUploader } from 'components';
-import { useDialog } from 'components/DialogProvider';
 import { IFile, IUploaderImperativeProps } from 'components/FileUploader/types';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import { ISelectItem } from 'components/Select/types';
+import { useDialog } from 'dialog-notification';
 import api from 'lib/api';
 import { IErrors } from 'lib/types';
 import { getErrorMessage } from 'lib/utils';
@@ -78,7 +78,7 @@ const TaskAssignment: FC<IProps> = () => {
    * Функция отправка задачи на сервер
    */
   const submitTask = async () => {
-    openDialog('', 'loading');
+    openDialog('Пожалуйста, подождитеююю', { variant: 'loading', title: 'Идёт загрузка' });
     try {
       // Копируем объект задания
       const { attachment, ...copiedTask } = task;
@@ -103,7 +103,7 @@ const TaskAssignment: FC<IProps> = () => {
         );
       }
 
-      openDialog('Задание успешно создано!', 'success');
+      openDialog('Задание успешно создано!', { variant: 'success', title: 'Успешно!' });
       setTask({
         summary: '',
         description: '',
@@ -118,7 +118,7 @@ const TaskAssignment: FC<IProps> = () => {
       }
     } catch (error) {
       setErrors(error.response.data);
-      openDialog(getErrorMessage(error), 'error');
+      openDialog(getErrorMessage(error), { variant: 'error', title: 'Ошибка!' });
     }
   };
 

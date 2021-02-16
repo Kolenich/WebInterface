@@ -4,9 +4,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { AttachmentPreview, Loading } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
+import { useDialog } from 'dialog-notification';
 import api from 'lib/api';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
-import { useDialog } from '../../components/DialogProvider';
 import { getErrorMessage } from '../../lib/utils';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
@@ -49,14 +49,14 @@ const TaskDetail: FC<IProps> = ({ match }) => {
    * @param {React.ChangeEvent<HTMLInputElement>} event событие изменения
    */
   const handleSwitchChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    openDialog('', 'loading');
+    openDialog('Пожалуйста, подождите...', { variant: 'loading', title: 'Идёт загрузка' });
     const { name, checked } = event.target;
     try {
       await api.sendContent(`tasks/${task.id}/`, { [name]: checked }, 'patch');
       setTask((oldTask) => ({ ...oldTask, [name]: checked }));
-      openDialog('Задание обновлено!', 'success');
+      openDialog('Задание обновлено!', { variant: 'success', title: 'Успешно!' });
     } catch (error) {
-      openDialog(getErrorMessage(error), 'error');
+      openDialog(getErrorMessage(error), { variant: 'error', title: 'Ошибка!' });
     }
   };
 
@@ -64,7 +64,10 @@ const TaskDetail: FC<IProps> = ({ match }) => {
     () => {
       api.getContent<ITaskDetail>(`tasks/${match.params.id}/`)
         .then((response: AxiosResponse<ITaskDetail>) => setTask(response.data))
-        .catch((error: AxiosError) => openDialog(getErrorMessage(error), 'error'))
+        .catch((error: AxiosError) => openDialog(getErrorMessage(error), {
+          variant: 'error',
+          title: 'Ошибка!',
+        }))
         .finally(() => setLoaded(true));
       updateDashBoardTitle('Посмотреть задание');
       document.title = `${documentTitle} | Задание №${match.params.id}`;

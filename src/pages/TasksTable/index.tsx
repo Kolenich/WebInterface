@@ -82,7 +82,6 @@ const TasksTable: FC<IProps> = ({ match }) => {
     [documentTitle],
   );
 
-  // Выгружаем данные только при смене урла
   useEffect(
     () => {
       setLoading(true);

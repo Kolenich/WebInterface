@@ -2,11 +2,11 @@ import { IconButton, makeStyles, MuiThemeProvider } from '@material-ui/core';
 import { Cancel, Done, Error } from '@material-ui/icons';
 import GlobalContext from 'components/GlobalContext';
 import Router from 'components/Routers';
+import { DialogProvider } from 'dialog-notification';
 import theme from 'lib/theme';
 import { SnackbarKey, SnackbarProvider } from 'notistack';
 import React, { FC, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import DialogProvider from './components/DialogProvider';
 import styles from './styles';
 
 const useStyles = makeStyles(styles);
@@ -40,7 +40,11 @@ const App: FC = () => {
             error: <Error fontSize="large" className={classes.snackbarIcon}/>,
           }}
         >
-          <DialogProvider>
+          <DialogProvider
+            closeButtonText="ОК"
+            acceptButtonText="Принять"
+            declineButtonText="Отмена"
+          >
             <GlobalContext>
               <Router/>
             </GlobalContext>

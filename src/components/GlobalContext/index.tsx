@@ -1,4 +1,4 @@
-import React, { createContext, FC, useReducer } from 'react';
+import React, { createContext, FC, useCallback, useMemo, useReducer } from 'react';
 import initialState from './initialState';
 import GlobalReducer from './reducer';
 import { IGlobalState } from './types';
@@ -19,17 +19,23 @@ const ContextProvider: FC = ({ children }) => {
    * Функция для обновления заголовка панели
    * @param {string} title - новый заголовок
    */
-  const updateDashBoardTitle = (title: string) => dispatch({
-    type: 'SET_DASHBOARD_TITLE',
-    payload: title,
-  });
+  const updateDashBoardTitle = useCallback(
+    (title: string) => dispatch({
+      type: 'SET_DASHBOARD_TITLE',
+      payload: title,
+    }),
+    [],
+  );
 
-  const value: IGlobalState = {
-    ...state,
-    setters: {
-      updateDashBoardTitle,
-    },
-  };
+  const value: IGlobalState = useMemo(
+    () => ({
+      ...state,
+      setters: {
+        updateDashBoardTitle,
+      },
+    }),
+    [state, updateDashBoardTitle],
+  );
 
   return (
     <Context.Provider value={value}>
