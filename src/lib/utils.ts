@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios';
-import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from './constants';
 import { ActualFileObject } from './types';
 
@@ -27,48 +26,19 @@ export const getBaseUrl = (production: boolean) => (
  * @param {T[]} arr массив из объектов
  * @returns {{}} единый объект
  */
-export const unpackArrayOfObjects = <T>(arr: T[]): T => {
-  let obj = {} as T;
-  for (const elem of arr) {
-    obj = { ...obj, ...elem };
-  }
-  return obj;
-};
+export const unpackArrayOfObjects = <T>(arr: T[]): T => arr.reduce((prev, curr) => ({ ...prev, ...curr }), {} as T);
 
 /**
  * Функция перекодирования файла в base64 представение
  * @param file {Blob} объект файла
  * @returns {Promise<void>}
  */
-export const toBase64 = async (file: ActualFileObject) => new Promise<string>((resolve, reject) => {
+export const toBase64 = (file: ActualFileObject) => new Promise<string>((resolve, reject) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onload = () => resolve(reader.result as string);
   reader.onerror = reject;
 });
-
-/**
- * Кастомный хук useEffect, который срабатывает лишь при обновлении, а не в момент монтирования
- * компонента
- * Идея взята отсюда: https://stackoverflow.com/a/55075818/1526448
- * @param {EffectCallback} effect выполняемый эффект
- * @param {DependencyList} deps массив зависимостей
- */
-export const useUpdateEffect = (effect: EffectCallback, deps: DependencyList = []) => {
-  const isInitialMount = useRef(true);
-
-  /**
-   * Обертка для выполняемого действия на обновлении
-   */
-  const updateEffect = () => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
-      effect();
-    }
-  };
-  useEffect(updateEffect, deps);
-};
 
 /**
  * Функция загрузки файла

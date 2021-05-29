@@ -5,11 +5,12 @@ import 'filepond/dist/filepond.min.css';
 import { SERVER_NOT_AVAILABLE, SERVER_RESPONSES } from 'lib/constants';
 import session, { source } from 'lib/session';
 import { ActualFileObject } from 'lib/types';
-import { toBase64, useUpdateEffect } from 'lib/utils';
+import { toBase64 } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, {
   forwardRef,
   ForwardRefRenderFunction,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -152,14 +153,11 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
     removeFiles: pondRef.current!.removeFiles,
   }));
 
-  useUpdateEffect(
-    () => {
-      if (onFilesUpdate) {
-        onFilesUpdate(files);
-      }
-    },
-    [files],
-  );
+  useEffect(() => {
+    if (onFilesUpdate) {
+      onFilesUpdate(files);
+    }
+  }, [files, onFilesUpdate]);
 
   return (
     <>

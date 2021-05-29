@@ -1,7 +1,7 @@
 import { IDashBoardTitles, IServerResponses } from './types';
 
 // Опции для форматирования даты и времени
-export const DATETIME_OPTIONS = {
+export const DATETIME_OPTIONS: Intl.DateTimeFormatOptions = {
   year: 'numeric',
   month: 'long',
   day: '2-digit',

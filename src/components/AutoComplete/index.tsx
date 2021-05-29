@@ -25,13 +25,10 @@ const AutoComplete: FC<IProps> = ({ options, label, onChange, value, textFieldPr
 
   const [option, setOption] = useState<ISelectItem | null>(null);
 
-  useEffect(
-    () => {
-      const option = options.find((x: ISelectItem) => x.value === value) || null;
-      setOption(option);
-    },
-    [value, options],
-  );
+  useEffect(() => {
+    const option = options.find((x: ISelectItem) => x.value === value) || null;
+    setOption(option);
+  }, [value, options]);
 
   return (
     <AutoCompleteBase

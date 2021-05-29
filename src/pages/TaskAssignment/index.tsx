@@ -8,7 +8,6 @@ import {
 } from '@material-ui/icons';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosResponse } from 'axios';
 import { AutoComplete, DateTimeField, FileUploader } from 'components';
 import { IFile, IUploaderImperativeProps } from 'components/FileUploader/types';
 import { Context } from 'components/GlobalContext';
@@ -127,31 +126,28 @@ const TaskAssignment: FC<IProps> = () => {
    * @param {IFile[]} files
    * @param {boolean} base64 флаг перекодировки в base64
    */
-  const setAttachment = useCallback(
-    (files: IFile[]) => {
-      if (files.length) {
-        const file: IFile = files[0];
-        setTask((oldTask: ITask) => ({ ...oldTask, attachment: { ...file } }));
-      } else {
-        setTask((oldTask: ITask) => ({ ...oldTask, attachment: null }));
-      }
-    },
-    [],
-  );
+  const setAttachment = useCallback((files: IFile[]) => {
+    if (files.length) {
+      const file: IFile = files[0];
+      setTask((oldTask: ITask) => ({ ...oldTask, attachment: { ...file } }));
+    } else {
+      setTask((oldTask: ITask) => ({ ...oldTask, attachment: null }));
+    }
+  }, []);
 
-  useEffect(
-    () => {
-      api.getContent<IUserAssigner[]>('users/assigner/', {})
-        .then((response: AxiosResponse<IUserAssigner[]>) => setUsers(response.data.map((user) => ({
-          key: user.pk,
-          value: user.pk,
-          label: `${user.last_name} ${user.first_name}`,
-        }))));
+  useEffect(() => {
+    (async () => {
       document.title = `${documentTitle} | Назначить задание`;
       updateDashBoardTitle('Назначить задание');
-    },
-    [documentTitle, updateDashBoardTitle],
-  );
+
+      const { data } = await api.getContent<IUserAssigner[]>('users/assigner/', {});
+      setUsers(data.map((user) => ({
+        key: user.pk,
+        value: user.pk,
+        label: `${user.last_name} ${user.first_name}`,
+      })));
+    })();
+  }, [documentTitle, updateDashBoardTitle]);
 
   return (
     <Paper className={classes.paper}>

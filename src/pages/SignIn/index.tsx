@@ -50,12 +50,9 @@ const SignInPage: FC<IProps> = ({ history }) => {
     remember: false,
   });
 
-  useEffect(
-    () => {
-      document.title = `${documentTitle} | Войти в систему`;
-    },
-    [documentTitle],
-  );
+  useEffect(() => {
+    document.title = `${documentTitle} | Войти в систему`;
+  }, [documentTitle]);
 
   /**
    * Функция обработки нажатия на Enter

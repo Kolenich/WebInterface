@@ -95,12 +95,9 @@ const SignUpPage: FC<IProps> = ({ history }) => {
     }
   };
 
-  useEffect(
-    () => {
-      document.title = `${documentTitle} | Зарегистрироваться в системе`;
-    },
-    [documentTitle],
-  );
+  useEffect(() => {
+    document.title = `${documentTitle} | Зарегистрироваться в системе`;
+  }, [documentTitle]);
 
   return (
     <Container component="main" maxWidth="md">

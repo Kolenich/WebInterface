@@ -1,6 +1,6 @@
 import { IGlobalReducerAction, IGlobalState } from './types';
 
-export default (state: IGlobalState, action: IGlobalReducerAction) => {
+const reducer = (state: IGlobalState, action: IGlobalReducerAction) => {
   switch (action.type) {
     default:
       return state;
@@ -22,3 +22,5 @@ export default (state: IGlobalState, action: IGlobalReducerAction) => {
       };
   }
 };
+
+export default reducer;

@@ -1,14 +1,15 @@
 import session from './session';
 import { HTTPMethods, IHeaders } from './types';
 
-export default {
+class API {
   /**
    * API-функция для получения данных с сервера
    * @param {string} url url запроса
    * @param {P} params параметры запроса
    * @return {Promise<AxiosResponse<T>>}
    */
-  getContent: <T, P = {}>(url: string, params?: P) => session.get<T>(url, { params }),
+  getContent = <T, P = {}>(url: string, params?: P) => session.get<T>(url, { params })
+
   /**
    * API-функция для отправки данных на сервер
    * @param {string} url url запроса
@@ -17,7 +18,7 @@ export default {
    * @param {HTTPMethods} method  метод запроса
    * @returns {AxiosPromise<T>}
    */
-  sendContent: <T>(url: string, data: T, method: HTTPMethods = 'post', headers?: IHeaders) => {
+  sendContent = <T>(url: string, data: T, method: HTTPMethods = 'post', headers?: IHeaders) => {
     const defaultHeaders = { ...session.defaults.headers };
     if (headers) {
       for (const key of Object.keys(headers)) {
@@ -29,5 +30,7 @@ export default {
     } finally {
       session.defaults.headers = defaultHeaders;
     }
-  },
-};
+  }
+}
+
+export default new API();

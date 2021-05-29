@@ -26,7 +26,6 @@ import {
   WatchLater as ProcessIcon,
 } from '@material-ui/icons';
 import { makeStyles, useTheme } from '@material-ui/styles';
-import { AxiosResponse } from 'axios';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import DashBoardRouter from 'components/Routers/DashBoardRouter';
@@ -80,14 +79,16 @@ const DashBoard: FC<IProps> = ({ history, location }) => {
     }
   };
 
-  useEffect(
-    () => {
-      api.getContent<IProfileUser>('users/detail/', {})
-        .then((response: AxiosResponse<IProfileUser>) => setUser(response.data))
-        .catch((error) => enqueueSnackbar(getErrorMessage(error), { variant: 'error' }));
-    },
-    [enqueueSnackbar],
-  );
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await api.getContent<IProfileUser>('users/detail/', {});
+        setUser(data);
+      } catch (error) {
+        enqueueSnackbar(getErrorMessage(error), { variant: 'error' })
+      }
+    })();
+  }, [enqueueSnackbar]);
 
   const drawer = (
     <>

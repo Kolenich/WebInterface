@@ -13,17 +13,17 @@ const AccountDetail: FC<IProps> = ({ history }) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
 
-  useEffect(
-    () => {
-      api.getContent<IUser>('users/current-user/')
-        .then((response) => setUser(response.data))
-        .catch((error) => {
-          enqueueSnackbar(getErrorMessage(error), { variant: 'error' });
-          history.push({ pathname: '/sign-in' });
-        });
-    },
-    [enqueueSnackbar, history],
-  );
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await api.getContent<IUser>('users/current-user/');
+        setUser(data);
+      } catch (error) {
+        enqueueSnackbar(getErrorMessage(error), { variant: 'error' });
+        history.push({ pathname: '/sign-in' });
+      }
+    })();
+  }, [enqueueSnackbar, history]);
 
   const [, setUser] = useState({});
 

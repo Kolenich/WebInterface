@@ -19,7 +19,6 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosResponse } from 'axios';
 import { Loading } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
@@ -34,9 +33,7 @@ import {
   tableMessages,
 } from 'lib/translate';
 import { IApiResponse, IGetConfig, ITable } from 'lib/types';
-import {
-  getErrorMessage,
-} from 'lib/utils';
+import { getErrorMessage } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import { tableSettings, tasksFilterLookUps, tasksSortingLookUps } from 'pages/TasksTable/settings';
 import React, { FC, useContext, useEffect, useState } from 'react';
@@ -75,15 +72,12 @@ const TasksTable: FC<IProps> = ({ match }) => {
   // Переменная состояния загрузки
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(
-    () => {
-      document.title = `${documentTitle} | Мои задания`;
-    },
-    [documentTitle],
-  );
+  useEffect(() => {
+    document.title = `${documentTitle} | Мои задания`;
+  }, [documentTitle]);
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    (async () => {
       setLoading(true);
       const params: IGetConfig = {
         ...getPaginationConfig(table.pageSize!, table.currentPage!),
@@ -92,29 +86,26 @@ const TasksTable: FC<IProps> = ({ match }) => {
         // В зависимости от выбранного пункта меню фильтруем список заданий
         ...urlFilter(match.params.filter),
       };
-      api.getContent<IApiResponse<IRow>>('tasks/dashboard/', params)
-        .then((response: AxiosResponse<IApiResponse<IRow>>) => {
-          const { results: rows, count: totalCount } = response.data;
-          setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
-        })
-        .catch((error) => enqueueSnackbar(getErrorMessage(error), { variant: 'error' }))
-        .finally(() => setLoading(false));
-    },
-    [
-      table.filters,
-      table.sorting,
-      table.pageSize,
-      table.currentPage,
-      match.params.filter,
-      enqueueSnackbar,
-    ],
-  );
-  useEffect(
-    () => {
-      updateDashBoardTitle(DASH_BOARD_TITLES[match.params.filter]);
-    },
-    [match.params.filter, updateDashBoardTitle],
-  );
+
+      try {
+        const {
+          data: {
+            results: rows,
+            count: totalCount,
+          },
+        } = await api.getContent<IApiResponse<IRow>>('tasks/dashboard/', params);
+        setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
+      } catch (error) {
+        enqueueSnackbar(getErrorMessage(error), { variant: 'error' })
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [table.filters, table.sorting, table.pageSize, table.currentPage, match.params.filter, enqueueSnackbar]);
+
+  useEffect(() => {
+    updateDashBoardTitle(DASH_BOARD_TITLES[match.params.filter]);
+  }, [match.params.filter, updateDashBoardTitle]);
 
   return (
     <>

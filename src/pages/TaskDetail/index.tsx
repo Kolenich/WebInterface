@@ -1,6 +1,5 @@
 import { FormControlLabel, Grid, Paper, Switch, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosError, AxiosResponse } from 'axios';
 import { AttachmentPreview, Loading } from 'components';
 import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
@@ -60,20 +59,23 @@ const TaskDetail: FC<IProps> = ({ match }) => {
     }
   };
 
-  useEffect(
-    () => {
-      api.getContent<ITaskDetail>(`tasks/${match.params.id}/`)
-        .then((response: AxiosResponse<ITaskDetail>) => setTask(response.data))
-        .catch((error: AxiosError) => openDialog(getErrorMessage(error), {
-          variant: 'error',
-          title: 'Ошибка!',
-        }))
-        .finally(() => setLoaded(true));
+  useEffect(() => {
+    (async () => {
       updateDashBoardTitle('Посмотреть задание');
       document.title = `${documentTitle} | Задание №${match.params.id}`;
-    },
-    [match.params, documentTitle, openDialog, updateDashBoardTitle],
-  );
+      try {
+        const { data } = await api.getContent<ITaskDetail>(`tasks/${match.params.id}/`);
+        setTask(data);
+      } catch (error) {
+        openDialog(getErrorMessage(error), {
+          variant: 'error',
+          title: 'Ошибка!',
+        });
+      } finally {
+        setLoaded(true);
+      }
+    })();
+  }, [match.params, documentTitle, openDialog, updateDashBoardTitle]);
 
   return (
     <>

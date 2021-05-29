@@ -1,6 +1,5 @@
 import { MenuItem, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { AxiosResponse } from 'axios';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { ISelectElement } from 'lib/types';
@@ -23,17 +22,16 @@ const AssignerEditor: FC<IProps> = ({ onValueChange, value = '' }) => {
 
   const [users, setUsers] = useState<ISelectItem[]>([]);
 
-  useEffect(
-    () => {
-      api.getContent<IUserAssigner[]>('users/assigner/', {})
-        .then((response: AxiosResponse<IUserAssigner[]>) => setUsers(response.data.map((user) => ({
-          key: user.pk,
-          value: user.pk,
-          label: `${user.last_name} ${user.first_name}`,
-        }))));
-    },
-    [],
-  );
+  useEffect(() => {
+    (async () => {
+      const response = await api.getContent<IUserAssigner[]>('users/assigner/', {});
+      setUsers(response.data.map((user) => ({
+        key: user.pk,
+        value: user.pk,
+        label: `${user.last_name} ${user.first_name}`,
+      })));
+    })();
+  }, []);
 
   return (
     <TextField
