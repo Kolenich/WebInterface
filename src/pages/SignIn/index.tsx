@@ -19,7 +19,7 @@ import auth from 'lib/auth';
 import { getErrorMessage } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router';
+import { Link as RouterLink } from 'react-router-dom';
 import styles from './styles';
 import { ILogin, IProps, IStatus } from './types';
 

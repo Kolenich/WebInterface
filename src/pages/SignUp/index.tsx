@@ -18,7 +18,7 @@ import { IGlobalState } from 'components/GlobalContext/types';
 import api from 'lib/api';
 import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router';
+import { Link as RouterLink } from 'react-router-dom';
 import { getErrorMessage } from 'lib/utils';
 import styles from './styles';
 import { IAccount, IErrors, IProps } from './types';

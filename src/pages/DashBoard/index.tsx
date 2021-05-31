@@ -34,7 +34,7 @@ import auth from 'lib/auth';
 import { getErrorMessage } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import styles from './styles';
 import { IProfileUser, IProps } from './types';
 

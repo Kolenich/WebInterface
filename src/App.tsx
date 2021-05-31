@@ -6,7 +6,7 @@ import { DialogProvider } from 'dialog-notification';
 import theme from 'lib/theme';
 import { SnackbarKey, SnackbarProvider } from 'notistack';
 import React, { FC, useRef } from 'react';
-import { BrowserRouter } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import styles from './styles';
 
 const useStyles = makeStyles(styles);
