@@ -3,8 +3,7 @@ import MaskedInput, { maskArray } from 'react-text-mask';
 import { IProps } from '../types';
 
 /** Маска для номера телефона */
-const phoneMask: maskArray =
-  ['+', '7', '(', /[49]/, /\d/, /\d/, ')', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+const phoneMask: maskArray = ['+', '7', '(', /[49]/, /\d/, /\d/, ')', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
 
 /**
  * Маска для поля с электронной почтой

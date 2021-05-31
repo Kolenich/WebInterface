@@ -1,9 +1,8 @@
 import { IAttachment } from 'lib/types';
 import { ReactText } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 
-export interface IProps extends RouteComponentProps {
-}
+export type IProps = RouteComponentProps
 
 export interface ITask {
   /** Ключ объекта в БД */

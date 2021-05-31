@@ -40,17 +40,17 @@ export interface ITable<T> {
   /** Строки в таблице */
   rows: T[];
   /** Список фильтров по колонкам */
-  filters?: Filter[];
+  filters: Filter[];
   /** Список сортировок по колонкам */
-  sorting?: Sorting[];
+  sorting: Sorting[];
   /** Допустимые размеры страниц */
   pageSizes?: number[];
   /** Текущий размер страницы */
-  pageSize?: number;
+  pageSize: number;
   /** Общее количество строк в таблице */
-  totalCount?: number;
+  totalCount: number;
   /** Индекс текущей страницы */
-  currentPage?: number;
+  currentPage: number;
 }
 
 export interface IDashBoardTitles {

@@ -87,13 +87,13 @@ const TaskAssignment: FC<IProps> = () => {
       // После создания задания если было приложено вложение, прикрепляем вложение
       if (attachment) {
         const formData = new FormData();
-        for (const key of Object.keys(attachment)) {
+        Object.keys(attachment).forEach((key) => {
           if (key === 'file') {
             formData.append(key, attachment[key] as Blob, attachment.file_name);
           } else {
             formData.append(key, attachment[key] as string);
           }
-        }
+        });
         await api.sendContent(
           `tasks/${data.id}/attach-file/`,
           formData,
@@ -227,7 +227,7 @@ const TaskAssignment: FC<IProps> = () => {
             }}
             label="Кому назначить"
             options={users}
-            onChange={(event: ChangeEvent<{}>, option: ISelectItem | null) => (
+            onChange={(event: ChangeEvent<Record<string, unknown>>, option: ISelectItem | null) => (
               setTask((oldTask) => ({ ...oldTask, assigned_to: option ? option.value : null }))
             )}
           />

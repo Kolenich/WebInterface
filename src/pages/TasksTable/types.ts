@@ -8,8 +8,7 @@ import { VirtualTable } from '@devexpress/dx-react-grid-material-ui';
 import { IAttachment } from 'lib/types';
 import { RouteComponentProps } from 'react-router';
 
-export interface IProps extends RouteComponentProps<IFilterParams> {
-}
+export type IProps = RouteComponentProps<IFilterParams>;
 
 export interface IRow {
   /** Первичный ключ задачи в БД */

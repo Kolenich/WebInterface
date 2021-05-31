@@ -1,8 +1,7 @@
 import { RouteComponentProps } from 'react-router';
 import { IProfile } from '../AccountDetail/types';
 
-export interface IProps extends RouteComponentProps {
-}
+export type IProps = RouteComponentProps;
 
 export interface IProfileUser {
   /** Электронная почта пользователя */

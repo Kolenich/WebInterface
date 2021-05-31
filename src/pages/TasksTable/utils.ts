@@ -27,14 +27,14 @@ const FILTERING_PARAMS: IFiltering = {
  */
 export const urlFilter = (filter: 'completed' | 'in-process' | 'archived') => {
   switch (filter) {
-    case 'archived':
-      return { archived: true };
-    case 'completed':
-      return { done: true, archived: false };
-    case 'in-process':
-      return { done: false, archived: false };
-    default:
-      return {};
+  case 'archived':
+    return { archived: true };
+  case 'completed':
+    return { done: true, archived: false };
+  case 'in-process':
+    return { done: false, archived: false };
+  default:
+    return {};
   }
 };
 

@@ -10,11 +10,13 @@ class Auth {
    * @type {string}
    */
   token = 'Token';
+
   /**
    * Заголовок для авторизации
    * @type {string}
    */
   authHeader = 'Authorization';
+
   /**
    * Функция для логина в систему
    * @param {string} username - имя пользователя
@@ -22,11 +24,12 @@ class Auth {
    * @param {boolean} remember - запоминание при логине
    * @returns {Promise<void>}
    */
-  login = async (username: string, password: string, remember: boolean = false) => {
+  login = async (username: string, password: string, remember = false) => {
     const { data } = await session.post('auth/login/', { username, password });
     this.setHeader(this.authHeader, `Token ${data.key}`);
     this.setToken(data.key, remember);
   }
+
   /**
    * Функция выхода из системы
    * @returns {Promise<AxiosResponse<any>>}
@@ -39,6 +42,7 @@ class Auth {
       this.deleteToken();
     }
   }
+
   /**
    * Функция проверки наличия токена
    * @returns {boolean}
@@ -50,6 +54,7 @@ class Auth {
     }
     return !!token;
   }
+
   /**
    * Функция установки заголовка
    * @param {string} name
@@ -58,6 +63,7 @@ class Auth {
   private setHeader = (name: string, value: ReactText) => {
     session.defaults.headers.common[name] = value;
   }
+
   /**
    * Функция удаления заголовка из запроса
    * @param {string} name - имя заголовка
@@ -65,6 +71,7 @@ class Auth {
   private deleteHeader = (name: string) => {
     delete session.defaults.headers.common[name];
   }
+
   /**
    * Функция сохранения токена
    * @param {string} token - сам токен
@@ -77,6 +84,7 @@ class Auth {
       localStorage.setItem(this.token, token);
     }
   }
+
   /**
    * Функция удаления токена
    */

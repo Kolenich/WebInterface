@@ -26,7 +26,10 @@ export const getBaseUrl = (production: boolean) => (
  * @param {T[]} arr массив из объектов
  * @returns {{}} единый объект
  */
-export const unpackArrayOfObjects = <T>(arr: T[]): T => arr.reduce((prev, curr) => ({ ...prev, ...curr }), {} as T);
+export const unpackArrayOfObjects = <T>(arr: T[]): T => arr.reduce((prev, curr) => ({
+  ...prev,
+  ...curr,
+}), {} as T);
 
 /**
  * Функция перекодирования файла в base64 представение
@@ -65,7 +68,7 @@ export const getErrorMessage = (error: AxiosError, forceMessage?: string) => {
       message = error.response.data.detail;
     }
     if (error.response.data.non_field_errors) {
-      message = error.response.data.non_field_errors[0];
+      ([message] = error.response.data.non_field_errors);
     }
     if (forceMessage) {
       message = forceMessage;

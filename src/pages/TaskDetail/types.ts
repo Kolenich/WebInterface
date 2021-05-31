@@ -1,9 +1,8 @@
 import { IAttachment } from 'lib/types';
 import { ReactText } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 
-export interface IProps extends RouteComponentProps<IDetailParams> {
-}
+export type IProps = RouteComponentProps<IDetailParams>;
 
 export interface ITaskDetail {
   /** Первичный ключ */

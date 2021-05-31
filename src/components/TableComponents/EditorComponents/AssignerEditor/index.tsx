@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/styles';
 import { ISelectItem } from 'components/Select/types';
 import api from 'lib/api';
 import { ISelectElement } from 'lib/types';
+import { IUserAssigner } from 'pages/TaskAssignment/types';
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { IUserAssigner } from '../../../../pages/TaskAssignment/types';
 import styles from './styles';
 import { IProps } from './types';
 

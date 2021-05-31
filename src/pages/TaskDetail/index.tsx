@@ -5,8 +5,8 @@ import { Context } from 'components/GlobalContext';
 import { IGlobalState } from 'components/GlobalContext/types';
 import { useDialog } from 'dialog-notification';
 import api from 'lib/api';
+import { getErrorMessage } from 'lib/utils';
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react';
-import { getErrorMessage } from '../../lib/utils';
 import styles from './styles';
 import { IProps, ITaskDetail } from './types';
 
@@ -164,8 +164,8 @@ const TaskDetail: FC<IProps> = ({ match }) => {
             />
           </Grid>
           <Grid item lg={10} xs={12}/>
-          {task.attachment &&
-          <Grid item lg={2} xs={12}>
+          {task.attachment
+          && <Grid item lg={2} xs={12}>
             <AttachmentPreview attachment={task.attachment}/>
           </Grid>}
         </Grid>

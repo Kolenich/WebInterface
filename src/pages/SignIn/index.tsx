@@ -19,7 +19,7 @@ import auth from 'lib/auth';
 import { getErrorMessage } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, { ChangeEvent, FC, KeyboardEvent, useContext, useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router';
 import styles from './styles';
 import { ILogin, IProps, IStatus } from './types';
 
@@ -53,16 +53,6 @@ const SignInPage: FC<IProps> = ({ history }) => {
   useEffect(() => {
     document.title = `${documentTitle} | Войти в систему`;
   }, [documentTitle]);
-
-  /**
-   * Функция обработки нажатия на Enter
-   * @param {React.KeyboardEvent<HTMLDivElement>} event объект события изменения
-   */
-  const handleEnterPress = async (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter') {
-      await handleLogin();
-    }
-  };
 
   /**
    * Функция логина
@@ -121,7 +111,11 @@ const SignInPage: FC<IProps> = ({ history }) => {
               ...oldLogin,
               [event.target.name]: event.target.value,
             }))}
-            onKeyPress={handleEnterPress}
+            onKeyPress={async (event: KeyboardEvent<HTMLDivElement>) => {
+              if (event.key === 'Enter') {
+                await handleLogin();
+              }
+            }}
           />
           <FormControlLabel
             control={
@@ -146,8 +140,8 @@ const SignInPage: FC<IProps> = ({ history }) => {
             disabled={status.loading}
           >
             Войти
-            {status.loading &&
-            <CircularProgress size={15} className={classes.circularProgress}/>}
+            {status.loading
+            && <CircularProgress size={15} className={classes.circularProgress}/>}
           </Button>
           <Grid container justify="flex-end">
             <Grid item>

@@ -71,16 +71,16 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
    * @param newFiles {FilePondFile[]} обновленной массив файлов
    */
   const onUpdateFiles = async (newFiles: FilePondFile[]) => {
-    const files: IFile[] = await Promise.all(newFiles.map(async (file: FilePondFile) => {
-      const { filename: file_name, fileType: file_mime, fileSize: file_size } = file;
+    const updatedFiles: IFile[] = await Promise.all(newFiles.map(async (file: FilePondFile) => {
+      const { filename, fileType, fileSize } = file;
       let fileObject: string | ActualFileObject = file.file;
       // Если передан флаг base64, перекодируем файлы в base64
       if (base64) {
         fileObject = await toBase64(file.file);
       }
-      return { file_name, file_mime, file_size, file: fileObject };
+      return { file_name: filename, file_mime: fileType, file_size: fileSize, file: fileObject };
     }));
-    setFiles([...files]);
+    setFiles([...updatedFiles]);
   };
 
   /**
@@ -98,22 +98,22 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
    * зарузки файла на сервер
    * @returns {Promise<{abort: () => void}>}
    */
-  const process: ProcessServerConfigFunction =
-    async (fieldName, file, metadata, load, error, progress, abort) => {
-      // Настройка обработчика процесса отправки
-      session.defaults.onUploadProgress = ({ lengthComputable, loaded, total }) => (
-        progress(lengthComputable, loaded, total)
-      );
-      session.defaults.headers['Content-Type'] = 'multipart/form-data';
-      // Формируем тело запроса
-      const formData = new FormData();
-      formData.append(fieldName, file, file.name);
-      if (field) {
-        formData.append('field', field);
-      }
-      // Отправляем запрос
+  const process: ProcessServerConfigFunction = async (fieldName, file, metadata, load, error, progress, abort) => {
+    // Настройка обработчика процесса отправки
+    session.defaults.onUploadProgress = ({ lengthComputable, loaded, total }) => (
+      progress(lengthComputable, loaded, total)
+    );
+    session.defaults.headers['Content-Type'] = 'multipart/form-data';
+    // Формируем тело запроса
+    const formData = new FormData();
+    formData.append(fieldName, file, file.name);
+    if (field) {
+      formData.append('field', field);
+    }
+    // Отправляем запрос
+    if (uploadTo) {
       try {
-        const { data } = await session.post(uploadTo!, formData);
+        const { data } = await session.post(uploadTo, formData);
         load(data);
         // Возвращаем настройки сессии в исходное положение
         session.defaults.onUploadProgress = undefined;
@@ -138,19 +138,20 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
           onUploadError(err.response.data);
         }
       }
-      // Возвращаем метод для остановки запроса
-      return {
-        abort: () => {
-          // Функция вызывается в случае, если нажата отмена запроса
-          source.cancel();
-          // Посылаем сигнал компоненту, что запрос остановлен
-          abort();
-        },
-      };
+    }
+    // Возвращаем метод для остановки запроса
+    return {
+      abort: () => {
+        // Функция вызывается в случае, если нажата отмена запроса
+        source.cancel();
+        // Посылаем сигнал компоненту, что запрос остановлен
+        abort();
+      },
     };
+  };
 
   useImperativeHandle(ref, () => ({
-    removeFiles: pondRef.current!.removeFiles,
+    removeFiles: pondRef.current ? pondRef.current.removeFiles : () => null,
   }));
 
   useEffect(() => {

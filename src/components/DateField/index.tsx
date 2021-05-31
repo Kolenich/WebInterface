@@ -9,7 +9,6 @@ const useStyles = makeStyles(styles);
 
 /**
  * Компонент поля с выбором даты
- * @param {boolean | undefined} withTime флаг "С временем"
  * @param {DatePickerProps} props остальные пропсы
  * @returns {JSX.Element}
  * @constructor

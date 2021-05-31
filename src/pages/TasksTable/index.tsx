@@ -80,9 +80,9 @@ const TasksTable: FC<IProps> = ({ match }) => {
     (async () => {
       setLoading(true);
       const params: IGetConfig = {
-        ...getPaginationConfig(table.pageSize!, table.currentPage!),
-        ...getFilteringConfig(table.filters!, tasksFilterLookUps),
-        ...getSortingConfig(table.sorting!, tasksSortingLookUps),
+        ...getPaginationConfig(table.pageSize, table.currentPage),
+        ...getFilteringConfig(table.filters, tasksFilterLookUps),
+        ...getSortingConfig(table.sorting, tasksSortingLookUps),
         // В зависимости от выбранного пункта меню фильтруем список заданий
         ...urlFilter(match.params.filter),
       };
@@ -96,12 +96,13 @@ const TasksTable: FC<IProps> = ({ match }) => {
         } = await api.getContent<IApiResponse<IRow>>('tasks/dashboard/', params);
         setTable((oldTable) => ({ ...oldTable, rows, totalCount }));
       } catch (error) {
-        enqueueSnackbar(getErrorMessage(error), { variant: 'error' })
+        enqueueSnackbar(getErrorMessage(error), { variant: 'error' });
       } finally {
         setLoading(false);
       }
     })();
-  }, [table.filters, table.sorting, table.pageSize, table.currentPage, match.params.filter, enqueueSnackbar]);
+  }, [table.filters, table.sorting, table.pageSize, table.currentPage, match.params.filter,
+    enqueueSnackbar]);
 
   useEffect(() => {
     updateDashBoardTitle(DASH_BOARD_TITLES[match.params.filter]);

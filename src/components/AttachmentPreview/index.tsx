@@ -1,8 +1,8 @@
 import { Button, Tooltip } from '@material-ui/core';
 import { FileCopy } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
+import { download } from 'lib/utils';
 import React, { FC } from 'react';
-import { download } from '../../lib/utils';
 import styles from './styles';
 import { IProps } from './types';
 

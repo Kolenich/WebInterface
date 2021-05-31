@@ -31,10 +31,10 @@ import { IGlobalState } from 'components/GlobalContext/types';
 import DashBoardRouter from 'components/Routers/DashBoardRouter';
 import api from 'lib/api';
 import auth from 'lib/auth';
+import { getErrorMessage } from 'lib/utils';
 import { useSnackbar } from 'notistack';
 import React, { FC, MouseEvent, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getErrorMessage } from '../../lib/utils';
+import { Link } from 'react-router';
 import styles from './styles';
 import { IProfileUser, IProps } from './types';
 
@@ -85,7 +85,7 @@ const DashBoard: FC<IProps> = ({ history, location }) => {
         const { data } = await api.getContent<IProfileUser>('users/detail/', {});
         setUser(data);
       } catch (error) {
-        enqueueSnackbar(getErrorMessage(error), { variant: 'error' })
+        enqueueSnackbar(getErrorMessage(error), { variant: 'error' });
       }
     })();
   }, [enqueueSnackbar]);

@@ -8,7 +8,9 @@ class API {
    * @param {P} params параметры запроса
    * @return {Promise<AxiosResponse<T>>}
    */
-  getContent = <T, P = {}>(url: string, params?: P) => session.get<T>(url, { params })
+  getContent = <T, P = Record<string, unknown>>(url: string, params?: P) => (
+    session.get<T>(url, { params })
+  )
 
   /**
    * API-функция для отправки данных на сервер
@@ -21,9 +23,9 @@ class API {
   sendContent = <T>(url: string, data: T, method: HTTPMethods = 'post', headers?: IHeaders) => {
     const defaultHeaders = { ...session.defaults.headers };
     if (headers) {
-      for (const key of Object.keys(headers)) {
-        session.defaults.headers[key] = headers[key];
-      }
+      Object.keys(headers).forEach((key) => Object.assign(session.defaults.headers, {
+        [key]: headers[key],
+      }));
     }
     try {
       return session({ method, data, url });

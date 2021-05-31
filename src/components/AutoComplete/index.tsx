@@ -26,8 +26,7 @@ const AutoComplete: FC<IProps> = ({ options, label, onChange, value, textFieldPr
   const [option, setOption] = useState<ISelectItem | null>(null);
 
   useEffect(() => {
-    const option = options.find((x: ISelectItem) => x.value === value) || null;
-    setOption(option);
+    setOption(options.find((x: ISelectItem) => x.value === value) || null);
   }, [value, options]);
 
   return (
@@ -42,7 +41,7 @@ const AutoComplete: FC<IProps> = ({ options, label, onChange, value, textFieldPr
       clearOnEscape
       options={options}
       onChange={onChange}
-      getOptionLabel={(option: ISelectItem) => option.label}
+      getOptionLabel={(opt: ISelectItem) => opt.label}
       className={classes.root}
       renderInput={(params: AutocompleteRenderInputParams) => (
         <TextField
