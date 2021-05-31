@@ -1,6 +1,6 @@
 import { AccountDetail, DashBoard, SignIn, SignUp } from 'pages';
 import React, { FC } from 'react';
-import { Switch } from 'react-router';
+import { Switch } from 'react-router-dom';
 import Route from './Route';
 
 /**

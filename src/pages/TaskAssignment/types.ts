@@ -1,6 +1,6 @@
 import { IAttachment } from 'lib/types';
 import { ReactText } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 
 export type IProps = RouteComponentProps;
 

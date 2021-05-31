@@ -1,4 +1,4 @@
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router-dom';
 import { IProfile } from '../AccountDetail/types';
 
 export type IProps = RouteComponentProps;

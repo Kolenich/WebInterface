@@ -1,5 +1,5 @@
 import { Theme } from '@material-ui/core';
-import { createStyles, StyleRules } from '@material-ui/styles';
+import { createStyles } from '@material-ui/styles';
 
 const drawerWidth = 200;
 
@@ -8,7 +8,7 @@ const drawerWidth = 200;
  * @param {Theme} theme тема Material UI
  * @return {StyleRules<{}, string>} CSS-классы
  */
-const styles: StyleRules<{}, string> = (theme: Theme) => createStyles({
+const styles = (theme: Theme) => createStyles({
   root: {
     flexGrow: 1,
     height: '100%',

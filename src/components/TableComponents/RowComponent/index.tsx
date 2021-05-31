@@ -1,7 +1,7 @@
 import { Table } from '@devexpress/dx-react-grid-material-ui';
 import { makeStyles } from '@material-ui/styles';
 import React, { FC } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import styles from './styles';
 import { IProps } from './types';
 

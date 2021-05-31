@@ -1,5 +1,5 @@
 import { ComponentType } from 'react';
-import { RouteProps } from 'react-router';
+import { RouteProps } from 'react-router-dom';
 
 export interface IProps extends RouteProps {
   /** Компонент */
