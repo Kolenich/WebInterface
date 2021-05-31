@@ -2,7 +2,7 @@ import { IAttachment } from 'lib/types';
 import { ReactText } from 'react';
 import { RouteComponentProps } from 'react-router';
 
-export type IProps = RouteComponentProps
+export type IProps = RouteComponentProps;
 
 export interface ITask {
   /** Ключ объекта в БД */

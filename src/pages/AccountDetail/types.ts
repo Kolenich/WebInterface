@@ -1,7 +1,7 @@
 import { IAttachment } from 'lib/types';
 import { RouteComponentProps } from 'react-router';
 
-export type IProps = RouteComponentProps
+export type IProps = RouteComponentProps;
 
 export interface IProfile {
   /** Первичный ключ */
