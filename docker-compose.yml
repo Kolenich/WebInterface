@@ -41,6 +41,7 @@ services:
     image: kolenich/diary:server
     environment:
       - PROJECT_MODE=production
+      - REDIS_HOST=diary-redis
     depends_on:
       - diary-postgres
       - diary-rabbitmq
