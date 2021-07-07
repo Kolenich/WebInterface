@@ -18,7 +18,7 @@ import React, {
 import { FilePond } from 'react-filepond';
 import './style.css';
 import styles from './styles';
-import { IFile, IProps, IUploaderImperativeProps, ProcessServerConfigFunction } from './types';
+import { IFile, IProps, IUploaderImperativeProps, IProcess } from './types';
 
 const useStyles = makeStyles(styles);
 
@@ -98,7 +98,7 @@ const FileUploader: ForwardRefRenderFunction<IUploaderImperativeProps, IProps> =
    * зарузки файла на сервер
    * @returns {Promise<{abort: () => void}>}
    */
-  const process: ProcessServerConfigFunction = async (fieldName, file, metadata, load, error, progress, abort) => {
+  const process: IProcess = async (fieldName, file, metadata, load, error, progress, abort) => {
     // Настройка обработчика процесса отправки
     session.defaults.onUploadProgress = ({ lengthComputable, loaded, total }) => (
       progress(lengthComputable, loaded, total)

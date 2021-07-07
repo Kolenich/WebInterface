@@ -14,11 +14,22 @@ const getCurrentHost = () => {
 
 /**
  * Функция, генерирующая URL запроса для запросов на сервер
- * @param {boolean} production флаг продакшена
  */
-export const getBaseUrl = (production: boolean) => (
-  production ? getCurrentHost() : 'http://localhost:8000'
+export const getBaseUrl = () => (
+  process.env.NODE_ENV === 'production' ? getCurrentHost() : 'http://localhost:8000'
 );
+
+/**
+ * Функция получения базового урла для вебсокетов
+ * @return {string}
+ */
+export const getWebsocketUrl = () => {
+  if (process.env.NODE_ENV === 'production') {
+    const { protocol, hostname } = window.location;
+    return `${protocol.startsWith('http') ? 'ws:' : 'wss:'}//${hostname}`;
+  }
+  return 'ws://localhost:8000';
+};
 
 /**
  * Функция для распаковки массива объектов в один объект.

@@ -25,6 +25,12 @@ export interface IRow {
   comment: string;
   /** Вложение */
   attachment: IAttachment | null;
+  /** Кто назначил */
+  assigned_by: string;
+  /** Задача в архиве */
+  archived: boolean;
+  /** Кто назначил */
+  assigned_to: number;
 }
 
 export interface IFilterParams {

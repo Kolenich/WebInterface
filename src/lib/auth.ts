@@ -44,6 +44,12 @@ class Auth {
   }
 
   /**
+   * Функция получения токена
+   * @return {string | null}
+   */
+  getToken = () => sessionStorage.getItem(this.token) || localStorage.getItem(this.token)
+
+  /**
    * Функция проверки наличия токена
    * @returns {boolean}
    */

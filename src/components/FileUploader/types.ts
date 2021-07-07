@@ -43,7 +43,7 @@ export interface IFile {
   file: ActualFileObject | string;
 }
 
-export type ProcessServerConfigFunction = (
+export type IProcess = (
   /** The name of the input field */
   fieldName: string,
   /** The actual file object to send */

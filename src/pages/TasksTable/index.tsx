@@ -58,6 +58,8 @@ const TasksTable: FC<IProps> = ({ match }) => {
   } = useContext<IGlobalState>(Context);
   const { enqueueSnackbar } = useSnackbar();
 
+  const [websocket, setWebsocket] = useState<WebSocket | null>(null);
+
   // Переменные состояния основной таблицы
   const [table, setTable] = useState<ITable<IRow>>({
     rows: [],
@@ -68,6 +70,30 @@ const TasksTable: FC<IProps> = ({ match }) => {
     currentPage: 0,
     sorting: [],
   });
+
+  /**
+   * Эффект для подключения к вебсокету
+   */
+  useEffect(() => {
+    if (!websocket) {
+      const ws = api.websocket('tasks');
+      ws.onmessage = ({ data }) => {
+        const row: IRow = JSON.parse(data);
+        setTable((oldTable) => ({
+          ...oldTable,
+          rows: oldTable.rows.concat(row),
+        }));
+        enqueueSnackbar(`Пользователь ${row.assigned_by} назначил(а) Вам новое задание.`, { variant: 'info' });
+      };
+      setWebsocket(ws);
+    }
+
+    return () => {
+      if (websocket) {
+        websocket.close();
+      }
+    };
+  }, [websocket, enqueueSnackbar]);
 
   // Переменная состояния загрузки
   const [loading, setLoading] = useState<boolean>(false);

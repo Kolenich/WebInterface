@@ -6,7 +6,7 @@ const { CancelToken } = axios;
 export const source = CancelToken.source();
 
 const session = axios.create({
-  baseURL: getBaseUrl(process.env.NODE_ENV === 'production'),
+  baseURL: getBaseUrl(),
   xsrfCookieName: 'csrftoken',
   xsrfHeaderName: 'X-CSRFToken',
   timeout: 10000,

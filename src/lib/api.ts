@@ -1,5 +1,7 @@
+import auth from './auth';
 import session from './session';
 import { HTTPMethods, IHeaders } from './types';
+import { getWebsocketUrl } from './utils';
 
 class API {
   /**
@@ -32,6 +34,17 @@ class API {
     } finally {
       session.defaults.headers = defaultHeaders;
     }
+  }
+
+  /**
+   * Функция подключения к вебсокету
+   * @param {string} path - путь до вебсокета
+   * @return {WebSocket}
+   */
+  websocket = (path: string) => {
+    document.cookie = `token=${auth.getToken()};max-age=${60 * 60 * 24};path=/;samesite=Strict`;
+
+    return new WebSocket(`${getWebsocketUrl()}/ws/${path}/`);
   }
 }
 
