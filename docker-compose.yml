@@ -44,11 +44,12 @@ services:
     depends_on:
       - diary-postgres
       - diary-rabbitmq
+      - diary-redis
 
   diary-postgres:
     restart: always
     container_name: diary-postgres
-    image: postgres:12-alpine
+    image: postgres:alpine
     volumes:
       - postgres-data:/var/lib/postgresql/data/
     environment:
@@ -59,8 +60,13 @@ services:
   diary-rabbitmq:
     restart: always
     container_name: diary-rabbitmq
-    image: rabbitmq:3-alpine
+    image: rabbitmq:alpine
     environment:
       - RABBITMQ_DEFAULT_USER=kolenich
       - RABBITMQ_DEFAULT_PASS=Crowel_16
       - RABBITMQ_DEFAULT_VHOST=kolenich-host
+
+  diary-redis:
+    restart: always
+    container_name: diary-redis
+    image: redis:alpine
