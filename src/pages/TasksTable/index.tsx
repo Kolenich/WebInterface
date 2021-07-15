@@ -88,11 +88,7 @@ const TasksTable: FC<IProps> = ({ match }) => {
       setWebsocket(ws);
     }
 
-    return () => {
-      if (websocket) {
-        websocket.close();
-      }
-    };
+    return websocket?.close();
   }, [websocket, enqueueSnackbar]);
 
   // Переменная состояния загрузки
